@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <style>*{box-sizing:border-box}input,ul li a{border:1px solid #ddd}input{background-image:url('/src/searchicon.png');background-position:10px 12px;background-repeat:no-repeat;width:100%;font-size:16px;padding:12px 20px 12px 40px;margin-bottom:12px}ul{list-style-type:none;padding:0;margin:0}ul li a{margin-top:-1px;background-color:#f6f6f6;padding:12px;text-decoration:none;font-size:18px;color:#000;display:block}ul li a:hover:not(.header){background-color:#eee}</style>
+</head>
+<body>
+    <header>
+        <h1>Search anything</h1>
+        <p>here you can search for anything, including guides, articles, etc.</p>
+    </header>
+    <main>
+        <section>
+            <input type="text" id="inp" onkeyup="search()" placeholder="Search for something..." title="Type something">
+            <ul id="l">
+              <li><a href="#">placeholder</a></li>
+              <li><a href="#">placeholder</a></li>
+              <li><a href="#">placeholder</a></li>
+              <li><a href="#">placeholder</a></li>
+              <li><a href="#">placeholder</a></li>
+              <li><a href="#">placeholder</a></li>
+              <li><a href="#">placeholder</a></li>
+            </ul>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+    <script>function search(){var e,t,n,a,l,y,s;for(y=0,t=(e=document.getElementById("inp")).value.toUpperCase(),a=(n=document.getElementById("l")).getElementsByTagName("li");y<a.length;y++)(s=(l=a[y].getElementsByTagName("a")[0]).textContent||l.innerText).toUpperCase().indexOf(t)>-1?a[y].style.display="":a[y].style.display="none"}</script>
+</body>
+</html>
