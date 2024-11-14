@@ -26,10 +26,10 @@ Commands: ls, cd, cat, file, du, find</pre>
             <p>To get the password, the instructions say that there's a file called "-" that has the password. I'd guess from the manual, that the it will pick this up as an option (or flag) instead of as a file name. So what we would need to do to get the password is put "./" before the file name to specify that it's a file located in "./".</p>
             <h2>Solution</h2>
             <p>So, using the info from our theory, first we look at the folder:</p>
-            <pre>$ ls
+            <pre>~$ ls
 -</pre>
             <p>And of course the name of the file is a single dash. I checked cat - just to be sure, and my terminal just crashed, so yeah, don't try it. Now we try using ./ before the filename:</p>
-            <pre>$ cat ./-
+            <pre>~$ cat ./-
 ###REDACTED###</pre>
             <p>And it works, now that we've got the password, use exit to logout and go to the next level.</p>
             <a target="_blank" href="https://overthewire.org/wargames/bandit/bandit2.html">https://overthewire.org/wargames/bandit/bandit2.html</a>
