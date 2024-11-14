@@ -27,25 +27,25 @@ Commands: ls, cd, cat, file, du, find</pre>
             <pre>find . -type f -size 1033c ! -executable</pre>
             <h2>Solution</h2>
             <p>Now you just have to get into the level and go to the inhere folder:</p>
-            <pre>$ ls
+            <pre>~$ ls
 inhere
 
-$ cd inhere
+~$ cd inhere
 
-/inhere$ ls
+~/inhere$ ls
 
-/inhere$ ls -a
+~/inhere$ ls -a
 .            maybehere01  maybehere04  maybehere07  maybehere10  maybehere13  maybehere16  maybehere19
 ..           maybehere02  maybehere05  maybehere08  maybehere11  maybehere14  maybehere17
 maybehere00  maybehere03  maybehere06  maybehere09  maybehere12  maybehere15  maybehere18</pre>
             <p>Now that we are in this folder we can see that there are 20 different folders that, after further exploration, you can see that each folder has 9 files each. That info really doesn't matter, so let's just get to the chase, le's input the command we did earlier:</p>
-            <pre>/inhere$ find . -type f -size 1033c ! -executable
+            <pre>~/inhere$ find . -type f -size 1033c ! -executable
 ./maybehere07/.file2</pre>
             <p>And it works! But here's a little fun fact if you are still reading this, a little after doing this, I found out you don't even need the not executable thing, because it's the only 1033 byte file in the entire server, also folders don't take up space virtually (it does take up space in the disk, but it usually doesn't show that to the client), so you can also remove the type f thing. So if you want to do this level more efficiently, you can shrink the command to this:</p>
-            <pre>/inhere$ find . -size 1033c
+            <pre>~/inhere$ find . -size 1033c
 ./maybehere07/.file2</pre>
             <p>Now we just use cat to open print the contents of the file at ./maybehere07/.file2, and we should be good to go to the next level:</p>
-            <pre>/inhere$ cat ./maybehere07/.file2
+            <pre>~/inhere$ cat ./maybehere07/.file2
 ###REDACTED###</pre>
             <a target="_blank" href="https://overthewire.org/wargames/bandit/bandit6.html">https://overthewire.org/wargames/bandit/bandit6.html</a>
             <hr>
