@@ -26,10 +26,10 @@ Commands: ls, cd, cat, file, du, find</pre>
             <p>To get the password, the instructions say that there's a file called readme that has the password. If we look at the Ubuntu manual pages provided in the task, we can see that using ls, we can look at all the files in our current directory, and from there use cat to print the contents of the file and get the password for the next level.</p>
             <h2>Solution</h2>
             <p>So using ls, it brings this up:</p>
-            <pre>$ ls
+            <pre>~$ ls
 readme</pre>
             <p>Now we can see that there's a single file in the directory called readme, just like it says in the task description. So now we just use cat to open the file:</p>
-            <pre>$ cat readme
+            <pre>~$ cat readme
 Congratulations on your first steps into the bandit game!!
 Please make sure you have read the rules at https://overthewire.org/rules/
 If you are following a course, workshop, walkthrough or other educational activity,
@@ -38,7 +38,7 @@ contribute to the OverTheWire community so we can keep these games free!
 
 The password you are looking for is: ###REDACTED###</pre>
             <p>After this, just use the command exit to log out of the ssh connection and continue to the next level.</p>
-            <pre>$ exit
+            <pre>~$ exit
 logout
 Connection to bandit.labs.overthewire.org closed.</pre>
             <a target="_blank" href="https://overthewire.org/wargames/bandit/bandit1.html">https://overthewire.org/wargames/bandit/bandit1.html</a>
