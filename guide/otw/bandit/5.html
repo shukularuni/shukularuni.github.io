@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTW Bandit 4 &#8594; 5 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <header>
+        <h1>OverTheWire Bandit Guide</h1>
+        <p>here's how to solve the bandit level 4 &#8594; 5</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Bandit Guides</a>
+            <p>Previous Level Guide: <a href="4.html">Bandit Level 3 &#8594; 4</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh bandit4@bandit.labs.overthewire.org -p 2220</code></p>
+            <p>Password: <code>###REDACTED###</code></p>
+            <h2>Info</h2>
+            <pre>Description: The password for the next level is stored in the only human-readable file in the inhere directory. Tip: if your terminal is messed up, try the “reset” command.
+Commands: ls, cd, cat, file, du, find</pre>
+            <h2>Theory</h2>
+            <p>To get the password, the instructions say that it's the only file thats human readable inside the inhere folder. First we'd have to use cd to enter in inhere and see whats inside the folder, because we cant get much more from this.</p>
+            <h2>Solution</h2>
+            <p>Now we just look for the folder:</p>
+            <pre>$ ls
+inhere</pre>
+            <p>And we enter in the folder then see what's inside:</p>
+            <pre>$ cd inhere
+
+/inhere$ ls
+
+/inhere$ ls -a
+.  ..  -file00  -file01  -file02  -file03  -file04  -file05  -file06  -file07  -file08  -file09</pre>
+            <p>Now, after looking at the manual pages for a bit, file is the exact command we need, as what it does is to guess what type of file it is by looking at it's contents, so if we use this command on all the files, we should get all data files except for one human readable file. And so, if we do that, we should get something like this:</p>
+            <pre>/inhere$ file ./*
+./-file00: data
+./-file01: data
+./-file02: data
+./-file03: data
+./-file04: data
+./-file05: data
+./-file06: data
+./-file07: ASCII text
+./-file08: data
+./-file09: data</pre>
+            <p>As, you might have noticed, I used ./* after file instead of going one by one, this is so that it does the file command on all the files (that's why the asterisk) in the current directory (that's why the ./).</p>
+            <a target="_blank" href="https://overthewire.org/wargames/bandit/bandit5.html">https://overthewire.org/wargames/bandit/bandit5.html</a>
+            <hr>
+            Next Level Guide: <a href="6.html">Bandit Level 5 &#8594; Level 6</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
