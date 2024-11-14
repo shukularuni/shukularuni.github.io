@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTW Bandit 2 &#8594; 3 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <header>
+        <h1>OverTheWire Bandit Guide</h1>
+        <p>here's how to solve the bandit level 2 &#8594; 3</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Bandit Guides</a>
+            <p>Previous Level Guide: <a href="2.html">Bandit Level 1 &#8594; 2</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh bandit2@bandit.labs.overthewire.org -p 2220</code></p>
+            <p>Password: <code>###REDACTED###</code></p>
+            <h2>Info</h2>
+            <pre>Description: The password for the next level is stored in a file called spaces in this filename located in the home directory
+Commands: ls, cd, cat, file, du, find</pre>
+            <h2>Theory</h2>
+            <p>To get the password, the instructions say that the file name has spaces in it. I researched a bit online and found a couple of methods to do this space filename stuff. So one of the options to get this password is to use backslashes before spaces, and the other to just put the entire filename inside double quotes.</code></p>
+            <h2>Solution</h2>
+            <p>Now let's just check for the file:</p>
+            <pre>$ ls
+spaces in this filename</pre>
+            <p>And it is literally spaces in this filename. So, to just check that the two methods work we can do something like this:</p>
+            <pre>$ cat spaces\ in\ this\ filename
+###REDACTED###
+
+$ cat "spaces in this filename"
+###REDACTED###</pre>
+            <p>And they both worked! Now that we've got the password, just use exit to logout and go to the next level.</p>
+            <a target="_blank" href="https://overthewire.org/wargames/bandit/bandit2.html">https://overthewire.org/wargames/bandit/bandit2.html</a>
+            <hr>
+            Next Level Guide: <a href="3.html">Bandit Level 2 &#8594; Level 3</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
