@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTW Bandit 6 &#8594; 7 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <header>
+        <h1>OverTheWire Bandit Guide</h1>
+        <p>here's how to solve the bandit level 6 &#8594; 7</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Bandit Guides</a>
+            <p>Previous Level Guide: <a href="6.html">Bandit Level 5 &#8594; 6</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh bandit6@bandit.labs.overthewire.org -p 2220</code></p>
+            <p>Password: <code>###REDACTED###</code></p>
+            <h2>Info</h2>
+            <pre>Description: The password for the next level is stored somewhere on the server and has all of the following properties: owned by user bandit7, owned by group bandit6, 33 bytes in size.
+Commands: ls, cd, cat, file, du, find, grep</pre>
+            <h2>Theory</h2>
+            <p>To get the password, the instructions say that the file is owned by bandit7 and group bandit6. To do this we will use the find command followed by /, which will make the command scan through all files and folders inside the server, then use f so that it only shows files, not folders, then the size, for that we will use 33c. And finally use option -user to specify files owned by bandit7, and -group to specify files owned by group bandit6. Following all of this, we get a command like this:</p>
+            <pre>find / -type f -user bandit7 -group bandit6 -size 33c</pre>
+            <h2>Solution</h2>
+            <p>Now you just have to get into the level and do the command:</p>
+            <pre>~$ find / -type f -user bandit7 -group bandit6 -size 33c
+find: ‘/drifter/drifter14_src/axTLS’: Permission denied
+find: ‘/root’: Permission denied
+find: ‘/snap’: Permission denied
+...</pre>
+            <p>Oh, wait! I almost forgot about that, so the command is going to try to find from every file in the server that has the parameters like the user, group, size, etc. but it's not going to tell us exactly which one it is, so we can use 2>/dev/null/ which will hide any permission denied errors, or any other kind of error. So if we put it in the command from earlier, it would look something like this:</p>
+            <pre>~/inhere$ find / -type f -user bandit7 -group bandit6 -size 33c 2>/dev/null
+/var/lib/dpkg/info/bandit7.password</pre>
+            <p>And now we just use cat to open print the contents of the file at the server, and we should be good to go to the next level:</p>
+            <pre>~/inhere$ cat /var/lib/dpkg/info/bandit7.password
+###REDACTED###</pre>
+            <a target="_blank" href="https://overthewire.org/wargames/bandit/bandit7.html">https://overthewire.org/wargames/bandit/bandit7.html</a>
+            <hr>
+            Next Level Guide: <a href="8.html">Bandit Level 7 &#8594; Level 8</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
