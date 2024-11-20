@@ -28,7 +28,7 @@ Commands: grep, sort, uniq, strings, base64, tr, tar, gzip, bzip2, xxd</pre>
             <p>If you want to know more about this, check out <a href="https://en.wikipedia.org/wiki/Base64" target="_blank">this Wikipedia article</a>.</p>
             <h2>Solution</h2>
             <p>For example, if we just use cat for the file it will have an equal sign at the end, which is a really straightforward indication that it's Base64 encoded:</p>
-            <pre>cat data.txt
+            <pre>~$ cat data.txt
 VGhlIHBhc3N3b3JkIGlzICMjI1JFREFDVEVEIyMjCgpZb3UgcmVhbGx5IHRob3VnaHQKCj46Mw==</pre>
             <p>Now you just have to get into the level and do the command:</p>
             <pre>~$ base64 -d data.txt
