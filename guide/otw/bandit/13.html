@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTW Bandit 12 &#8594; 13 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>OverTheWire Bandit Guide</h1>
+        <p>here's how to solve the bandit level 12 &#8594; 13</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Bandit Guides</a>
+            <p>Previous Level Guide: <a href="12.html">Bandit Level 11 &#8594; 12</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh bandit12@bandit.labs.overthewire.org -p 2220</code></p>
+            <p>Password: <code>o1UyFHBN4wagVCBrKOXR6UlMl43zu0hT</code></p>
+            <h2>Info</h2>
+            <pre>Description: The password for the next level is stored in the file data.txt, which is a hexdump of a file that has been repeatedly compressed. For this level it may be useful to create a directory under /tmp in which you can work. Use mkdir with a hard to guess directory name. Or better, use the command “mktemp -d”. Then copy the datafile using cp, and rename it using mv (read the manpages!)
+Commands: grep, sort, uniq, strings, base64, tr, tar, gzip, bzip2, xxd</pre>
+            <h2>Theory</h2>
+            <p>To get the password, the instructions say that it's inside a file that is a hexdump of a file that has been compressed a bunch of times, which I guess in different compression formats, like gzip, bzip2, and tar because of the commands given to us in the instructions, and to check with which command to decompress, instead of guessing, maybe the file command could help, which like I've explained before, it estimates the type of a file from going through its contents. So I don't have that much to say here in the theory because it will depend between a couple of commands if it's compressed like this or like that, so most I can do is come up with the template commands for this. For gzip and bzip2, it's easy, you just put it's name and the -d option to decompress the file that you specify after it. Then the tar is a little harder as instead of the -d option it's the -xf, where f is just to specify the file after it and the x is to extract the original files. Finally, xxd is a command that allows you to turn a file into its hexdump form, it's like where it shows all the binary characters as readable and in hexadecimal values in the same lines, recommend reading the Wikipedia page if you don't understand what's going on, and so we use the -r option to reverse the hexdump conversion, and get the compressed archive to start the level. So here are all the commands we might need:</p>
+            <pre>xxd -r original.hex reversed.bin
+gzip -d original.bin
+bzip2 -d original.bin
+tar -xf original.bin</pre>
+            <h2>Solution</h2>
+            <p>So now let's enter the level and see what happens:</p>
+            <pre>~$ ls
+data.txt</pre>
+            <p>As the level suggests, we'll just create a new temporary directory to do these file shenanigans, then copy that data file:</p>
+            <pre>~$ mktemp -d
+/tmp/tmp.OPSGMOddmc
+
+~$ cd /tmp/tmp.OPSGMOddmc
+
+/tmp/tmp.OPSGMOddmc$ cp ~/data.txt
+
+/tmp/tmp.OPSGMOddmc$ cat data.txt
+00000000: 1f8b 0808 dfcd eb66 0203 6461 7461 322e  .......f..data2.
+00000010: 6269 6e00 013e 02c1 fd42 5a68 3931 4159  bin..>...BZh91AY
+00000020: 2653 59ca 83b2 c100 0017 7fff dff3 f4a7  &SY.............
+...</pre>
+            <p>If we go into this file we can see that it is indeed a hexdump, so we just need to reverse it and put it somewhere else:</p>
+            <pre>/tmp/tmp.OPSGMOddmc$ xxd -r data.txt comdata
+
+/tmp/tmp.OPSGMOddmc$ ls
+comdata  data.txt
+            
+/tmp/tmp.OPSGMOddmc$ file comdata
+comdata: gzip compressed data, was "data2.bin", last modified: Thu Sep 19 07:08:15 2024, max compression, from Unix, original size modulo 2^32 574</pre>
+            <p>Look at that, it's a gzip file, so now we just change the extension to be gz because it's not gonna work otherwise, and put the command from earlier and keep going:</p>
+            <pre>/tmp/tmp.OPSGMOddmc$ mv comdata comdata.gz
+
+/tmp/tmp.OPSGMOddmc$ gzip -d comdata.gz
+
+/tmp/tmp.OPSGMOddmc$ ls
+comdata  data.txt
+
+/tmp/tmp.OPSGMOddmc$ file comdata
+comdata: bzip2 compressed data, block size = 900k
+
+/tmp/tmp.OPSGMOddmc$ mv comdata comdata.bz2
+
+/tmp/tmp.OPSGMOddmc$ bzip2 -d comdata.bz2
+
+/tmp/tmp.OPSGMOddmc$ la
+comdata  data.txt
+
+/tmp/tmp.OPSGMOddmc$ ls
+comdata  data.txt
+
+/tmp/tmp.OPSGMOddmc$ file comdata
+comdata: gzip compressed data, was "data4.bin", last modified: Thu Sep 19 07:08:15 2024, max compression, from Unix, original size modulo 2^32 20480
+
+/tmp/tmp.OPSGMOddmc$ mv comdata comdata.gz
+
+/tmp/tmp.OPSGMOddmc$ gzip -d comdata.gz
+
+/tmp/tmp.OPSGMOddmc$ ls
+comdata  data.txt
+
+/tmp/tmp.OPSGMOddmc$ file comdata
+comdata: POSIX tar archive (GNU)
+
+/tmp/tmp.OPSGMOddmc$ mv comdata comdata.tar
+
+/tmp/tmp.OPSGMOddmc$ tar -xf comdata.tar
+
+/tmp/tmp.OPSGMOddmc$ ls
+comdata.tar  data5.bin  data.txt
+
+/tmp/tmp.OPSGMOddmc$ file data5.bin
+data5.bin: POSIX tar archive (GNU)
+
+/tmp/tmp.OPSGMOddmc$ mv data5.bin cd5.tar
+
+/tmp/tmp.OPSGMOddmc$ tar -xf cd5.tar
+
+/tmp/tmp.OPSGMOddmc$ ls
+comdata.tar  data6.bin  data.txt  cd5.tar
+
+/tmp/tmp.OPSGMOddmc$ file data6.bin
+data6.bin: bzip2 compressed data, block size = 900k
+
+/tmp/tmp.OPSGMOddmc$ mv data6.bin comdata.bz2
+
+/tmp/tmp.OPSGMOddmc$ bzip2 -d comdata.bz2
+
+/tmp/tmp.OPSGMOddmc$ ls
+comdata  comdata.tar  data.txt  cd5.tar
+
+/tmp/tmp.OPSGMOddmc$ file comdata
+comdata: POSIX tar archive (GNU)
+
+/tmp/tmp.OPSGMOddmc$ mv comdata cd7.tar
+
+/tmp/tmp.OPSGMOddmc$ tar -xf cd7.tar
+
+/tmp/tmp.OPSGMOddmc$ ls
+cd7.tar  comdata.tar  data8.bin  data.txt  cd5.tar
+
+/tmp/tmp.OPSGMOddmc$ file data8.bin
+data8.bin: gzip compressed data, was "data9.bin", last modified: Thu Sep 19 07:08:15 2024, max compression, from Unix, original size modulo 2^32 49
+
+/tmp/tmp.OPSGMOddmc$ mv data8.bin data8.gz
+
+/tmp/tmp.OPSGMOddmc$ gzip -d data8.gz
+
+/tmp/tmp.OPSGMOddmc$ ls
+cd7.tar  comdata.tar  data8  data.txt  cd5.tar
+
+/tmp/tmp.OPSGMOddmc$ file data8
+data8: ASCII text
+
+/tmp/tmp.OPSGMOddmc$ cat data8
+The password is ttw6eXkWHrFGZDgATKirZ4a8a8NGG0Bq</pre>
+            <p>And that's it, it worked! Now we should be good to go to the next level.</p>
+            <a target="_blank" href="https://overthewire.org/wargames/bandit/bandit13.html">https://overthewire.org/wargames/bandit/bandit13.html</a>
+            <hr>
+            Next Level Guide: <a href="14.html">Bandit Level 13 &#8594; Level 14</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
