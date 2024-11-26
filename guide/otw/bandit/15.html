@@ -19,12 +19,12 @@
             <hr>
             <h2>Access</h2>
             <p>SSH: <code>ssh bandit14@bandit.labs.overthewire.org -p 2220</code></p>
-            <p>Password: <code>- (ssh key from previous level)</code></p>
+            <p>Password: <code>none (ssh key from previous level)</code></p>
             <h2>Info</h2>
             <pre>Description: The password for the next level can be retrieved by submitting the password of the current level to port 30000 on localhost.
 Commands: ssh, telnet, nc, openssl, s_client, nmap</pre>
             <h2>Theory</h2>
-            <p>To get the password, the instructions say that we have to enter to a localhost in port 30000 and just put the password for entering this level, which we don't use because of the ssh key from the last level. Also, according to the last level we can find the password for this in /etc/bandit_pass/bandit14 because it's only readable by bandit14, where we are right now, so we can use cat for that. Then for this we'll use NetCat, or nc for short. NetCat is a coommand used to access ports from a website or localhost, in this case it's used as a minigame kind of thing, because the localhost will give you the next password if you put the correct previous password. NetCat also lets you use some commands like exit, but it mostly depends on who created the port. After looking through the manual, we can get a command like this:</p>
+            <p>To get the password, the instructions say that we have to enter to a localhost in port 30000 and just put the password for entering this level, which we don't use because of the ssh key from the last level. Also, according to the last level we can find the password for this in /etc/bandit_pass/bandit14 because it's only readable by bandit14, where we are right now, so we can use cat for that. Then for this we'll use NetCat, or nc for short. NetCat is a coommand used to access ports from a website or localhost, in this case it's used as a minigame kind of thing, because the localhost will give you the next password if you input the correct previous password. NetCat also lets you use some commands like exit, but it mostly depends on who created the port. After looking through the manual, we can get a command like this:</p>
             <pre>nc localhost 30000</pre>
             <h2>Solution</h2>
             <p>So now let's enter the level and get the password needed for the NetCat later:</p>
