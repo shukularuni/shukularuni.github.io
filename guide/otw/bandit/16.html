@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTW Bandit 15 &#8594; 16 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>OverTheWire Bandit Guide</h1>
+        <p>here's how to solve the bandit level 15 &#8594; 16</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Bandit Guides</a>
+            <p>Previous Level Guide: <a href="14.html">Bandit Level 14 &#8594; 15</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh bandit15@bandit.labs.overthewire.org -p 2220</code></p>
+            <p>Password: <code>LSAAg2asGSvcoXbFoYEPdlyxdwYqWNei</code></p>
+            <h2>Info</h2>
+            <pre>Description: The password for the next level can be retrieved by submitting the password of the current level to port 30001 on localhost using SSL/TLS encryption. Helpful note: Getting “DONE”, “RENEGOTIATING” or “KEYUPDATE”? Read the “CONNECTED COMMANDS” section in the manpage.
+Commands: ssh, telnet, nc, ncat, socat, openssl, s_client, nmap, netstat, ss</pre>
+            <h2>Theory</h2>
+            <p>To get the password, the instructions say that we have to enter to a localhost in port 30001 and just put the password for entering this level, the difference between the previous level and this one is that now we need to use SSL encryption, so that leads us to using openssl, which is used for debugging servers with other commands, but in this case the "other" command we'll use s_client so that it becomes client interface kinda like the one in netcat in the previous level. Finally add the -connect option to connect to this server at localhost with port 30001. After all that we get a command like this:</p>
+            <pre>openssl s_client -connect localhost:30001</pre>
+            <h2>Solution</h2>
+            <p>Now you just have to get into the level and do the command:</p>
+            <pre>~$ openssl s_client -connect localhost:30001
+LSAAg2asGSvcoXbFoYEPdlyxdwYqWNei
+Correct!
+knnW8msaRxaAN7adaEg07rkKnqrQ5Yky</pre>
+            <p>And that's it, it worked! Now we should be good to go to the next level.</p>
+            <a target="_blank" href="https://overthewire.org/wargames/bandit/bandit16.html">https://overthewire.org/wargames/bandit/bandit16.html</a>
+            <hr>
+            Next Level Guide: <a href="17.html">Bandit Level 16 &#8594; Level 17</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
