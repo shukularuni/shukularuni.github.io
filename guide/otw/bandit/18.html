@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTW Bandit 17 &#8594; 18 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>OverTheWire Bandit Guide</h1>
+        <p>here's how to solve the bandit level 17 &#8594; 18</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Bandit Guides</a>
+            <p>Previous Level Guide: <a href="17.html">Bandit Level 16 &#8594; 17</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh bandit17@bandit.labs.overthewire.org -p 2220</code></p>
+            <p>Password: <code>none (ssh key from previous level)</code></p>
+            <h2>Info</h2>
+            <pre>Description: There are 2 files in the homedirectory: passwords.old and passwords.new. The password for the next level is in passwords.new and is the only line that has been changed between passwords.old and passwords.new. NOTE: if you have solved this level and see ‘Byebye!’ when trying to log into bandit18, this is related to the next level, bandit19
+Commands: cat, grep, ls, diff</pre>
+            <h2>Theory</h2>
+            <p>To get the password, the instructions say that we have to search the only password that doesn't repeat between two files. So as we've done before, I'd guess that each file has like a million passwords but they're all the same passwords between files, except for one in each file, where one of the two is the correct one, specifically the one in the new file, as it is the only changed line. So after going through the manual pages of diff, which is the only command in the instructions that we haven't seen yet, it is once again exactly what we need for this challenge, which is to detect different lines between two texts or files. So with that, we get this command:</p>
+            <pre>diff passwords.old passwords.new</pre>
+            <h2>Solution</h2>
+            <p>Now you just have to get into the level and let me check for the files just in case:</p>
+            <pre>~$ ls
+passwords.old
+passwords.new</pre>
+            <p>Alright, now let's do the actual differential command:</p>
+          <pre>~$ diff passwords.old passwords.new
+38c38
+&lt; PrfckKPv5Q9yXesJ5h5l1f87qNJJC9FF
+---
+&gt; Qj1lAo6a6zjWQ4JtBWYetDly9Ez9QYNZ</pre>
+            <p>By the way, that 38c38 thing is basically in what line of the file the difference was (for example, if it says 12c36 it means that the difference was in the line 12 of the old file and the line 36 of the new file). And that's it, it worked! Now we should be good to exit three times in a row, like in a previous level, then be able to go to the next level.</p>
+            <a target="_blank" href="https://overthewire.org/wargames/bandit/bandit17.html">https://overthewire.org/wargames/bandit/bandit17.html</a>
+            <hr>
+            Next Level Guide: <a href="18.html">Bandit Level 17 &#8594; Level 18</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
