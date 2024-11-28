@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTW Bandit 18 &#8594; 19 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>OverTheWire Bandit Guide</h1>
+        <p>here's how to solve the bandit level 18 &#8594; 19</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Bandit Guides</a>
+            <p>Previous Level Guide: <a href="18.html">Bandit Level 17 &#8594; 18</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh bandit18@bandit.labs.overthewire.org -p 2220</code></p>
+            <p>Password: <code>Qj1lAo6a6zjWQ4JtBWYetDly9Ez9QYNZ</code></p>
+            <h2>Info</h2>
+            <pre>Description: The password for the next level is stored in a file readme in the homedirectory. Unfortunately, someone has modified .bashrc to log you out when you log in with SSH.
+Commands: ssh, ls, cat</pre>
+            <h2>Theory</h2>
+            <p>To get the password, the instructions say that the password is in plain sight in a file called readme, but the level was modified to log you out the moment you entered the level. This introduces us to a funny thing about ssh, where you can execute commands in the server you're connecting to, without needing to enter it's interface, so basically bypass the automatic log out by just not entering in the first place. The command is just the ssh log in with the command to execute at the end, which looks just like this:</p>
+            <pre>ssh bandit18@bandit.labs.overthewire.org -p 2220 command</pre>
+            <p>* Replace "command" with what command you're executing</p>
+            <h2>Solution</h2>
+            <p>For example if we just try to enter the level, the level will log us out automatically with the message "Byebye!", kinda like this:</p>
+            <pre>C:\Users\shukularuni&gt;ssh bandit18@bandit.labs.overthewire.org -p 2220
+Byebye!</pre>
+            <p>So, to get around this, as said in theory, we'll just put the commands straight from the ssh, it means we have to put both the ssh command and the password a couple of times, but I guess it's worth the effort. So first let's just see the files:</p>
+            <pre>C:\Users\shukularuni&gt;ssh bandit18@bandit.labs.overthewire.org -p 2220 ls
+readme</pre>
+            <p>Alright, now let's use cat to view the readme file and get the password:</p>
+            <pre>C:\Users\shukularuni&gt;ssh bandit18@bandit.labs.overthewire.org -p 2220 cat readme
+yZ5eLbTjquqLS8eGPAMLWdb8ProbCygv</pre>
+            <p>And that's it, it worked! Now we should be good to go to the next level.</p>
+            <a target="_blank" href="https://overthewire.org/wargames/bandit/bandit19.html">https://overthewire.org/wargames/bandit/bandit19.html</a>
+            <hr>
+            Next Level Guide: <a href="20.html">Bandit Level 19 &#8594; Level 20</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
