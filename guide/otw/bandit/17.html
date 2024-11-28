@@ -57,7 +57,7 @@ Correct!
 MIIEogIBAAKCAQEAvmOkuifmMg6HL2YPIOjon6iWfbp7c3jx34YkYWqUH57SUdyJ
 ...</pre>
             <p>If you get something like "DONE" or "KEYCHANGE" or basically anything that is not the private key it's probably because the password starts with a "k", so the server thinks you're doing a command or something like that, so it throws you an error, to prevent this and also make it remove all errors we can use the -quiet option (-quiet specifically goes before -connect for some reason, I really don't know why), so the command comes down to this:</p>
-          <pre>~$ openssl s_client -quiet -connect localhost:31790
+            <pre>~$ openssl s_client -quiet -connect localhost:31790
 Can't use SSL_get_servername
 depth=0 CN = SnakeOil
 verify error:num=18:self-signed certificate
