@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTW Bandit 19 &#8594; 20 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>OverTheWire Bandit Guide</h1>
+        <p>here's how to solve the bandit level 19 &#8594; 20</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Bandit Guides</a>
+            <p>Previous Level Guide: <a href="18.html">Bandit Level 18 &#8594; 19</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh bandit19@bandit.labs.overthewire.org -p 2220</code></p>
+            <p>Password: <code>yZ5eLbTjquqLS8eGPAMLWdb8ProbCygv</code></p>
+            <h2>Info</h2>
+            <pre>Description: To gain access to the next level, you should use the setuid binary in the homedirectory. Execute it without arguments to find out how to use it. The password for this level can be found in the usual place (/etc/bandit_pass), after you have used the setuid binary.
+Commands: (none)</pre>
+            <h2>Theory</h2>
+            <p>To get the password, the instructions say that the password is inside the usual password folder, but the password for the next level can only be accessed by the next level (what a surprise!). Jokes aside, after reading the Wikipedia article linked in the info page, it talks about how the permissions of a file are not only for who can read or write in it, but can also be put certain permissions so that the file has access to something, in our case it would be a file with the permission to view the file with the password for bandit20, or maybe a file that acts as a bandit20 user inside the file system of bandit19 (the one we are currently on). So I'd guess the command would be like this, with the file with permissions before the actual command to say that it's that file who's executing the command:</p>
+            <pre>./user cat /etc/bandit_pass/bandit20</pre>
+            <h2>Solution</h2>
+            <p>When we get inside bandit19, we can see that there is exactly a file called "bandit20-do" that has the permission to execute commands and represents bandit20. Basically that's exactly what we need for the level. Here's the file with its permissions:</p>
+            <pre>~$ ls -la
+total 36
+drwxr-xr-x  2 root     root      4096 Sep 19 07:08 .
+drwxr-xr-x 70 root     root      4096 Sep 19 07:09 ..
+-rwsr-x---  1 bandit20 bandit19 14880 Sep 19 07:08 bandit20-do
+-rw-r--r--  1 root     root       220 Mar 31  2024 .bash_logout
+-rw-r--r--  1 root     root      3771 Mar 31  2024 .bashrc
+-rw-r--r--  1 root     root       807 Mar 31  2024 .profile</pre>
+            <p>This clearly demonstrates that the file cannot be accessed by us from the terminal bandit19, so we'd have to use our dark magic permission file stuff:</p>
+            <pre>~$ cat /etc/bandit_pass/bandit20
+cat: /etc/bandit_pass/bandit20: Permission denied
+            <p>So now we just get the command from earlier, and replace the placeholder user field with the actual bandit20-do user:</p>
+            <pre>~$ ./bandit20-do cat /etc/bandit_pass/bandit20
+5X4yofCajIVwIro9OH0y2ZbCqTF5mwXv</pre>
+            <p>And that's it, it worked! Now we should be good to go to the next level.</p>
+            <a target="_blank" href="https://overthewire.org/wargames/bandit/bandit20.html">https://overthewire.org/wargames/bandit/bandit20.html</a>
+            <hr>
+            Next Level Guide: <a href="21.html">Bandit Level 20 &#8594; Level 21</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
