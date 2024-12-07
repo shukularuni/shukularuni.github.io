@@ -22,7 +22,8 @@
             <p>Password: <code>ttw6eXkWHrFGZDgATKirZ4a8a8NGG0Bq</code></p>
             <h2>Info</h2>
             <pre>Description: The password for the next level is stored in /etc/bandit_pass/bandit14 and can only be read by user bandit14. For this level, you don’t get the next password, but you get a private SSH key that can be used to log into the next level. Note: localhost is a hostname that refers to the machine you are working on
-Commands: ssh, telnet, nc, openssl, s_client, nmap</pre>
+Commands: ssh, telnet, nc, openssl, s_client, nmap
+Sources: <a target="_blank" href="https://help.ubuntu.com/community/SSH/OpenSSH/Keys">SSH/OpenSSH/Keys</a>.</pre>
             <h2>Theory</h2>
             <p>To get the password, the instructions say that we have to use a private key that is inside a file and can only be read by the next level's user, so that means we will need to use ssh inside the bandit13 terminal, this being the case because it's the only way to access using a private key, it also says in the instructions private SSH key, which already gives it away. Basically, after reading through the manual, we will put an -i option to specify the private key file as our password for the next level, aka bandit14. So after putting this into our usual ssh command, it looks just like this:</p>
             <pre>ssh -i privkey_file.txt bandit14@bandit.labs.overthewire.org -p 2220</pre>
