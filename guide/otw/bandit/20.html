@@ -22,7 +22,8 @@
             <p>Password: <code>yZ5eLbTjquqLS8eGPAMLWdb8ProbCygv</code></p>
             <h2>Info</h2>
             <pre>Description: To gain access to the next level, you should use the setuid binary in the homedirectory. Execute it without arguments to find out how to use it. The password for this level can be found in the usual place (/etc/bandit_pass), after you have used the setuid binary.
-Commands: (none)</pre>
+Commands: (none)
+Sources: <a target="_blank" href="https://en.wikipedia.org/wiki/Setuid">setuid on Wikipedia</a>.</pre>
             <h2>Theory</h2>
             <p>To get the password, the instructions say that the password is inside the usual password folder, but the password for the next level can only be accessed by the next level (what a surprise!). Jokes aside, after reading the Wikipedia article linked in the info page, it talks about how the permissions of a file are not only for who can read or write in it, but it can also be put certain permissions so that the file has access to something, in our case it would be a file with the permission to view the file with the password for bandit20, or maybe a file that acts as a bandit20 user inside the file system of bandit19 (the one we are currently on). So I'd guess the command would be like this, with the file with permissions before the actual command to say that it's that file who's executing the command:</p>
             <pre>./user cat /etc/bandit_pass/bandit20</pre>
