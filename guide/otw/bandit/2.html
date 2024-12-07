@@ -22,7 +22,8 @@
             <p>Password: <code>fzRysGa0Ueo64hZsZRWD5cEyb301wABm</code></p>
             <h2>Info</h2>
             <pre>Description: The password for the next level is stored in a file called - located in the home directory
-Commands: ls, cd, cat, file, du, find</pre>
+Commands: ls, cd, cat, file, du, find
+Sources: <a target="_blank" href="https://www.google.com/search?q=dashed+filename">Google Search for “dashed filename”</a>, <a target="_blank" href="https://linux.die.net/abs-guide/special-chars.html">Advanced Bash-scripting Guide - Chapter 3 - Special Characters</a>.</pre>
             <h2>Theory</h2>
             <p>To get the password, the instructions say that there's a file called "-" that has the password. I'd guess from the manual, that the it will pick this up as an option (or flag) instead of as a file name. So what we would need to do to get the password is put "./" before the file name to specify that it's a file located in "./".</p>
             <h2>Solution</h2>
