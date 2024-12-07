@@ -21,7 +21,8 @@
             <p>Password: <code>bandit0</code></p>
             <h2>Info</h2>
             <pre>Description: The goal of this level is for you to log into the game using SSH. The host to which you need to connect is bandit.labs.overthewire.org, on port 2220. The username is bandit0 and the password is bandit0. Once logged in, go to the Level 1 page to find out how to beat Level 1.
-Commands: ssh</pre>
+Commands: ssh
+Sources: <a target="_blank" href="https://en.wikipedia.org/wiki/Secure_Shell">Secure Shell (SSH) on Wikipedia</a>, <a target="_blank" href="https://www.wikihow.com/Use-SSH">How to use SSH on WikiHow</a>.</pre>
             <h2>Theory</h2>
             <p>To log into the game, the instructions say to use SSH. If we look at the Ubuntu manual pages provided in the task, we can see that logging in requires simply using the ssh command, followed by the username (bandit0) and the host (bandit.labs.overthewire.org). Then, using the -p option to specify port 2220, we get this command: <code>ssh bandit0@bandit.labs.overthewire.org -p 2220</code></p>
             <h2>Solution</h2>
