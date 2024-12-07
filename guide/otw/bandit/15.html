@@ -22,7 +22,8 @@
             <p>Password: <code>none (ssh key from previous level)</code></p>
             <h2>Info</h2>
             <pre>Description: The password for the next level can be retrieved by submitting the password of the current level to port 30000 on localhost.
-Commands: ssh, telnet, nc, openssl, s_client, nmap</pre>
+Commands: ssh, telnet, nc, openssl, s_client, nmap
+Sources: <a target="_blank" href="https://youtu.be/7_LPdttKXPc">How the Internet works in 5 minutes (YouTube)</a> (Not completely accurate, but good enough for beginners), <a target="_blank" href="https://computer.howstuffworks.com/web-server5.htm">IP Addresses</a>, <a target="_blank" href="https://en.wikipedia.org/wiki/IP_address">IP Addresses on Wikipedia</a>, <a target="_blank" href="https://en.wikipedia.org/wiki/Localhost">Localhost on Wikipedia</a>, <a target="_blank" href="https://computer.howstuffworks.com/web-server8.htm">Ports</a>, <a target="_blank" href="https://en.wikipedia.org/wiki/Port_(computer_networking)">Port (computer networking) on Wikipedia</a>.</pre>
             <h2>Theory</h2>
             <p>To get the password, the instructions say that we have to enter to a localhost in port 30000 and just put the password for entering this level, which we don't use because of the ssh key from the last level. Also, according to the last level we can find the password for this in /etc/bandit_pass/bandit14 because it's only readable by bandit14, where we are right now, so we can use cat for that. Then for this we'll use NetCat, or nc for short. NetCat is a coommand used to access ports from a website or localhost, in this case it's used as a minigame kind of thing, because the localhost will give you the next password if you input the correct previous password. NetCat also lets you use some commands like exit, but it mostly depends on who created the port. After looking through the manual, we can get a command like this:</p>
             <pre>nc localhost 30000</pre>
