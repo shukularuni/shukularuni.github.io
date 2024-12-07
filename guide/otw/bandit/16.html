@@ -22,7 +22,8 @@
             <p>Password: <code>LSAAg2asGSvcoXbFoYEPdlyxdwYqWNei</code></p>
             <h2>Info</h2>
             <pre>Description: The password for the next level can be retrieved by submitting the password of the current level to port 30001 on localhost using SSL/TLS encryption. Helpful note: Getting “DONE”, “RENEGOTIATING” or “KEYUPDATE”? Read the “CONNECTED COMMANDS” section in the manpage.
-Commands: ssh, telnet, nc, ncat, socat, openssl, s_client, nmap, netstat, ss</pre>
+Commands: ssh, telnet, nc, ncat, socat, openssl, s_client, nmap, netstat, ss
+Sources: <a target="_blank" href="https://en.wikipedia.org/wiki/Transport_Layer_Security">Secure Socket Layer/Transport Layer Security on Wikipedia</a>, <a target="_blank" href="https://www.feistyduck.com/library/openssl-cookbook/online/testing-with-openssl/index.html">OpenSSL Cookbook - Testing with OpenSSL</a>.</pre>
             <h2>Theory</h2>
             <p>To get the password, the instructions say that we have to enter to a localhost in port 30001 and just put the password for entering this level, the difference between the previous level and this one is that now we need to use SSL encryption, so that leads us to using openssl, which is used for debugging servers with other commands, but in this case the "other" command we'll use s_client so that it becomes client interface kinda like the one in netcat in the previous level. Finally add the -connect option to connect to this server at localhost with port 30001. After all that we get a command like this:</p>
             <pre>openssl s_client -connect localhost:30001</pre>
