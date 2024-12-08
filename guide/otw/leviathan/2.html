@@ -35,7 +35,7 @@ drwxr-xr-x 83 root       root        4096 Sep 19 07:09 ..
 -r-sr-x---  1 leviathan2 leviathan1 15080 Sep 19 07:07 check
 -rw-r--r--  1 root       root         807 Mar 31  2024 .profile</pre>
             <p>So there's an executable file called check, that checks for a password, if we try input a random password that is probably not correct, we will get an error message. And you can't put nothing as the password, it bugs out, trust me I tried. Here:</p>
-            <pre~$ ./check
+            <pre>~$ ./check
 password: 1234
 Wrong password, Good Bye ...</pre>
             <p>So for this one, we will use a new command, "ltrace" it traces what an executable does, like our check file, and that way know what is it checking to, to know the correct password (just make sure to press enter like three times, because while tracing the file, it has to check for the password, and to get through that, because we don't have the password we'll just put blank fields):</p>
