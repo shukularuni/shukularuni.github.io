@@ -22,7 +22,8 @@
             <h2>Info</h2>
             <pre>Description: There is no information for this level, intentionally.</pre>
             <h2>Theory</h2>
-            <p>To log into the game, the instructions say to use SSH. If we look at the Ubuntu manual pages provided in the task, we can see that logging in requires simply using the ssh command, followed by the username (leviathan0) and the host (leviathan.labs.overthewire.org). Then, using the -p option to specify port 2223, we get this command: <code>ssh leviathan0@leviathan.labs.overthewire.org -p 2223</code></p>
+            <p>To log into the game, the instructions say to use SSH. If we look at the Ubuntu manual pages provided in the task, we can see that logging in requires simply using the ssh command, followed by the username (leviathan0) and the host (leviathan.labs.overthewire.org). Then, using the -p option to specify port 2223, we get this command:</p>
+            <pre>ssh leviathan0@leviathan.labs.overthewire.org -p 2223</pre>
             <h2>Solution</h2>
             <p>And the theory was right! When we input that command, first it asks for the password, which according to the instructions is bandit0, and from there, the server welcomes us and here is where the level 0 &#8594; 1 starts.</p>
             <pre>For more information regarding individual wargames, visit http://www.overthewire.org/wargames/
