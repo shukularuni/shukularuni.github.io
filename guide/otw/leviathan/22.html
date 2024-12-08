@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTW Leviathan 0 &#8594; 1 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>OverTheWire Leviathan Guide</h1>
+        <p>here's how to solve the leviathan level 0 &#8594; 1</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Leviathan Guides</a>
+            <p>Previous Level Guide: <a href="0.html">Bandit Level 0</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh leviathan0@leviathan.labs.overthewire.org -p 2223</code></p>
+            <p>Password: <code>leviathan0</code></p>
+            <h2>Info</h2>
+            <pre>Description: There is no information for this level, intentionally.</pre>
+            <h2>Theory</h2>
+            <p>Not much to do with the details from the task, so just skipping to doing it.</p>
+            <h2>Solution</h2>
+            <p>Because the task doesn't tell us anything about the level, first we will use ls -la to see all files regardless they are hidden and some details of the files/folders:</p>
+            <pre>~$ ls
+readme</pre>
+            <p>Now we can see that there's a single file in the directory called readme, just like it says in the task description. So now we just use cat to open the file:</p>
+            <pre>~$ ls -la
+total 24
+drwxr-xr-x  3 root       root       4096 Sep 19 07:07 .
+drwxr-xr-x 83 root       root       4096 Sep 19 07:09 ..
+drwxr-x---  2 leviathan1 leviathan0 4096 Sep 19 07:07 .backup
+-rw-r--r--  1 root       root        220 Mar 31  2024 .bash_logout
+-rw-r--r--  1 root       root       3771 Mar 31  2024 .bashrc
+-rw-r--r--  1 root       root        807 Mar 31  2024 .profile</pre>
+            <p>So there's a folder called .backup that, you don't see it here, but it's colored differently in the terminal. So let's enter it and see what's inside:</p>
+            <pre>~$ cd .backup
+~/.backup$ ls -la
+total 140
+drwxr-x--- 2 leviathan1 leviathan0   4096 Sep 19 07:07 .
+drwxr-xr-x 3 root       root         4096 Sep 19 07:07 ..
+-rw-r----- 1 leviathan1 leviathan0 133259 Sep 19 07:07 bookmarks.html</pre>
+            <p>Inside this folder there is a single file for bookmarks, usually these files have thousands of information, so don't use cat on this (we can see this on the size of the file, which is 133kb), so instead we are going to use a bit of common sense, and because this is the only thing in the server that we have, we'll assume that the password for the next level is in there as a bookmark. So for that, we'll use grep to find it:</p>
+            <pre>~/.backup$ grep leviathan1 bookmarks.html
+&lt;DT&gt;&lt;A HREF="http://leviathan.labs.overthewire.org/passwordus.html | This will be fixed later, the password for leviathan1 is Lxlf0bLYP8" ADD_DATE="1155384634" LAST_CHARSET="ISO-8859-1" ID="rdf:#$2wIU71"&gt;password to leviathan1&lt;/A&gt;</pre>
+            <p>And that's our password! Although, if you are a bit more of a visual person, then you could use the wget command to download the file to your system or just copy from cat if that's too complicated, then open the html file in the browser, and use Ctrl+F to find the password from there. But I don't think anyone is going to do it that way, because it's way slower. So now that we have this password, you can use the exit command to log out of the SSH, and go to the next level:</p>
+            <pre>~/.backup$ exit
+logout
+Connection to leviathan.labs.overthewire.org closed.</pre>
+            <p>NOTE: if you don't understand what I'm talking about, specifically the commands part. I recommend you do some levels from Bandit, which is also an OverTheWire wargame, or read my guides on it, whatever you prefer.</p>
+            <a target="_blank" href="https://overthewire.org/wargames/leviathan/leviathan1.html">https://overthewire.org/wargames/leviathan/leviathan1.html</a>
+            <hr>
+            Next Level Guide: <a href="2.html">Leviathan Level 1 &#8594; Level 2</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
