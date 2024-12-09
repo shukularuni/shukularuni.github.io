@@ -40,7 +40,7 @@ password: 1234
 Wrong password, Good Bye ...</pre>
             <p>So for this one, we will use a new command, "ltrace" it traces what an executable does, like our check file, and that way know what is it checking to, to know the correct password (just make sure to press enter like three times, because while tracing the file, it has to check for the password, and to get through that, because we don't have the password we'll just put blank fields):</p>
             <pre>~$ ltrace ./check
-__libc_start_main(0x80490ed, 1, 0xffffd494, 0 <unfinished ...>
+__libc_start_main(0x80490ed, 1, 0xffffd494, 0 &lt;unfinished ...&gt;
 printf("password: ")                                                      = 10
 getchar(0, 0, 0x786573, 0x646f67password:
 )                                         = 10
