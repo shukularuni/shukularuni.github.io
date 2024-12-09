@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTW Leviathan 7 &#8594; 8 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>OverTheWire Leviathan Guide</h1>
+        <p>here's how to solve the leviathan level 7 &#8594; 8</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Leviathan Guides</a>
+            <p>Previous Level Guide: <a href="7.html">Bandit Level 6 &#8594; 7</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh leviathan7@leviathan.labs.overthewire.org -p 2223</code></p>
+            <p>Password: <code>uTRobztpgO</code></p>
+            <h2>Info</h2>
+            <pre>There is no task.</pre>
+            <h2>Theory</h2>
+            <p>There is no task.</p>
+            <h2>Solution</h2>
+            <p>This is the last level, so there must be something special in the file system:</p>
+            <pre>~$ ls -la
+total 24
+drwxr-xr-x  2 root       root       4096 Sep 19 07:07 .
+drwxr-xr-x 83 root       root       4096 Sep 19 07:09 ..
+-rw-r--r--  1 root       root        220 Mar 31  2024 .bash_logout
+-rw-r--r--  1 root       root       3771 Mar 31  2024 .bashrc
+-r--r-----  1 leviathan7 leviathan7  178 Sep 19 07:07 CONGRATULATIONS
+-rw-r--r--  1 root       root        807 Mar 31  2024 .profile</pre>
+            <p>And it is a congratulations file! Lets read it:</p>
+            <pre>~$ cat CONGRATULATIONS
+Well Done, you seem to have used a *nix system before, now try something more serious.
+(Please don't post writeups, solutions or spoilers about the games on the web. Thank you!)</pre>
+            <p>Bruh, you mean this wasn't serious? Although, thinking about it, it was pretty easy.</p>
+            <p>hahaha, no. I will post the writeup on my github and neocities.</p>
+            <p>Putting that last line to a side. Anyways, this was fun! So yeah... that's it, so see you guys :3</p>
+            There's no OverTheWire page :(
+            <hr>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
