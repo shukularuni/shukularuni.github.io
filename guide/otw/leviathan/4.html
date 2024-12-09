@@ -36,18 +36,18 @@ drwxr-xr-x 83 root       root        4096 Sep 19 07:09 ..
 -rw-r--r--  1 root       root         807 Mar 31  2024 .profile</pre>
             <p>So just like two levels ago, we are going to use ltrace to see if it's checking for a password inside, and know the password we need for it (just remember to hit enter while in ltrace to continue tracing, because you are inside the program at the same time of ltrace tracing):</p>
             <pre>~$ ltrace ./level3
-__libc_start_main(0x80490ed, 1, 0xffffd494, 0 <unfinished ...>
+__libc_start_main(0x80490ed, 1, 0xffffd494, 0 &lt;unfinished ...&gt;
 strcmp("h0no33", "kakaka")                                                = -1
-printf("Enter the password> ")                                            = 20
-fgets(Enter the password>
+printf("Enter the password&gt; ")                                            = 20
+fgets(Enter the password&gt;
 "\n", 256, 0xf7fae5c0)                                              = 0xffffd26c
 strcmp("\n", "snlprintf\n")                                               = -1
 puts("bzzzzzzzzap. WRONG"bzzzzzzzzap. WRONG
 )                                                = 19
 +++ exited (status 0) +++</pre>
-            <p>Turns out for this one the password is "snlprintf" as we can see fromthe strcmp, not to be confused with the first strcmp that says kakaka. Now let's try with this password:</p>
+            <p>Turns out for this one the password is "snlprintf" as we can see from the strcmp, not to be confused with the first strcmp that says kakaka. Now let's try with this password:</p>
             <pre>./level3
-Enter the password> snlprintf
+Enter the password&gt; snlprintf
 [You've got shell]!
 $ whoami
 leviathan4</pre>
