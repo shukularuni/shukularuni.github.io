@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTW Leviathan 4 &#8594; 5 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>OverTheWire Leviathan Guide</h1>
+        <p>here's how to solve the leviathan level 4 &#8594; 5</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Leviathan Guides</a>
+            <p>Previous Level Guide: <a href="4.html">Bandit Level 3 &#8594; 4</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh leviathan4@leviathan.labs.overthewire.org -p 2223</code></p>
+            <p>Password: <code>EU7IX6n7em</code></p>
+            <h2>Info</h2>
+            <pre>Description: There is no information for this level, intentionally.</pre>
+            <h2>Theory</h2>
+            <p>Not much to do with the details from the task, so just skipping to doing it.</p>
+            <h2>Solution</h2>
+            <p>As always, first we will use ls -la to see all files regardless they are hidden and some details of the files/folders:</p>
+            <pre>~$ ls -la
+total 24
+drwxr-xr-x  3 root root       4096 Sep 19 07:07 .
+drwxr-xr-x 83 root root       4096 Sep 19 07:09 ..
+-rw-r--r--  1 root root        220 Mar 31  2024 .bash_logout
+-rw-r--r--  1 root root       3771 Mar 31  2024 .bashrc
+-rw-r--r--  1 root root        807 Mar 31  2024 .profile
+dr-xr-x---  2 root leviathan4 4096 Sep 19 07:07 .trash</pre>
+            <p>The only thing here is a folder called ".trash", let's see what's inside:</p>
+            <pre>~$ cd .trash
+
+~/.trash$ ls -la
+total 24
+dr-xr-x--- 2 root       leviathan4  4096 Sep 19 07:07 .
+drwxr-xr-x 3 root       root        4096 Sep 19 07:07 ..
+-r-sr-x--- 1 leviathan5 leviathan4 14936 Sep 19 07:07 bin</pre>
+            <p>There is a single executable file in this trash folder, by the name of "bin" it will be some binary game or something, let's open it to find out:</p>
+            <pre>~/.trash$ ./bin
+01101001 00110000 01001110 01001000 01111010 01000100 01110111 01100010 01101100 01101101</pre>
+            <p>If we use ltrace on this we can see that it just takes the next level's password and reads it as binary:</p>
+            <pre>~/.trash$ ltrace ./bin
+__libc_start_main(0x80490ad, 1, 0xffffd484, 0 &lt;unfinished ...&gt;
+fopen("/etc/leviathan_pass/leviathan5", "r")                              = 0
++++ exited (status 255) +++</pre>
+            <p>Now with this you can either use an online binary to text translator, but if you're anything like me, we'll use the terminal to do it for us. So I found this command online that uses perl to convert what's in the left of the pipe character to binary and viceversa, just by changing it to unpack. Here I'll explain it, because if you don't know what something does that you're pasting into your terminal, you're just dumb or lazy for not doing research. First we take the output from the bin executable, which is just the line of binary, and runs it through the perl interpreter, the -a option enables autosplit mode so it splits the input line into the @F array based on whitespace, the -p option processes the input, and the <code>-e '$_=pack"(B8)*",@F'</code> stuff is the perl code to be executed, in there the dollars symbol with underscore is the input and pattern searcher, while the pack @f stuff converts the binary strings in the @F array to our human readable text, finally the B8 in parenthesis just tells it that the binary is in blocks of 8 characters, basically because in binary spaces don't exist, it's just ones and zeros, so we gotta tell it to join the string in blocks of 8. So just like this we have a command like this:</p>
+            <pre>~/.trash$ ./bin | perl -ape '$_=pack"(B8)*",@F'
+i0NHzDwblm</pre>
+            <p>And that's our password! Now you can exit and go to the next level.</p>
+            <a target="_blank" href="https://overthewire.org/wargames/leviathan/leviathan5.html">https://overthewire.org/wargames/leviathan/leviathan5.html</a>
+            <hr>
+            Next Level Guide: <a href="6.html">Leviathan Level 5 &#8594; Level 6</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
