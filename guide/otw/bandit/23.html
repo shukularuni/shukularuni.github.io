@@ -24,16 +24,40 @@
             <pre>A program is running automatically at regular intervals from cron, the time-based job scheduler. Look in /etc/cron.d/ for the configuration and see what command is being executed. NOTE: Looking at shell scripts written by other people is a very useful skill. The script for this level is intentionally made easy to read. If you are having problems understanding what it does, try executing it to see the debug information it prints.
 Commands: cron, crontab, crontab(5) (use “man 5 crontab” to access this)</pre>
             <h2>Theory</h2>
-            <p>gonna finish dis thing latr. btw i think we'll use the same command as last level:</p>
+            <p>So because I haven't done the challenge yet, we're on theory, I don't know what exactly the cron job or task is going to do to give us the password, but it'll probably be pretty simple. It will be not as simple as the last level, but it will definitely be similar. All the commands we could maybe have right now, is access the cron jobs place like it says in the instructions:</p>
             <pre>ls -la /etc/cron.d/</pre>
             <h2>Solution</h2>
-            <p>still gonna finish dis latr:</p>
-            <pre>~$ ls -la /etc/cron.d/
+            <p>So let's check out the job running in bandit23:</p>
+            <pre>~$ ls -la /etc/cron.d
+total 44
+drwxr-xr-x   2 root root  4096 Sep 19 07:10 .
+drwxr-xr-x 121 root root 12288 Sep 20 18:37 ..
+-rw-r--r--   1 root root   120 Sep 19 07:08 cronjob_bandit22
+-rw-r--r--   1 root root   122 Sep 19 07:08 cronjob_bandit23
+-rw-r--r--   1 root root   120 Sep 19 07:08 cronjob_bandit24
+-rw-r--r--   1 root root   201 Apr  8  2024 e2scrub_all
+-rwx------   1 root root    52 Sep 19 07:10 otw-tmp-dir
+-rw-r--r--   1 root root   102 Mar 31  2024 .placeholder
+-rw-r--r--   1 root root   396 Jan  9  2024 sysstat
 
-# placeholder
-# idk file system stuff, i'll finish it later
+~$ cat /etc/cron.d/cronjob_bandit23
+@reboot bandit23 /usr/bin/cronjob_bandit23.sh  &> /dev/null
+* * * * * bandit23 /usr/bin/cronjob_bandit23.sh  &> /dev/null
 
-pass_file_lol.key:
+~$ cat /usr/bin/cronjob_bandit23.sh
+#!/bin/bash
+
+myname=$(whoami)
+mytarget=$(echo I am user $myname | md5sum | cut -d ' ' -f 1)
+
+echo "Copying passwordfile /etc/bandit_pass/$myname to /tmp/$mytarget"
+
+cat /etc/bandit_pass/$myname > /tmp/$mytarget</pre>
+            <p>So we can see that this code runs every minute, and what it does is actually not that important, because it is telling us what to do to get the password. So basically, the code copies the password to a file in the temporary folder, where the file has a name that is "I am user" followed by bandit23&mdash;which is the owner of the script&mdash;and encodes it all to an md5 hash, before cutting some unimportant string stuff with the cut command. All we have to do is enter this exact command, but change the myname variable with bandit23, and therefore get the name of the file in the temporary folder where the password is copied at every minute. Here:</p>
+            <pre>~$ echo I am user bandit23 | md5sum | cut -d ' ' -f 1
+8ca319486bfbbc3663ea0fbe81326349
+
+~$ cat /tmp/8ca319486bfbbc3663ea0fbe81326349
 xprclpaI5V1Lye8ga0MtmVBfUehdJMJW</pre>
             <p>And that's the password! Now we should be good to go to the next level.</p>
             <a target="_blank" href="https://overthewire.org/wargames/bandit/bandit23.html">https://overthewire.org/wargames/bandit/bandit23.html</a>
