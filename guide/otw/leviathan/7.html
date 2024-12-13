@@ -45,7 +45,9 @@ usage: /home/leviathan6/leviathan6 &lt;4 digit code&gt;</pre>
 
 /tmp/tmp.zB1xrHuD9y$ vim bruteforce.sh</pre>
             <p>I'm using vim because nano was glitching a bit. Basically we're going to loop through all the numbers from 0000 to 9999, but also using echo to know what number it is. Then after putting this code just use :wq to save and close:</p>
-            <pre>for a in {0000..9999}
+            <pre>#!/bin/bash
+
+for a in {0000..9999}
 do
 echo $a
 ~/leviathan6 $a
