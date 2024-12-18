@@ -22,7 +22,7 @@
             <p>Password: <code>YRSVLTtfZnD0aBUxDkgJ1G2JgF9SgRyL</code></p>
             <h2>Info</h2>
             <pre>A daemon is listening on port 30002 and will give you the password for bandit25 if given the password for bandit24 and a secret numeric 4-digit pincode. There is no way to retrieve the pincode except by going through all of the 10000 combinations, called brute-forcing. You do not need to create new connections each time
-Commands: cron, crontab, crontab(5) (use “man 5 crontab” to access this)</pre>
+Commands: (none)</pre>
             <h2>Theory</h2>
             <p>To get the password, the instructions say that the password is in a localhost on port 30002 which is protected by a four digit code, which as it says, there is no way to know the code, so we have to use brute force. Bruteforcing is basically when you go through every single password possible until one works, but if you have common sense, the thought of manually typing ten thausand password manually is not an easy task, so this is were our next coding thing takes place. This code below first go through all of the possible combinations of the password&mdash;which if you enter the localhost before using this code, will say that the format for entering the code is the password we used to enter the level, followed by the four digit code. After looping through each four digit code it simultaneously stores both the entire thing (password and code) in a new file for later use (all_nums.txt). When we've gone through all the 10000 combinations, it writes all of these into the localhost where it writes the responses of all the combinations from the loop into a new file (results.txt). With all that in mind, we get a code like this:</p>
             <pre>#!/bin/bash
