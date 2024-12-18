@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTW Bandit 24 &#8594; 25 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>OverTheWire Bandit Guide</h1>
+        <p>here's how to solve the bandit level 24 &#8594; 25</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Bandit Guides</a>
+            <p>Previous Level Guide: <a href="24.html">Bandit Level 23 &#8594; 24</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh bandit24@bandit.labs.overthewire.org -p 2220</code></p>
+            <p>Password: <code>YRSVLTtfZnD0aBUxDkgJ1G2JgF9SgRyL</code></p>
+            <h2>Info</h2>
+            <pre>A daemon is listening on port 30002 and will give you the password for bandit25 if given the password for bandit24 and a secret numeric 4-digit pincode. There is no way to retrieve the pincode except by going through all of the 10000 combinations, called brute-forcing. You do not need to create new connections each time
+Commands: cron, crontab, crontab(5) (use “man 5 crontab” to access this)</pre>
+            <h2>Theory</h2>
+            <p>To get the password, the instructions say that the password is in a localhost on port 30002 which is protected by a four digit code, which as it says, there is no way to know the code, so we have to use brute force. Bruteforcing is basically when you go through every single password possible until one works, but if you have common sense, the thought of manually typing ten thausand password manually is not an easy task, so this is were our next coding thing takes place. This code below first go through all of the possible combinations of the password&mdash;which if you enter the localhost before using this code, will say that the format for entering the code is the password we used to enter the level, followed by the four digit code. After looping through each four digit code it simultaneously stores both the entire thing (password and code) in a new file for later use (all_nums.txt). When we've gone through all the 10000 combinations, it writes all of these into the localhost where it writes the responses of all the combinations from the loop into a new file (results.txt). With all that in mind, we get a code like this:</p>
+            <pre>#!/bin/bash
+
+for a in {0000..9999}
+do
+echo YRSVLTtfZnD0aBUxDkgJ1G2JgF9SgRyL $a >> all_nums.txt
+done
+
+cat all_nums.txt | nc localhost 30002 > results.txt</pre>
+            <h2>Solution</h2>
+            <p>First of all be careful, because when you enter the localhost without the combination files or anything, there is no way to get out of it, because the localhost gives you infinite tries:</p>
+            <pre>~$ nc localhost 30002
+I am the pincode checker for user bandit25. Please enter the password for user bandit24 and the secret pincode on a single line, separated by a space.
+YRSVLTtfZnD0aBUxDkgJ1G2JgF9SgRyL 1234
+Wrong! Please enter the correct current password and pincode. Try again.
+exit
+Wrong! Please enter the correct current password and pincode. Try again.
+bruh
+Wrong! Please enter the correct current password and pincode. Try again.</pre>
+            <p>And to create this file for our code to run, we'll need to make a temporary folder, then create the file from there:</p>
+            <pre>:~$ mktemp -d
+/tmp/tmp.GYir9O1Upx
+
+/tmp/tmp.GYir9O1Upx$ vim bruteforce.sh</pre>
+            <p>Now that we pasted the code into our newly created file, let's give it some permissions so that it can run the whole file creation and using NetCat stuff:</p>
+/tmp/tmp.GYir9O1Upx$ chmod +x bruteforce.sh
+
+/tmp/tmp.GYir9O1Upx$ ./bruteforce.sh
+
+/tmp/tmp.GYir9O1Upx$ ls
+all_nums.txt  bruteforce.sh  results.txt</pre>
+            <p>When you run the file, it should take less than a second (wow that's fast!), if it's taking longer than a few seconds there might be something wrong in the code. Also we can see up here that I used the ls command after running the program, all the files are created so now we just need to find the only line that doesn't say "Wrong!", as we can see from when I almost got stuck forever in the localhost without the code stuff yet, whenever you get the password wrong it says "Wrong!", we can use grep to find lines that don't have the wrong response in it. We'll use sort to get the entire response of the localhost, whereas if we don't we'll just get the single line where there is no wrong, because as we see down here, the password and the correct response are in a new line, which we wouldn't be able to see if it wasn't for the sort command, then grep with a -v options, which just tells it to invert the search, basically find all parts of the file that don't the input, which is followed by the option inside double quotation marks:</p>
+            <pre>/tmp/tmp.GYir9O1Upx$ sort results.txt | grep -v "Wrong!"
+
+Correct!
+I am the pincode checker for user bandit25. Please enter the password for user bandit24 and the secret pincode on a single line, separated by a space.
+The password of user bandit25 is A1NJzmx6EYMk8hB1D1umBWOevY7wbAJH</pre>
+            <p>And that's the password! Now we should be good to go to the next level.</p>
+            <a target="_blank" href="https://overthewire.org/wargames/bandit/bandit24.html">https://overthewire.org/wargames/bandit/bandit24.html</a>
+            <hr>
+            Next Level Guide: <a href="25.html">Bandit Level 24 &#8594; Level 25</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
