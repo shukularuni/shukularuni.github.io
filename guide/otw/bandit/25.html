@@ -22,7 +22,7 @@
             <p>Password: <code>YRSVLTtfZnD0aBUxDkgJ1G2JgF9SgRyL</code></p>
             <h2>Info</h2>
             <pre>A daemon is listening on port 30002 and will give you the password for bandit25 if given the password for bandit24 and a secret numeric 4-digit pincode. There is no way to retrieve the pincode except by going through all of the 10000 combinations, called brute-forcing. You do not need to create new connections each time
-Commands: (none)</pre>
+Commands: cron, crontab, crontab(5) (use “man 5 crontab” to access this)</pre>
             <h2>Theory</h2>
             <p>To get the password, the instructions say that the password is in a localhost on port 30002 which is protected by a four digit code, which as it says, there is no way to know the code, so we have to use brute force. Bruteforcing is basically when you go through every single password possible until one works, but if you have common sense, the thought of manually typing ten thausand password manually is not an easy task, so this is were our next coding thing takes place. This code below first go through all of the possible combinations of the password&mdash;which if you enter the localhost before using this code, will say that the format for entering the code is the password we used to enter the level, followed by the four digit code. After looping through each four digit code it simultaneously stores both the entire thing (password and code) in a new file for later use (all_nums.txt). When we've gone through all the 10000 combinations, it writes all of these into the localhost where it writes the responses of all the combinations from the loop into a new file (results.txt). With all that in mind, we get a code like this:</p>
             <pre>#!/bin/bash
@@ -34,22 +34,22 @@ done
 
 cat all_nums.txt | nc localhost 30002 > results.txt</pre>
             <h2>Solution</h2>
-            <p>First of all be careful, because when you enter the localhost without the combination files or anything, there is no way to get out of it, because the localhost gives you infinite tries:</p>
+            <p>First of all be careful, because when you enter the localhost without the combination files or anything, there is no way to get out of it, because the localhost gives you infinite tries (UPDATE: you can actually get out, I just Google'd it and turns out just press a special key like in nano):</p>
             <pre>~$ nc localhost 30002
 I am the pincode checker for user bandit25. Please enter the password for user bandit24 and the secret pincode on a single line, separated by a space.
 YRSVLTtfZnD0aBUxDkgJ1G2JgF9SgRyL 1234
 Wrong! Please enter the correct current password and pincode. Try again.
 exit
 Wrong! Please enter the correct current password and pincode. Try again.
-bruh
-Wrong! Please enter the correct current password and pincode. Try again.</pre>
+^C
+~$ hallo</pre>
             <p>And to create this file for our code to run, we'll need to make a temporary folder, then create the file from there:</p>
             <pre>:~$ mktemp -d
 /tmp/tmp.GYir9O1Upx
 
 /tmp/tmp.GYir9O1Upx$ vim bruteforce.sh</pre>
             <p>Now that we pasted the code into our newly created file, let's give it some permissions so that it can run the whole file creation and using NetCat stuff:</p>
-            <pre>/tmp/tmp.GYir9O1Upx$ chmod +x bruteforce.sh
+/tmp/tmp.GYir9O1Upx$ chmod +x bruteforce.sh
 
 /tmp/tmp.GYir9O1Upx$ ./bruteforce.sh
 
