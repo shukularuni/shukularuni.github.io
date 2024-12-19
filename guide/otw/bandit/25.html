@@ -44,12 +44,12 @@ Wrong! Please enter the correct current password and pincode. Try again.
 ^C
 ~$ hallo</pre>
             <p>And to create this file for our code to run, we'll need to make a temporary folder, then create the file from there:</p>
-            <pre>:~$ mktemp -d
+            <pre>~$ mktemp -d
 /tmp/tmp.GYir9O1Upx
 
 /tmp/tmp.GYir9O1Upx$ vim bruteforce.sh</pre>
             <p>Now that we pasted the code into our newly created file, let's give it some permissions so that it can run the whole file creation and using NetCat stuff:</p>
-/tmp/tmp.GYir9O1Upx$ chmod +x bruteforce.sh
+            <pre>/tmp/tmp.GYir9O1Upx$ chmod +x bruteforce.sh
 
 /tmp/tmp.GYir9O1Upx$ ./bruteforce.sh
 
