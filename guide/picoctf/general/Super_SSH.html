@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF Binary Search @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF General Skills Guide</h1>
+        <p>here's how to solve Binary Search</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the General Skills Guides</a>
+            <hr>
+            <h2>Super SSH</h2>
+            <pre>Description: Using a Secure Shell (SSH) is going to be pretty important. Can you ssh as ctf-player to titan.picoctf.net at port 55859 to get the flag? You'll also need the password f3b61b38. If asked, accept the fingerprint with yes. If your device doesn't have a shell, you can use: <a target="_blank" href="https://webshell.picoctf.org">https://webshell.picoctf.org</a> If you're not sure what a shell is, check out our Primer: <a target="_blank" href="https://primer.picoctf.com/#_the_shell">https://primer.picoctf.com/#_the_shell</a>
+Author: Jeffery John
+Tags: Easy, General Skills, picoCTF 2024, shell, browser_webshell_solvable, ls
+Hints: 1. <a target="_blank" href="https://linux.die.net/man/1/ssh">https://linux.die.net/man/1/ssh</a> 2. You can try logging in 'as' someone with &lt;user&gt;@titan.picoctf.net 3. How could you specify the port? 4. Remember, passwords are hidden when typed into the shell</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to use SSH to get the flag. Well, this is the easiest one I've seen so far, just using SSH and that's it? Well I don't want to explain it again, because we've used it so many times before in OverTheWire games, but to just say it quickly, it's basically connecting to a server's shell, although to specify what part of the server to connect to you put a user and a port like this full command:</p>
+            <pre>ssh ctf-player@titan.picoctf.net -p 55859</pre>
+            <h2>Solution</h2>
+            <p>So now we just enter with the SSH command and input the password, and that would be it (I think):</p>
+            <pre>shukularuni-picoctf@webshell:~$ ssh ctf-player@titan.picoctf.net -p 55859 
+The authenticity of host '[titan.picoctf.net]:55859 ([3.139.174.234]:55859)' can't be established.
+ED25519 key fingerprint is SHA256:4S9EbTSSRZm32I+cdM5TyzthpBryv5kudRP9PIKT7XQ.
+This host key is known by the following other names/addresses:
+    ~/.ssh/known_hosts:6: [hashed name]
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '[titan.picoctf.net]:55859' (ED25519) to the list of known hosts.
+ctf-player@titan.picoctf.net's password: f3b61b38
+Welcome ctf-player, here's your flag: picoCTF{s3cur3_c0nn3ct10n_3e293eea}
+Connection to titan.picoctf.net closed.</pre>
+            <p>If the "Are you sure you want to continue connecting?" message appears, just input "yes" to continue.</p>
+            <p>The SSH closes after that, and there we go! That's the flag.</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/424">https://play.picoctf.org/practice/challenge/424</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
