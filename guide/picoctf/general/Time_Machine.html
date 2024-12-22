@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF Binary Search @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF General Skills Guide</h1>
+        <p>here's how to solve Binary Search</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Bandit Guides</a>
+            <hr>
+            <h2>Time Machine</h2>
+            <pre>Description: What was I last working on? I remember writing a note to help me remember... You can download the challenge files here: challenge.zip
+Author: Jeffery John
+Tags: Easy, General Skills, picoCTF 2024, browser_webshell_solvable, git
+Hints: 1. The cat command will let you read a file, but that won't help you here! 2. Read the chapter on Git from the picoPrimer <a target="_blank" href="https://primer.picoctf.org/#_git_version_control">here</a>. 3. When committing a file with git, a message can (and should) be included.
+Files: challenge.zip</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to look at the history of a git, maybe it's an older commit or something where we'll use git log. The description doesn't tell us much more than that, So let's start solving this.</p>
+            <pre>$ git log</pre>
+            <h2>Solution</h2>
+            <p>First we will download the file into our shell. For this we'll use the wget command which downloads any file or HTML file of a website:</p>
+            <pre>shukularuni-picoctf@webshell:~$ wget https://artifacts.picoctf.net/c_titan/161/challenge.zip
+--2024-12-22 16:12:32--  https://artifacts.picoctf.net/c_titan/161/challenge.zip
+Resolving artifacts.picoctf.net (artifacts.picoctf.net)... 3.160.22.92, 3.160.22.43, 3.160.22.128, ...
+Connecting to artifacts.picoctf.net (artifacts.picoctf.net)|3.160.22.92|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 17739 (17K) [application/octet-stream]
+Saving to: 'challenge.zip'
+
+challenge.zip  100%[=================================================================================================================================================================>]  17.32K  --.-KB/s    in 0.005s  
+
+2024-12-22 16:12:32 (3.69 MB/s) - 'challenge.zip' saved [17739/17739]
+
+shukularuni-picoctf@webshell:~$ ls
+README.txt  challenge.zip</pre>
+            <p>Now that we have the file let's unzip it and look inside:</p>
+            <pre>shukularuni-picoctf@webshell:~$ unzip challenge.zip
+Archive:  challenge.zip
+   creating: drop-in/
+  inflating: drop-in/message.txt
+...
+  inflating: drop-in/.git/logs/refs/heads/master  
+shukularuni-picoctf@webshell:~$ ls
+README.txt  challenge.zip  drop-in</pre>
+            <p>So it looks like it's a folder called "drop-in", now we'll use git to look at the log inside of this drop-in git:</p>
+            <pre>shukularuni-picoctf@webshell:~$ cd drop-in
+shukularuni-picoctf@webshell:~/drop-in$ ls
+message.txt
+
+shukularuni-picoctf@webshell:~/drop-in$ cat message.txt
+This is what I was working on, but I'd need to look at my commit history to know why...</pre>
+            <p>That's the same message from the task description, not very helpful. Now for real lets use the git command to see what we find in the log:</p>
+            <pre>shukularuni-picoctf@webshell:~/drop-in$ git log
+commit 10228f3d6437701ef5aaac04213757031f30ebec (HEAD -> master)
+Author: picoCTF &lt;ops@picoctf.com&gt;
+Date:   Tue Mar 12 00:07:24 2024 +0000
+
+    picoCTF{t1m3m@ch1n3_8defe16a}
+(END)</pre>
+            <p>There we go! That's the flag. Now you can delete the drop in folder if you don't want your webshell filling up with files from challenges, using `rm` to remove files and `rm -r` to remove folders:</p>
+            <pre>shukularuni-picoctf@webshell:~/drop-in$ cd ..
+
+shukularuni-picoctf@webshell:~$ rm challenge.zip
+
+shukularuni-picoctf@webshell:~$ rm -r drop-in
+
+shukularuni-picoctf@webshell:~$ ls
+README.txt</pre>
+            <p>If while removing the folder it says something in the lines of removing a write-protected file, just spam the "y" letter until they stop.</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/442">https://play.picoctf.org/practice/challenge/442</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
