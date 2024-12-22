@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF Binary Search @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF General Skills Guide</h1>
+        <p>here's how to solve Binary Search</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Bandit Guides</a>
+            <hr>
+            <h2>Binary Search</h2>
+            <pre>Description: Want to play a game? As you use more of the shell, you might be interested in how they work! Binary search is a classic algorithm used to quickly find an item in a sorted list. Can you find the flag? You'll have 1000 possibilities and only 10 guesses. Cyber security often has a huge amount of data to look through - from logs, vulnerability reports, and forensics. Practicing the fundamentals manually might help you in the future when you have to write your own tools! You can download the challenge files here: challenge.zip ssh -p 65215 ctf-player@atlas.picoctf.net Using the password 1db87a14. Accept the fingerprint with yes, and ls once connected to begin. Remember, in a shell, passwords are hidden!
+Author: Jeffery John
+Tags: Easy, General Skills, picoCTF 2024, shell, browser_webshell_solvable, ls
+Hints: 1. Have you ever played hot or cold? Binary search is a bit like that. 2. You have a very limited number of guesses. Try larger jumps between numbers! 3. The program will randomly choose a new number each time you connect. You can always try again, but you should start your binary search over from the beginning - try around 500. Can you think of why?
+Files: challenge.zip</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to play a fun number guessing game, where we have ten attempts to guess a number between one and a thousand, but don't worry about the amount of possibilities, because it would be pretty unfair if it was just that, so the game is going to tell us if we're either too low or too high, which if we look in the zip file that has the code of the little game, we can confirm this usage. Anyway, that way, mathematically speaking if we divide the numbers perfectly in half throughout all the ten attempts, we will get the correct number each time, you can do this in a calculator using the formula for the average. Also if you want to try it out on the web, I made an HTML version on CodePen <a target="_blank" href="https://codepen.io/Shukularuni/pen/ByBWERr">here</a>.</p>
+            <h2>Solution</h2>
+            <p>So, if we follow the strategy from theory after logging in with the details from the description after starting the session. For example, at the end I got the number 942. The number will be different for you since it's random, so just divide by half each time to guarantee the flag:</p>
+            <pre>shukularuni-picoctf@webshell:~$ ssh -p 62207 ctf-player@atlas.picoctf.net
+ctf-player@atlas.picoctf.net's password: 1db87a14
+Welcome to the Binary Search Game!
+I'm thinking of a number between 1 and 1000.
+Enter your guess: 500
+Higher! Try again.
+Enter your guess: 750
+Higher! Try again.
+Enter your guess: 875
+Higher! Try again.
+Enter your guess: 937
+Higher! Try again.
+Enter your guess: 968
+Lower! Try again.
+Enter your guess: 952 
+Lower! Try again.
+Enter your guess: 945
+Lower! Try again.
+Enter your guess: 941
+Higher! Try again.
+Enter your guess: 943        
+Lower! Try again.
+Enter your guess: 942
+Congratulations! You guessed the correct number: 942
+Here's your flag: picoCTF{g00d_gu355_1597707f}
+Connection to atlas.picoctf.net closed.</pre>
+            <p>The SSH closes after that, and there we go! That's the flag.</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/442">https://play.picoctf.org/practice/challenge/442</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
