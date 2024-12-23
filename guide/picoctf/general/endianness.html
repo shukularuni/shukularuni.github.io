@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF endianness @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF General Skills Guide</h1>
+        <p>here's how to solve endianness</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the General Skills Guides</a>
+            <hr>
+            <h2>endianness</h2>
+            <pre>Description: Know of little and big endian? Source (nc titan.picoctf.net 54133)
+Author: Nana Ama Atombo-Sackey
+Tags: Easy, General Skills, picoCTF 2024, browser_webshell_solvable
+Hints: 1. You might want to check the ASCII table to first find the hexadecimal representation of characters before finding the endianness. 2. Read more about how endianness <a target="_blank" href="https://levelup.gitconnected.com/little-endian-and-big-endian-74ab6441b2a7">here</a>
+Files: flag.c</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to find the little endian and big endian of a string or word that will be given to us by the NetCat after inputting it correctly (from the Source file, aka the code of the nc). So a quick explanation of this endian thing, it's basically taking a string of text or whatever, then converting it to ASCII with the table&mdash;or maybe you know the values from memory idk&mdash;, finally after all that conversion, you delete the spaces between the ASCII values to form the Little Endian. Then the Big Endian, is just where we convert the string into ASCII values, but now put the values in reverse order, for example, if you have 7B 18, little endian would be 7B18 and big endian would be 187B. So with that, I think we're good to start with the level.</p>
+            <h2>Solution</h2>
+            <p>Firstly, enter with the NetCat they give us in the description:</p>
+            <pre>shukularuni-picoctf@webshell:~$ nc titan.picoctf.net 54133
+Welcome to the Endian CTF!
+You need to find both the little endian and big endian representations of a word.
+If you get both correct, you will receive the flag.
+Word: sbofj
+Enter the Little Endian representation: 6A666F6273
+Correct Little Endian representation!
+Enter the Big Endian representation: 73626F666A
+Correct Big Endian representation!
+Congratulations! You found both endian representations correctly!
+Your Flag is: picoCTF{3ndi4n_sw4p_su33ess_cfe38ef0}
+
+^C</pre>
+            <p>You can see that I got the string "sbofj", so now we can know its ASCII values are "6A 66 6F 62 73", then we join them to get 6A666F6273 for the Little Endian. For the Big Endian, we'll reverse the order of the ASCII values, so basically go from "6A 66 6F 62 73" to "73 62 6F 66 6A", which if we join gets us "73626F666A".</p>
+            <p>And there we go! That's the flag.</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/414">https://play.picoctf.org/practice/challenge/414</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
