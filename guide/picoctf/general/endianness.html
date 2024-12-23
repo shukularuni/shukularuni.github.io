@@ -39,7 +39,8 @@ Congratulations! You found both endian representations correctly!
 Your Flag is: picoCTF{3ndi4n_sw4p_su33ess_cfe38ef0}
 
 ^C</pre>
-            <p>You can see that I got the string "sbofj", so now we can know its ASCII values are "6A 66 6F 62 73", then we join them to get 6A666F6273 for the Big Endian. For the Little Endian, we'll reverse the order of the ASCII values, so basically go from "6A 66 6F 62 73" to "73 62 6F 66 6A", which if we join gets us "73626F666A".</p>
+            <p>You can see that I got the string "sbofj", so now we can know its ASCII values are "73 62 6F 66 6A", then we join them to get "73626F666A" for the Big Endian. For the Little Endian, we'll reverse the order of the ASCII values, so basically go from "73 62 6F 66 6A" to "6A 66 6F 62 73", which if we join gets us "6A666F6273".</p>
+            <p><code>s -&gt; 73, b -&gt; 62, o -&gt; 6F, f -&gt; 66, j -&gt; 6A</code></p>
             <p>And there we go! That's the flag.</p>
             <hr>
             <a target="_blank" href="https://play.picoctf.org/practice/challenge/414">https://play.picoctf.org/practice/challenge/414</a>
