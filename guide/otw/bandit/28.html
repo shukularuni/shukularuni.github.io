@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTW Bandit 27 &#8594; 28 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>OverTheWire Bandit Guide</h1>
+        <p>here's how to solve the bandit level 27 &#8594; 28</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Bandit Guides</a>
+            <p>Previous Level Guide: <a href="27.html">Bandit Level 26 &#8594; 27</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh bandit27@bandit.labs.overthewire.org -p 2220</code></p>
+            <p>Password: <code>BnqHJTaRsuCONHVENeMMc6u923xCSez7</code></p>
+            <h2>Info</h2>
+            <pre>There is a git repository at ssh://bandit27-git@localhost/home/bandit27-git/repo via the port 2220. The password for the user bandit27-git is the same as for the user bandit27. Clone the repository and find the password for the next level.
+Commands: git</pre>
+            <h2>Theory</h2>
+            <p>To get the password, the instructions say to clone the repository and look for the password there. If you don't know, git is a tool to make repositories, like the one you are reading right now, hosted on GitHub. This tool lets you do a bunch of stuff, like create full directories of code, look through history, or make different branches for testing stuff without getting deleted, comments, and a lot more stuff, although we only use the simple stuff in these next levels. Now let's use this command to clone the repository to our bandit session and look for the password there:</p>
+            <pre>git clone ssh://bandit27-git@localhost/home/bandit27-git/repo</pre>
+            <p>If it tells you there's an error, try by putting in the port:</p>
+            <pre>git clone ssh://bandit27-git@localhost:2220/home/bandit27-git/repo</pre>
+            <h2>Solution</h2>
+            <p>If you enter the command from the theory, it will say that it's not allowed, so we'll create a temporary directory:</p>
+            <pre>~$ mktemp -d
+/tmp/tmp.0ZewyKxE8p
+
+~$ cd /tmp/tmp.0ZewyKxE8p
+
+/tmp/tmp.0ZewyKxE8p$ git clone ssh://bandit27-git@localhost:2220/home/bandit27-git/repo
+Cloning into 'repo'...
+The authenticity of host '[localhost]:2220 ([127.0.0.1]:2220)' can't be established.
+ED25519 key fingerprint is SHA256:C2ihUBV7ihnV1wUXRb4RrEcLfXC5CXlhmAAM/urerLY.
+This key is not known by any other names.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Could not create directory '/home/bandit27/.ssh' (Permission denied).
+Failed to add the host to the list of known hosts (/home/bandit27/.ssh/known_hosts).
+                         _                     _ _ _
+                        | |__   __ _ _ __   __| (_) |_
+                        | '_ \ / _` | '_ \ / _` | | __|
+                        | |_) | (_| | | | | (_| | | |_
+                        |_.__/ \__,_|_| |_|\__,_|_|\__|
+
+
+                      This is an OverTheWire game server.
+            More information on http://www.overthewire.org/wargames
+
+bandit27-git@localhost's password:
+remote: Enumerating objects: 3, done.
+remote: Counting objects: 100% (3/3), done.
+remote: Compressing objects: 100% (2/2), done.
+remote: Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
+Receiving objects: 100% (3/3), done.</pre>
+            <p>Now that we have the repository, let's look what's inside:</p>
+            <pre>/tmp/tmp.0ZewyKxE8p$ ls
+repo
+
+/tmp/tmp.0ZewyKxE8p$ cd repo
+/tmp/tmp.0ZewyKxE8p/repo$ ls -la
+total 16
+drwxrwxr-x 3 bandit27 bandit27 4096 Jan  7 14:53 .
+drwx------ 3 bandit27 bandit27 4096 Jan  7 14:53 ..
+drwxrwxr-x 8 bandit27 bandit27 4096 Jan  7 14:53 .git
+-rw-rw-r-- 1 bandit27 bandit27   68 Jan  7 14:53 README
+
+/tmp/tmp.nt4Rozz0kl/repo$ cat README
+The password to the next level is: l0HumqlfvZvCkfFGoor8i11nChA6hYTH</pre>
+            <p>And that's the password! Now we should be good to go to the next level.</p>
+            <a target="_blank" href="https://overthewire.org/wargames/bandit/bandit28.html">https://overthewire.org/wargames/bandit/bandit28.html</a>
+            <hr>
+            Next Level Guide: <a href="29.html">Bandit Level 28 &#8594; Level 29</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
