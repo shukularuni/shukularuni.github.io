@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTW Bandit 30 &#8594; 31 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>OverTheWire Bandit Guide</h1>
+        <p>here's how to solve the bandit level 30 &#8594; 31</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Bandit Guides</a>
+            <p>Previous Level Guide: <a href="30.html">Bandit Level 29 &#8594; 30</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh bandit30@bandit.labs.overthewire.org -p 2220</code></p>
+            <p>Password: <code>cvJfYKNlrTRaaAOjjbmAiQ7NT0ZxTVyp</code></p>
+            <h2>Info</h2>
+            <pre>There is a git repository at ssh://bandit30-git@localhost/home/bandit30-git/repo via the port 2220. The password for the user bandit30-git is the same as for the user bandit30. Clone the repository and find the password for the next level.
+Commands: git</pre>
+            <h2>Theory</h2>
+            <p>To get the password, the instructions say to clone the repository and look for the password there. So, I already explained this in the last last last level, and the instructions don't give much more insight into what the level will be, so here's the commands again:</p>
+            <pre>git clone ssh://bandit30-git@localhost/home/bandit30-git/repo
+git clone ssh://bandit30-git@localhost:2220/home/bandit30-git/repo</pre>
+            <h2>Solution</h2>
+            <p>Same thing as last last last level:</p>
+            <pre>~$ mktemp -d
+/tmp/tmp.rlRnCZpqgh
+
+~$ cd /tmp/tmp.rlRnCZpqgh
+
+/tmp/tmp.rlRnCZpqgh$ git clone ssh://bandit30-git@localhost:2220/home/bandit30-git/repo
+...
+Receiving objects: 100% (4/4), done.</pre>
+            <p>Now that we have the repository, let's look what's inside:</p>
+            <pre>/tmp/tmp.rlRnCZpqgh$ ls
+repo
+
+/tmp/tmp.rlRnCZpqgh$ cd repo
+
+/tmp/tmp.rlRnCZpqgh/repo$ ls -la
+total 16
+drwxrwxr-x 3 bandit30 bandit30 4096 Jan  7 15:20 .
+drwx------ 3 bandit30 bandit30 4096 Jan  7 15:19 ..
+drwxrwxr-x 8 bandit30 bandit30 4096 Jan  7 15:20 .git
+-rw-rw-r-- 1 bandit30 bandit30   30 Jan  7 15:20 README.md
+
+/tmp/tmp.rlRnCZpqgh/repo$ cat README.md
+just an epmty file... muahaha</pre>
+            <p>The README file doesn't give us much information, if we check the tags, we can find a point in history called "secret", muahaha:</p>
+            <pre>/tmp/tmp.rlRnCZpqgh/repo$ git tag
+secret
+bandit30@bandit:/tmp/tmp.bJM237ZHhX/repo$ git show secret
+5rdWnMsS81Zw9mpruSVu3yDpmA4AtqMN</pre>
+            <p>And that's the password! Now we should be good to go to the next level.</p>
+            <a target="_blank" href="https://overthewire.org/wargames/bandit/bandit31.html">https://overthewire.org/wargames/bandit/bandit31.html</a>
+            <hr>
+            Next Level Guide: <a href="32.html">Bandit Level 31 &#8594; Level 32</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
