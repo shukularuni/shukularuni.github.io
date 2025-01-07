@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTW Bandit 27 &#8594; 28 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>OverTheWire Bandit Guide</h1>
+        <p>here's how to solve the bandit level 27 &#8594; 28</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Bandit Guides</a>
+            <p>Previous Level Guide: <a href="27.html">Bandit Level 26 &#8594; 27</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh bandit27@bandit.labs.overthewire.org -p 2220</code></p>
+            <p>Password: <code>l0HumqlfvZvCkfFGoor8i11nChA6hYTH</code></p>
+            <h2>Info</h2>
+            <pre>There is a git repository at ssh://bandit27-git@localhost/home/bandit27-git/repo via the port 2220. The password for the user bandit27-git is the same as for the user bandit27. Clone the repository and find the password for the next level.
+Commands: git</pre>
+            <h2>Theory</h2>
+            <p>To get the password, the instructions say to clone the repository and look for the password there. So, I already explained this, and the instructions don't give much more insight into what the level will be, so here's the commands again:</p>
+            <pre>git clone ssh://bandit28-git@localhost/home/bandit28-git/repo
+git clone ssh://bandit28-git@localhost:2220/home/bandit28-git/repo</pre>
+            <h2>Solution</h2>
+            <p>Same thing as last level:</p>
+            <pre>~$ mktemp -d
+/tmp/tmp.Fc0ey7V6Ww
+
+~$ cd /tmp/tmp.Fc0ey7V6Ww
+
+/tmp/tmp.Fc0ey7V6Ww$ git clone ssh://bandit28-git@localhost:2220/home/bandit28-git/repo
+...
+Resolving deltas: 100% (2/2), done.</pre>
+            <p>Now that we have the repository, let's look what's inside:</p>
+            <pre>/tmp/tmp.Fc0ey7V6Ww$ ls
+repo
+
+/tmp/tmp.Fc0ey7V6Ww$ cd repo
+
+/tmp/tmp.Fc0ey7V6Ww/repo$ ls -la
+total 16
+drwxrwxr-x 3 bandit28 bandit28 4096 Jan  7 15:05 .
+drwx------ 3 bandit28 bandit28 4096 Jan  7 15:04 ..
+drwxrwxr-x 8 bandit28 bandit28 4096 Jan  7 15:05 .git
+-rw-rw-r-- 1 bandit28 bandit28  111 Jan  7 15:05 README.md
+
+/tmp/tmp.Fc0ey7V6Ww/repo$ cat README.md
+# Bandit Notes
+Some notes for level29 of bandit.
+
+## credentials
+
+- username: bandit29
+- password: xxxxxxxxxx</pre>
+            <p>Looks like the password isn't here, let's try looking at the history:</p>
+            <pre>/tmp/tmp.Fc0ey7V6Ww/repo$ git log
+commit 817e303aa6c2b207ea043c7bba1bb7575dc4ea73 (HEAD -&gt; master, origin/master, origin/HEAD)
+Author: Morla Porla &lt;morla@overthewire.org&gt;
+Date:   Thu Sep 19 07:08:39 2024 +0000
+
+    fix info leak
+
+commit 3621de89d8eac9d3b64302bfb2dc67e9a566decd
+Author: Morla Porla &lt;morla@overthewire.org&gt;
+Date:   Thu Sep 19 07:08:39 2024 +0000
+
+    add missing data
+
+commit 0622b73250502618babac3d174724bb303c32182
+Author: Ben Dover &lt;noone@overthewire.org&gt;
+Date:   Thu Sep 19 07:08:39 2024 +0000
+
+    initial commit of README.md</pre>
+            <p>So looks like the password was put there, but then removed because it was an "info leak". We can see the commit to see what changed, aka what password was removed:</p>
+            <pre>/tmp/tmp.Fc0ey7V6Ww/repo$ git show 817e303aa6c2b207ea043c7bba1bb7575dc4ea73
+commit 817e303aa6c2b207ea043c7bba1bb7575dc4ea73 (HEAD -> master, origin/master, origin/HEAD)
+Author: Morla Porla &lt;morla@overthewire.org&gt;
+Date:   Thu Sep 19 07:08:39 2024 +0000
+
+    fix info leak
+
+diff --git a/README.md b/README.md
+index d4e3b74..5c6457b 100644
+--- a/README.md
++++ b/README.md
+@@ -4,5 +4,5 @@ Some notes for level29 of bandit.
+ ## credentials
+
+ - username: bandit29
+-- password: xfM5zibexvGC9tNeATKttIeVoxRdvez7
++- password: xxxxxxxxxx</pre>
+            <p>And that's the password! Now we should be good to go to the next level.</p>
+            <a target="_blank" href="https://overthewire.org/wargames/bandit/bandit28.html">https://overthewire.org/wargames/bandit/bandit28.html</a>
+            <hr>
+            Next Level Guide: <a href="29.html">Bandit Level 28 &#8594; Level 29</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
