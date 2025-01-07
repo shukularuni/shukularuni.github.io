@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTW Bandit 26 &#8594; 27 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>OverTheWire Bandit Guide</h1>
+        <p>here's how to solve the bandit level 26 &#8594; 27</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Bandit Guides</a>
+            <p>Previous Level Guide: <a href="26.html">Bandit Level 25 &#8594; 26</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh -i bandit26.sshkey bandit26@bandit.labs.overthewire.org -p 2220</code></p>
+            <p>Password: <code>none (ssh key from previous level)</code></p>
+            <h2>Info</h2>
+            <pre>Good job getting a shell! Now hurry and grab the password for bandit27!
+Commands: ls</pre>
+            <h2>Theory</h2>
+            <p>You might see that the level congratulates us about making a shell, but we never made one, because we did it the quick way of just getting it through vim commands (aka :e). Because we need that shell for this, I'm going to explain it briefly here: if you remember from the last level that each level has it's default shell, well turns out you can go to the usual shell, although if you just use the :shell command to go to the usual shell (/bin/bash), it will go to the default shell, which is the "more" command stuff, so before that we'll use this command down here to change the shell to the usual one (/bin/bash):</p>
+            <pre>:set shell=/bin/bash
+:shell</pre>
+            <p>After putting the set command you can use the shell command to enter our usual shell.</p>
+            <h2>Solution</h2>
+            <p>After putting the commands from the theory, we enter to the shell of bandit26:</p>
+            <pre>~$ ls
+bandit27-do  text.txt</pre>
+            <p>There is an executable file which reminds me a lot of the one in level 19 &#8594; 20, so let's look into it:</p>
+            <pre>~$ ls -la
+total 44
+drwxr-xr-x  3 root     root      4096 Sep 19 07:08 .
+drwxr-xr-x 70 root     root      4096 Sep 19 07:09 ..
+-rwsr-x---  1 bandit27 bandit26 14880 Sep 19 07:08 bandit27-do
+-rw-r--r--  1 root     root       220 Mar 31  2024 .bash_logout
+-rw-r--r--  1 root     root      3771 Mar 31  2024 .bashrc
+-rw-r--r--  1 root     root       807 Mar 31  2024 .profile
+drwxr-xr-x  2 root     root      4096 Sep 19 07:08 .ssh
+-rw-r-----  1 bandit26 bandit26   258 Sep 19 07:08 text.txt
+
+~$ ./bandit27-do
+Run a command as another user.
+  Example: ./bandit27-do id</pre>
+            <p>So, because it is exactly the same as the one in level 19 to 20, where it is owned by the next level, that means we can make it use cat on the next level's password, unless it has some other function that denies the password file, let's try it:</p>
+            <pre>~$ ./bandit27-do cat /etc/bandit\_pass/bandit27
+BnqHJTaRsuCONHVENeMMc6u923xCSez7</pre>
+            <p>Oh well, I guess that's exactly like level 19 20. So that's the password! Now we should be good to go to the next level.</p>
+            <a target="_blank" href="https://overthewire.org/wargames/bandit/bandit27.html">https://overthewire.org/wargames/bandit/bandit27.html</a>
+            <hr>
+            Next Level Guide: <a href="28.html">Bandit Level 27 &#8594; Level 28</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
