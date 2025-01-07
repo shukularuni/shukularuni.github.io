@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTW Bandit 32 &#8594; 33 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>OverTheWire Bandit Guide</h1>
+        <p>here's how to solve the bandit level 32 &#8594; 33</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Bandit Guides</a>
+            <p>Previous Level Guide: <a href="32.html">Bandit Level 31 &#8594; 32</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh bandit32@bandit.labs.overthewire.org -p 2220</code></p>
+            <p>Password: <code>0WBZ2GRz8qqNu15o3Rxfxc1UxGNDKdFQ</code></p>
+            <h2>Info</h2>
+            <pre>After all this git stuff, it’s time for another escape. Good luck!
+Commands: git</pre>
+            <h2>Theory</h2>
+            <p>The description doesn't give us any info on the level, so just skip over to the solution part.</p>
+            <h2>Solution</h2>
+            <p>When we enter we are greated with a message of horror:</p>
+            <pre>WELCOME TO THE UPPERCASE SHELL
+&gt;&gt;</pre>
+            <p>So turns out whatever command we put into it, it will read it as uppercase, which is bad because all the commands we've seen so far are lowercase. So we would need something that has all caps, and can break us out of this shell. And there is a solution, variables, which in Linux, they are all uppercase which makes it perfect for this, but there is one that can let us out of this shell. Variables in Linux are divided into shell variables (made by shell) and environment variables (in the entire system), and specifically $0 is a variable that helps us do just what we need to break out of the uppercase shell. So if we just type in $0:</p>
+            <pre>&gt;&gt; $0
+
+$ whoami
+bandit33</pre>
+            <p>There we go! We are in our usual shell, not only that, but it's the shell of the next level for some reason, so we can just grab the password from here:</p>
+            <pre>$ cat /etc/bandit_pass/bandit33
+GaD9x8jUHhhAYrOgmcqPrP0n59weW02S
+
+$ exit
+
+>> EXIT
+sh: 1: EXIT: Permission denied
+
+>> ^C
+Connection to bandit.labs.overthewire.org closed.</pre>
+            <p>Bruh, exit doesn't work. Although we still have Ctrl+C.</p>
+            <p>Anyways, that's the password! Now we should be good to go to the next level.</p>
+            <a target="_blank" href="https://overthewire.org/wargames/bandit/bandit33.html">https://overthewire.org/wargames/bandit/bandit33.html</a>
+            <hr>
+            Next Level Guide: <a href="34.html">Bandit Level 33 &#8594; Level 34</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
