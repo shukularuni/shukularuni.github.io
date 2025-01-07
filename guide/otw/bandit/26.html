@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTW Bandit 25 &#8594; 26 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>OverTheWire Bandit Guide</h1>
+        <p>here's how to solve the bandit level 25 &#8594; 26</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Bandit Guides</a>
+            <p>Previous Level Guide: <a href="25.html">Bandit Level 24 &#8594; 25</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh bandit25@bandit.labs.overthewire.org -p 2220</code></p>
+            <p>Password: <code>A1NJzmx6EYMk8hB1D1umBWOevY7wbAJH</code></p>
+            <h2>Info</h2>
+            <pre>Logging in to bandit26 from bandit25 should be fairly easy… The shell for user bandit26 is not /bin/bash, but something else. Find out what it is, how it works and how to break out of it. NOTE: if you’re a Windows user and typically use Powershell to ssh into bandit: Powershell is known to cause issues with the intended solution to this level. You should use command prompt instead.
+Commands: ssh, cat, more, vi, ls, id, pwd</pre>
+            <h2>Theory</h2>
+            <p>There is no password for this level, because the instructions say that we will enter to the next level through "something else". So we'll look at what shell the next level is using, this is because each level has a user default shell, which will let us know what kind of shell it is, or how it works. We can access the information of the shells with this command:</p>
+            <pre>cat /etc/passwd</pre>
+            <h2>Solution</h2>
+            <p>So if we look at the shell information file, we can see the shells of all OverTheWire wargames and its levels, but right now we only care about bandit26:</p>
+            <pre>~$ cat /etc/passwd
+...
+bandit26:x:11026:11026:bandit level 26:/home/bandit26:/usr/bin/showtext
+...</pre>
+            <p>Looks like the functioning of the shell of the next level is a file, which looks to be bash script:</p>
+            <pre>~$ cat /usr/bin/showtext
+#!/bin/sh
+
+export TERM=linux
+
+exec more ~/text.txt
+exit 0</pre>
+            <p>So, at the end we can see that it executes the "more" command which opens a text file. The more command is like a viewing interface for files, like cat, but instead of printing the content, it just shows up like a document, where you can control with up and down arrows, and do some commands like in vim with "q" to exit. And that's the answer, vim, because when using the more command on a file, we can type commands, and one of them is "v", which opens the vim command line, and the funny thing about vim is that it can run commands, so we basically can get inside the shell of the next level which is just the more command and get the password from /etc/bandit_pass. But before all of that, how do we get inside the shell of the next level, because while we have the sshkey in the ~ directory, it doesn't let us use ssh inside the shell of this level. So it's easy, we'll just copy the contents of the sshkey file into our computer, and enter to the next level like normal, but referring to the file we just copied into our system:</p>
+            <pre>~$ ls
+bandit26.sshkey
+
+~$ cat bandit26.sshkey
+-----BEGIN RSA PRIVATE KEY-----
+MIIEpQIBAAKCAQEApis2AuoooEqeYWamtwX2k5z9uU1Afl2F8VyXQqbv/LTrIwdW
+pTfaeRHXzr0Y0a5Oe3GB/+W2+PReif+bPZlzTY1XFwpk+DiHk1kmL0moEW8HJuT9
+/5XbnpjSzn0eEAfFax2OcopjrzVqdBJQerkj0puv3UXY07AskgkyD5XepwGAlJOG
+xZsMq1oZqQ0W29aBtfykuGie2bxroRjuAPrYM4o3MMmtlNE5fC4G9Ihq0eq73MDi
+1ze6d2jIGce873qxn308BA2qhRPJNEbnPev5gI+5tU+UxebW8KLbk0EhoXB953Ix
+3lgOIrT9Y6skRjsMSFmC6WN/O7ovu8QzGqxdywIDAQABAoIBAAaXoETtVT9GtpHW
+qLaKHgYtLEO1tOFOhInWyolyZgL4inuRRva3CIvVEWK6TcnDyIlNL4MfcerehwGi
+il4fQFvLR7E6UFcopvhJiSJHIcvPQ9FfNFR3dYcNOQ/IFvE73bEqMwSISPwiel6w
+e1DjF3C7jHaS1s9PJfWFN982aublL/yLbJP+ou3ifdljS7QzjWZA8NRiMwmBGPIh
+Yq8weR3jIVQl3ndEYxO7Cr/wXXebZwlP6CPZb67rBy0jg+366mxQbDZIwZYEaUME
+zY5izFclr/kKj4s7NTRkC76Yx+rTNP5+BX+JT+rgz5aoQq8ghMw43NYwxjXym/MX
+c8X8g0ECgYEA1crBUAR1gSkM+5mGjjoFLJKrFP+IhUHFh25qGI4Dcxxh1f3M53le
+wF1rkp5SJnHRFm9IW3gM1JoF0PQxI5aXHRGHphwPeKnsQ/xQBRWCeYpqTme9amJV
+tD3aDHkpIhYxkNxqol5gDCAt6tdFSxqPaNfdfsfaAOXiKGrQESUjIBcCgYEAxvmI
+2ROJsBXaiM4Iyg9hUpjZIn8TW2UlH76pojFG6/KBd1NcnW3fu0ZUU790wAu7QbbU
+i7pieeqCqSYcZsmkhnOvbdx54A6NNCR2btc+si6pDOe1jdsGdXISDRHFb9QxjZCj
+6xzWMNvb5n1yUb9w9nfN1PZzATfUsOV+Fy8CbG0CgYEAifkTLwfhqZyLk2huTSWm
+pzB0ltWfDpj22MNqVzR3h3d+sHLeJVjPzIe9396rF8KGdNsWsGlWpnJMZKDjgZsz
+JQBmMc6UMYRARVP1dIKANN4eY0FSHfEebHcqXLho0mXOUTXe37DWfZza5V9Oify3
+JquBd8uUptW1Ue41H4t/ErsCgYEArc5FYtF1QXIlfcDz3oUGz16itUZpgzlb71nd
+1cbTm8EupCwWR5I1j+IEQU+JTUQyI1nwWcnKwZI+5kBbKNJUu/mLsRyY/UXYxEZh
+ibrNklm94373kV1US/0DlZUDcQba7jz9Yp/C3dT/RlwoIw5mP3UxQCizFspNKOSe
+euPeaxUCgYEAntklXwBbokgdDup/u/3ms5Lb/bm22zDOCg2HrlWQCqKEkWkAO6R5
+/Wwyqhp/wTl8VXjxWo+W+DmewGdPHGQQ5fFdqgpuQpGUq24YZS8m66v5ANBwd76t
+IZdtF5HXs2S5CADTwniUS5mX1HO9l5gUkk+h0cH5JnPtsMCnAUM+BRY=
+-----END RSA PRIVATE KEY-----
+
+~$ exit
+logout
+Connection to bandit.labs.overthewire.org closed.</pre>
+            <p>Now, I will make mine in the Documents folder because yes. But you will notice this weird command I'm putting, this is because I still don't know how to install Kali Linux, so I'm stuck on Windows CMD, but if you're in linux you just need to use <code>chmod 700 bandit26.sshkey</code> to the file you copied the contents to your computer</p>
+            <pre>C:\Users\shukularuni\Documents&gt;icacls bandit26.sshkey /grant "%username%":F /inheritance:r /remove:g *S-1-1-0
+processed file: bandit26.sshkey
+Successfully processed 1 files; Failed processing 0 files</pre>
+            <p>But now there is a problem, when we enter with our sshkey file, it closes almost inmediately. This is because that text.txt file is really short, so the more command just closes because it doesn't occupy the entire screen. So now just resize your window to like a couple of rows and columns and enter again.</p>
+            <pre>C:\Users\shukularuni\Documents&gt;ssh -i bandit26.sshkey bandit26@bandit.labs.overthewire.org -p 2220
+...
+  _                     _ _ _   ___   __  
+ | |                   | (_) | |__ \ / /  
+ | |__   __ _ _ __   __| |_| |_   ) / /_  
+ | '_ \ / _` | '_ \ / _` | | __| / / '_ \ 
+ | |_) | (_| | | | | (_| | | |_ / /| (_) |
+ |_.__/ \__,_|_| |_|\__,_|_|\__|____\___/ 
+Connection to bandit.labs.overthewire.org closed.</pre>
+            <p>That's the example where the screen is too big, now let's make it small and put the v command to access vim, then the :e command to read the password. Also a backslash before the underscore so that it doesn't think it's another command:</p>
+            <pre>:e /etc/bandit\_pass/bandit26
+heiK17Sa63ZJrTCPZv5o8S7qcCNuXchn</pre>
+            <p>And that's the password! Now we should be good to go to the next level.</p>
+            <a target="_blank" href="https://overthewire.org/wargames/bandit/bandit26.html">https://overthewire.org/wargames/bandit/bandit26.html</a>
+            <hr>
+            Next Level Guide: <a href="27.html">Bandit Level 26 &#8594; Level 27</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
