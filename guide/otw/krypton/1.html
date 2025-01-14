@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTW Krypton 1 &#8594; 2 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>OverTheWire Krypton Guide</h1>
+        <p>here's how to solve the krypton level 1 &#8594; 2</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Krypton Guides</a>
+            <p>Previous Level Guide: <a href="1.html">Bandit Level 0 &#8594; 1</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh krypton1@krypton.labs.overthewire.org -p 2231</code></p>
+            <p>Password: <code>KRYPTONISGREAT</code></p>
+            <h2>Info</h2>
+            <pre>The password for level 2 is in the file ‘krypton2’. It is ‘encrypted’ using a simple rotation. It is also in non-standard ciphertext format. When using alpha characters for cipher text it is normal to group the letters into 5 letter clusters, regardless of word boundaries. This helps obfuscate any patterns. This file has kept the plain text word boundaries and carried them to the cipher text. Enjoy!</pre>
+            <h2>Theory</h2>
+            <p>Last time we deciphered the password to enter this level, which was really simple since it was Base64. To get the password for the next level, the instructions say to go into the folder level (krypton1) inside /krypton/ and do something with the file krypton2 to then get the password. To get to the location specified in the description of these last two levels we'll use cd:</p>
+            <pre>cd /krypton/krypton1</pre>
+            <h2>Solution</h2>
+            <p>Now that we are logged in the SSH from the last level, we can use cd to go to the level folder and see what's there:</p>
+            <pre>~$ cd /krypton/krypton1
+
+/krypton/krypton1$ ls -la
+total 16
+drwxr-xr-x 2 root     root     4096 Sep 19 07:09 .
+drwxr-xr-x 9 root     root     4096 Sep 19 07:10 ..
+-rw-r----- 1 krypton1 krypton1   26 Sep 19 07:09 krypton2
+-rw-r----- 1 krypton1 krypton1  882 Sep 19 07:09 README
+
+/krypton/krypton1$ cat README
+Welcome to Krypton!
+
+This game is intended to give hands on experience with cryptography
+and cryptanalysis.  The levels progress from classic ciphers, to modern,
+easy to harder.
+
+Although there are excellent public tools, like cryptool,to perform
+the simple analysis, we strongly encourage you to try and do these
+without them for now.  We will use them in later excercises.
+
+** Please try these levels without cryptool first **
+
+
+The first level is easy.  The password for level 2 is in the file
+'krypton2'.  It is 'encrypted' using a simple rotation called ROT13.
+It is also in non-standard ciphertext format.  When using alpha characters for
+cipher text it is normal to group the letters into 5 letter clusters,
+regardless of word boundaries.  This helps obfuscate any patterns.
+
+This file has kept the plain text word boundaries and carried them to
+the cipher text.
+
+Enjoy!
+
+/krypton/krypton1$ cat krypton2
+YRIRY GJB CNFFJBEQ EBGGRA</pre>
+            <p>So there's two files in this initial level, first the README which tells us a bit more about these levels and then says that the file "krypton2" is encrypted in ROT13, which is the most common rotation of the caesar cipher, where it makes the letters of the alphabet swap places by the number, so if it has a +1, A becomes Z, B becomes A, C becomes B, etc. You can do this from an online decoder, but I'll use the terminal instead because I'm cool. Anyway, this command has been used in other guides in the past so am not gonna explain it:</p>
+            <pre>/krypton/krypton1$ cat krypton2 | tr 'A-Za-z' 'N-ZA-Mn-za-m'
+LEVEL TWO PASSWORD ROTTEN</pre>
+            <p>And that's the password! Now we should be good to go to the next level.</p>
+            <a target="_blank" href="https://overthewire.org/wargames/krypton/krypton1.html">https://overthewire.org/wargames/krypton/krypton1.html</a>
+            <hr>
+            Next Level Guide: <a href="2.html">Leviathan Level 2 &#8594; Level 3</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
