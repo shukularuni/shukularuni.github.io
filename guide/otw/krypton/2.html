@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTW Krypton 2 &#8594; 3 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>OverTheWire Krypton Guide</h1>
+        <p>here's how to solve the krypton level 2 &#8594; 3</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Krypton Guides</a>
+            <p>Previous Level Guide: <a href="1.html">Krypton Level 1 &#8594; 2</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh krypton2@krypton.labs.overthewire.org -p 2231</code></p>
+            <p>Password: <code>ROTTEN</code></p>
+            <h2>Info</h2>
+            <pre>ROT13 is a simple substitution cipher.
+
+Substitution ciphers are a simple replacement algorithm. In this example of a substitution cipher, we will explore a ‘monoalphebetic’ cipher. Monoalphebetic means, literally, “one alphabet” and you will see why.
+
+This level contains an old form of cipher called a ‘Caesar Cipher’. A Caesar cipher shifts the alphabet by a set number. For example:
+
+plain:  a b c d e f g h i j k ...
+cipher: G H I J K L M N O P Q ...
+In this example, the letter ‘a’ in plaintext is replaced by a ‘G’ in the ciphertext so, for example, the plaintext ‘bad’ becomes ‘HGJ’ in ciphertext.
+
+The password for level 3 is in the file krypton3. It is in 5 letter group ciphertext. It is encrypted with a Caesar Cipher. Without any further information, this cipher text may be difficult to break. You do not have direct access to the key, however you do have access to a program that will encrypt anything you wish to give it using the key. If you think logically, this is completely easy.
+
+One shot can solve it!
+
+Have fun.
+
+Additional Information:
+
+The encrypt binary will look for the keyfile in your current working directory. Therefore, it might be best to create a working direcory in /tmp and in there a link to the keyfile. As the encrypt binary runs setuid krypton3, you also need to give krypton3 access to your working directory.
+
+Here is an example:
+
+krypton2@melinda:~$ mktemp -d
+/tmp/tmp.Wf2OnCpCDQ
+krypton2@melinda:~$ cd /tmp/tmp.Wf2OnCpCDQ
+krypton2@melinda:/tmp/tmp.Wf2OnCpCDQ$ ln -s /krypton/krypton2/keyfile.dat
+krypton2@melinda:/tmp/tmp.Wf2OnCpCDQ$ ls
+keyfile.dat
+krypton2@melinda:/tmp/tmp.Wf2OnCpCDQ$ chmod 777 .
+krypton2@melinda:/tmp/tmp.Wf2OnCpCDQ$ /krypton/krypton2/encrypt /etc/issue
+krypton2@melinda:/tmp/tmp.Wf2OnCpCDQ$ ls
+ciphertext  keyfile.dat</pre>
+            <h2>Theory</h2>
+            <p>Turns out the last level was just about ROT13 and all the caesar cipher stuff was going to be seen in this next level, oh well. So, to get the password, the instructions say that similar to the previous level, we are using caesar cipher, but we don't know what rotation it is, so the description hints us to the files of the level folder, which has an executable file called encrypt. So what I think is going to happen, we'll be given a string encoded in a random caesar cipher value, and we will enter some text into the encrypt program to reverse engineer the solution. Cool. We'll just need to enter to the level files:</p>
+            <pre>cd /krypton/krypton2</pre>
+            <h2>Solution</h2>
+            <p>Now that we are logged in the SSH, we can use cd to go to the level folder and see what's there:</p>
+            <pre>~$ cd /krypton/krypton2
+
+/krypton/krypton2$ ls -la
+total 36
+drwxr-xr-x 2 root     root      4096 Sep 19 07:09 .
+drwxr-xr-x 9 root     root      4096 Sep 19 07:10 ..
+-rwsr-x--- 1 krypton3 krypton2 16328 Sep 19 07:09 encrypt
+-rw-r----- 1 krypton3 krypton3    27 Sep 19 07:09 keyfile.dat
+-rw-r----- 1 krypton2 krypton2    13 Sep 19 07:09 krypton3
+-rw-r----- 1 krypton2 krypton2  1815 Sep 19 07:09 README
+
+/krypton/krypton1$ cat README
+Krypton 2
+
+ROT13 is a simple substitution cipher.
+...
+*same as the description
+
+/krypton/krypton2$ cat krypton3
+OMQEMDUEQMEK</pre>
+            <p>So we have the level description in the README file and the caesar cipher. Now let's create a temporary directory to test out the encrypt program:</p>
+            <pre>/krypton/krypton2$ mktemp -d
+/tmp/tmp.7O2pzsMtKB
+
+/krypton/krypton2$ cd /tmp/tmp.7O2pzsMtKB
+
+/tmp/tmp.7O2pzsMtKB$ ln -s /krypton/krypton2/keyfile.dat
+
+/tmp/tmp.7O2pzsMtKB$ chmod 777 .
+
+/tmp/tmp.7O2pzsMtKB$ echo "A" > text
+
+/tmp/tmp.7O2pzsMtKB$ ls
+keyfile.dat  text</pre>
+            <p>Also, I don't know why we need to link the keyfile thing, but it says that in the instructions and the program doesn't work otherwise. But now that we have a file called "text" that has a single A in it, it serves as a point in the alphabet that we can just count to to get the caesar cipher value and decode the password:</p>
+            <pre>/tmp/tmp.7O2pzsMtKB$ /krypton/krypton2/encrypt /tmp/tmp.GeVKeUZKDq/text
+
+/tmp/tmp.7O2pzsMtKB$ ls
+ciphertext  keyfile.dat  text
+
+/tmp/tmp.7O2pzsMtKB$ cat ciphertext
+M</pre>
+            <p>And the A becomes an M, this means that the caesar cipher has a value of +12, or +14, I really don't know how that works. The thing is, now that we have our point we can either use an online decoder, or using the tr command like a cool person. So, with that we can do a swap with tr:</p>
+            <pre>/tmp/tmp.7O2pzsMtKB$ cat /krypton/krypton2/krypton3 | tr 'A-Za-z' 'O-ZA-No-za-n'
+CAESARISEASY</pre>
+            <p>And that's the password! Now we should be good to go to the next level.</p>
+            <a target="_blank" href="https://overthewire.org/wargames/krypton/krypton2.html">https://overthewire.org/wargames/krypton/krypton2.html</a>
+            <hr>
+            Next Level Guide: <a href="3.html">Leviathan Level 3 &#8594; Level 4</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
