@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>OTW Krypton 4 &#8594; 5 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>OverTheWire Krypton Guide</h1>
+        <p>here's how to solve the krypton level 4 &#8594; 5</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Krypton Guides</a>
+            <p>Previous Level Guide: <a href="2.html">Krypton Level 3 &#8594; 4</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh krypton4@krypton.labs.overthewire.org -p 2231</code></p>
+            <p>Password: <code>BRUTE</code></p>
+            <h2>Info</h2>
+            <pre>Good job!
+
+You more than likely used some form of FA and some common sense to solve that one.
+
+So far we have worked with simple substitution ciphers. They have also been ‘monoalphabetic’, meaning using a fixed key, and giving a one to one mapping of plaintext (P) to ciphertext (C). Another type of substitution cipher is referred to as ‘polyalphabetic’, where one character of P may map to many, or all, possible ciphertext characters.
+
+An example of a polyalphabetic cipher is called a Vigenère Cipher. It works like this:
+
+If we use the key(K) ‘GOLD’, and P = PROCEED MEETING AS AGREED, then “add” P to K, we get C. When adding, if we exceed 25, then we roll to 0 (modulo 26).
+
+P P R O C E E D M E E T I N G A S A G R E E D\
+K G O L D G O L D G O L D G O L D G O L D G O\
+becomes:
+
+P 15 17 14 2 4 4 3 12 4 4 19 8 13 6 0 18 0 6 17 4 4 3\
+K 6 14 11 3 6 14 11 3 6 14 11 3 6 14 11 3 6 14 11 3 6 14\
+C 21 5 25 5 10 18 14 15 10 18 4 11 19 20 11 21 6 20 2 8 10 17\
+So, we get a ciphertext of:
+
+VFZFK SOPKS ELTUL VGUCH KR
+This level is a Vigenere Cipher. You have intercepted two longer, english language messages (American English). You also have a key piece of information. You know the key length!
+
+For this exercise, the key length is 6. The password to level five is in the usual place, encrypted with the 6 letter key.
+
+Have fun!</pre>
+            <h2>Theory</h2>
+            <p>To get the password, the level description tells us that we have to use a vignere cipher to get the key, and the key is 6 letters long, luckily for us you can get a key with just the length and the found files that are provided to us in the level files. For this we'll just need to use an online decipherer like dCode, that has a vignere cipher decoder that can also get a key from a large string of text. So let's get the found files from the level files:</p>
+            <pre>cd /krypton/krypton4</pre>
+            <h2>Solution</h2>
+            <p>Now that we are logged in the SSH, we can use cd to go to the level folder and see what's there:</p>
+            <pre>~$ cd /krypton/krypton4
+
+/krypton/krypton4$ ls -la
+total 28
+drwxr-xr-x 2 root     root     4096 Sep 19 07:10 .
+drwxr-xr-x 9 root     root     4096 Sep 19 07:10 ..
+-rw-r----- 1 krypton4 krypton4 1740 Sep 19 07:10 found1
+-rw-r----- 1 krypton4 krypton4 2943 Sep 19 07:10 found2
+-rw-r----- 1 krypton4 krypton4  287 Sep 19 07:10 HINT
+-rw-r----- 1 krypton4 krypton4   10 Sep 19 07:10 krypton5
+-rw-r----- 1 krypton4 krypton4 1385 Sep 19 07:10 README
+
+/krypton/krypton4$ cat README
+Good job!
+
+You more than likely used frequency analysis and some common sense
+to solve that one.
+
+So far we have worked with simple substitution ciphers.  They have
+also been 'monoalphabetic', meaning using a fixed key, and
+giving a one to one mapping of plaintext (P) to ciphertext (C).
+Another type of substitution cipher is referred to as 'polyalphabetic',
+where one character of P may map to many, or all, possible ciphertext
+characters.
+
+An example of a polyalphabetic cipher is called a Vigenre Cipher.  It works
+like this:
+
+If we use the key(K)  'GOLD', and P = PROCEED MEETING AS AGREED, then "add"
+P to K, we get C.  When adding, if we exceed 25, then we roll to 0 (modulo 26).
+
+
+P     P R O C E   E D M E E   T I N G A   S A G R E   E D
+K     G O L D G   O L D G O   L D G O L   D G O L D   G O
+
+becomes:
+
+P     15 17 14 2  4  4  3 12  4 4  19  8 13 6  0  18 0  6 17 4 4   3
+K     6  14 11 3  6 14 11  3  6 14 11  3  6 14 11  3 6 14 11 3 6  14
+C     21 5  25 5 10 18 14 15 10 18  4 11 19 20 11 21 6 20  2 8 10 17
+
+So, we get a ciphertext of:
+
+VFZFK SOPKS ELTUL VGUCH KR
+
+This level is a Vigenre Cipher.  You have intercepted two longer, english
+language messages.  You also have a key piece of information.  You know the
+key length!
+
+For this exercise, the key length is 6.  The password to level five is in the usual
+place, encrypted with the 6 letter key.
+
+Have fun!
+/krypton/krypton4$ cat krypton5
+HCIKV RJOX</pre>
+            <p>Looks like the README is mostly the same from the description, so if we look into one of the found files&mdash;it doesn't matter which found you choose, both will give you the same result&mdash;we'll see all of these letters. As we discussed in the theory, we can use an online decipherer like the french website, dCode, which can help us get the 6-letter key:</p>
+            <pre>/krypton/krypton4$ cat found1
+YYICS JIZIB AGYYX RIEWV IXAFN JOOVQ QVHDL CRKLB SSLYX RIQYI IOXQT WXRIC RVVKP BHZXI YLYZP DLCDI IKGFJ UXRIP TFQGL CWVXR IEZRV NMYSF JDLCL RXOWJ NMINX FNJSP JGHVV ERJTT OOHRM VMBWN JTXKG JJJXY TSYKL OQZFT OSRFN JKBIY YSSHE LIKLO RFJGS VMRJC CYTCS VHDLC LRXOJ MWFYB JPNVR NWUMZ GRVMF UPOEB XKSDL CBZGU IBBZX MLMKK LOACX KECOC IUSBS RMPXR IPJZW XSPTR HKRQB VVOHR MVKEE PIZEX SDYYI QERJJ RYSLJ VZOVU NJLOW RTXSD LYYNE ILMBK LORYW VAOXM KZRNL CWZRA YGWVH DLCLZ VVXFF KASPJ GVIKW WWVTV MCIKL OQYSW SBAFJ EWRII SFACC MZRVO MLYYI MSSSK VISDY YIGML PZICW FJNMV PDNEH ISSFE HWEIJ PSEEJ QYIBW JFMIC TCWYE ZWLTK WKMBY YICGY WVGBS UKFVG IKJRR DSBJJ XBSWM VVYLR MRXSW BNWJO VCSKW KMBYY IQYYW UMKRM KKLOK YYVWX SMSVL KWCAV VNIQY ISIIB MVVLI DTIIC SGSRX EVYQC CDLMZ XLDWF JNSEP BRROO WJFMI CSDDF YKWQM VLKWM KKLOV CXKFE XRFBI MEPJW SBWFJ ZWGMA PVHKR BKZIB GCFEH WEWSF XKPJT NCYYR TUICX PTPLO VIJVT DSRMV AOWRB YIBIR MVWER QJKWK RBDFY MELSF XPEGQ KSPML IYIBX FJPXR ELPVH RMKFE HLEBJ YMWKM TUFII YSUXE VLJUX YAYWU XRIUJ JXGEJ PZRQS TJIJS IJIJS PWMKK KBEQX USDXC IYIBI YSUXR IPJNM DLBFZ WSIQF EHLYR YVVMY NXUSB SRMPW DMJQN SBIRM VTBIR YPWSP IIIIC WQMVL KHNZK SXMLY YIZEJ FTILY RSFAD SFJIW EVNWZ WOWFJ WSERB NKAKW LTCSX KCWXV OILGL XZYPJ NLSXC YYIBM ZGFRK VMZEH DSRTJ ROGIM RHKPQ TCSCX GYJKB ICSTS VSPFE HGEQF JARMR JRWNS PTKLI WBWVW CXFJV QOVYQ UGSXW BRWCS MSCIP XDFIF OLGSU ECXFJ PENZY STINX FJXVY YLISI MEKJI SEKFJ IEXHF NCPSI PKFVD LCWVA OVCSF JKVKX ESBLM ZJICM LYYMC GMZEX BCMKK LOACX KEXHR MVKBS SSUAK WSSKM VPCIZ RDLCF WXOVL TFRDL CXLRC LMSVL YXGSK LOMPK RGOWD TIXRI PJNIB ILTKV OIQYF SPJCW KLOQQ MRHOW MYYED FCKFV ORGLY XNSPT KLIEL IKSDS YSUXR IJNFR GIPJK MBIBF EHVEW IFAXY NTEXR IEWRW CELIW IVPYX CIOTU NKLDL CBFSN QYSRR NXFJJ GKVCH ISGOC JGMXK UFKGR</pre>
+            <p>Now we just need to input all of this text into the decoder text input, and the "Knowing the key-length/size" part input the number 6. So we get this:</p>
+            <pre>CIPHERTEXT: YYICS JIZIB AGYYX RIEWV IXAFN JOOVQ QVHDL CRKLB SSLYX RIQYI IOXQT WXRIC RVVKP BHZXI YLYZP DLCDI IKGFJ UXRIP TFQGL CWVXR IEZRV NMYSF JDLCL RXOWJ NMINX FNJSP JGHVV ERJTT OOHRM VMBWN JTXKG JJJXY TSYKL OQZFT OSRFN JKBIY YSSHE LIKLO RFJGS VMRJC CYTCS VHDLC LRXOJ MWFYB JPNVR NWUMZ GRVMF UPOEB XKSDL CBZGU IBBZX MLMKK LOACX KECOC IUSBS RMPXR IPJZW XSPTR HKRQB VVOHR MVKEE PIZEX SDYYI QERJJ RYSLJ VZOVU NJLOW RTXSD LYYNE ILMBK LORYW VAOXM KZRNL CWZRA YGWVH DLCLZ VVXFF KASPJ GVIKW WWVTV MCIKL OQYSW SBAFJ EWRII SFACC MZRVO MLYYI MSSSK VISDY YIGML PZICW FJNMV PDNEH ISSFE HWEIJ PSEEJ QYIBW JFMIC TCWYE ZWLTK WKMBY YICGY WVGBS UKFVG IKJRR DSBJJ XBSWM VVYLR MRXSW BNWJO VCSKW KMBYY IQYYW UMKRM KKLOK YYVWX SMSVL KWCAV VNIQY ISIIB MVVLI DTIIC SGSRX EVYQC CDLMZ XLDWF JNSEP BRROO WJFMI CSDDF YKWQM VLKWM KKLOV CXKFE XRFBI MEPJW SBWFJ ZWGMA PVHKR BKZIB GCFEH WEWSF XKPJT NCYYR TUICX PTPLO VIJVT DSRMV AOWRB YIBIR MVWER QJKWK RBDFY MELSF XPEGQ KSPML IYIBX FJPXR ELPVH RMKFE HLEBJ YMWKM TUFII YSUXE VLJUX YAYWU XRIUJ JXGEJ PZRQS TJIJS IJIJS PWMKK KBEQX USDXC IYIBI YSUXR IPJNM DLBFZ WSIQF EHLYR YVVMY NXUSB SRMPW DMJQN SBIRM VTBIR YPWSP IIIIC WQMVL KHNZK SXMLY YIZEJ FTILY RSFAD SFJIW EVNWZ WOWFJ WSERB NKAKW LTCSX KCWXV OILGL XZYPJ NLSXC YYIBM ZGFRK VMZEH DSRTJ ROGIM RHKPQ TCSCX GYJKB ICSTS VSPFE HGEQF JARMR JRWNS PTKLI WBWVW CXFJV QOVYQ UGSXW BRWCS MSCIP XDFIF OLGSU ECXFJ PENZY STINX FJXVY YLISI MEKJI SEKFJ IEXHF NCPSI PKFVD LCWVA OVCSF JKVKX ESBLM ZJICM LYYMC GMZEX BCMKK LOACX KEXHR MVKBS SSUAK WSSKM VPCIZ RDLCF WXOVL TFRDL CXLRC LMSVL YXGSK LOMPK RGOWD TIXRI PJNIB ILTKV OIQYF SPJCW KLOQQ MRHOW MYYED FCKFV ORGLY XNSPT KLIEL IKSDS YSUXR IJNFR GIPJK MBIBF EHVEW IFAXY NTEXR IEWRW CELIW IVPYX CIOTU NKLDL CBFSN QYSRR NXFJJ GKVCH ISGOC JGMXK UFKGR
+
+KEY-SIZE: 6
+
+RESULT: (Warning Showing most likely results)
+FREKEY</pre>
+            <p>Now that we know the key is FREKEY, we can input the krypton5 text into the input and this as our key:</p>
+            <pre>CIPHERTEXT: HCIKV RJOX
+
+KEY/PASSWORD: FREKEY
+
+RESULT:
+CLEAR TEXT</pre>
+            <p>Also, remember that the string is divided in blocks, so the real password is "CLEARTEXT". Basically, without the space.</p>
+            <p>That works! Now that we have the frequency, we are going to put it all in a string and compare it to the frequency of letters in the english language with the tr command:</p>
+            <pre>/krypton/krypton3$ cat krypton4 | tr 'SQJUBNGCDZVWMYTXKELAFIORHP' 'EATSORNIHCLDUPYFWGMBKVXQJZ'
+WELLD ONETH ELEVE LFOUR PASSW ORDIS BRUTE</pre>
+            <p>And that's the password! Now we should be good to go to the next level.</p>
+            <a target="_blank" href="https://overthewire.org/wargames/krypton/krypton4.html">https://overthewire.org/wargames/krypton/krypton4.html</a>
+            <hr>
+            Next Level Guide: <a href="5.html">Leviathan Level 5 &#8594; Level 6</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
