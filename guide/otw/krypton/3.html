@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>OTW Krypton 3 &#8594; 4 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>OverTheWire Krypton Guide</h1>
+        <p>here's how to solve the krypton level 3 &#8594; 4</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Krypton Guides</a>
+            <p>Previous Level Guide: <a href="1.html">Krypton Level 2 &#8594; 3</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh krypton3@krypton.labs.overthewire.org -p 2231</code></p>
+            <p>Password: <code>CAESARISEASY</code></p>
+            <h2>Info</h2>
+            <pre>Well done. You’ve moved past an easy substitution cipher.
+
+The main weakness of a simple substitution cipher is repeated use of a simple key. In the previous exercise you were able to introduce arbitrary plaintext to expose the key. In this example, the cipher mechanism is not available to you, the attacker.
+
+However, you have been lucky. You have intercepted more than one message. The password to the next level is found in the file ‘krypton4’. You have also found 3 other files. (found1, found2, found3)
+
+You know the following important details:
+
+The message plaintexts are in American English (*** very important) - They were produced from the same key (*** even better!)
+Enjoy.</pre>
+            <h2>Theory</h2>
+            <p>To get the password, the level description doesn't give us much info, but we can make out that we are going to substitute letters, not a caesar cipher tho, but just a subtitution of letters that was done randomly, that we can reverse engineer from the found files. So let's go to the level files to see if there's more info about the level:</p>
+            <pre>cd /krypton/krypton3</pre>
+            <h2>Solution</h2>
+            <p>Now that we are logged in the SSH, we can use cd to go to the level folder and see what's there:</p>
+            <pre>~$ cd /krypton/krypton3
+
+/krypton/krypton3$ ls -la
+total 36
+drwxr-xr-x 2 root     root     4096 Sep 19 07:09 .
+drwxr-xr-x 9 root     root     4096 Sep 19 07:10 ..
+-rw-r----- 1 krypton3 krypton3 1542 Sep 19 07:09 found1
+-rw-r----- 1 krypton3 krypton3 2128 Sep 19 07:09 found2
+-rw-r----- 1 krypton3 krypton3  560 Sep 19 07:09 found3
+-rw-r----- 1 krypton3 krypton3   56 Sep 19 07:09 HINT1
+-rw-r----- 1 krypton3 krypton3   37 Sep 19 07:09 HINT2
+-rw-r----- 1 krypton3 krypton3   42 Sep 19 07:09 krypton4
+-rw-r----- 1 krypton3 krypton3  785 Sep 19 07:09 README
+
+/krypton/krypton3$ cat README
+Well done.  You've moved past an easy substitution cipher.
+
+Hopefully you just encrypted the alphabet a plaintext
+to fully expose the key in one swoop.
+
+The main weakness of a simple substitution cipher is
+repeated use of a simple key.  In the previous exercise
+you were able to introduce arbitrary plaintext to expose
+the key.  In this example, the cipher mechanism is not
+available to you, the attacker.
+
+However, you have been lucky.  You have intercepted more
+than one message.  The password to the next level is found
+in the file 'krypton4'.  You have also found 3 other files.
+(found1, found2, found3)
+
+You know the following important details:
+
+- The message plaintexts are in English (*** very important)
+- They were produced from the same key (*** even better!)
+
+
+Enjoy.
+
+/krypton/krypton3$ cat krypton4
+KSVVW BGSJD SVSIS VXBMN YQUUK BNWCU ANMJS</pre>
+            <p>So this README gives us a little more insight into the level, basically we have to compare the frequency of letters in the found files to the frequency of letters of the english language, we can do this by a command that I'll explain in a moment:</p>
+            <pre>/krypton/krypton3$ cat found1
+CGZNL YJBEN QYDLQ ZQSUQ NZCYD SNQVU BFGBK GQUQZ QSUQN UZCYD SNJDS UDCXJ ZCYDS NZQSU QNUZB WSBNZ QSUQN UDCXJ CUBGS BXJDS UCTYV SUJQG WTBUJ KCWSV LFGBK GSGZN LYJCB GJSZD GCHMS UCJCU QJLYS BXUMA UJCJM JCBGZ CYDSN CGKDC ZDSQZ DVSJJ SNCGJ DSYVQ CGJSO JCUNS YVQZS WALQV SJJSN UBTSX COSWG MTASN BXYBU CJCBG UWBKG JDSQV YDQAS JXBNS OQTYV SKCJD QUDCX JBXQK BMVWA SNSYV QZSWA LWAKB MVWAS ZBTSS QGWUB BGJDS TSJDB WCUGQ TSWQX JSNRM VCMUZ QSUQN KDBMU SWCJJ BZBTT MGCZQ JSKCJ DDCUE SGSNQ VUJDS SGZNL YJCBG UJSYY SNXBN TSWAL QZQSU QNZCY DSNCU BXJSG CGZBN YBNQJ SWQUY QNJBX TBNSZ BTYVS OUZDS TSUUM ZDQUJ DSICE SGNSZ CYDSN QGWUJ CVVDQ UTBWS NGQYY VCZQJ CBGCG JDSNB JULUJ STQUK CJDQV VUCGE VSQVY DQASJ UMAUJ CJMJC BGZCY DSNUJ DSZQS UQNZC YDSNC USQUC VLANB FSGQG WCGYN QZJCZ SBXXS NUSUU SGJCQ VVLGB ZBTTM GCZQJ CBGUS ZMNCJ LUDQF SUYSQ NSYNB WMZSW TBUJB XDCUF GBKGK BNFAS JKSSG QGWDC USQNV LYVQL UKSNS TQCGV LZBTS WCSUQ GWDCU JBNCS UESGN SUDSN QCUSW JBJDS YSQFB XUBYD CUJCZ QJCBG QGWQN JCUJN LALJD SSGWB XJDSU COJSS GJDZS GJMNL GSOJD SKNBJ STQCG VLJNQ ESWCS UMGJC VQABM JCGZV MWCGE DQTVS JFCGE VSQNQ GWTQZ ASJDZ BGUCW SNSWU BTSBX JDSXC GSUJS OQTYV SUCGJ DSSGE VCUDV QGEMQ ESCGD CUVQU JYDQU SDSKN BJSJN QECZB TSWCS UQVUB FGBKG QUNBT QGZSU QGWZB VVQAB NQJSW KCJDB JDSNY VQLKN CEDJU TQGLB XDCUY VQLUK SNSYM AVCUD SWCGS WCJCB GUBXI QNLCG EHMQV CJLQG WQZZM NQZLW MNCGE DCUVC XSJCT SQGWC GJKBB XDCUX BNTSN JDSQJ NCZQV ZBVVS QEMSU YMAVC UDSWJ DSXCN UJXBV CBQZB VVSZJ SWSWC JCBGB XDCUW NQTQJ CZKBN FUJDQ JCGZV MWSWQ VVAMJ JKBBX JDSYV QLUGB KNSZB EGCUS WQUUD QFSUY SQNSU</pre>
+            <p>Now that we have the found files and somewhat of an idea of how to get the password, here's the command. It's a for loop, that loops through the entire alphabet, then gets the text from the three found files, and through each iteration of the alphabet, it deletes every letter of the found files except for the one of the iteration, then counts all of the not deleted letters, so basically it just counts all the letters of the current iteration, then it deletes newlines to make it look better, and finally it prints the amount of the letter and the letter of the iteration, then repeats all that for the entire alphabet. And the command I just described looks like this:</p>
+            <pre>/krypton/krypton3$ for i in {A..Z}; do cat found1 found2 found3 | tr -cd $i | wc -c | tr -d '\n'; printf " $i \n"; done
+55 A
+246 B
+227 C
+210 D
+64 E
+28 F
+227 G
+4 H
+19 I
+301 J
+67 K
+60 L
+86 M
+240 N
+12 O
+2 P
+340 Q
+4 R
+456 S
+75 T
+257 U
+130 V
+129 W
+71 X
+84 Y
+132 Z</pre>
+            <p>Now we'll just add the sort command at the end of this command so that we have it in order of the most to the least common letter in the found files:</p>
+            <pre>/krypton/krypton3$ for i in {A..Z}; do cat found1 found2 found3 | tr -cd $i | wc -c | tr -d '\n'; printf " $i \n"; done | sort -nr
+456 S
+340 Q
+301 J
+257 U
+246 B
+240 N
+227 G
+227 C
+210 D
+132 Z
+130 V
+129 W
+86 M
+84 Y
+75 T
+71 X
+67 K
+64 E
+60 L
+55 A
+28 F
+19 I
+12 O
+4 R
+4 H
+2 P</pre>
+            <p>That works! Now that we have the frequency, we are going to put it all in a string and compare it to the frequency of letters in the english language with the tr command:</p>
+            <pre>/krypton/krypton3$ cat krypton4 | tr 'SQJUBNGCDZVWMYTXKELAFIORHP' 'EATSORNIHCLDUPYFWGMBKVXQJZ'
+WELLD ONETH ELEVE LFOUR PASSW ORDIS BRUTE</pre>
+            <p>And that's the password! Now we should be good to go to the next level.</p>
+            <a target="_blank" href="https://overthewire.org/wargames/krypton/krypton3.html">https://overthewire.org/wargames/krypton/krypton3.html</a>
+            <hr>
+            Next Level Guide: <a href="4.html">Leviathan Level 4 &#8594; Level 5</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
