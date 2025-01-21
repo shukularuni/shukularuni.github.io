@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTW Krypton 7 &#8594; 8 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>OverTheWire Krypton Guide</h1>
+        <p>here's how to solve the krypton level 7 &#8594; 8</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Krypton Guides</a>
+            <p>Previous Level Guide: <a href="6.html">Krypton Level 6 &#8594; 7</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh krypton7@krypton.labs.overthewire.org -p 2231</code></p>
+            <p>Password: <code>LFSRISNOTRANDOM</code></p>
+            <h2>Info</h2>
+            <pre>There is no task.</pre>
+            <h2>Theory</h2>
+            <p>There is no task.</p>
+            <h2>Solution</h2>
+            <p>This is the last level, so there must be something special in the file system:</p>
+            <pre>~$ cd /krypton/krypton7
+
+/krypton/krypton7$ ls -la
+total 12
+drwxr-xr-x 2 root     root     4096 Sep 19 07:10 .
+drwxr-xr-x 9 root     root     4096 Sep 19 07:10 ..
+-rw-r----- 1 krypton7 krypton7   36 Sep 19 07:10 README</pre>
+            <p>And it is a last README file! Lets read it:</p>
+            <pre>/krypton/krypton7$ cat README
+Congratulations on beating Krypton!</pre>
+            <p>Anyways, this was fun! So yeah... that's it, so see you guys :3</p>
+            There's no OverTheWire page :(
+            <hr>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
