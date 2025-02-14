@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTW Century 0 &#8594; 1 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>UnderTheWire Century Guide</h1>
+        <p>here's how to solve the Century level 0 &#8594; 1</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Century Guides</a>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh century1@century.underthewire.tech -p 22</code></p>
+            <p>Password: <code>century1</code></p>
+            <h2>Info</h2>
+            <pre>The goal of this level is to log into the game. Do the following in order to achieve this goal.
+
+1. Obtain the initial credentials via the #StartHere channel on our Slack (link). Once you are in the channel, scroll to the top to see the credentials.
+
+2. After obtaining the credentials, connect to the server via SSH. You will need an SSH client such as Putty. The host that you will be connecting to is century.underthewire.tech, on port 22.
+
+3. When prompted, use the credentials for the applicable game found in the #StartHere Slack channel.
+
+4. You have successfully connected to the game server when your path changes to “PS C:\Users\Century1\desktop>”.</pre>
+            <h2>Theory</h2>
+            <p>To enter the game we first have to know how to use SSH, which if you don't, it's basically a tool to enter another machine's shell and do stuff while connected there. Kind of. We'll use this command that connects to the user century1 in the domain of century.underthewire.tech with port 22:</p>
+            <pre>ssh century1@century.underthewire.tech -p 22</pre>
+            <h2>Solution</h2>
+            <p>Now all we need is to get the password, which as how it says in the description, it's on their slack community on the starthere channel. Which if we go to, we can see all the logins for the website in the pinned message, which says:</p>
+            <pre>hello,
+you have to connect to the server with SSH (use putty or mobaxterm for example):
+host : century.underthewire.tech
+port : 22
+For the credentials they are at the top of this chat
+Username                  Password
+---------                 ---------
+century1                  century1
+cyborg1                   cyborg1
+groot1                    groot1
+oracle1                   oracle1
+trebek1                   trebek1</pre>
+            <p>Now we can enter the level with the SSH command and the password, and we are greeted by the windows powershell message:</p>
+            <pre>C:\Users\shukularuni\Documents&gt;ssh century1@century.underthewire.tech -p 22
+century1@century.underthewire.tech's password: century1
+
+Windows PowerShell
+Copyright (C) 2016 Microsoft Corporation. All rights reserved.
+
+Under the Wire... PowerShell Training for the People!
+PS C:\users\century1\desktop&gt;</pre>
+            <a target="_blank" href="https://underthewire.tech/century">https://underthewire.tech/century</a>
+            <hr>
+            Next Level Guide: <a href="1.html">Century Level 1 &#8594; Level 2</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
