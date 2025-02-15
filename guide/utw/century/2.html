@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTW Century 2 &#8594; 3 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>UnderTheWire Century Guide</h1>
+        <p>here's how to solve the Century level 2 &#8594; 3</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Century Guides</a>
+            <p>Previous Level Guide: <a href="1.html">Century Level 1 &#8594; 2</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh century2@century.underthewire.tech -p 22</code></p>
+            <p>Password: <code>10.0.14393.7604</code></p>
+            <h2>Info</h2>
+            <pre>The password for Century3 is the name of the built-in cmdlet that performs the wget like function within PowerShell PLUS the name of the file on the desktop.
+
+NOTE:
+– If the name of the cmdlet is “get-web” and the file on the desktop is named “1234”, the password would be “get-web1234”.
+– The password will be lowercase no matter how it appears on the screen.</pre>
+            <h2>Theory</h2>
+            <p>To get the password, it's just a command that researching right now and a number which just happens to be the name of the only file in the shell. So the command that resembles linux's wget command is Invoke-Webrequest, which is mainly used to download files. Now we only need to use dir to see the name of the file:</p>
+            <pre>Invoke-Webrequest
+dir</pre>
+            <h2>Solution</h2>
+            <p>Now that we know the command is Invoke-Webrequest, we'll just use dir for this:</p>
+            <pre>PS C:\users\century2\desktop&gt; dir
+
+    Directory: C:\users\century2\desktop
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----        8/30/2018   3:29 AM            693 443</pre>
+            <p>So if we join the command in lowercase as it says in the task with the numbers of the file we get this as our password:</p>
+            <pre>invoke-webrequest443</pre>
+            <a target="_blank" href="https://underthewire.tech/century-2">https://underthewire.tech/century-2</a>
+            <hr>
+            Next Level Guide: <a href="3.html">Century Level 3 &#8594; Level 4</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
