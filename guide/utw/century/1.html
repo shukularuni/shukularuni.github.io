@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTW Century 1 &#8594; 2 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>UnderTheWire Century Guide</h1>
+        <p>here's how to solve the Century level 1 &#8594; 2</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Century Guides</a>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh century1@century.underthewire.tech -p 22</code></p>
+            <p>Password: <code>century1</code></p>
+            <h2>Info</h2>
+            <pre>The password for Century2 is the build version of the instance of PowerShell installed on this system.
+
+NOTE:
+– The format is as follows: **.*.*****.****
+– Include all periods
+– Be sure to look for build version and NOT PowerShell version
+
+IMPORTANT:
+Once you feel you have completed the Century1 challenge, start a new connection to the server, and log in with the username of Century2 and this password will be the answer from Century1. If successful, close out the Century1 connection and begin to solve the Century2 challenge. This concept is repeated over and over until you reach the end of the game.</pre>
+            <h2>Theory</h2>
+            <p>To get the password we'll use the session we entered in the previous level, and from there we could use the Get-Host command, which gives you information about the host, sometimes it gives information about the shell instead of the server, so the second command here is just in case it doesn't work so we just go straight to the information about the operating system:</p>
+            <pre>Get-Host
+Get-CimInstance -ClassName Win32_OperatingSystem</pre>
+            <h2>Solution</h2>
+            <p>Firstly we'll use the Get-Host command now that we are inside the shell:</p>
+            <pre>PS C:\users\century1\desktop&gt; Get-Host
+
+Name             : ConsoleHost
+Version          : 5.1.14393.7604
+InstanceId       : e0b02762-d21f-41d2-ba5e-ef6adb0ba887
+UI               : System.Management.Automation.Internal.Host.InternalHostUserInterface
+CurrentCulture   : en-US
+CurrentUICulture : en-US
+PrivateData      : Microsoft.PowerShell.ConsoleHost+ConsoleColorProxy
+DebuggerEnabled  : True
+IsRunspacePushed : False
+Runspace         : System.Management.Automation.Runspaces.LocalRunspace</pre>
+            <p>So yeah, this is actually the info of the console, aka the powershell, aka what we don't want. So let's try the other command:</p>
+            <pre>PS C:\users\century1\desktop&gt; Get-CimInstance -ClassName Win32_OperatingSystem
+
+SystemDirectory     Organization BuildNumber RegisteredUser SerialNumber            Version
+---------------     ------------ ----------- -------------- ------------            -------
+C:\Windows\system32 OVH SAS      14393       UTW_Team       00377-60000-00000-AA934 10.0.14393</pre>
+            <p>Now we have a new problem. It says in the task that the format is xx.x.xxxxx.xxxx, so that means we are missing four numbers in the end. But don't worry, because in the other command&mdash;the powershell version&mdash;we can see that the part with five numbers is exactly the same, so if we join this version with the last numbers of the other we get this as our password:</p>
+            <pre>10.0.14393.7604</pre>
+            <a target="_blank" href="https://underthewire.tech/century-1">https://underthewire.tech/century-1</a>
+            <hr>
+            Next Level Guide: <a href="2.html">Century Level 2 &#8594; Level 3</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
