@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTW Century 4 &#8594; 5 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>UnderTheWire Century Guide</h1>
+        <p>here's how to solve the Century level 4 &#8594; 5</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Century Guides</a>
+            <p>Previous Level Guide: <a href="3.html">Century Level 3 &#8594; 4</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh century4@century.underthewire.tech -p 22</code></p>
+            <p>Password: <code>123</code></p>
+            <h2>Info</h2>
+            <pre>The password for Century5 is the name of the file within a directory on the desktop that has spaces in its name.
+
+NOTE:
+– The password will be lowercase no matter how it appears on the screen.</pre>
+            <h2>Theory</h2>
+            <p>To get the password, we just need to enter a folder with spaces, and apparently there's a file of which's name is the password for the next level. We don't get much for commands, so I'll just guess with the name here:</p>
+            <pre>cd "Folder name with spaces"
+dir</pre>
+            <h2>Solution</h2>
+            <p>Now that we are in we can actually enter the folder, getting the name from using dir:</p>
+            <pre>PS C:\users\century4\desktop> dir
+
+
+    Directory: C:\users\century4\desktop
+
+
+Mode                LastWriteTime         Length Name
+d-----        1/22/2025  10:32 PM                Can You Open Me</pre>
+            <p>So we'll just use cd with quote characters to specify the name and not additional parameters from the spaces:</p>
+            <pre>PS C:\users\century4\desktop> cd "Can You Open Me"
+PS C:\users\century4\desktop\Can You Open Me> dir
+
+
+    Directory: C:\users\century4\desktop\Can You Open Me
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----        1/22/2025  10:32 PM             24 6265</pre>
+            <p>And that's the password! Now we should be good to go to the next level.</p>
+            <a target="_blank" href="https://underthewire.tech/century-3">https://underthewire.tech/century-3</a>
+            <hr>
+            Next Level Guide: <a href="4.html">Century Level 4 &#8594; Level 5</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
