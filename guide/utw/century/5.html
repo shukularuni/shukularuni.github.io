@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTW Century 5 &#8594; 6 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>UnderTheWire Century Guide</h1>
+        <p>here's how to solve the Century level 5 &#8594; 6</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Century Guides</a>
+            <p>Previous Level Guide: <a href="4.html">Century Level 4 &#8594; 5</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh century5@century.underthewire.tech -p 22</code></p>
+            <p>Password: <code>6265</code></p>
+            <h2>Info</h2>
+            <pre>The password for Century6 is the short name of the domain in which this system resides in PLUS the name of the file on the desktop.
+
+NOTE:
+– If the short name of the domain is “blob” and the file on the desktop is named “1234”, the password would be “blob1234”.
+– The password will be lowercase no matter how it appears on the screen.</pre>
+            <h2>Theory</h2>
+            <p>To get the password, we'll just need to use dir and get the operating system information of the computer, because it's a windows server, it has a domain on the info. So, to get the operating system information we need the command to get a variable of the system, and get te vaviable with the info of the system:</p>
+            <pre>Get-WmiObject Win32_ComputerSystem
+dir</pre>
+            <h2>Solution</h2>
+            <p>Now that we are in the level, we will get the number from using dir:</p>
+            <pre>PS C:\users\century5\desktop> dir
+
+
+    Directory: C:\users\century5\desktop
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----        8/30/2018   3:29 AM             54 3347</pre>
+            <p>And now we just need the domain from the system info:</p>
+            <pre>PS C:\users\century5\desktop> Get-WmiObject Win32_ComputerSystem
+
+
+Domain              : underthewire.tech
+Manufacturer        : OpenStack Foundation
+Model               : OpenStack Nova
+Name                : UTW
+PrimaryOwnerName    : UTW_Team
+TotalPhysicalMemory : 12582359040</pre>
+            <p>Now to get the short domain, it's just the domain without extra info, like the top level domain and subdomains and stuff. So we just join the short domain with the name of the file number and we get this"</p>
+            <pre>underthewire3347</pre>
+            <p>And that's the password! Now we should be good to go to the next level.</p>
+            <a target="_blank" href="https://underthewire.tech/century-5">https://underthewire.tech/century-5</a>
+            <hr>
+            Next Level Guide: <a href="6.html">Century Level 6 &#8594; Level 7</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
