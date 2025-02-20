@@ -32,7 +32,7 @@ NOTE:
 dir</pre>
             <h2>Solution</h2>
             <p>Now that we are in the level, we will get the number from using dir:</p>
-            <pre>PS C:\users\century5\desktop> dir
+            <pre>PS C:\users\century5\desktop&gt; dir
 
 
     Directory: C:\users\century5\desktop
@@ -42,7 +42,7 @@ Mode                LastWriteTime         Length Name
 ----                -------------         ------ ----
 -a----        8/30/2018   3:29 AM             54 3347</pre>
             <p>And now we just need the domain from the system info:</p>
-            <pre>PS C:\users\century5\desktop> Get-WmiObject Win32_ComputerSystem
+            <pre>PS C:\users\century5\desktop&gt; Get-WmiObject Win32_ComputerSystem
 
 
 Domain              : underthewire.tech
