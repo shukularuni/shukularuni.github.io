@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTW Century 6 &#8594; 7 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>UnderTheWire Century Guide</h1>
+        <p>here's how to solve the Century level 6 &#8594; 7</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Century Guides</a>
+            <p>Previous Level Guide: <a href="4.html">Century Level 5 &#8594; 6</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh century6@century.underthewire.tech -p 22</code></p>
+            <p>Password: <code>underthewire3347</code></p>
+            <h2>Info</h2>
+            <pre>The password for Century7 is the number of folders on the desktop.</pre>
+            <h2>Theory</h2>
+            <p>To get the password the instructions say to count all the folders in there, that sounds really familiar, like the file counting one. It's literally just the same command, but instead of going through all files, it's all the directories. Making the command look like this:</p>
+            <pre>(Get-ChildItem -Directory).Count</pre>
+            <h2>Solution</h2>
+            <p>Only thing we need to do is execute the command from the theory, although be careful when using the dir command, because it will list all the folders and fill up your shell:</p>
+            <pre>PS C:\users\century6\desktop&gt; dir
+
+
+    Directory: C:\users\century6\desktop
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+d-----        8/30/2018   3:29 AM                countme1012
+d-----        8/30/2018   3:29 AM                countme1024
+d-----        8/30/2018   3:29 AM                countme1025
+d-----        8/30/2018   3:29 AM                countme1031
+d-----        8/30/2018   3:29 AM                countme1056
+d-----        8/30/2018   3:29 AM                countme1058
+d-----        8/30/2018   3:29 AM                countme1068
+d-----        8/30/2018   3:29 AM                countme1074
+...</pre>
+            <p>So if we just use the command we'll get the number of files, which is the password for the next level:</p>
+            <pre>PS C:\users\century6\desktop&gt; (Get-ChildItem -Directory).Count
+197</pre>
+            <p>And that's the password! Now we should be good to go to the next level.</p>
+            <a target="_blank" href="https://underthewire.tech/century-6">https://underthewire.tech/century-6</a>
+            <hr>
+            Next Level Guide: <a href="7.html">Century Level 7 &#8594; Level 8</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
