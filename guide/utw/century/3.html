@@ -27,7 +27,7 @@
             <pre>(Get-ChildItem -File).Count</pre>
             <h2>Solution</h2>
             <p>Only thing we need to do is execute the command from the theory, although be careful when using the dir command, because it will list all the files and fill up your shell:</p>
-            <pre>PS C:\users\century3\desktop> dir
+            <pre>PS C:\users\century3\desktop&gt; dir
 
 
     Directory: C:\users\century3\desktop
@@ -45,7 +45,7 @@ Mode                LastWriteTime         Length Name
 -a----        8/30/2018   3:29 AM             33 countme1153
 ...</pre>
             <p>So if we just use the command we'll get the number of files, which is the password for the next level:</p>
-            <pre>PS C:\users\century3\desktop> (Get-ChildItem -File).Count
+            <pre>PS C:\users\century3\desktop&gt; (Get-ChildItem -File).Count
 123</pre>
             <p>And that's the password! Now we should be good to go to the next level.</p>
             <a target="_blank" href="https://underthewire.tech/century-3">https://underthewire.tech/century-3</a>
