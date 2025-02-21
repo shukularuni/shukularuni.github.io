@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTW Century 7 &#8594; 8 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>UnderTheWire Century Guide</h1>
+        <p>here's how to solve the Century level 7 &#8594; 8</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Century Guides</a>
+            <p>Previous Level Guide: <a href="6.html">Century Level 6 &#8594; 7</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh century7@century.underthewire.tech -p 22</code></p>
+            <p>Password: <code>197</code></p>
+            <h2>Info</h2>
+            <pre>The password for Century8 is in a readme file somewhere within the contacts, desktop, documents, downloads, favorites, music, or videos folder in the user’s profile.
+
+NOTE:
+– The password will be lowercase no matter how it appears on the screen.</pre>
+            <h2>Theory</h2>
+            <p>To get the password the instructions say to just try and find the file with the password somewhere around the computer system. So we don't have much to do in the theory other than use directory command stuff and the one to read the contents of the readme file:</p>
+            <pre>cd ..
+dir
+Get-Content</pre>
+            <h2>Solution</h2>
+            <p>Now that we are in the desktop, we'll go a level down to where documents, videos, and all the other folders are, and look for any clues:</p>
+            <pre>PS C:\users\century7\desktop&gt; cd ..
+
+PS C:\users\century7&gt; dir
+
+
+    Directory: C:\users\century7
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+d-r---        7/16/2016   1:23 PM                Desktop
+d-r---        8/30/2018   3:10 AM                Documents
+d-----        1/22/2025  10:36 PM                Downloads
+d-r---        7/16/2016   1:23 PM                Favorites
+d-r---        7/16/2016   1:23 PM                Links
+d-r---        7/16/2016   1:23 PM                Music
+d-r---        7/16/2016   1:23 PM                Pictures
+d-----        7/16/2016   1:23 PM                Saved Games
+d-r---        7/16/2016   1:23 PM                Videos</pre>
+            <p>And it looks like the Downloads folder is the last one edited out of all folders last edited in either 2016 or 2018 (nine years ago!):</p>
+            <pre>PS C:\users\century7&gt; cd Downloads
+
+PS C:\users\century7\Downloads&gt; dir
+
+
+    Directory: C:\users\century7\Downloads
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----        8/30/2018   3:29 AM              7 Readme.txt
+
+
+PS C:\users\century7\Downloads&gt; Get-Content Readme.txt
+7points</pre>
+            <p>And that's the password! Now we should be good to go to the next level.</p>
+            <a target="_blank" href="https://underthewire.tech/century-7">https://underthewire.tech/century-7</a>
+            <hr>
+            Next Level Guide: <a href="8.html">Century Level 8 &#8594; Level 9</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
