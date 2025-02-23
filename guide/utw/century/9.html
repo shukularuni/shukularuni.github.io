@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTW Century 9 &#8594; 10 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>UnderTheWire Century Guide</h1>
+        <p>here's how to solve the Century level 9 &#8594; 10</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Century Guides</a>
+            <p>Previous Level Guide: <a href="8.html">Century Level 8 &#8594; 9</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh century9@century.underthewire.tech -p 22</code></p>
+            <p>Password: <code>696</code></p>
+            <h2>Info</h2>
+            <pre>The password for Century10 is the 161st word within the file on the desktop.
+
+NOTE:
+– The password will be lowercase no matter how it appears on the screen.</pre>
+            <h2>Theory</h2>
+            <p>To get the password we have to get the 161st word in a text file, it's really simple to do something like that, we just need to have a code that replaces all first 160 words with nothing. And so we get this command, shorter than the last, it first reads the file and then replaces all words with whitespace characters, which are literally nothing, so esentially it's just deleting those words. Then it multiplies the whitespace characters by 160, to replace all first 160 words and then leaving us with the password 161st word at the beginning of the response:</p>
+            <pre>(Get-Content text.txt) -replace '^(\S+\s+){160}'
+dir</pre>
+            <h2>Solution</h2>
+            <p>Now that we are in the desktop, first we'll use dir to know the name of the file and put it in the command:</p>
+            <pre>PS C:\users\century9\desktop&gt; dir
+
+
+    Directory: C:\users\century9\desktop
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----        8/30/2018   3:34 AM           2131 Word_File.txt
+
+PS C:\users\century9\desktop&gt; (Get-Content Word_File.txt) -replace '^(\S+\s+){160}'
+pierid nonapplicabness patinas rabific scandaliser waggel reauthenticate sufeism lairds cookee bragget ledgering percept
+ual chomper obscurities merino ganguela unproposed epulis loppard ignoblesse carrotage heartbrokenly unfusibness degener
+ate lacunae cirrocumulus knightlike overwhelmingness oxyrrhyncha capitalizations dimethylamine uninucleate syndicship gr
+aspable tropophil telchines abaiser overclement pursive</pre>
+            <p>And that's the password! Now we should be good to go to the next level. (Remember, it's the first word.)</p>
+            <a target="_blank" href="https://underthewire.tech/century-9">https://underthewire.tech/century-9</a>
+            <hr>
+            Next Level Guide: <a href="10.html">Century Level 10 &#8594; Level 11</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
