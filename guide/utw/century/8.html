@@ -24,7 +24,8 @@
             <pre>The password for Century9 is the number of unique entries within the file on the desktop.</pre>
             <h2>Theory</h2>
             <p>To get the password the instructions don't really explain it well enough, but what I get from it is that there's a text file and we have to count every line that only appears once, hence find the amount of unique lines in the file. In linux this command is really simple, it's just sort text | uniq -u, but in powershell though, it's a little more interesting. The command is a little self explanatory because of the text commands, but to explain it really basically it gets the file's text and sorts it alphabetically, then starts like taking the lines one by one and counting them, if a line appears more than once, it is immediately excluded, and then outputs each unique line in alphabetical order:</p>
-            <pre>Get-Content text.txt | Sort-Object | Group-Object | Where-Object { $_.Count -eq 1 } | ForEach-Object { $_.Name }</pre>
+            <pre>Get-Content text.txt | Sort-Object | Group-Object | Where-Object { $_.Count -eq 1 } | ForEach-Object { $_.Name }
+dir</pre>
             <h2>Solution</h2>
             <p>Now that we are in the desktop, first we'll use dir to know the name of the file and put it in the command:</p>
             <pre>PS C:\users\century8\desktop&gt; dir
