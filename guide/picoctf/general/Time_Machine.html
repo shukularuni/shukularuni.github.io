@@ -17,11 +17,15 @@
             <a href="./">Back to the Bandit Guides</a>
             <hr>
             <h2>Time Machine</h2>
-            <pre>Description: What was I last working on? I remember writing a note to help me remember... You can download the challenge files here: challenge.zip
+            <pre>Name: Time Machine
+Description: What was I last working on? I remember writing a note to help me remember... You can download the challenge files here: challenge.zip
 Author: Jeffery John
 Tags: Easy, General Skills, picoCTF 2024, browser_webshell_solvable, git
-Hints: 1. The cat command will let you read a file, but that won't help you here! 2. Read the chapter on Git from the picoPrimer <a target="_blank" href="https://primer.picoctf.org/#_git_version_control">here</a>. 3. When committing a file with git, a message can (and should) be included.
-Files: challenge.zip</pre>
+Files: challenge.zip
+Hints:
+1. The cat command will let you read a file, but that won't help you here!
+2. Read the chapter on Git from the picoPrimer <a target="_blank" href="https://primer.picoctf.org/#_git_version_control">here</a>.
+3. When committing a file with git, a message can (and should) be included.</pre>
             <h2>Theory</h2>
             <p>According to the description, to get the flag we have to look at the history of a git, maybe it's an older commit or something where we'll use git log. The description doesn't tell us much more than that, So let's start solving this.</p>
             <pre>$ git log</pre>
