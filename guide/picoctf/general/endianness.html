@@ -17,11 +17,14 @@
             <a href="./">Back to the General Skills Guides</a>
             <hr>
             <h2>endianness</h2>
-            <pre>Description: Know of little and big endian? Source (nc titan.picoctf.net 54133)
+            <pre>Name: endianness
+Description: Know of little and big endian? Source (nc titan.picoctf.net 54133)
 Author: Nana Ama Atombo-Sackey
 Tags: Easy, General Skills, picoCTF 2024, browser_webshell_solvable
-Hints: 1. You might want to check the ASCII table to first find the hexadecimal representation of characters before finding the endianness. 2. Read more about how endianness <a target="_blank" href="https://levelup.gitconnected.com/little-endian-and-big-endian-74ab6441b2a7">here</a>
-Files: flag.c</pre>
+Files: flag.c
+Hints:
+1. You might want to check the ASCII table to first find the hexadecimal representation of characters before finding the endianness.
+2. Read more about how endianness <a target="_blank" href="https://levelup.gitconnected.com/little-endian-and-big-endian-74ab6441b2a7">here</a></pre>
             <h2>Theory</h2>
             <p>According to the description, to get the flag we have to find the little endian and big endian of a string or word that will be given to us by the NetCat after inputting it correctly (from the Source file, aka the code of the nc). So a quick explanation of this endian thing, it's basically taking a string of text or whatever, then converting it to ASCII with the table&mdash;or maybe you know the values from memory idk&mdash;, finally after all that conversion, you delete the spaces between the ASCII values to form the Big Endian. Then the Little Endian, is just where we convert the string into ASCII values, but now put the values in reverse order, for example, if you have 7B 18, big endian would be 7B18 and little endian would be 187B. So with that, I think we're good to start with the level.</p>
             <h2>Solution</h2>
