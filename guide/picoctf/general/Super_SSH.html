@@ -17,10 +17,15 @@
             <a href="./">Back to the General Skills Guides</a>
             <hr>
             <h2>Super SSH</h2>
-            <pre>Description: Using a Secure Shell (SSH) is going to be pretty important. Can you ssh as ctf-player to titan.picoctf.net at port 55859 to get the flag? You'll also need the password f3b61b38. If asked, accept the fingerprint with yes. If your device doesn't have a shell, you can use: <a target="_blank" href="https://webshell.picoctf.org">https://webshell.picoctf.org</a> If you're not sure what a shell is, check out our Primer: <a target="_blank" href="https://primer.picoctf.com/#_the_shell">https://primer.picoctf.com/#_the_shell</a>
+            <pre>Name: Super SSH
+Description: Using a Secure Shell (SSH) is going to be pretty important. Can you ssh as ctf-player to titan.picoctf.net at port 55859 to get the flag? You'll also need the password f3b61b38. If asked, accept the fingerprint with yes. If your device doesn't have a shell, you can use: <a target="_blank" href="https://webshell.picoctf.org">https://webshell.picoctf.org</a> If you're not sure what a shell is, check out our Primer: <a target="_blank" href="https://primer.picoctf.com/#_the_shell">https://primer.picoctf.com/#_the_shell</a>
 Author: Jeffery John
 Tags: Easy, General Skills, picoCTF 2024, shell, browser_webshell_solvable, ls
-Hints: 1. <a target="_blank" href="https://linux.die.net/man/1/ssh">https://linux.die.net/man/1/ssh</a> 2. You can try logging in 'as' someone with &lt;user&gt;@titan.picoctf.net 3. How could you specify the port? 4. Remember, passwords are hidden when typed into the shell</pre>
+Hints:
+1. <a target="_blank" href="https://linux.die.net/man/1/ssh">https://linux.die.net/man/1/ssh</a>
+2. You can try logging in 'as' someone with &lt;user&gt;@titan.picoctf.net
+3. How could you specify the port?
+4. Remember, passwords are hidden when typed into the shell</pre>
             <h2>Theory</h2>
             <p>According to the description, to get the flag we have to use SSH to get the flag. Well, this is the easiest one I've seen so far, just using SSH and that's it? Well I don't want to explain it again, because we've used it so many times before in OverTheWire games, but to just say it quickly, it's basically connecting to a server's shell, although to specify what part of the server to connect to you put a user and a port like this full command:</p>
             <pre>ssh ctf-player@titan.picoctf.net -p 55859</pre>
