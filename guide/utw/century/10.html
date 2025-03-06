@@ -110,8 +110,7 @@ StartMode : Manual
 State     : Stopped
 Status    : OK</pre>
             <p>Uhm, yeah, I forgot I have to specify to look for the object/class info, not just see the process, so just a Select-Object at the end should work:</p>
-            <pre>PS C:\users\century10\desktop> Get-WmiObject -Query "select * from win32_service where name='wuauserv'" | Select-Object
-*
+            <pre>PS C:\users\century10\desktop> Get-WmiObject -Query "select * from win32_service where name='wuauserv'" | Select-Object *
 
 
 PSComputerName          : UTW
