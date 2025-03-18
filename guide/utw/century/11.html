@@ -53,7 +53,7 @@ d-r---        7/16/2016   1:23 PM                Pictures
 d-----        7/16/2016   1:23 PM                Saved Games
 d-r---        7/16/2016   1:23 PM                Videos</pre>
             <p>This doesn't seem to give us any clue of where it might be, let's try the command:</p>
-            <pre>
+            <pre>PS C:\users\century11\desktop> Get-ChildItem -Recurse -Hidden -Exclude "desktop.ini"
 ...
 Get-ChildItem : Access to the path 'C:\users\century11\Documents\My Videos' is denied.
 At line:1 char:1
