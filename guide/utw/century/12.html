@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTW Century 12 &#8594; 13 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>UnderTheWire Century Guide</h1>
+        <p>here's how to solve the Century level 12 &#8594; 13</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Century Guides</a>
+            <p>Previous Level Guide: <a href="11.html">Century Level 11 &#8594; 12</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh century12@century.underthewire.tech -p 22</code></p>
+            <p>Password: <code>secret_sauce</code></p>
+            <h2>Info</h2>
+            <pre>The password for Century13 is the description of the computer designated as a Domain Controller within this domain PLUS the name of the file on the desktop.
+
+NOTE:
+– The password will be lowercase no matter how it appears on the screen.
+– If the description “today_is” and the file on the desktop is named “_cool”, the password would be “today_is_cool”.</pre>
+            <h2>Theory</h2>
+            <p>To get the password, it's just a combination of the name of the file in desktop, and the description of the computer classified in the domain controller. So let's try to go backwards, to get the first part of the password, we need the description of the computer, how is this object named? We can know that by looking at the domain controller. And then just dir for the second part of the password. So the domain controller command was easy, it was in the name. When we have the computer name, we'll put it in this command that looks for all the properties under the computer name class, which is a command I found on Microsoft Learn, <a target="_blank" href="https://learn.microsoft.com/en-us/powershell/module/activedirectory/get-adcomputer?view=windowsserver2025-ps#example-1-get-specific-computer-that-shows-all-properties">here (first example)</a>. And we have these commands:</p>
+            <pre>dir
+Get-ADDomainController
+Get-ADComputer -Identity "Computer-Name" -Properties *</pre>
+            <h2>Solution</h2>
+            <p>Now that we are in machine, let's see the second part of the password:</p>
+            <pre>PS C:\users\century12\desktop> dir
+
+
+    Directory: C:\users\century12\desktop
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----        8/30/2018   3:34 AM             30 _things</pre>
+            <p>That's the second part, now we'll see the domain controller stuff:</p>
+            <pre>PS C:\users\century12\desktop> Get-ADDomainController
+
+ComputerObjectDN           : CN=UTW,OU=Domain Controllers,DC=underthewire,DC=tech
+DefaultPartition           : DC=underthewire,DC=tech
+Domain                     : underthewire.tech
+Enabled                    : True
+Forest                     : underthewire.tech
+HostName                   : utw.underthewire.tech
+InvocationId               : 09ee1897-2210-4ac9-989d-e19b4241e9c6
+IPv4Address                : 192.99.167.156
+IPv6Address                :
+IsGlobalCatalog            : True
+IsReadOnly                 : False
+LdapPort                   : 389
+Name                       : UTW
+...</pre>
+            <p>There it is, the name of the object is "UTW", now we can pluck it in the other command, and get the description, which has the first part of the password:</p>
+            <pre>PS C:\users\century12\desktop> Get-ADComputer -Identity "UTW" -Properties *
+...
+CN                                   : UTW
+codePage                             : 0
+CompoundIdentitySupported            : {False}
+countryCode                          : 0
+Created                              : 8/30/2018 2:53:47 AM
+createTimeStamp                      : 8/30/2018 2:53:47 AM
+Deleted                              :
+Description                          : i_authenticate
+DisplayName                          :
+...</pre>
+            <p>There we go! Now we'll just join the two parts and get this:</p>
+            <pre>i_authenticate_things</pre>
+            <p>And that's the password! Now we should be good to go to the next level.</p>
+            <a target="_blank" href="https://underthewire.tech/century-12">https://underthewire.tech/century-12</a>
+            <hr>
+            Next Level Guide: <a href="13.html">Century Level 13 &#8594; Level 14</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
