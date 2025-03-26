@@ -32,9 +32,9 @@ NOTE:
 Get-ChildItem -Recurse -Hidden -Exclude "desktop.ini"</pre>
             <h2>Solution</h2>
             <p>Now that we are in machine, let's go to the root and check out the hidden files command:</p>
-            <pre>PS C:\users\century11\desktop> cd ..
+            <pre>PS C:\users\century11\desktop&gt; cd ..
 
-PS C:\users\century11> dir
+PS C:\users\century11&gt; dir
 
 
     Directory: C:\users\century11
@@ -53,7 +53,7 @@ d-r---        7/16/2016   1:23 PM                Pictures
 d-----        7/16/2016   1:23 PM                Saved Games
 d-r---        7/16/2016   1:23 PM                Videos</pre>
             <p>This doesn't seem to give us any clue of where it might be, let's try the command:</p>
-            <pre>PS C:\users\century11\desktop> Get-ChildItem -Recurse -Hidden -Exclude "desktop.ini"
+            <pre>PS C:\users\century11\desktop&gt; Get-ChildItem -Recurse -Hidden -Exclude "desktop.ini"
 ...
 Get-ChildItem : Access to the path 'C:\users\century11\Documents\My Videos' is denied.
 At line:1 char:1
@@ -87,7 +87,7 @@ Mode                LastWriteTime         Length Name
 ----                -------------         ------ ----
 --rh--        8/30/2018   3:34 AM             30 secret_sauce</pre>
             <p>We know this is the correct file because when you open it (you'll just use the file name as the password of the next level):</p>
-            <pre>PS C:\users\century11> Get-Content Downloads/secret_sauce
+            <pre>PS C:\users\century11&gt; Get-Content Downloads/secret_sauce
 Congratulations. You found it!</pre>
             <p>And that's the password! Now we should be good to go to the next level.</p>
             <a target="_blank" href="https://underthewire.tech/century-11">https://underthewire.tech/century-11</a>
