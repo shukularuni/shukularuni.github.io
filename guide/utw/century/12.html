@@ -33,7 +33,7 @@ Get-ADDomainController
 Get-ADComputer -Identity "Computer-Name" -Properties *</pre>
             <h2>Solution</h2>
             <p>Now that we are in machine, let's see the second part of the password:</p>
-            <pre>PS C:\users\century12\desktop> dir
+            <pre>PS C:\users\century12\desktop&gt; dir
 
 
     Directory: C:\users\century12\desktop
@@ -43,7 +43,7 @@ Mode                LastWriteTime         Length Name
 ----                -------------         ------ ----
 -a----        8/30/2018   3:34 AM             30 _things</pre>
             <p>That's the second part, now we'll see the domain controller stuff:</p>
-            <pre>PS C:\users\century12\desktop> Get-ADDomainController
+            <pre>PS C:\users\century12\desktop&gt; Get-ADDomainController
 
 ComputerObjectDN           : CN=UTW,OU=Domain Controllers,DC=underthewire,DC=tech
 DefaultPartition           : DC=underthewire,DC=tech
@@ -60,7 +60,7 @@ LdapPort                   : 389
 Name                       : UTW
 ...</pre>
             <p>There it is, the name of the object is "UTW", now we can pluck it in the other command, and get the description, which has the first part of the password:</p>
-            <pre>PS C:\users\century12\desktop> Get-ADComputer -Identity "UTW" -Properties *
+            <pre>PS C:\users\century12\desktop&gt; Get-ADComputer -Identity "UTW" -Properties *
 ...
 CN                                   : UTW
 codePage                             : 0
