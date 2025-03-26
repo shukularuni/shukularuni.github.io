@@ -42,7 +42,7 @@ Mode                LastWriteTime         Length Name
 ----                -------------         ------ ----
 -a----        8/30/2018   3:34 AM             43 110
 
-PS C:\users\century10\desktop> Get-Service
+PS C:\users\century10\desktop&gt; Get-Service
 
 Status   Name               DisplayName
 ------   ----               -----------
@@ -59,13 +59,13 @@ Running  wudfsvc            Windows Driver Foundation - User-mo...
 Stopped  XblAuthManager     Xbox Live Auth Manager
 Stopped  XblGameSave        Xbox Live Game Save</pre>
             <p>Looks like "windows update" is here, with a code name of "wuauserv", I'm gonna try to look at the service:</p>
-            <pre>PS C:\users\century10\desktop> Get-Service wuauserv
+            <pre>PS C:\users\century10\desktop&gt; Get-Service wuauserv
 
 Status   Name               DisplayName
 ------   ----               -----------
 Stopped  wuauserv           Windows Update</pre>
             <p>Oh, that's just a command to look up the info, we can use Get-Member to get more info about this service:</p>
-            <pre>PS C:\users\century10\desktop> Get-Service wuauserv | Get-Member
+            <pre>PS C:\users\century10\desktop&gt; Get-Service wuauserv | Get-Member
 
 
    TypeName: System.ServiceProcess.ServiceController
@@ -80,7 +80,7 @@ Continue                  Method        void Continue()
 CreateObjRef              Method        System.Runtime.Remoting.ObjRef CreateObjRef(type requestedType)
 ...</pre>
             <p>Doesn't look like there's anything of use for us in here, maybe Select-Object might be better:</p>
-            <pre>PS C:\users\century10\desktop> Get-Service wuauserv | Select-Object *
+            <pre>PS C:\users\century10\desktop&gt; Get-Service wuauserv | Select-Object *
 
 
 Name                : wuauserv
@@ -100,7 +100,7 @@ StartType           : Manual
 Site                :
 Container           :</pre>
             <p>Okay, I think I'm starting to understand this a bit. It's a win32 process because of that "ServiceType : Win32ShareProcess", I remember that it's a win32 process. So basically, there's a specific command that is exactly what we need, Get-WmiObject. Although, finding stuff with this command can get pretty complicated, so I just checked the Microsoft Learn page for the command, and for some reason, one of the examples that the page gives you is literally the exact command we need to use to find the description of this wuauserv thing (it's the example four of the page, <a href="https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/get-wmiobject?view=powershell-5.1#example-4-get-a-named-service-on-multiple-computers" target="_blank">here</a>):</p>
-            <pre>PS C:\users\century10\desktop> Get-WmiObject -Query "select * from win32_service where name='wuauserv'"
+            <pre>PS C:\users\century10\desktop&gt; Get-WmiObject -Query "select * from win32_service where name='wuauserv'"
 
 
 ExitCode  : 0
@@ -110,7 +110,7 @@ StartMode : Manual
 State     : Stopped
 Status    : OK</pre>
             <p>Uhm, yeah, I forgot I have to specify to look for the object/class info, not just see the process, so just a Select-Object at the end should work:</p>
-            <pre>PS C:\users\century10\desktop> Get-WmiObject -Query "select * from win32_service where name='wuauserv'" | Select-Object *
+            <pre>PS C:\users\century10\desktop&gt; Get-WmiObject -Query "select * from win32_service where name='wuauserv'" | Select-Object *
 
 
 PSComputerName          : UTW
