@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTW Century 13 &#8594; 14 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>UnderTheWire Century Guide</h1>
+        <p>here's how to solve the Century level 13 &#8594; 14</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Century Guides</a>
+            <p>Previous Level Guide: <a href="12.html">Century Level 12 &#8594; 13</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh century13@century.underthewire.tech -p 22</code></p>
+            <p>Password: <code>i_authenticate_things</code></p>
+            <h2>Info</h2>
+            <pre>The password for Century14 is the number of words within the file on the desktop.</pre>
+            <h2>Theory</h2>
+            <p>To get the password, we have two options: we could probably do it the hard way, and create a command that does exactly count the words of the file in the desktop. Or, we could download the file or just get the content, and paste it to an online word counter. I think you know what's going to happen... yeah. So for this level, we're going to use the scp command, don't worry it won't spawn any creature, the command is short for Secure File Copy, which does exactly what it says, it can transfer a copy of a file from one machine to another, this even works in linux to windows and viceversa. So now we'll just go to the level, use dir for the file name, and copy it to my documents folder for example:</p>
+            <pre>dir
+scp century13@century.underthewire.tech:C:\path\to\file.txt C:\Users\shukularuni\Documents</pre>
+            <h2>Solution</h2>
+            <p>Now that we are in machine, let's get the words file:</p>
+            <pre>PS C:\users\century13\desktop&gt; dir
+
+
+    Directory: C:\users\century13\desktop
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----        8/30/2018   3:38 AM           7894 countmywords</pre>
+            <p>Now that we know it's located in the desktop and what the file's name is, we can run the scp command with it:</p>
+            <pre>PS C:\users\century13\desktop&gt; exit
+Connection to century.underthewire.tech closed.
+
+C:\Users\shukularuni&gt;scp century13@century.underthewire.tech:C:\users\century13\desktop\countmywords C:\Users\shukularuni\Documents
+century13@century.underthewire.tech's password: i_authenticate_things
+countmywords                                                                          100% 7894    53.9KB/s   00:00</pre>
+            <p>Now that we have the file, we can paste the entire thing in a website that counts words, and we get:</p>
+            <pre>Text: spudders escudero hemitype unremittent rhinaria afflation emforth badgeringly bristler oxtongues roosed wittichenite faussebraye backwaters
+...
+
+Result: 755 words 7894 characters.</pre>
+            <p>And that's the password! Now we should be good to go to the next level.</p>
+            <a target="_blank" href="https://underthewire.tech/century-13">https://underthewire.tech/century-13</a>
+            <hr>
+            Next Level Guide: <a href="14.html">Century Level 14 &#8594; Level 15</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
