@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTW Century 14 &#8594; 15 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>UnderTheWire Century Guide</h1>
+        <p>here's how to solve the Century level 14 &#8594; 15</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Century Guides</a>
+            <p>Previous Level Guide: <a href="13.html">Century Level 13 &#8594; 14</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh century14@century.underthewire.tech -p 22</code></p>
+            <p>Password: <code>755</code></p>
+            <h2>Info</h2>
+            <pre>The password for Century15 is the number of times the word “polo” appears within the file on the desktop.
+
+NOTE:
+– You should count the instances of the whole word only..</pre>
+            <h2>Theory</h2>
+            <p>To get the password, we could probably do a really confusing and complex command, or download the file directly like last time. So we'll use the same command, we just need to know the location, which is very probable that it's in the desktop, and the name of the file. Then a website or code that finds all instances of a specific thing in a big string. And we need to search for " polo " with spaces around it, because in the description, it tells us that we need to find the whole word only, so "anthropologies" or "carpology" has polo in it, but it's not exactly polo. And after that, check if there is a polo at either the first word, or the last word, because these don't have both spaces around it, and if there is, add it to the final count. And the commands, kinda like last level:</p>
+            <pre>dir
+scp century14@century.underthewire.tech:C:\path\to\file.txt C:\Users\shukularuni\Documents</pre>
+            <h2>Solution</h2>
+            <p>Now that we are in machine, let's get the words file:</p>
+            <pre>PS C:\users\century14\desktop&gt; dir
+
+
+    Directory: C:\users\century14\desktop
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----        8/30/2018  11:24 PM         202900 countpolos</pre>
+            <p>Now that we know what the file name is, we can run the scp command with it:</p>
+            <pre>PS C:\users\century14\desktop&gt; exit
+Connection to century.underthewire.tech closed.
+
+C:\Users\shukularuni&gt;scp century14@century.underthewire.tech:C:\users\century14\desktop\countpolos C:\Users\shukularuni\Documents
+century14@century.underthewire.tech's password: 755
+countpolos                                                                            100%  198KB 427.0KB/s   00:00</pre>
+            <p>Now that we have the file, we can paste the entire thing in a website that counts all patterns of this, and because we just want polo exactly we'll put spaces a:</p>
+            <pre>Text: faulting cacographical ureterorectostomy ligate hool calmed singultus otherways beltmaker wristed babblers slims dorsodynia burros
+Search for: " polo "
+
+Result: 152 instances of " polo ".</pre>
+            <p>Now to we just need to check if there is a polo in either the first word or the last, because if that's so, then the spaces around it will skip it, since instead of the space it's the beginning or ending of the file. And wouldn't you know it, there is a polo in the end the file as the last word, so we'll just add one to the count and we get this:</p>
+            <pre>153</pre>
+            <p>And that's the password! Now we should be good to go to the next level.</p>
+            <a target="_blank" href="https://underthewire.tech/century-14">https://underthewire.tech/century-14</a>
+            <hr>
+            Next Level Guide: <a href="15.html">Century Level 15</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
