@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF Rust fixme 2 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF General Skills Guide</h1>
+        <p>here's how to solve Rust fixme 2</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the General Skills Guides</a>
+            <hr>
+            <h2>Rust fixme 2</h2>
+            <pre>Name: Rust fixme 2
+Description: The Rust saga continues? I ask you, can I borrow that, pleeeeeaaaasseeeee? Download the Rust code here.
+Author: Taylor McCampbell
+Tags: Easy, General Skills, picoCTF 2025
+Challenge from: picoCTF 2025
+Files: fixme2.tar.gz
+Hints:
+1. https://doc.rust-lang.org/book/ch04-02-references-and-borrowing.html</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we to download some rust code, and fix the errors. Before doing that, comes the hard part, setting up rust. I used Replit, which is a platform to run many programming languages online, including rust, and believe me, I tried installing rust at first, but was met with a lot of dead ends, downloaded 4.5 gigabytes of content, and didn't really get to actually run it, so I just used Replit, which everything is already set up, and I just had to paste the code and libraries (which it downloads automatically) from the tar file. And when you create the project, it's instantly public, which I am so sorry, but I missed that for the entire competition, I literally had the rust codes public on my Replit already solved and with the flags on it, so I could've been disqualified, but luckily nobody noticed my mistake, which you can find <a target="_blank" href="https://replit.com/@shukularuni/DROPTABLES?v=1#src/main.rs">here</a>, just ignore the name of the repl. Anyways, onto the actual challenge.</p>
+            <h2>Solution</h2>
+            <p>First let's paste our code:</p>
+            <pre>use xor_cryptor::XORCryptor;
+
+fn decrypt(encrypted_buffer:Vec&lt;u8&gt;, borrowed_string: &amp;String){ // How do we pass values to a function that we want to change?
+
+    // Key for decryption
+    let key = String::from("CSUCKS");
+
+    // Editing our borrowed value
+    borrowed_string.push_str("PARTY FOUL! Here is your flag: ");
+
+    // Create decrpytion object
+    let res = XORCryptor::new(&amp;key);
+    if res.is_err() {
+        return; // How do we return in rust?
+    }
+    let xrc = res.unwrap();
+
+    // Decrypt flag and print it out
+    let decrypted_buffer = xrc.decrypt_vec(encrypted_buffer);
+    borrowed_string.push_str(&amp;String::from_utf8_lossy(&amp;decrypted_buffer));
+    println!("{}", borrowed_string);
+}
+
+
+fn main() {
+    // Encrypted flag values
+    let hex_values = ["41", "30", "20", "63", "4a", "45", "54", "76", "01", "1c", "7e", "59", "63", "e1", "61", "25", "0d", "c4", "60", "f2", "12", "a0", "18", "03", "51", "03", "36", "05", "0e", "f9", "42", "5b"];
+
+    // Convert the hexadecimal strings to bytes and collect them into a vector
+    let encrypted_buffer: Vec&lt;u8&gt; = hex_values.iter()
+        .map(|&amp;hex| u8::from_str_radix(hex, 16).unwrap())
+        .collect();
+
+    let party_foul = String::from("Using memory unsafe languages is a: "); // Is this variable changeable?
+    decrypt(encrypted_buffer, &amp;party_foul); // Is this the correct way to pass a value to a function so that it can be changed?
+}</pre>
+            <p>So right off the bat, we can see that there are four comments highlighting the four errors in the code. How do we pass values to a function that we want to change? With a mutation to `borrowed_string`. How do we return in rust? That `return;` is already correct wtf. Is this variable changeable? Yes, so make it mutable. Is this the correct way to pass a value to a function so that it can be changed? No, it also has to be mutable. Also I'm gonna remove all the comments for no reason at all:</p>
+            <pre>use xor_cryptor::XORCryptor;
+
+fn decrypt(encrypted_buffer: Vec&lt;u8&gt;, borrowed_string: &amp;mut String) {
+    let key = String::from("CSUCKS");
+
+    borrowed_string.push_str("PARTY FOUL! Here is your flag: ");
+
+    let res = XORCryptor::new(&amp;key);
+    if res.is_err() {
+        return;
+    }
+    let xrc = res.unwrap();
+
+    let decrypted_buffer = xrc.decrypt_vec(encrypted_buffer);
+    borrowed_string.push_str(&amp;String::from_utf8_lossy(&amp;decrypted_buffer));
+    println!("{}", borrowed_string);
+}
+
+fn main() {
+    let hex_values = ["41", "30", "20", "63", "4a", "45", "54", "76", "01", "1c", "7e", "59", "63", "e1", "61", "25", "0d", "c4", "60", "f2", "12", "a0", "18", "03", "51", "03", "36", "05", "0e", "f9", "42", "5b"];
+
+    let encrypted_buffer: Vec&lt;u8&gt; = hex_values.iter()
+        .map(|&amp;hex| u8::from_str_radix(hex, 16).unwrap())
+        .collect();
+
+    let mut party_foul = String::from("Using memory unsafe languages is a: ");
+    decrypt(encrypted_buffer, &amp;mut party_foul);
+}</pre>
+            <p>And when we run this code:</p>
+            <pre>    Blocking waiting for file lock on package cache
+    Blocking waiting for file lock on package cache
+    Blocking waiting for file lock on package cache
+    Blocking waiting for file lock on package cache
+   Compiling rust_proj v0.1.0 (/home/runner/workspace)
+    Building [=======================&gt;   ] 11/12: rust_proj(bin)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 5.30s
+     Running `target/debug/rust_proj`
+"Using memory unsafe languages is a: PARTY FOUL! Here is your flag: picoCTF{4r3_y0u_h4v1n5_fun_y31?}"</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/462">https://play.picoctf.org/practice/challenge/462</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
