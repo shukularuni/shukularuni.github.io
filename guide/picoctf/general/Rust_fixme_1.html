@@ -41,12 +41,12 @@ fn main() {
     let hex_values = ["41", "30", "20", "63", "4a", "45", "54", "76", "01", "1c", "7e", "59", "63", "e1", "61", "25", "7f", "5a", "60", "50", "11", "38", "1f", "3a", "60", "e9", "62", "20", "0c", "e6", "50", "d3", "35"];
 
     // Convert the hexadecimal strings to bytes and collect them into a vector
-    let encrypted_buffer: Vec<u8> = hex_values.iter()
-        .map(|&hex| u8::from_str_radix(hex, 16).unwrap())
+    let encrypted_buffer: Vec&lt;u8&gt; = hex_values.iter()
+        .map(|&amp;hex| u8::from_str_radix(hex, 16).unwrap())
         .collect();
 
     // Create decrpytion object
-    let res = XORCryptor::new(&key);
+    let res = XORCryptor::new(&amp;key);
     if res.is_err() {
         ret; // How do we return in rust?
     }
@@ -56,7 +56,7 @@ fn main() {
     let decrypted_buffer = xrc.decrypt_vec(encrypted_buffer);
     println!(
         ":?", // How do we print out a variable in the println function? 
-        String::from_utf8_lossy(&decrypted_buffer)
+        String::from_utf8_lossy(&amp;decrypted_buffer)
     );
 }</pre>
             <p>So right off the bat, we can see that there are three comments highlighting the three errors in the code. How do we end statements in Rust? With a semicolon (;). How do we return in rust? Using `return;`. How do we print out a variable in the println function? In that example specifically we can use `{:?}`. Also I'm gonna remove all the comments for no reason at all:</p>
@@ -67,11 +67,11 @@ fn main() {
 
     let hex_values = ["41", "30", "20", "63", "4a", "45", "54", "76", "01", "1c", "7e", "59", "63", "e1", "61", "25", "7f", "5a", "60", "50", "11", "38", "1f", "3a", "60", "e9", "62", "20", "0c", "e6", "50", "d3", "35"];
 
-    let encrypted_buffer: Vec<u8> = hex_values.iter()
-        .map(|&hex| u8::from_str_radix(hex, 16).unwrap())
+    let encrypted_buffer: Vec&lt;u8&gt; = hex_values.iter()
+        .map(|&amp;hex| u8::from_str_radix(hex, 16).unwrap())
         .collect();
 
-    let res = XORCryptor::new(&key);
+    let res = XORCryptor::new(&amp;key);
     if res.is_err() {
         return;
     }
@@ -80,7 +80,7 @@ fn main() {
     let decrypted_buffer = xrc.decrypt_vec(encrypted_buffer);
     println!(
         "{:?}", 
-        String::from_utf8_lossy(&decrypted_buffer)
+        String::from_utf8_lossy(&amp;decrypted_buffer)
     );
 }</pre>
             <p>And when we run this code:</p>
