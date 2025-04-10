@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF Rust fixme 3 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF General Skills Guide</h1>
+        <p>here's how to solve Rust fixme 3</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the General Skills Guides</a>
+            <hr>
+            <h2>Rust fixme 3</h2>
+            <pre>Name: Rust fixme 3
+Description: Have you heard of Rust? Fix the syntax errors in this Rust file to print the flag! Download the Rust code here.
+Author: Taylor McCampbell
+Tags: Easy, General Skills, picoCTF 2025
+Challenge from: picoCTF 2025
+Files: fixme3.tar.gz
+Hints:
+1. Read the comments...darn it!</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we to download some rust code, and fix the errors. Before doing that, comes the hard part, setting up rust. I used Replit, which is a platform to run many programming languages online, including rust, and believe me, I tried installing rust at first, but was met with a lot of dead ends, downloaded 4.5 gigabytes of content, and didn't really get to actually run it, so I just used Replit, which everything is already set up, and I just had to paste the code and libraries (which it downloads automatically) from the tar file. And when you create the project, it's instantly public, which I am so sorry, but I missed that for the entire competition, I literally had the rust codes public on my Replit already solved and with the flags on it, so I could've been disqualified, but luckily nobody noticed my mistake, which you can find <a target="_blank" href="https://replit.com/@shukularuni/A-MINORRRRRRRR-is-a?v=1#src/main.rs">here</a>, just ignore the name of the repl. Anyways, onto the actual challenge.</p>
+            <h2>Solution</h2>
+            <p>First let's paste our code:</p>
+            <pre>use xor_cryptor::XORCryptor;
+
+fn decrypt(encrypted_buffer: Vec&lt;u8&gt;, borrowed_string: &amp;mut String) {
+    // Key for decryption
+    let key = String::from("CSUCKS");
+
+    // Editing our borrowed value
+    borrowed_string.push_str("PARTY FOUL! Here is your flag: ");
+
+    // Create decryption object
+    let res = XORCryptor::new(&amp;key);
+    if res.is_err() {
+        return;
+    }
+    let xrc = res.unwrap();
+
+    // Did you know you have to do "unsafe operations in Rust?
+    // https://doc.rust-lang.org/book/ch19-01-unsafe-rust.html
+    // Even though we have these memory safe languages, sometimes we need to do things outside of the rules
+    // This is where unsafe rust comes in, something that is important to know about in order to keep things in perspective
+    
+    // unsafe {
+        // Decrypt the flag operations 
+        let decrypted_buffer = xrc.decrypt_vec(encrypted_buffer);
+
+        // Creating a pointer 
+        let decrypted_ptr = decrypted_buffer.as_ptr();
+        let decrypted_len = decrypted_buffer.len();
+        
+        // Unsafe operation: calling an unsafe function that dereferences a raw pointer
+        let decrypted_slice = std::slice::from_raw_parts(decrypted_ptr, decrypted_len);
+
+        borrowed_string.push_str(&amp;String::from_utf8_lossy(decrypted_slice));
+    // }
+    println!("{}", borrowed_string);
+}
+
+fn main() {
+    // Encrypted flag values
+    let hex_values = ["41", "30", "20", "63", "4a", "45", "54", "76", "12", "90", "7e", "53", "63", "e1", "01", "35", "7e", "59", "60", "f6", "03", "86", "7f", "56", "41", "29", "30", "6f", "08", "c3", "61", "f9", "35"];
+
+    // Convert the hexadecimal strings to bytes and collect them into a vector
+    let encrypted_buffer: Vec&lt;u8&gt; = hex_values.iter()
+        .map(|&amp;hex| u8::from_str_radix(hex, 16).unwrap())
+        .collect();
+
+    let mut party_foul = String::from("Using memory unsafe languages is a: ");
+    decrypt(encrypted_buffer, &amp;mut party_foul);
+}</pre>
+            <p>So right off the bat, we can see that there are a couple of comments highlighting the single error in the code. A big chunk of the code is commented as unsafe operations, so we can just remove those as we really don't need them and the commented unsafe stuff, because we just need to push the decrypted string to `borrowed_string`, so creating a pointer and compromising security aren't really necessary to have around, also I removed all the comments in the way like always, for no reason, actually the reason is that they're kind of the way of the code, it's easier for me to read the code without those, but oh well. You can look at it now:</p>
+            <pre>use xor_cryptor::XORCryptor;
+
+fn decrypt(encrypted_buffer: Vec&lt;u8&gt;, borrowed_string: &amp;mut String) {
+    let key = String::from("CSUCKS");
+
+    borrowed_string.push_str("PARTY FOUL! Here is your flag: ");
+
+    let res = XORCryptor::new(&amp;key);
+    if res.is_err() {
+        return;
+    }
+    let xrc = res.unwrap();
+
+    let decrypted_buffer = xrc.decrypt_vec(encrypted_buffer);
+
+    borrowed_string.push_str(&amp;String::from_utf8_lossy(&amp;decrypted_buffer));
+
+    println!("{}", borrowed_string);
+}
+
+fn main() {
+    let hex_values = ["41", "30", "20", "63", "4a", "45", "54", "76", "12", "90", "7e", "53", "63", "e1", "01", "35", "7e", "59", "60", "f6", "03", "86", "7f", "56", "41", "29", "30", "6f", "08", "c3", "61", "f9", "35"];
+
+    let encrypted_buffer: Vec&lt;u8&gt; = hex_values.iter()
+        .map(|&amp;hex| u8::from_str_radix(hex, 16).unwrap())
+        .collect();
+
+    let mut party_foul = String::from("Using memory unsafe languages is a: ");
+    decrypt(encrypted_buffer, &amp;mut party_foul);
+}</pre>
+            <p>And when we run this code:</p>
+            <pre>    Blocking waiting for file lock on package cache
+    Blocking waiting for file lock on package cache
+    Blocking waiting for file lock on package cache
+    Blocking waiting for file lock on package cache
+   Compiling rust_proj v0.1.0 (/home/runner/workspace)
+    Building [=======================&gt;   ] 11/12: rust_proj(bin)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 5.30s
+     Running `target/debug/rust_proj`
+"Using memory unsafe languages is a: PARTY FOUL! Here is your flag: picoCTF{n0w_y0uv3_f1x3d_1h3m_411}"</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/463">https://play.picoctf.org/practice/challenge/463</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
