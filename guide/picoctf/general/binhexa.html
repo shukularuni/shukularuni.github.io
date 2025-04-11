@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF binhexa @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF General Skills Guide</h1>
+        <p>here's how to solve binhexa</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the General Skills Guides</a>
+            <hr>
+            <h2>binhexa</h2>
+            <pre>Name: binhexa
+Description: How well can you perfom basic binary operations? Start searching for the flag here nc titan.picoctf.net 50052
+Author: Nana Ama Atombo-Sackey
+Tags: Easy, General Skills, picoCTF 2024, shell, browser_webshell_solvable
+Challenge from: picoCTF 2024</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have do some binary operations, which I think we can solve by just using python. So like this, using int to convert to integer number, then doing the operation, then converting it back to binary, but then remove the 0b at the beginning, it's just an identifier to know it's binary, so for example hexadecimal uses 0x. For example, this one is for adding two binary numbers:</p>
+            <pre>    &gt;&gt;&gt; print(bin(int('10101010', 2) + int('01010101', 2)))
+    0b11111111</pre>
+            <h2>Solution</h2>
+            <p>First, let's enter to the NetCat, and now we can use the python code to get the answer for each of these:</p>
+            <pre>shukularuni-picoctf@webshell:~$ nc titan.picoctf.net 50052
+
+Welcome to the Binary Challenge!"
+Your task is to perform the unique operations in the given order and find the final result in hexadecimal that yields the flag.
+
+Binary Number 1: 11011100
+Binary Number 2: 00101001
+
+
+Question 1/6:
+Operation 1: '|'
+Perform the operation on Binary Number 1&2.
+Enter the binary result:
+
+    &gt;&gt;&gt; print(bin(int('11011100', 2) | int('00101001', 2)))
+    0b11111101
+
+Enter the binary result: 11111101
+Correct!
+
+Question 2/6:
+Operation 2: '+'
+Perform the operation on Binary Number 1&2.
+Enter the binary result:
+
+    &gt;&gt;&gt; print(bin(int('11011100', 2) + int('00101001', 2)))
+    0b100000101
+
+100000101
+Correct!
+
+Question 3/6:
+Operation 3: '&lt;&lt;'
+Perform a left shift of Binary Number 1 by 1 bits.
+Enter the binary result:</pre>
+            <p>Now here comes the tricky part, it says to do a left shift with the number 1 by 1 bit, so only one of the numbers is involved not the number 2:</p>
+            <pre>    &gt;&gt;&gt; print(bin(int('11011100', 2) &lt;&lt; 1))
+    0b110111000
+
+Enter the binary result: 110111000
+Correct!
+
+Question 4/6:
+Operation 4: '*'
+Perform the operation on Binary Number 1&2.
+Enter the binary result:
+
+    &gt;&gt;&gt; print(bin(int('11011100', 2) * int('00101001', 2)))
+    0b10001100111100
+
+Enter the binary result: 10001100111100
+Correct!
+
+Question 5/6:
+Operation 5: '&gt;&gt;'
+Perform a right shift of Binary Number 2 by 1 bits .
+Enter the binary result:</pre>
+            <p>And this one is a right shift, BUT ON THE SECOND NUMBER, so the command is this:</p>
+            <pre>    &gt;&gt;&gt; print(bin(int('00101001', 2) &gt;&gt; 1))
+    0b10100
+
+Enter the binary result: 10100
+Correct!
+
+Question 6/6:
+Operation 6: '&'
+Perform the operation on Binary Number 1&2.
+Enter the binary result:
+
+    &gt;&gt;&gt; print(bin(int('11011100', 2) & int('00101001', 2)))
+    0b1000
+
+Enter the binary result: 1000
+Correct!
+
+Enter the results of the last operation in hexadecimal:</pre>
+            <p>Finally we have to get the last's operation result in hexadecimal, which is actually really easy, you just need to change the output from bin to hex, to make it convert to hexadecimal after the operation is done, also remember to remove the 0x from the beginning:</p>
+            <pre>    &gt;&gt;&gt; print(hex(int('11011100', 2) & int('00101001', 2)))
+    0x8
+
+Enter the results of the last operation in hexadecimal: 8
+
+Correct answer!
+The flag is: picoCTF{b1tw^3se_0p3eR@tI0n_su33essFuL_aeaf4b09}
+^C</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/404">https://play.picoctf.org/practice/challenge/404</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
