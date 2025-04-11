@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF Blame Game @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF General Skills Guide</h1>
+        <p>here's how to solve Blame Game</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the General Skills Guides</a>
+            <hr>
+            <h2>Blame Game</h2>
+            <pre>Name: Blame Game
+Description: Someone's commits seems to be preventing the program from working. Who is it? You can download the challenge files here: challenge.zip
+Author: Jeffery John
+Tags: Easy, General Skills, picoCTF 2024, browser_webshell_solvable, git
+Challenge from: picoCTF 2024
+Files: challenge.zip
+Hints:
+1. In collaborative projects, many users can make many changes. How can you see the changes within one file?
+2. Read the chapter on Git from the picoPrimer <a target="_blank" href="https://primer.picoctf.org/#_git_version_control">here</a>.
+3. You can use python3 &lt;file&gt;.py to try running the code, though you won't need to for this challenge.</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag I think we'll have to look through git log. And yeah that's kind of everything I think we have to do, but yeah, we'll use git log to view the history and the name of the author of the commit that ruined the file will be the flag probably:</p>
+            <pre>git log</pre>
+            <h2>Solution</h2>
+            <p>First we need to download the repository and unzip it:</p>
+            <pre>shukularuni-picoctf@webshell:~$ wget https://artifacts.picoctf.net/c_titan/157/challenge.zip
+--2025-04-11 00:50:04--  https://artifacts.picoctf.net/c_titan/157/challenge.zip
+Resolving artifacts.picoctf.net (artifacts.picoctf.net)... 3.160.22.128, 3.160.22.16, 3.160.22.92, ...
+Connecting to artifacts.picoctf.net (artifacts.picoctf.net)|3.160.22.128|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 293587 (287K) [application/octet-stream]
+Saving to: 'challenge.zip'
+
+challenge.zip                                                       100%[=================================================================================================================================================================&gt;] 286.71K  --.-KB/s    in 0.1s    
+
+2025-04-11 00:50:04 (1.92 MB/s) - 'challenge.zip' saved [293587/293587]
+
+shukularuni-picoctf@webshell:~$ unzip challenge.zip
+
+shukularuni-picoctf@webshell:~$ cd drop-in
+
+shukularuni-picoctf@webshell:~/drop-in$ ls
+message.py
+
+shukularuni-picoctf@webshell:~/drop-in$ cat message.py
+print("Hello, World!"</pre>
+            <p>Bruh, whoever edited the file to remove that parenthesis and make the program not work must be a bad person, anyways, let's look through the history:</p>
+            <pre>shukularuni-picoctf@webshell:~/drop-in$ git log
+commit b7f1fb20f72e493f604ccb3b9f2639a00c566939 (HEAD -&gt; master)
+Author: picoCTF &lt;ops@picoctf.com&gt;
+Date:   Tue Mar 12 00:07:08 2024 +0000
+
+    important business work
+
+commit c16a2576a68c7166d13f3e877ea4b4cfc675d343
+Author: picoCTF &lt;ops@picoctf.com&gt;
+Date:   Tue Mar 12 00:07:08 2024 +0000
+
+    important business work
+
+commit ec9b57cadceec5aecebd3319ba2be0430a56b3e3
+Author: picoCTF &lt;ops@picoctf.com&gt;
+Date:   Tue Mar 12 00:07:08 2024 +0000
+
+    important business work
+
+commit 343b68ee036b913155226d96423d130bed3974e3
+Author: picoCTF &lt;ops@picoctf.com&gt;
+Date:   Tue Mar 12 00:07:08 2024 +0000
+
+    important business work
+
+commit fbe16b1f2729cffbdbeeabe84f8a37407c7d4622
+Author: picoCTF &lt;ops@picoctf.com&gt;
+Date:   Tue Mar 12 00:07:08 2024 +0000
+
+    important business work
+...
+...</pre>
+            <p>Or maybe not, because there is a bajillion of commits in there, so I guess the next best option is to find the flag manually with grep. And because most of the commits are done by picoCTF, we'll have to search for the `{` too:</p>
+            <pre>shukularuni-picoctf@webshell:~/drop-in$ git log | grep "picoCTF{"
+Author: picoCTF{@sk_th3_1nt3rn_cfca95b2} &lt;ops@picoctf.com&gt;</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/405">https://play.picoctf.org/practice/challenge/405</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
