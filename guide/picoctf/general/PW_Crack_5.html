@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF PW Crack 5 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF General Skills Guide</h1>
+        <p>here's how to solve PW Crack 5</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the General Skills Guides</a>
+            <hr>
+            <h2>PW Crack 5</h2>
+            <pre>Name: PW Crack 5
+Description: Can you crack the password to get the flag? Download the password checker here and you'll need the encrypted flag and the hash in the same directory too. Here's a dictionary with all possible passwords based on the password conventions we've seen so far.
+Author: LT 'syreal' Jones
+Tags: Medium, General Skills, Beginner picoMini 2022, password_cracking, hashing
+Challenge from: Beginner picoMini 2022
+Files: level5.py, level5.flag.txt.enc, level5.hash.bin, dictionary.txt
+Hints:
+1. Opening a file in Python is crucial to using the provided dictionary.
+2. You may need to trim the whitespace from the dictionary word before hashing. Look up the Python string function, strip
+3. The str_xor function does not need to be reverse engineered for this challenge.</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to know what password it is to get the original flag, since it has been encoded in what seems to be XOR encryption, which is reversible by itself, which is a really cool cryptographic method that I use often to encrypt some of my messages. Anyways, now there's so many possibilities that we have a dictionary file with all the possibilities, which is literally all the 4 digit possibilities in hexadecimal. So yeah, I think we'll be just fine with using the for loop from earlier, although first we need to put the dictionary as an array for it to work, that's easy, we can open the file, then put it in an array dividing by new lines using strip and another for loop.</p>
+            <h2>Solution</h2>
+            <p>Let's download the files into a same folder, and see what the python has (I've removed the XOR part and the hashing parts because it's a little in the way, but you still need it in the code for it to work):</p>
+            <pre>flag_enc = open('level5.flag.txt.enc', 'rb').read()
+correct_pw_hash = open('level5.hash.bin', 'rb').read()
+
+def level_5_pw_check():
+    user_pw = input("Please enter correct password for flag: ")
+    user_pw_hash = hash_pw(user_pw)
+    
+    if( user_pw_hash == correct_pw_hash ):
+        print("Welcome back... your flag, user:")
+        decryption = str_xor(flag_enc.decode(), user_pw)
+        print(decryption)
+        return
+    print("That password is incorrect")
+
+level_5_pw_check()</pre>
+            <p>Now like I said just a moment ago, open the dictionary file, pass it as an array to the level function, and then the usual for loop (I'll also print the current password on the incorrect or correct thing):</p>
+            <pre>flag_enc = open('level5.flag.txt.enc', 'rb').read()
+correct_pw_hash = open('level5.hash.bin', 'rb').read()
+
+def level_5_pw_check(pos_pw_list):
+  for item in pos_pw_list:
+    user_pw = item
+    user_pw_hash = hash_pw(user_pw)
+    
+    if( user_pw_hash == correct_pw_hash ):
+        print(item, "flag:")
+        decryption = str_xor(flag_enc.decode(), user_pw)
+        print(decryption)
+        return
+    print(item, "is incorrect")
+
+with open('dictionary.txt', 'r') as dict: pos_pw_list = [line.strip() for line in dict]
+
+level_5_pw_check(pos_pw_list)</pre>
+            <p>Now just execute it and we should be good to go:</p>
+            <pre>C:\Users\shukularuni\Documents\pwc\lvl5&gt;python level5.py
+0000 is incorrect
+0001 is incorrect
+0002 is incorrect
+0003 is incorrect
+...
+957e is incorrect
+957f is incorrect
+9580 is incorrect
+9581 flag:
+picoCTF{h45h_sl1ng1ng_36e992a6}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/248">https://play.picoctf.org/practice/challenge/248</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
