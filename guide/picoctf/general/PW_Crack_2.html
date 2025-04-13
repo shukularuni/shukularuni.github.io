@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF PW Crack 2 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF General Skills Guide</h1>
+        <p>here's how to solve PW Crack 2</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the General Skills Guides</a>
+            <hr>
+            <h2>PW Crack 2</h2>
+            <pre>Name: PW Crack 2
+Description: Can you crack the password to get the flag? Download the password checker here and you'll need the encrypted flag in the same directory too.
+Author: LT 'syreal' Jones
+Tags: Easy, General Skills, Beginner picoMini 2022, password_cracking
+Challenge from: Beginner picoMini 2022
+Files: level2.py, level2.flag.txt.enc
+Hints:
+1. Does that encoding look familiar?
+2. The str_xor function does not need to be reverse engineered for this challenge.</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to know what password it is to get the original flag, since it has been encoded in what seems to be XOR encryption, which is reversible by itself, which is a really cool cryptographic method that I use often to encrypt some of my messages. Anyways, after what happened in the first one, it's safe to say this next is also gonna be pretty easy, I don't know what that file will have, but according to the first hint, the password is also encoded, we'll see what that is.</p>
+            <h2>Solution</h2>
+            <p>Let's download the files into a same folder, and see what the python has (I've removed the XOR part because it's a little in the way, but you still need it in the code for it to work):</p>
+            <pre>flag_enc = open('level2.flag.txt.enc', 'rb').read()
+
+def level_2_pw_check():
+    user_pw = input("Please enter correct password for flag: ")
+    if( user_pw == chr(0x33) + chr(0x39) + chr(0x63) + chr(0x65) ):
+        print("Welcome back... your flag, user:")
+        decryption = str_xor(flag_enc.decode(), user_pw)
+        print(decryption)
+        return
+    print("That password is incorrect")
+
+level_2_pw_check()</pre>
+            <p>And it is just in hexadecimal, good thing we can run that on python and get the password to decode the flag:</p>
+            <pre>C:\Users\shukularuni\Documents\pwc\lvl2&gt;python
+&gt;&gt;&gt; print( chr(0x33) + chr(0x39) + chr(0x63) + chr(0x65) )
+39ce
+
+&gt;&gt;&gt; exit()</pre>
+            <p>Now that we have the password, we just need to run it with that and we should be good to go:</p>
+            <pre>C:\Users\shukularuni\Documents\pwc\lvl2&gt;python level2.py
+Please enter correct password for flag: 39ce
+Welcome back... your flag, user:
+picoCTF{tr45h_51ng1ng_502ec42e}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/246">https://play.picoctf.org/practice/challenge/246</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
