@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF PW Crack 3 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF General Skills Guide</h1>
+        <p>here's how to solve PW Crack 3</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the General Skills Guides</a>
+            <hr>
+            <h2>PW Crack 3</h2>
+            <pre>Name: PW Crack 3
+Description: Can you crack the password to get the flag? Download the password checker here and you'll need the encrypted flag and the hash in the same directory too. There are 7 potential passwords with 1 being correct. You can find these by examining the password checker script.
+Author: LT 'syreal' Jones
+Tags: Medium, General Skills, Beginner picoMini 2022, password_cracking, hashing
+Challenge from: Beginner picoMini 2022
+Files: level3.py, level3.flag.txt.enc, level3.hash.bin
+Hints:
+1. To view the level3.hash.bin file in the webshell, do: $ bvi level3.hash.bin
+2. To exit bvi type :q and press enter.
+3. The str_xor function does not need to be reverse engineered for this challenge.</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to know what password it is to get the original flag, since it has been encoded in what seems to be XOR encryption, which is reversible by itself, which is a really cool cryptographic method that I use often to encrypt some of my messages. Anyways, now there's some new stuff in the description, it includes an md5 hash for the password, but we get 7 possible passwords with it so that we're not too bad. What we can do is put a for loop inside the entire code so that it loops through all the possible solutions they give us.</p>
+            <h2>Solution</h2>
+            <p>Let's download the files into a same folder, and see what the python has (I've removed the XOR part and the hashing parts because it's a little in the way, but you still need it in the code for it to work):</p>
+            <pre>flag_enc = open('level3.flag.txt.enc', 'rb').read()
+correct_pw_hash = open('level3.hash.bin', 'rb').read()
+
+def level_3_pw_check():
+    user_pw = input("Please enter correct password for flag: ")
+    user_pw_hash = hash_pw(user_pw)
+    
+    if( user_pw_hash == correct_pw_hash ):
+        print("Welcome back... your flag, user:")
+        decryption = str_xor(flag_enc.decode(), user_pw)
+        print(decryption)
+        return
+    print("That password is incorrect")
+
+level_3_pw_check()
+
+pos_pw_list = ["8799", "d3ab", "1ea2", "acaf", "2295", "a9de", "6f3d"]</pre>
+            <p>And they were cool enough to give us all the possible passwords in an array, it's perfect, now we can just use a for loop to go through each item of the list, just need to pass the array inside the level function and loop it (I'll also print the current password on the incorrect or correct thing):</p>
+            <pre>flag_enc = open('level3.flag.txt.enc', 'rb').read()
+correct_pw_hash = open('level3.hash.bin', 'rb').read()
+
+def level_3_pw_check(pos_pw_list):
+  for item in pos_pw_list:
+    user_pw = item
+    user_pw_hash = hash_pw(user_pw)
+    
+    if( user_pw_hash == correct_pw_hash ):
+        print(item, "flag:")
+        decryption = str_xor(flag_enc.decode(), user_pw)
+        print(decryption)
+        return
+    print(item, "is incorrect")
+
+pos_pw_list = ["8799", "d3ab", "1ea2", "acaf", "2295", "a9de", "6f3d"]
+
+level_3_pw_check(pos_pw_list)</pre>
+            <p>Now just execute it and we should be good to go:</p>
+            <pre>C:\Users\shukularuni\Documents\pwc\lvl3&gt;python level3.py
+8799 is incorrect
+d3ab is incorrect
+1ea2 is incorrect
+acaf is incorrect
+2295 flag:
+picoCTF{m45h_fl1ng1ng_6f98a49f}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/247">https://play.picoctf.org/practice/challenge/247</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
