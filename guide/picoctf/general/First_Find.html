@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF First Find @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF General Skills Guide</h1>
+        <p>here's how to solve First Find</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the General Skills Guides</a>
+            <hr>
+            <h2>First Find</h2>
+            <pre>Name: First Find
+Description: Unzip this archive and find the file named 'uber-secret.txt' Download zip file
+Author: LT 'syreal' Jones
+Tags: Easy, General Skills, picoGym Exclusive
+Challenge from: picoGym Exclusive
+Files: files.zip</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to search for a file called uber-secret, which i don't really know how to do, so I'll try doing the same thing as Big Zip, and find recursively through all files in all folders of the zip. Just use grep with the recursive option, looking for the flag, with an asterisk to look through all the folders in whatever the zip folder is called:</p>
+            <pre>grep -R "picoCTF{" first-find-folder-name/*</pre>
+            <h2>Solution</h2>
+            <p>First, let's just get the zip, open it, and place ourselves inside:</p>
+            <pre>shukularuni-picoctf@webshell:~$ wget https://artifacts.picoctf.net/c/500/files.zip
+--2025-04-13 18:38:36--  https://artifacts.picoctf.net/c/500/files.zip
+Resolving artifacts.picoctf.net (artifacts.picoctf.net)... 3.160.22.16, 3.160.22.43, 3.160.22.92, ...
+Connecting to artifacts.picoctf.net (artifacts.picoctf.net)|3.160.22.16|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 3995553 (3.8M) [application/octet-stream]
+Saving to: 'files.zip'
+
+files.zip                                                           100%[=================================================================================================================================================================>]   3.81M  1.82MB/s    in 2.1s    
+
+2025-04-13 18:38:39 (1.82 MB/s) - 'files.zip' saved [3995553/3995553]
+
+shukularuni-picoctf@webshell:~$ unzip files.zip
+Archive:  files.zip
+   creating: files/
+   creating: files/satisfactory_books/
+   creating: files/satisfactory_books/more_books/
+  inflating: files/satisfactory_books/more_books/37121.txt.utf-8  
+  inflating: files/satisfactory_books/23765.txt.utf-8  
+  inflating: files/satisfactory_books/16021.txt.utf-8  
+  inflating: files/13771.txt.utf-8   
+   creating: files/adequate_books/
+   creating: files/adequate_books/more_books/
+   creating: files/adequate_books/more_books/.secret/
+   creating: files/adequate_books/more_books/.secret/deeper_secrets/
+   creating: files/adequate_books/more_books/.secret/deeper_secrets/deepest_secrets/
+ extracting: files/adequate_books/more_books/.secret/deeper_secrets/deepest_secrets/uber-secret.txt  
+  inflating: files/adequate_books/more_books/1023.txt.utf-8  
+  inflating: files/adequate_books/46804-0.txt  
+  inflating: files/adequate_books/44578.txt.utf-8  
+   creating: files/acceptable_books/
+   creating: files/acceptable_books/more_books/
+  inflating: files/acceptable_books/more_books/40723.txt.utf-8  
+  inflating: files/acceptable_books/17880.txt.utf-8  
+  inflating: files/acceptable_books/17879.txt.utf-8  
+  inflating: files/14789.txt.utf-8</pre>
+            <p>And wait, that was unexpected, I guess we won't need to find recursively, because when unzipping, it shows all the files and folders being extracted from it, so it literally says where uber-secret is located, just need to copy the file name and cat to get the flag:</p>
+            <pre>shukularuni-picoctf@webshell:~$ cat files/adequate_books/more_books/.secret/deeper_secrets/deepest_secrets/uber-secret.txt
+picoCTF{f1nd_15_f457_ab443fd1}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/320">https://play.picoctf.org/practice/challenge/320</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
