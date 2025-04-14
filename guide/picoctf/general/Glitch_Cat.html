@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF Glitch Cat @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF General Skills Guide</h1>
+        <p>here's how to solve Glitch Cat</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the General Skills Guides</a>
+            <hr>
+            <h2>Glitch Cat</h2>
+            <pre>Name: Glitch Cat
+Description: Our flag printing service has started glitching! $ nc saturn.picoctf.net 51392
+Author: LT 'syreal' Jones
+Tags: Easy, General Skills, Beginner picoMini 2022, nc, shell, Python
+Challenge from: Beginner picoMini 2022
+Hints:
+1. ASCII is one of the most common encodings used in programming
+2. We know that the glitch output is valid Python, somehow!
+3. Press Ctrl and c on your keyboard to close your connection and return to the command prompt.</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we'll need to fix some code or something, since they've told us the flag printing program isn't working correctly.</p>
+            <h2>Solution</h2>
+            <p>We just need to enter the NetCat, and see what's going on:</p>
+            <pre>shukularuni-picoctf@webshell:~$ nc saturn.picoctf.net 51392
+'picoCTF{gl17ch_m3_n07_' + chr(0x61) + chr(0x34) + chr(0x33) + chr(0x39) + chr(0x32) + chr(0x64) + chr(0x32) + chr(0x65) + '}'</pre>
+            <p>So it seems that instead of printing the actual flag, it's printing the character command for each character in that part of the flag, so we can just run that on a python print, and should get the correct flag:</p>
+            <pre>print('picoCTF{gl17ch_m3_n07_' + chr(0x61) + chr(0x34) + chr(0x33) + chr(0x39) + chr(0x32) + chr(0x64) + chr(0x32) + chr(0x65) + '}')
+
+picoCTF{gl17ch_m3_n07_a4392d2e}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/242">https://play.picoctf.org/practice/challenge/242</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
