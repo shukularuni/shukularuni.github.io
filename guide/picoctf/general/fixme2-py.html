@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF fixme2.py @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF General Skills Guide</h1>
+        <p>here's how to solve fixme2.py</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the General Skills Guides</a>
+            <hr>
+            <h2>fixme2.py</h2>
+            <pre>Name: fixme2.py
+Description: Fix the syntax error in this Python script to print the flag. Download Python script
+Author: LT 'syreal' Jones
+Tags: Easy, General Skills, Beginner picoMini 2022, Python
+Challenge from: Beginner picoMini 2022
+Files: fixme2.py
+Hints:
+1. Are equality and assignment the same symbol?
+2. To view the file in the webshell, do: $ nano fixme2.py
+3. To exit nano, press Ctrl and x and follow the on-screen prompts.
+4. The str_xor function does not need to be reverse engineered for this challenge.</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to fix a python code, should be easy since python tells you exactly what is wrong in the code with clarity, and even in what line it's happening, so it should be easy. Can't do anything else in theory, so let's pass on to there.</p>
+            <h2>Solution</h2>
+            <p>First let's download the code and run it to see what's wrong:</p>
+            <pre>import random
+
+def str_xor(secret, key):
+    #extend key to secret length
+    new_key = key
+    i = 0
+    while len(new_key) &lt; len(secret):
+        new_key = new_key + key[i]
+        i = (i + 1) % len(key)        
+    return "".join([chr(ord(secret_c) ^ ord(new_key_c)) for (secret_c,new_key_c) in zip(secret,new_key)])
+
+flag_enc = chr(0x15) + chr(0x07) + chr(0x08) + chr(0x06) + chr(0x27) + chr(0x21) + chr(0x23) + chr(0x15) + chr(0x58) + chr(0x18) + chr(0x11) + chr(0x41) + chr(0x09) + chr(0x5f) + chr(0x1f) + chr(0x10) + chr(0x3b) + chr(0x1b) + chr(0x55) + chr(0x1a) + chr(0x34) + chr(0x5d) + chr(0x51) + chr(0x40) + chr(0x54) + chr(0x09) + chr(0x05) + chr(0x04) + chr(0x57) + chr(0x1b) + chr(0x11) + chr(0x31) + chr(0x0d) + chr(0x5f) + chr(0x05) + chr(0x40) + chr(0x04) + chr(0x0b) + chr(0x0d) + chr(0x0a) + chr(0x19)
+
+flag = str_xor(flag_enc, 'enkidu')
+
+# Check that flag is not empty
+if flag = "":
+  print('String XOR encountered a problem, quitting.')
+else:
+  print('That is correct! Here\'s your flag: ' + flag)
+
+
+
+  File "main.py", line 19
+    if flag = "":
+            ^
+SyntaxError: invalid syntax</pre>
+            <p>So it seems that there is only one equal sign when comparing on an if statement instead of two. We can just put that other equal sign and run it normally:</p>
+            <pre>import random
+
+def str_xor(secret, key):
+    #extend key to secret length
+    new_key = key
+    i = 0
+    while len(new_key) &lt; len(secret):
+        new_key = new_key + key[i]
+        i = (i + 1) % len(key)        
+    return "".join([chr(ord(secret_c) ^ ord(new_key_c)) for (secret_c,new_key_c) in zip(secret,new_key)])
+
+flag_enc = chr(0x15) + chr(0x07) + chr(0x08) + chr(0x06) + chr(0x27) + chr(0x21) + chr(0x23) + chr(0x15) + chr(0x58) + chr(0x18) + chr(0x11) + chr(0x41) + chr(0x09) + chr(0x5f) + chr(0x1f) + chr(0x10) + chr(0x3b) + chr(0x1b) + chr(0x55) + chr(0x1a) + chr(0x34) + chr(0x5d) + chr(0x51) + chr(0x40) + chr(0x54) + chr(0x09) + chr(0x05) + chr(0x04) + chr(0x57) + chr(0x1b) + chr(0x11) + chr(0x31) + chr(0x0d) + chr(0x5f) + chr(0x05) + chr(0x40) + chr(0x04) + chr(0x0b) + chr(0x0d) + chr(0x0a) + chr(0x19)
+
+flag = str_xor(flag_enc, 'enkidu')
+
+# Check that flag is not empty
+if flag == "":
+  print('String XOR encountered a problem, quitting.')
+else:
+  print('That is correct! Here\'s your flag: ' + flag)
+
+
+
+That is correct! Here's your flag: picoCTF{3qu4l1ty_n0t_4551gnm3nt_f6a5aefc}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/240">https://play.picoctf.org/practice/challenge/240</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
