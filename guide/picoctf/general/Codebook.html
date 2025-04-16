@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF Codebook @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF General Skills Guide</h1>
+        <p>here's how to solve Codebook</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the General Skills Guides</a>
+            <hr>
+            <h2>Codebook</h2>
+            <pre>Name: Codebook
+Description: Run the Python script code.py in the same directory as codebook.txt. Download code.py Download codebook.txtt and convert the given number from decimal to binary to get the flag. Download Python script
+Author: LT 'syreal' Jones
+Tags: Easy, General Skills, Beginner picoMini 2022, shell, Python
+Challenge from: Beginner picoMini 2022
+Files: code.py, codebook.txt
+Hints:
+1. On the webshell, use ls to see if both files are in the directory you are in
+2. The str_xor function does not need to be reverse engineered for this challenge.</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to run a python code, and that's kinda it, just to be sure to have both files in the same directory and yeah done. Can't do anything else in theory, so let's pass on to there.</p>
+            <h2>Solution</h2>
+            <p>First let's download the code:</p>
+            <pre>import random
+import sys
+
+def str_xor(secret, key):
+    #extend key to secret length
+    new_key = key
+    i = 0
+    while len(new_key) &lt; len(secret):
+        new_key = new_key + key[i]
+        i = (i + 1) % len(key)        
+    return "".join([chr(ord(secret_c) ^ ord(new_key_c)) for (secret_c,new_key_c) in zip(secret,new_key)])
+
+flag_enc = chr(0x13) + chr(0x01) + chr(0x17) + chr(0x07) + chr(0x2c) + chr(0x3a) + chr(0x2f) + chr(0x1a) + chr(0x0d) + chr(0x53) + chr(0x0c) + chr(0x47) + chr(0x0a) + chr(0x5f) + chr(0x5e) + chr(0x02) + chr(0x3e) + chr(0x5a) + chr(0x56) + chr(0x5d) + chr(0x45) + chr(0x5d) + chr(0x58) + chr(0x31) + chr(0x58) + chr(0x58) + chr(0x59) + chr(0x02) + chr(0x51) + chr(0x4c) + chr(0x5a) + chr(0x0c) + chr(0x13)
+
+def print_flag():
+  try:
+    codebook = open('codebook.txt', 'r').read()
+
+    password = codebook[4] + codebook[14] + codebook[13] + codebook[14] + codebook[23] + codebook[25] + codebook[16] + codebook[0] + codebook[25]
+    print(password)
+
+    flag = str_xor(flag_enc, password)
+    print(flag)
+  except FileNotFoundError:
+    print('Couldn\'t find codebook.txt. Did you download that file into the same directory as this script?')
+
+def main():
+  print_flag()
+
+if __name__ == "__main__":
+  main()</pre>
+            <p>So yeah, we don't really need to do anything, just need the files and run it, also I've edited the code just so that it also gives the password that it uses for the XOR part:</p>
+            <pre>~$ python code.py
+picoCTF{c0d3b00k_455157_197a982c}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/238">https://play.picoctf.org/practice/challenge/238</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
