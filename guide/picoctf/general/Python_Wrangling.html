@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF Python Wrangling @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF General Skills Guide</h1>
+        <p>here's how to solve Python Wrangling</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the General Skills Guides</a>
+            <hr>
+            <h2>Python Wrangling</h2>
+            <pre>Name: Python Wrangling
+Description: Python scripts are invoked kind of like programs in the Terminal... Can you run this Python script using this password to get the flag?
+Author: syreal
+Tags: Easy, General Skills, picoCTF 2021
+Challenge from: picoCTF 2021
+Files: ende.py, pw.txt, flag.txt.en
+Hints:
+1. Get the Python script accessible in your shell by entering the following command in the Terminal prompt: $ wget https://mercury.picoctf.net/static/0bf545252b5120845e3b568b9ad0277e/ende.py
+2. $ man python</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to run a code that encodes and decodes Fernet, I don't know what that is, but it's like another one of those where you need a key to encrypt and decrypt it and all that stuff.</p>
+            <h2>Solution</h2>
+            <p>Let's run it, see how it works:</p>
+            <pre>shukularuni-picoctf@webshell:~$ python ende.py
+Usage: ende.py (-e/-d) [file]</pre>
+            <p>I think how this will work is that we put the file we want to input with the -d option to decode the file, and then we'll use the password to decode it or something:</p>
+            <pre>shukularuni-picoctf@webshell:~$ cat pw.txt
+6008014f6008014f6008014f6008014f
+
+shukularuni-picoctf@webshell:~$ python ende.py -d flag.txt.en
+Please enter the password:6008014f6008014f6008014f6008014f
+picoCTF{4p0110_1n_7h3_h0us3_6008014f}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/166">https://play.picoctf.org/practice/challenge/166</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
