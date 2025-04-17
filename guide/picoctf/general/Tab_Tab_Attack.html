@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF Tab, Tab, Attack @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF General Skills Guide</h1>
+        <p>here's how to solve Tab, Tab, Attack</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the General Skills Guides</a>
+            <hr>
+            <h2>Tab, Tab, Attack</h2>
+            <pre>Name: Tab, Tab, Attack
+Description: Using tabcomplete in the Terminal will add years to your life, esp. when dealing with long rambling directory structures and filenames: Addadshashanammu.zip
+Author: syreal
+Tags: Easy, General Skills, picoCTF 2021
+Challenge from: picoCTF 2021
+Files: Addadshashanammu.zip
+Hints:
+1. After `unzip`ing, this problem can be solved with 11 button-presses...(mostly Tab)...</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we to do something with the tab autocomplete thing, I really don't know what to expect for this one, so let's just go with it.</p>
+            <h2>Solution</h2>
+            <p>First download and unzip:</p>
+            <pre>shukularuni-picoctf@webshell:~$ wget https://mercury.picoctf.net/static/9689f2b453ad5daeb73ca7534e4d1521/Addadshashanammu.zip
+--2025-04-17 01:18:29--  https://mercury.picoctf.net/static/9689f2b453ad5daeb73ca7534e4d1521/Addadshashanammu.zip
+Resolving mercury.picoctf.net (mercury.picoctf.net)... 18.189.209.142, ...
+Connecting to mercury.picoctf.net (mercury.picoctf.net)|18.189.209.142|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 4519 (4.4K) [application/octet-stream]
+Saving to: 'Addadshashanammu.zip'
+
+Addadshashanammu.zip                                                100%[=================================================================================================================================================================>]   4.41K  --.-KB/s    in 0s    
+
+2025-04-13 01:18:30 (1.51 GB/s) - 'Addadshashanammu.zip' saved [4519/4519]
+
+shukularuni-picoctf@webshell:~$ unzip files.zip</pre>
+            <p>So it seems there's a bunch of folders with weird names, but we can easily do it with tab autocomplete:</p>
+            <pre>shukularuni-picoctf@webshell:~$ cd Addadshashanammu/
+
+shukularuni-picoctf@webshell:~/Addadshashanammu$ ls
+Almurbalarammi
+
+shukularuni-picoctf@webshell:~/Addadshashanammu$ cd Almurbalarammi/
+
+shukularuni-picoctf@webshell:~/Addadshashanammu/Almurbalarammi$ ls
+Ashalmimilkala
+
+shukularuni-picoctf@webshell:~/Addadshashanammu/Almurbalarammi$ cd Ashalmimilkala/
+
+shukularuni-picoctf@webshell:~/Addadshashanammu/Almurbalarammi/Ashalmimilkala$ ls
+Assurnabitashpi
+
+shukularuni-picoctf@webshell:~/Addadshashanammu/Almurbalarammi/Ashalmimilkala$ cd Assurnabitashpi/
+
+shukularuni-picoctf@webshell:~/Addadshashanammu/Almurbalarammi/Ashalmimilkala/Assurnabitashpi$ ls
+Maelkashishi
+
+shukularuni-picoctf@webshell:~/Addadshashanammu/Almurbalarammi/Ashalmimilkala/Assurnabitashpi$ cd Maelkashishi/
+
+shukularuni-picoctf@webshell:~/Addadshashanammu/Almurbalarammi/Ashalmimilkala/Assurnabitashpi/Maelkashishi$ ls
+Onnissiralis
+
+shukularuni-picoctf@webshell:~/Addadshashanammu/Almurbalarammi/Ashalmimilkala/Assurnabitashpi/Maelkashishi$ cd Onnissiralis/
+
+shukularuni-picoctf@webshell:~/Addadshashanammu/Almurbalarammi/Ashalmimilkala/Assurnabitashpi/Maelkashishi/Onnissiralis$ ls
+Ularradallaku
+
+shukularuni-picoctf@webshell:~/Addadshashanammu/Almurbalarammi/Ashalmimilkala/Assurnabitashpi/Maelkashishi/Onnissiralis$ cd Ularradallaku/
+
+shukularuni-picoctf@webshell:~/Addadshashanammu/Almurbalarammi/Ashalmimilkala/Assurnabitashpi/Maelkashishi/Onnissiralis/Ularradallaku$ ls
+fang-of-haynekhtnamet</pre>
+            <p>Now that we are in the directory with the executable, let's just give it permissions and run it:</p>
+            <pre>shukularuni-picoctf@webshell:~/Addadshashanammu/Almurbalarammi/Ashalmimilkala/Assurnabitashpi/Maelkashishi/Onnissiralis/Ularradallaku$ chmod +x fang-of-haynekhtnamet 
+
+shukularuni-picoctf@webshell:~/Addadshashanammu/Almurbalarammi/Ashalmimilkala/Assurnabitashpi/Maelkashishi/Onnissiralis/Ularradallaku$ ./fang-of-haynekhtnamet 
+*ZAP!* picoCTF{l3v3l_up!_t4k3_4_r35t!_2bcfb2ab}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/176">https://play.picoctf.org/practice/challenge/176</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
