@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF Magikarp Ground Mission @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF General Skills Guide</h1>
+        <p>here's how to solve Magikarp Ground Mission</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the General Skills Guides</a>
+            <hr>
+            <h2>Magikarp Ground Mission</h2>
+            <pre>Name: Magikarp Ground Mission
+Description: Do you know how to move between directories and read files in the shell? Start the container, `ssh` to it, and then `ls` once connected to begin. Login via `ssh` as `ctf-player` with the password, `6dee9772` - SSH  ssh ctf-player@venus.picoctf.net -p 58783
+Author: syreal
+Tags: Easy, General Skills, picoCTF 2021
+Challenge from: picoCTF 2021
+Hints:
+1. Finding a cheatsheet for bash would be really helpful!</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to enter to an SSH directory and go through different folders and whatnot, so yeah, kind of everything we can get out of it, let's see inside that SSH.</p>
+            <h2>Solution</h2>
+            <p>First let's enter the SSH:</p>
+            <pre>C:\Users\ssh ctf-player@venus.picoctf.net -p 58783
+The authenticity of host '[venus.picoctf.net]:58783 ([3.131.124.143]:58783)' can't be established.
+ED25519 key fingerprint is SHA256:P1f6h95BrSVnJbm2AKhphfHHGEyAeThib/rN/AwKs24.
+This host key is known by the following other names/addresses:
+    ~/.ssh/known_hosts:5: [venus.picoctf.net]:58697
+    ~/.ssh/known_hosts:8: [venus.picoctf.net]:58741
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '[venus.picoctf.net]:58783' (ED25519) to the list of known hosts.
+ctf-player@venus.picoctf.net's password: 6dee9772
+Welcome to Ubuntu 18.04.5 LTS (GNU/Linux 5.4.0-1041-aws x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+This system has been minimized by removing packages and content that are
+not required on a system that users do not log into.
+
+To restore this content, you can run the 'unminimize' command.
+
+The programs included with the Ubuntu system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Ubuntu comes with ABSOLUTELY NO WARRANTY, to the extent permitted by
+applicable law.
+
+ctf-player@pico-chall$ ls
+1of3.flag.txt  instructions-to-2of3.txt
+
+ctf-player@pico-chall$ cat *
+picoCTF{xxsh_
+Next, go to the root of all things, more succinctly `/`</pre>
+            <p>Ok, I see where this is going, we're just gonna go around looking for the parts of the flag:</p>
+            <pre>ctf-player@pico-chall$ cd /
+
+ctf-player@pico-chall$ ls
+2of3.flag.txt  bin  boot  dev  etc  home  instructions-to-3of3.txt  lib  lib64  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
+
+ctf-player@pico-chall$ cat 2* i*
+0ut_0f_\/\/4t3r_
+Lastly, ctf-player, go home... more succinctly `~`
+
+ctf-player@pico-chall$ cd ~
+
+ctf-player@pico-chall$ ls
+3of3.flag.txt  drop-in
+
+ctf-player@pico-chall$ cat 3*
+540e4e79}</pre>
+            <p>Also, what is that drop-in? It's where we started when entering to the SSH, now we can exit too off the SSH:</p>
+            <pre>ctf-player@pico-chall$ ls drop-in
+1of3.flag.txt  instructions-to-2of3.txt
+
+ctf-player@pico-chall$ exit
+logout
+Connection to venus.picoctf.net closed.</pre>
+            <p>So if we join all of the parts of the flag, we get this:</p>
+            <pre>picoCTF{xxsh_0ut_0f_\/\/4t3r_540e4e79}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/189">https://play.picoctf.org/practice/challenge/189</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
