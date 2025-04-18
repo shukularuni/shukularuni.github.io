@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF Obedient Cat @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF General Skills Guide</h1>
+        <p>here's how to solve Obedient Cat</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the General Skills Guides</a>
+            <hr>
+            <h2>Obedient Cat</h2>
+            <pre>Name: Obedient Cat
+Description: This file has a flag in plain sight (aka "in-the-clear"). Download flag.
+Author: syreal
+Tags: Easy, General Skills, picoCTF 2021
+Challenge from: picoCTF 2021
+Files: flag
+Hints:
+1. Any hints about entering a command into the Terminal (such as the next one), will start with a '$'... everything after the dollar sign will be typed (or copy and pasted) into your Terminal.
+2. To get the file accessible in your shell, enter the following in the Terminal prompt: $ wget https://mercury.picoctf.net/static/2d24d50b4ebed90c704575627f1f57b2/flag
+3. $ man cat</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to open a file they gave us, I don't think it will be as easy as just opening the file, it will probably be encoding in some weird thing or whatever. Let's see what the file has.</p>
+            <h2>Solution</h2>
+            <p>And, no. It is really as easy as opening the file, because downloading it and opening it, gives us this:</p>
+            <pre>shukularuni-picoctf@webshell:~$ cat flag
+picoCTF{s4n1ty_v3r1f13d_f28ac910}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/147">https://play.picoctf.org/practice/challenge/147</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
