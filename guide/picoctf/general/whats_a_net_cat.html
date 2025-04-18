@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF what's a net cat? @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF General Skills Guide</h1>
+        <p>here's how to solve what's a net cat?</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the General Skills Guides</a>
+            <hr>
+            <h2>what's a net cat?</h2>
+            <pre>Name: what's a net cat?
+Description: Using netcat (nc) is going to be pretty important. Can you connect to jupiter.challenges.picoctf.org at port 64287 to get the flag?
+Author: SANJAY C/DANNY TUNITIS (fix latr)
+Tags: Easy, General Skills, picoCTF 2019
+Challenge from: picoCTF 2019
+Hints:
+1. nc <a target="_blank" href="https://linux.die.net/man/1/nc">tutorial</a></pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we just need to enter to a NetCat, which is really simple, we just need to input the nc command and put the server followed by the port all separated by space. So with the stuff they give us, we get this command:</p>
+            <pre>nc jupiter.challenges.picoctf.org 64287</pre>
+            <h2>Solution</h2>
+            <p>Now we just need to enter to the NetCat by using the command from before:</p>
+            <pre>shukularuni-picoctf@webshell:~$ nc jupiter.challenges.picoctf.org 64287
+You're on your way to becoming the net cat master
+picoCTF{nEtCat_Mast3ry_284be8f7}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/34">https://play.picoctf.org/practice/challenge/34</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
