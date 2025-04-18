@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF strings it @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF General Skills Guide</h1>
+        <p>here's how to solve strings it</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the General Skills Guides</a>
+            <hr>
+            <h2>strings it</h2>
+            <pre>Name: strings it
+Description: Can you find the flag in file without running it?
+Author: SANJAY C/DANNY TUNITIS (fix latr)
+Tags: Easy, General Skills, picoCTF 2019
+Challenge from: picoCTF 2019
+Files: strings
+Hints:
+1. <a target="_blank" href="https://linux.die.net/man/1/strings">strings</a></pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to use the strings command to find something in that file, I don't think there might be anything else to it, since it's an easy challenge.</p>
+            <h2>Solution</h2>
+            <p>First, let's download the file and change the name because running `strings strings` will be a little confusing, also this looks like it's an executable:</p>
+            <pre>shukularuni-picoctf@webshell:~$ wget https://jupiter.challenges.picoctf.org/static/fae9ac5267cd6e44124e559b901df177/strings
+--2025-04-18 21:47:50--  https://jupiter.challenges.picoctf.org/static/fae9ac5267cd6e44124e559b901df177/strings
+Resolving jupiter.challenges.picoctf.org (jupiter.challenges.picoctf.net)... 3.131.60.8, ...
+Connecting to jupiter.challenges.picoctf.org (jupiter.challenges.picoctf.net)|3.131.60.8|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 776032 (758K) [application/octet-stream]
+Saving to: 'strings'
+
+strings                                                             100%[=================================================================================================================================================================>]  757.84K  1.87MB/s    in 0.4s    
+
+2025-04-18 21:47:50 (1.87 MB/s) - 'strings' saved [776032/776032]
+
+shukularuni-picoctf@webshell:~$ mv strings name.yay
+
+shukularuni-picoctf@webshell:~$ chmod +x name.yay
+
+shukularuni-picoctf@webshell:~$ ./name.yay
+Maybe try the 'strings' function? Take a look at the man page</pre>
+            <p>Okay, and because it's a really large file, I don't think it'll be a good idea to just use strings by itself, because it will spit out every human readable character, and this file contains a lot of that. So, we'll pipe the result to a grep to find all instances if not the one where the flag appears by searching for its format:</p>
+            <pre>shukularuni-picoctf@webshell:~$ strings name.yay | grep "picoCTF{"
+picoCTF{5tRIng5_1T_7f766a23}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/37">https://play.picoctf.org/practice/challenge/37</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
