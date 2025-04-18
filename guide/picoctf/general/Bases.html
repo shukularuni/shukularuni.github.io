@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF Bases @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF General Skills Guide</h1>
+        <p>here's how to solve Bases</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the General Skills Guides</a>
+            <hr>
+            <h2>Bases</h2>
+            <pre>Name: Bases
+Description: What does this bDNhcm5fdGgzX3IwcDM1 mean? I think it has something to do with bases.
+Author: SANJAY C/DANNY T (fix latr)
+Tags: Easy, General Skills, picoCTF 2019
+Challenge from: picoCTF 2019
+Hints:
+1. Submit your answer in our flag format. For example, if your answer was 'hello', you would submit 'picoCTF{hello}' as the flag.</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to convert that weird string of text that looks oddly like Base64, back to text and submit it. I think it's Base64 because even if it doesn't have the usual equal sign at the end (= or ==) it does have the same set of letters both upper and lower case, and the structure just looks really like it would on a Base64 string. So let's go decode it in Base64 to see if it's really that.</p>
+            <h2>Solution</h2>
+            <p>Let's check by decoding from Base64:</p>
+            <pre>BASE64 DECODE (Base64Decode.com)
+
+INPUT: bDNhcm5fdGgzX3IwcDM1
+
+OUTPUT: l3arn_th3_r0p35</pre>
+            <p>Great, it was really Base64, now let's put it in the usual pico flag format and submit it:</p>
+            <pre>Submit Flag: picoCTF{l3arn_th3_r0p35}
+
+Check: Correct!</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/67">https://play.picoctf.org/practice/challenge/67</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
