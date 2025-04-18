@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF First Grep @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF General Skills Guide</h1>
+        <p>here's how to solve First Grep</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the General Skills Guides</a>
+            <hr>
+            <h2>First Grep</h2>
+            <pre>Name: First Grep
+Description: Can you find the flag in file? This would be really tedious to look through manually, something tells me there is a better way.
+Author: ALEX FULTON/DANNY TUNITIS (fix latr)
+Tags: Easy, General Skills, picoCTF 2019
+Challenge from: picoCTF 2019
+Files: file
+Hints:
+1. grep <a target="_blank" href="https://ryanstutorials.net/linuxtutorial/grep.php">tutorial</a></pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to download a big file, and search for the flag, not literally search for it, but use commands like grep to find the exact thing. So yeah, let's see that file.</p>
+            <h2>Solution</h2>
+            <p>Now download the file:</p>
+            <pre>shukularuni-picoctf@webshell:~$ wget https://jupiter.challenges.picoctf.org/static/515f19f3612bfd97cd3f0c0ba32bd864/file
+--2025-04-18 11:51:13--  https://jupiter.challenges.picoctf.org/static/515f19f3612bfd97cd3f0c0ba32bd864/file
+Resolving jupiter.challenges.picoctf.org (mercury.picoctf.net)... 3.131.60.8, ...
+Connecting to jupiter.challenges.picoctf.org (mercury.picoctf.net)|3.131.60.8|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 14551 (14K) [application/octet-stream]
+Saving to: 'file'
+
+file                                                                100%[=================================================================================================================================================================>]   14.21K  --.-KB/s    in 0s    
+
+2025-04-18 11:51:13 (313 MB/s) - 'file' saved [14551/14551]</pre>
+            <p>The file seems to be pretty big, so I'm not gonna print the content of the file, as it will fill up my shell, and that never looks pretty. So let's just go with grep, we'll search for the format of the flag that all pico flags have, and then search it in the file:</p>
+            <pre>shukularuni-picoctf@webshell:~$ grep "picoCTF{" file
+picoCTF{grep_is_good_to_find_things_5af9d829}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/85">https://play.picoctf.org/practice/challenge/85</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
