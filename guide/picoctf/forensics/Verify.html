@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF Verify @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF General Skills Guide</h1>
+        <p>here's how to solve Verify</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the General Skills Guides</a>
+            <hr>
+            <h2>Verify</h2>
+            <pre>Name: Verify
+Description: People keep trying to trick my players with imitation flags. I want to make sure they get the real thing! I'm going to provide the SHA-256 hash and a decrypt script to help you know that my flags are legitimate. ssh -p 54053 ctf-player@rhea.picoctf.net Using the password 1ad5be0d. Accept the fingerprint with yes, and ls once connected to begin. Remember, in a shell, passwords are hidden! Checksum: 5848768e56185707f76c1d74f34f4e03fb0573ecc1ca7b11238007226654bcda To decrypt the file once you've verified the hash, run ./decrypt.sh files/&lt;file&gt;.
+Author: Jeffery John
+Tags: Easy, General Skills, picoCTF 2024, grep, browser_webshell_solvable, checksum
+Challenge from: picoCTF 2024
+Hints:
+1. Checksums let you tell if a file is complete and from the original distributor. If the hash doesn't match, it's a different file.
+2. You can create a SHA checksum of a file with sha256sum &lt;file&gt; or all files in a directory with sha256sum &lt;directory&gt;/*.
+3. Remember you can pipe the output of one command to another with |. Try practicing with the 'First Grep' challenge if you're stuck!</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to go find a file with that SHA256 hash and then decrypt it to know it's the real flag.</p>
+            <h2>Solution</h2>
+            <p>Let's enter and see what we've got in here:</p>
+            <pre>shukularuni-picoctf@webshell:~$ ssh -p 54053 ctf-player@rhea.picoctf.net
+The authenticity of host '[rhea.picoctf.net]:54053 ([3.136.191.228]:54053)' can't be established.
+ED25519 key fingerprint is SHA256:QKdv+RGJL0UYRDM66IiGQ5dsXOX7DQFqB7umTylh+IU.
+This key is not known by any other names
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '[rhea.picoctf.net]:54053' (ED25519) to the list of known hosts.
+ctf-player@rhea.picoctf.net's password: 1ad5be0d
+
+player@pico-chall$ ls
+checksum.txt  decrypt.sh  files</pre>
+            <p>So now what I think we need to do is use the command sha256sum referring to all the files inside the files folder, but so that we don't print all of the files' hashes of all the files and just find the correct one, we'll pipe the hashes to grep to find the specific one given to us:</p>
+            <pre>ctf-player@pico-chall$ sha256sum files/* | grep "5848768e56185707f76c1d74f34f4e03fb0573ecc1ca7b11238007226654bcda"
+5848768e56185707f76c1d74f34f4e03fb0573ecc1ca7b11238007226654bcda  files/8eee7195</pre>
+            <p>Now that we have the file with the correct hash, let's use that decrypt program on it to get the flag:</p>
+            <pre>ctf-player@pico-chall$ ./decrypt.sh files/8eee7195
+picoCTF{trust_but_verify_8eee7195}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/450">https://play.picoctf.org/practice/challenge/450</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
