@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF Scan Surprise @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF General Skills Guide</h1>
+        <p>here's how to solve Scan Surprise</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the General Skills Guides</a>
+            <hr>
+            <h2>Scan Surprise</h2>
+            <pre>Name: Scan Surprise
+Description: I've gotten bored of handing out flags as text. Wouldn't it be cool if they were an image instead? You can download the challenge files here: challenge.zip The same files are accessible via SSH here: ssh -p 54295 ctf-player@atlas.picoctf.net Using the password 83dcefb7. Accept the fingerprint with yes, and ls once connected to begin. Remember, in a shell, passwords are hidden!
+Author: Jeffery John
+Tags: Easy, General Skills, picoCTF 2024, shell, browser_webshell_solvable, qr_code
+Challenge from: picoCTF 2024
+Files: challenge.zip
+Hints:
+1. QR codes are a way of encoding data. While they're most known for storing URLs, they can store other things too.
+2. Mobile phones have included native QR code scanners in their cameras since version 8 (Oreo) and iOS 11
+3. If you don't have access to a phone, you can also use zbar-tools to convert an image to text</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to scan the QR code given to us in that zip file or something, so let's see what all that is about.</p>
+            <h2>Solution</h2>
+            <p>Let's download the zip and get the imate:</p>
+            <pre>shukularuni-picoctf@webshell:~$ wget https://artifacts.picoctf.net/c_atlas/1/challenge.zip
+--2025-04-19 16:25:52--  https://artifacts.picoctf.net/c_atlas/1/challenge.zip
+Resolving artifacts.picoctf.net (artifacts.picoctf.net)... 3.160.22.128, 3.160.22.43, 3.160.22.92, ...
+Connecting to artifacts.picoctf.net (artifacts.picoctf.net)|3.160.22.128|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 731 [application/octet-stream]
+Saving to: 'challenge.zip'
+
+     0K                                                       100%  730M=0s
+
+2025-04-19 16:25:52 (730 MB/s) - 'challenge.zip' saved [731/731]
+
+shukularuni-picoctf@webshell:~$ unzip challenge.zip
+
+shukularuni-picoctf@webshell:~$ ls
+challenge.zip  home
+
+shukularuni-picoctf@webshell:~$ cd home
+
+shukularuni-picoctf@webshell:~$ ls
+ctf-player
+
+shukularuni-picoctf@webshell:~$ cd ctf-player
+
+shukularuni-picoctf@webshell:~$ ls
+drop-in
+
+shukularuni-picoctf@webshell:~$ cd drop-in
+
+shukularuni-picoctf@webshell:~$ ls
+flag.png</pre>
+            <p>Let's check what's in the qr code:</p>
+            <pre>GET INFO FROM QR CODE
+
+INPUT: flag.png
+
+OUTPUT: picoCTF{p33k_@_b00_3f7cf1ae}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/444">https://play.picoctf.org/practice/challenge/444</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
