@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF Lets Warm Up @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF General Skills Guide</h1>
+        <p>here's how to solve Lets Warm Up</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the General Skills Guides</a>
+            <hr>
+            <h2>Lets Warm Up</h2>
+            <pre>Name: Lets Warm Up
+Description: If I told you a word started with 0x70 in hexadecimal, what would it start with in ASCII?
+Author: SANJAY C/DANNY TUNITIS (fix latr)
+Tags: Easy, General Skills, picoCTF 2019
+Challenge from: picoCTF 2019
+Hints:
+1. Submit your answer in our flag format. For example, if your answer was 'hello', you would submit 'picoCTF{hello}' as the flag.</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to convert the hexadecimal `70` to text, it's just a single letter. This is pretty easy because we can just use any hex to text converter online.</p>
+            <h2>Solution</h2>
+            <p>Let's input the 70 to a hex to text converter, we'll remove the 0x part because the part that defines that it's hexadecimal is not needed:</p>
+            <pre>HEXADECIMAL TO TEXT (online converter)
+
+INPUT: 70
+
+OUTPUT: p</pre>
+            <p>Now let's put it in the usual pico flag format and submit it:</p>
+            <pre>Submit Flag: picoCTF{p}
+
+Check: Correct!</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/22">https://play.picoctf.org/practice/challenge/22</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
