@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF RED @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF General Skills Guide</h1>
+        <p>here's how to solve RED</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the General Skills Guides</a>
+            <hr>
+            <h2>RED</h2>
+            <pre>Name: RED
+Description: RED, RED, RED, RED Download the image: red.png
+Author: SHUAILIN PAN (LECONJUROR) (fix latr)
+Tags: Easy, General Skills, picoCTF 2024, browser_webshell_solvable
+Challenge from: picoCTF 2024
+Hints:
+1. The picture seems pure, but is it though?
+2. Red?Ged?Bed?Aed?
+3. Check whatever Facebook is called now.</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to look through an image, the metadata of the image to be exact, steganography is pretty cool. We can use a command like exiftool to look at the image metadata.</p>
+            <h2>Solution</h2>
+            <p>Let's download the image and run it with exiftool:</p>
+            <pre>shukularuni-picoctf@webshell:~$ wget https://challenge-files.picoctf.net/c_verbal_sleep/831307718b34193b288dde31e557484876fb84978b5818e2627e453a54aa9ba6/red.png
+--2025-04-19 00:56:47--  https://challenge-files.picoctf.net/c_verbal_sleep/831307718b34193b288dde31e557484876fb84978b5818e2627e453a54aa9ba6/red.png
+Resolving challenge-files.picoctf.net (challenge-files.picoctf.net)... 3.160.5.40, ...
+Connecting to challenge-files.picoctf.net (challenge-files.picoctf.net)|3.160.5.40|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 796 [application/octet-stream]
+Saving to: 'red.png'
+
+red.png                                                             100%[=================================================================================================================================================================>]     796  --.-KB/s    in 0s    
+
+2025-04-19 00:56:47 (23.8 MB/s) - 'red.png' saved [796/796]
+
+shukularuni-picoctf@webshell:~$ exiftool red.png
+ExifTool Version Number         : 12.40
+File Name                       : red.png
+Directory                       : .
+File Size                       : 796 bytes
+File Modification Date/Time     : 2025:03:06 03:34:15+00:00
+File Access Date/Time           : 2025:04:19 00:57:23+00:00
+File Inode Change Date/Time     : 2025:04:19 00:56:47+00:00
+File Permissions                : -rw-rw-r--
+File Type                       : PNG
+File Type Extension             : png
+MIME Type                       : image/png
+Image Width                     : 128
+Image Height                    : 128
+Bit Depth                       : 8
+Color Type                      : RGB with Alpha
+Compression                     : Deflate/Inflate
+Filter                          : Adaptive
+Interlace                       : Noninterlaced
+Poem                            : Crimson heart, vibrant and bold,.Hearts flutter at your sight..Evenings glow softly red,.Cherries burst with sweet life..Kisses linger with your warmth..Love deep as merlot..Scarlet leaves falling softly,.Bold in every stroke.
+Image Size                      : 128x128
+Megapixels                      : 0.016</pre>
+            <p>Doesn't seem like there's anything interesting apart from the poem, so let's use that steganography tool:</p>
+            <pre>shukularuni-picoctf@webshell:~$ zsteg red.png
+meta Poem           .. text: "Crimson heart, vibrant and bold,\nHearts flutter at your sight.\nEvenings glow softly red,\nCherries burst with sweet life.\nKisses linger with your warmth.\nLove deep as merlot.\nScarlet leaves falling softly,\nBold in every stroke."
+b1,rgba,lsb,xy      .. text: "cGljb0NURntyM2RfMXNfdGgzX3VsdDFtNHQzX2N1cjNfZjByXzU0ZG4zNTVffQ==cGljb0NURntyM2RfMXNfdGgzX3VsdDFtNHQzX2N1cjNfZjByXzU0ZG4zNTVffQ==cGljb0NURntyM2RfMXNfdGgzX3VsdDFtNHQzX2N1cjNfZjByXzU0ZG4zNTVffQ==cGljb0NURntyM2RfMXNfdGgzX3VsdDFtNHQzX2N1cjNfZjByXzU0ZG4zNTVffQ=="
+b1,rgba,msb,xy      .. file: OpenPGP Public Key
+b2,g,lsb,xy         .. text: "ET@UETPETUUT@TUUTD@PDUDDDPE"
+b2,rgb,lsb,xy       .. file: OpenPGP Secret Key
+b2,bgr,msb,xy       .. file: OpenPGP Public Key
+b2,rgba,lsb,xy      .. file: OpenPGP Secret Key
+b2,rgba,msb,xy      .. text: "CIkiiiII"
+b2,abgr,lsb,xy      .. file: OpenPGP Secret Key
+b2,abgr,msb,xy      .. text: "iiiaakikk"
+b3,rgba,msb,xy      .. text: "#wb#wp#7p"
+b3,abgr,msb,xy      .. text: "7r'wb#7p"
+b4,b,lsb,xy         .. file: 0421 Alliant compact executable not stripped</pre>
+            <p>Okay, that's more interesting, there is a Base64 string inside the image and some other nonsense, also it's repeated four times for some reason idk, let's convert that to text and see if it has something important:</p>
+            <pre>BASE64 DECODE (Base64Decode.com)
+
+INPUT: cGljb0NURntyM2RfMXNfdGgzX3VsdDFtNHQzX2N1cjNfZjByXzU0ZG4zNTVffQ==
+
+OUTPUT: picoCTF{r3d_1s_th3_ult1m4t3_cur3_f0r_54dn355_}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/460">https://play.picoctf.org/practice/challenge/460</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
