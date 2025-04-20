@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTW Cyborg 1 &#8594; 2 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>UnderTheWire Cyborg Guide</h1>
+        <p>here's how to solve the Cyborg level 1 &#8594; 2</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Cyborg Guides</a>
+            <p>Previous Level Guide: <a href="0.html">Cyborg Level 0 &#8594; 1</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh cyborg1@cyborg.underthewire.tech -p 22</code></p>
+            <p>Password: <code>cyborg1</code></p>
+            <h2>Info</h2>
+            <pre>The password for cyborg2 is the state that the user Chris Rogers is from as stated within Active Directory.
+
+NOTE:
+– The password will be lowercase no matter how it appears on the screen.
+– “State” refers to the location within the country and NOT the “state” of the account (enabled/ disabled).
+
+IMPORTANT:
+Once you feel you have completed the Cyborg1 challenge, start a new connection to the server, and log in with the username of Cyborg2 and this password will be the answer from Cyborg1. If successful, close out the Cyborg1 connection and begin to solve the Cyborg2 challenge. This concept is repeated over and over until you reach the end of the game.
+
+
+&#9660; HINT:
+List the available modules, there may be a useful one available…</pre>
+            <h2>Theory</h2>
+            <p>To get the password we'll use the session we entered in the previous level, and from there we could use the Get-ADUser since it's a simple way to get the info from a finding a user by filtering in the Active Directory. So we'll filter by giving the name Chris and the surname Rogers:</p>
+            <pre>Get-ADUser -Filter 'GivenName -eq "Chris" -and Surname -eq "Rogers"'</pre>
+            <h2>Solution</h2>
+            <p>Firstly we'll use the command now that we are inside the shell:</p>
+            <pre>PS C:\users\cyborg1\desktop> Get-ADUser -Filter 'GivenName -eq "Chris" -and Surname -eq "Rogers"'
+
+DistinguishedName : CN=Rogers\, Chris\ ,OU=T-65,OU=X-Wing,DC=underthewire,DC=tech
+Enabled           : False
+GivenName         : Chris
+Name              : Rogers, Chris
+ObjectClass       : user
+ObjectGUID        : ee6450f8-cf70-4b1d-b902-a837839632bd
+SamAccountName    : chris.rogers
+SID               : S-1-5-21-758131494-606461608-3556270690-2177
+Surname           : Rogers
+UserPrincipalName : chris.rogers</pre>
+            <p>Alright, the state doesn't seem to appear in the search, let's just include it as a property to make the search of the state mandatory:</p>
+            <pre>PS C:\users\cyborg1\desktop> Get-ADUser -Filter 'GivenName -eq "Chris" -and Surname -eq "Rogers"' -Properties State
+
+DistinguishedName : CN=Rogers\, Chris\ ,OU=T-65,OU=X-Wing,DC=underthewire,DC=tech
+Enabled           : False
+GivenName         : Chris
+Name              : Rogers, Chris
+ObjectClass       : user
+ObjectGUID        : ee6450f8-cf70-4b1d-b902-a837839632bd
+SamAccountName    : chris.rogers
+SID               : S-1-5-21-758131494-606461608-3556270690-2177
+State             : kansas
+Surname           : Rogers
+UserPrincipalName : chris.rogers</pre>
+            <p>There we go, we got the state of that Chris Rogers user:</p>
+            <pre>kansas</pre>
+            <p>And that's the password! Now we should be good to go to the next level.</p>
+            <a target="_blank" href="https://underthewire.tech/cyborg-1">https://underthewire.tech/cyborg-1</a>
+            <hr>
+            Next Level Guide: <a href="2.html">Cyborg Level 2 &#8594; Level 3</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
