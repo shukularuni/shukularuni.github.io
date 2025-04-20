@@ -20,18 +20,15 @@
             <p>SSH: <code>ssh cyborg1@cyborg.underthewire.tech -p 22</code></p>
             <p>Password: <code>cyborg1</code></p>
             <h2>Info</h2>
-            <pre>The password for cyborg2 is the state that the user Chris Rogers is from as stated within Active Directory.
+            <pre>The goal of this level is to log into the game. Do the following in order to achieve this goal.
 
-NOTE:
-– The password will be lowercase no matter how it appears on the screen.
-– “State” refers to the location within the country and NOT the “state” of the account (enabled/ disabled).
+1. Obtain the initial credentials via the #StartHere channel on our Slack (link). Once you are in the channel, scroll to the top to see the credentials.
 
-IMPORTANT:
-Once you feel you have completed the Cyborg1 challenge, start a new connection to the server, and log in with the username of Cyborg2 and this password will be the answer from Cyborg1. If successful, close out the Cyborg1 connection and begin to solve the Cyborg2 challenge. This concept is repeated over and over until you reach the end of the game.
+2. After obtaining the credentials, connect to the server via SSH. You will need an SSH client such as Putty. The host that you will be connecting to is cyborg.underthewire.tech, on port 22.
 
+3. When prompted, use the credentials for the applicable game found in the #StartHere Slack channel.
 
-&#9660; HINT:
-List the available modules, there may be a useful one available…</pre>
+4. You have successfully connected to the game server when your path changes to “PS C:\Users\Cyborg1\desktop>”.</pre>
             <h2>Theory</h2>
             <p>To enter the game we first have to know how to use SSH, which if you don't, it's basically a tool to enter another machine's shell and do stuff while connected there. Kind of. We'll use this command that connects to the user cyborg1 in the domain of cyborg.underthewire.tech with port 22:</p>
             <pre>ssh cyborg1@cyborg.underthewire.tech -p 22</pre>
