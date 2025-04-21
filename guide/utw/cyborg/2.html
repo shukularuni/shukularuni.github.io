@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTW Cyborg 2 &#8594; 3 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>UnderTheWire Cyborg Guide</h1>
+        <p>here's how to solve the Cyborg level 2 &#8594; 3</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Cyborg Guides</a>
+            <p>Previous Level Guide: <a href="1.html">Cyborg Level 1 &#8594; 2</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh cyborg2@cyborg.underthewire.tech -p 22</code></p>
+            <p>Password: <code>kansas</code></p>
+            <h2>Info</h2>
+            <pre>The password for cyborg3 is the host A record IP address for CYBORG718W100N PLUS the name of the file on the desktop.
+
+NOTE:
+– If the IP is “10.10.1.5” and the file on the desktop is called “_address”, then the password is “10.10.1.5_address”.
+– The password will be lowercase no matter how it appears on the screen.
+
+&#9660; HINT:
+WMI or cmdlets… choices, choices.
+
+
+&#9660; HINT:
+Each domain client has its own specific Zone Name.</pre>
+            <h2>Theory</h2>
+            <p>To get the password, it's pretty simple, to get the IP record from any host under the same domain as the server is, so the machine's server, or well, underthewire.tech, and just search for the CYBORG718W100N name just putting it after the resolve dns name command, ok wait lemme explain it a lil better, which is used to search DNS queries for a specific name, it works kinds like the nslookup command, a command that lets you search queries of DNS records. So the commands are the dir to get the filename and resolve-dnsname with the name after it to find its info like the ip we need for the password:</p>
+            <pre>dir
+Resolve-DnsName CYBORG718W100N</pre>
+            <h2>Solution</h2>
+            <p>Firstly we'll use the dir command now that we are inside the shell:</p>
+            <pre>PS C:\users\cyborg2\desktop&gt; dir
+
+
+    Directory: C:\users\cyborg2\desktop
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----        2/26/2022   2:14 PM              0 _ipv4</pre>
+            <p>Now let's do the resolve command, see if it works correctly:</p>
+            <pre>PS C:\users\cyborg2\desktop&gt; Resolve-DnsName CYBORG718W100N
+
+Name                                           Type   TTL   Section    IPAddress
+----                                           ----   ---   -------    ---------
+CYBORG718W100N.underthewire.tech               A      3600  Answer     172.31.45.167</pre>
+            <p>There we go! Now we can join the IP address of this with the ipv4 file name, and we get this:</p>
+            <pre>172.31.45.167_ipv4</pre>
+            <p>And that's the password! Now we should be good to go to the next level.</p>
+            <a target="_blank" href="https://underthewire.tech/cyborg-2">https://underthewire.tech/cyborg-2</a>
+            <hr>
+            Next Level Guide: <a href="3.html">Cyborg Level 3 &#8594; Level 4</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
