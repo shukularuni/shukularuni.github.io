@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTW Cyborg 3 &#8594; 4 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>UnderTheWire Cyborg Guide</h1>
+        <p>here's how to solve the Cyborg level 3 &#8594; 4</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Cyborg Guides</a>
+            <p>Previous Level Guide: <a href="2.html">Cyborg Level 2 &#8594; 3</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh cyborg3@cyborg.underthewire.tech -p 22</code></p>
+            <p>Password: <code>172.31.45.167_ipv4</code></p>
+            <h2>Info</h2>
+            <pre>The password for cyborg4 is the number of users in the Cyborg group within Active Directory PLUS the name of the file on the desktop.
+
+NOTE:
+– If the number of users is “20” and the file on the desktop is called “_users”, then the password is “20_users”.
+– The password will be lowercase no matter how it appears on the screen.
+
+&#9660; HINT:
+<a target="_blank" href="https://technet.microsoft.com/en-us/library/ee617195.aspx">https://technet.microsoft.com/en-us/library/ee617195.aspx</a></pre>
+            <h2>Theory</h2>
+            <p>To get the password, we'll probably need a couple commands to first find where the group of users is and then see the users or count all of them or something. So first obviously, dir to know the name of the file for the second part of the password. Then a command to search for the cyborg group in the active directory domain stuff, so filtering for a group that's like the name cyborg yeah I guess. Finally getting the members because if I remember correctly that group search only gives you info about the group, but hoping that between that info of the group is also the number of users because the group members command actually lists every single user, so we'll have to count that if we don't get it in the search, but we'll see later. Here the commands:</p>
+            <pre>dir
+Get-ADGroup -Filter 'Name -like "Cyborg"'
+Get-ADGroupMember</pre>
+            <h2>Solution</h2>
+            <p>Firstly we'll use the dir command now that we are inside the shell:</p>
+            <pre>PS C:\users\cyborg3\desktop&gt; dir
+
+
+    Directory: C:\users\cyborg3\desktop
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----        2/26/2022   2:14 PM              0 _objects</pre>
+            <p>Now let's get the info of the group and hopefully get how many users there are:</p>
+            <pre>PS C:\users\cyborg3\desktop&gt; Get-ADGroup -Filter 'Name -like "Cyborg"'
+
+
+DistinguishedName : CN=cyborg,OU=Groups,DC=underthewire,DC=tech
+GroupCategory     : Distribution
+GroupScope        : Global
+Name              : cyborg
+ObjectClass       : group
+ObjectGUID        : e9511d2f-b09b-40ef-a5b2-180e162ee4a7
+SamAccountName    : cyborg
+SID               : S-1-5-21-758131494-606461608-3556270690-2180</pre>
+            <p>Ok, I think we can just use the group members command, although that will display the information of however many users there are in the group, which will fill up the shell with so much information, so we can just wrap it all up in a count property command to well, count all the users in here instead. And I'm so glad we put that there because there's 88 users:</p>
+            <pre>PS C:\users\cyborg3\desktop&gt; (Get-ADGroup -Filter 'Name -like "Cyborg"' | Get-ADGroupMember).Count
+88</pre>
+            <p>There we go! Now we can join the amount of this with the file name from before, and we get this:</p>
+            <pre>88_objects</pre>
+            <p>And that's the password! Now we should be good to go to the next level.</p>
+            <a target="_blank" href="https://underthewire.tech/cyborg-3">https://underthewire.tech/cyborg-3</a>
+            <hr>
+            Next Level Guide: <a href="4.html">Cyborg Level 4 &#8594; Level 5</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
