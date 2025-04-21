@@ -38,7 +38,7 @@ List the available modules, there may be a useful one available…</pre>
             <pre>Get-ADUser -Filter 'GivenName -eq "Chris" -and Surname -eq "Rogers"'</pre>
             <h2>Solution</h2>
             <p>Firstly we'll use the command now that we are inside the shell:</p>
-            <pre>PS C:\users\cyborg1\desktop> Get-ADUser -Filter 'GivenName -eq "Chris" -and Surname -eq "Rogers"'
+            <pre>PS C:\users\cyborg1\desktop&gt; Get-ADUser -Filter 'GivenName -eq "Chris" -and Surname -eq "Rogers"'
 
 DistinguishedName : CN=Rogers\, Chris\ ,OU=T-65,OU=X-Wing,DC=underthewire,DC=tech
 Enabled           : False
@@ -51,7 +51,7 @@ SID               : S-1-5-21-758131494-606461608-3556270690-2177
 Surname           : Rogers
 UserPrincipalName : chris.rogers</pre>
             <p>Alright, the state doesn't seem to appear in the search, let's just include it as a property to make the search of the state mandatory:</p>
-            <pre>PS C:\users\cyborg1\desktop> Get-ADUser -Filter 'GivenName -eq "Chris" -and Surname -eq "Rogers"' -Properties State
+            <pre>PS C:\users\cyborg1\desktop&gt; Get-ADUser -Filter 'GivenName -eq "Chris" -and Surname -eq "Rogers"' -Properties State
 
 DistinguishedName : CN=Rogers\, Chris\ ,OU=T-65,OU=X-Wing,DC=underthewire,DC=tech
 Enabled           : False
