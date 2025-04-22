@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTW Cyborg 4 &#8594; 5 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>UnderTheWire Cyborg Guide</h1>
+        <p>here's how to solve the Cyborg level 4 &#8594; 5</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Cyborg Guides</a>
+            <p>Previous Level Guide: <a href="3.html">Cyborg Level 3 &#8594; 4</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh cyborg4@cyborg.underthewire.tech -p 22</code></p>
+            <p>Password: <code>88_objects</code></p>
+            <h2>Info</h2>
+            <pre>The password for cyborg5 is the PowerShell module name with a version number of 8.9.8.9 PLUS the name of the file on the desktop.
+
+NOTE:
+– If the module name is “bob” and the file on the desktop is called “_settings”, then the password is “bob_settings”.
+– The password will be lowercase no matter how it appears on the screen.
+
+&#9660;HINT:
+List the modules…</pre>
+            <h2>Theory</h2>
+            <p>To get the password, we'll probably need a command to search for every availble module, which is pretty easy, we can just get all modules and use the available option to only see well, the available modules and then pipe it to a command to search where the version 8.9.8.9 is, to get the name of it. Then, finally of course, dir to get the second part of the flag:</p>
+            <pre>dir
+Get-Module -ListAvailable | Select-String "8.9.8.9"</pre>
+            <h2>Solution</h2>
+            <p>Firstly we'll use the dir command now that we are inside the shell:</p>
+            <pre>PS C:\users\cyborg4\desktop&gt; dir
+
+
+    Directory: C:\users\cyborg4\desktop
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----        8/30/2018  10:45 AM              0 _eggs</pre>
+            <p>Now let's get the module with version number 8.9.8.9:</p>
+            <pre>PS C:\users\cyborg4\desktop&gt; Get-Module -ListAvailable | Select-String "8.9.8.9"
+</pre>
+            <p>Okay that's weird, I just listed all the modules and it seems to work, why's it blank? I'm gonna try and use where object to search for specifically the module that has the version attribute of 8.9.8.9:</p>
+            <pre>PS C:\users\cyborg4\desktop&gt; Get-Module -ListAvailable | Where-Object { $_.Version -like "*8.9.8.9*" }
+
+
+    Directory: C:\Windows\system32\WindowsPowerShell\v1.0\Modules
+
+
+ModuleType Version    Name                                ExportedCommands
+---------- -------    ----                                ----------------
+Manifest   8.9.8.9    bacon                               Get-bacon</pre>
+            <p>There we go! Now we can join the amount of this with the file name from before, and we get this:</p>
+            <pre>bacon_eggs</pre>
+            <p>And that's the password! Now we should be good to go to the next level.</p>
+            <a target="_blank" href="https://underthewire.tech/cyborg-4">https://underthewire.tech/cyborg-4</a>
+            <hr>
+            Next Level Guide: <a href="5.html">Cyborg Level 5 &#8594; Level 6</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
