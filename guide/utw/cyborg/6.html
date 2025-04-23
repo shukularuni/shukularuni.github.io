@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTW Cyborg 6 &#8594; 7 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>UnderTheWire Cyborg Guide</h1>
+        <p>here's how to solve the Cyborg level 6 &#8594; 7</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Cyborg Guides</a>
+            <p>Previous Level Guide: <a href="5.html">Cyborg Level 5 &#8594; 6</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh cyborg6@cyborg.underthewire.tech -p 22</code></p>
+            <p>Password: <code>rowray_timer</code></p>
+            <h2>Info</h2>
+            <pre>The password for cyborg7 is the decoded text of the string within the file on the desktop.
+
+NOTE:
+– The password is the last word of the string. For example, if it is “I like PowerShell”, the password would be “powershell”.
+– The password will be lowercase no matter how it appears on the screen.
+– There are no spaces in the answer.
+
+&#9660; HINT:
+PowerShell has access to the .Net Framework which can convert text encoding between formats. Find the right system call and you will be able to convert text strings.</a></pre>
+            <h2>Theory</h2>
+            <p>To get the password, we'll just need to get the file, and maybe the contents of it so yeah, we'll see later what that file is or what cypher it's got. But for now we can just look for the file and print its contents:</p>
+            <pre>dir
+Get-Content file.yay</pre>
+            <h2>Solution</h2>
+            <p>Aight, now that we are inside the shell, I think we'll just need to look for the file where that cypher is and then we'll see how to decode it:</p>
+            <pre>PS C:\users\cyborg6\desktop&gt; dir
+
+
+    Directory: C:\users\cyborg6\desktop
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----         2/8/2022  10:47 PM             32 cypher.txt</pre>
+            <p>I think we can just get out of the shell now that we have the cypher, first let's open the file with the get content command and then we can exit:</p>
+            <pre>PS C:\users\cyborg6\desktop&gt; Get-Content cypher.txt
+YwB5AGIAZQByAGcAZQBkAGQAbwBuAA==
+
+PS C:\users\cyborg6\desktop&gt; exit
+Connection to cyborg.underthewire.tech closed.</pre>
+            <p>Okay, yup. That's definitely Base64, so the level probably wants us to use some weird ahh powershell command, but I don't have much time right now and also I'm really lazy. So instead we'll use an online decoder, such as this one which is my favorite one (it just doesn't have ads and runs in the client instead of a server like it should be):</p>
+            <pre>BASE64 DECODE (Base64Decode.com)
+
+INPUT: YwB5AGIAZQByAGcAZQBkAGQAbwBuAA==
+
+OUTPUT: cybergeddon</pre>
+            <p>And that's the password! Now we should be good to go to the next level.</p>
+            <a target="_blank" href="https://underthewire.tech/cyborg-6">https://underthewire.tech/cyborg-6</a>
+            <hr>
+            Next Level Guide: <a href="7.html">Cyborg Level 7 &#8594; Level 8</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
