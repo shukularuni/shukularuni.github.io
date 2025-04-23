@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTW Cyborg 5 &#8594; 6 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>UnderTheWire Cyborg Guide</h1>
+        <p>here's how to solve the Cyborg level 5 &#8594; 6</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Cyborg Guides</a>
+            <p>Previous Level Guide: <a href="4.html">Cyborg Level 4 &#8594; 5</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh cyborg5@cyborg.underthewire.tech -p 22</code></p>
+            <p>Password: <code>bacon_eggs</code></p>
+            <h2>Info</h2>
+            <pre>The password for cyborg6 is the last name of the user who has logon hours set on their account PLUS the name of the file on the desktop.
+
+NOTE:
+– If the last name is “fields” and the file on the desktop is called “_address”, then the password is “fields_address”.
+– The password will be lowercase no matter how it appears on the screen.
+
+&#9660; HINT:
+<a target="_blank" href="https://technet.microsoft.com/en-us/library/ee617195.aspx">https://technet.microsoft.com/en-us/library/ee617195.aspx</a></pre>
+            <h2>Theory</h2>
+            <p>To get the password, we'll probably need a command to list every single property in the server and then we'll search it with something else. So we've got two commands, first the dir to get the name of the file in the desktop for the second part of the password, then get active directory user and then get every property of every user in the server, to then add something like where object to search stuff between every one of these to finally get the first part of the password. So the commands we got are like this:</p>
+            <pre>dir
+Get-ADUser -Filter * -Properties *</pre>
+            <h2>Solution</h2>
+            <p>Firstly we'll use the dir command now that we are inside the shell:</p>
+            <pre>PS C:\users\cyborg5\desktop&gt; dir
+
+
+    Directory: C:\users\cyborg5\desktop
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----        8/30/2018  10:45 AM              0 _timer</pre>
+            <p>Now let's use the other command to get the user with logon hours to get the first part of the password, we'll use the where object command like we did in the previous level to find the line or attribute where it has a name like hours or whatever that logon hours is:</p>
+            <pre>PS C:\users\cyborg5\desktop&gt; Get-ADUser -Filter * -Properties * | Where-Object { $_.Name -like "*hours*" }
+</pre>
+            <p>Huh, it didn't give anything, let's try searching for the attribute in the members command to actually get information from a user:</p>
+            <pre>PS C:\users\cyborg5\desktop&gt; Get-ADUser -Filter * -Properties * | Get-Member -Name '*hours*'
+
+
+   TypeName: Microsoft.ActiveDirectory.Management.ADUser
+
+Name       MemberType Definition
+----       ---------- ----------
+logonHours Property   System.Byte[] logonHours {get;set;}</pre>
+            <p>That makes more sense, now let's actually focus on getting the surname for the password, I'm also gonna include that logonHours stuff to see what all the fuss is about, also now that we know that the object is "logonHours", we can actually use the where object command to get these values:</p>
+            <pre>PS C:\users\cyborg5\desktop&gt; Get-ADUser -Filter * -Properties * | Where-Object { $_.logonHours } | Select Surname, logonHours
+
+Surname logonHours
+------- ----------
+        {255, 255, 255, 255...}
+Rowray  {0, 0, 0, 0...}</pre>
+            <p>There we go! Now we can join the surname&mdash;remembering that it's always lowercase no matter what&mdash;with the file name from before, and we get this:</p>
+            <pre>rowray_timer</pre>
+            <p>And that's the password! Now we should be good to go to the next level.</p>
+            <a target="_blank" href="https://underthewire.tech/cyborg-5">https://underthewire.tech/cyborg-5</a>
+            <hr>
+            Next Level Guide: <a href="6.html">Cyborg Level 6 &#8594; Level 7</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
