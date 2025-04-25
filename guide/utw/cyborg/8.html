@@ -68,10 +68,15 @@ Stream        : Zone.Identifier
 Length        : 26</pre>
             <p>Now we can check for that zone identifier, so let's try searching for it or the where object command:</p>
             <pre>PS C:\users\cyborg8\desktop&gt; Get-Item 1_qs5nwlcl7f_-SwNlQvOrAw.png -Stream 'Zone.Identifier' | Select-String 'Zone.Identifier'
+
 PS C:\users\cyborg8\desktop&gt; Get-Item 1_qs5nwlcl7f_-SwNlQvOrAw.png -Stream 'Zone.Identifier' | Select-String 'ZoneIdentifier'
+
 PS C:\users\cyborg8\desktop&gt; Get-Item 1_qs5nwlcl7f_-SwNlQvOrAw.png -Stream 'Zone.Identifier' | Select-String 'ZoneId'
+
 PS C:\users\cyborg8\desktop&gt; Get-Item 1_qs5nwlcl7f_-SwNlQvOrAw.png -Stream 'Zone.Identifier' | Where-Object { $_.Zone.Identifier }
+
 PS C:\users\cyborg8\desktop&gt; Get-Item 1_qs5nwlcl7f_-SwNlQvOrAw.png -Stream 'Zone.Identifier' | Where-Object { $_.ZoneIdentifier }
+
 PS C:\users\cyborg8\desktop&gt; Get-Item 1_qs5nwlcl7f_-SwNlQvOrAw.png -Stream 'Zone.Identifier' | Where-Object { $_.ZoneId }</pre>
             <p>Okay, there's nothing there. I think we can instead get the stream inside the content, but that will print out all the raw image content, so we can divide it all by equal signs because at the end the zone id will be printed like a variable, so like <code>zoneid = X</code>, so we'll get the last split of this equal sign by putting the negative one for last item, and we'll get it just fine, I think:</p>
             <pre>PS C:\users\cyborg8\desktop&gt; (Get-Item 1_qs5nwlcl7f_-SwNlQvOrAw.png -Stream * | Get-Content -Stream 'Zone.Identifier').Split('=')[-1]
