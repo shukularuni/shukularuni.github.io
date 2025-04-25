@@ -27,7 +27,7 @@ NOTE:
 – The password will be lowercase no matter how it appears on the screen.
 
 &#9660; HINT:
-The Run key in the registry seems like a good place to look…</a></pre>
+The Run key in the registry seems like a good place to look…</pre>
             <h2>Theory</h2>
             <p>To get the password, we just need to look for the name of the program executed in startup, it's a pretty simple thing that can be looked up with the command getCIMinstance thing, because the command is used to retrieve information about the computer system or its users, so we can just search for the startup commands, and we'll see what the name of the program is running when logging in the level:</p>
             <pre>Get-CimInstance Win32_StartupCommand</pre>
