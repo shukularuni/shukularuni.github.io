@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTW Cyborg 8 &#8594; 9 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>UnderTheWire Cyborg Guide</h1>
+        <p>here's how to solve the Cyborg level 8 &#8594; 9</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Cyborg Guides</a>
+            <p>Previous Level Guide: <a href="7.html">Cyborg Level 7 &#8594; 8</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh cyborg8@cyborg.underthewire.tech -p 22</code></p>
+            <p>Password: <code>skynet</code></p>
+            <h2>Info</h2>
+            <pre>The password for cyborg9 is the Internet zone that the picture on the desktop was downloaded from.
+
+NOTE:
+– The password will be lowercase no matter how it appears on the screen.
+
+&#9660; HINT:
+Alternate NTFS data streams contain valuable information. Get information for the item with appropriate parameter to solve this level.</pre>
+            <h2>Theory</h2>
+            <p>To get the password, I guess we could just use the get item command and the info in whatever there is in the stream of the file like the hint says. Also the dir command to know the name of the file for the other command, then if it's not there in the stream info, we'll look deeper into it, although I don't really know right now so let's go enter to the shell:</p>
+            <pre>dir
+Get-Item file.yay -Stream *</pre>
+            <h2>Solution</h2>
+            <p>Now that we are in the shell, first of all, look at the name of the file for the other commands:</p>
+            <pre>PS C:\users\cyborg8\desktop&gt; dir
+
+
+    Directory: C:\users\cyborg8\desktop
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----        8/30/2018  10:45 AM          60113 1_qs5nwlcl7f_-SwNlQvOrAw.png</pre>
+            <p>Now that we have the file, let's see if the zone is listed on the stream:</p>
+            <pre>PS C:\users\cyborg8\desktop&gt; Get-Item 1_qs5nwlcl7f_-SwNlQvOrAw.png -Stream *
+
+
+PSPath        : Microsoft.PowerShell.Core\FileSystem::C:\users\cyborg8\desktop\1_qs5nwlcl7f_-SwNlQvOrAw.png::$DATA
+PSParentPath  : Microsoft.PowerShell.Core\FileSystem::C:\users\cyborg8\desktop
+PSChildName   : 1_qs5nwlcl7f_-SwNlQvOrAw.png::$DATA
+PSDrive       : C
+PSProvider    : Microsoft.PowerShell.Core\FileSystem
+PSIsContainer : False
+FileName      : C:\users\cyborg8\desktop\1_qs5nwlcl7f_-SwNlQvOrAw.png
+Stream        : :$DATA
+Length        : 60113
+
+PSPath        : Microsoft.PowerShell.Core\FileSystem::C:\users\cyborg8\desktop\1_qs5nwlcl7f_-SwNlQvOrAw.png:Zone.Identifier
+PSParentPath  : Microsoft.PowerShell.Core\FileSystem::C:\users\cyborg8\desktop
+PSChildName   : 1_qs5nwlcl7f_-SwNlQvOrAw.png:Zone.Identifier
+PSDrive       : C
+PSProvider    : Microsoft.PowerShell.Core\FileSystem
+PSIsContainer : False
+FileName      : C:\users\cyborg8\desktop\1_qs5nwlcl7f_-SwNlQvOrAw.png
+Stream        : Zone.Identifier
+Length        : 26</pre>
+            <p>Now we can check for that zone identifier, so let's try searching for it or the where object command:</p>
+            <pre>PS C:\users\cyborg8\desktop&gt; Get-Item 1_qs5nwlcl7f_-SwNlQvOrAw.png -Stream 'Zone.Identifier' | Select-String 'Zone.Identifier'
+PS C:\users\cyborg8\desktop&gt; Get-Item 1_qs5nwlcl7f_-SwNlQvOrAw.png -Stream 'Zone.Identifier' | Select-String 'ZoneIdentifier'
+PS C:\users\cyborg8\desktop&gt; Get-Item 1_qs5nwlcl7f_-SwNlQvOrAw.png -Stream 'Zone.Identifier' | Select-String 'ZoneId'
+PS C:\users\cyborg8\desktop&gt; Get-Item 1_qs5nwlcl7f_-SwNlQvOrAw.png -Stream 'Zone.Identifier' | Where-Object { $_.Zone.Identifier }
+PS C:\users\cyborg8\desktop&gt; Get-Item 1_qs5nwlcl7f_-SwNlQvOrAw.png -Stream 'Zone.Identifier' | Where-Object { $_.ZoneIdentifier }
+PS C:\users\cyborg8\desktop&gt; Get-Item 1_qs5nwlcl7f_-SwNlQvOrAw.png -Stream 'Zone.Identifier' | Where-Object { $_.ZoneId }</pre>
+            <p>Okay, there's nothing there. I think we can instead get the stream inside the content, but that will print out all the raw image content, so we can divide it all by equal signs because at the end the zone id will be printed like a variable, so like <code>zoneid = X</code>, so we'll get the last split of this equal sign by putting the negative one for last item, and we'll get it just fine, I think:</p>
+            <pre>PS C:\users\cyborg8\desktop&gt; (Get-Item 1_qs5nwlcl7f_-SwNlQvOrAw.png -Stream * | Get-Content -Stream 'Zone.Identifier').Split('=')[-1]
+4</pre>
+            <p>And that's the password! Now we should be good to go to the next level.</p>
+            <a target="_blank" href="https://underthewire.tech/cyborg-8">https://underthewire.tech/cyborg-8</a>
+            <hr>
+            Next Level Guide: <a href="9.html">Cyborg Level 9 &#8594; Level 10</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
