@@ -31,7 +31,7 @@ Hints:
             <p>According to the description, to get the flag we have to look through a large database of network traffic, and I'd guess the flag is scattered through the network requests. So for this level I installed a program called Wireshark, just to open the pcap file, I really don't know how it works, but the program is great tbh.</p>
             <h2>Solution</h2>
             <p>Let's download traffic file, and open it with Wireshark (image):</p>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/Ph4nt0m_1ntrud3r/1.png">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/Ph4nt0m_1ntrud3r/1.png" alt="If it doesn't load, idk do something">
             <p>So it seems there is some Base64 in the end there, and if we go through the other requests, there's Base64 in each of them, let's copy these and see if converting it to text gets us somewhere:</p>
             <pre>E0@rPP Lhvf7II=
 E0@rPP /5fqQIg=
