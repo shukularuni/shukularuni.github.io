@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF Glory of the Garden @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF Forensics Guide</h1>
+        <p>here's how to solve Glory of the Garden</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Forensics Guides</a>
+            <hr>
+            <h2>Glory of the Garden</h2>
+            <pre>Name: Glory of the Garden
+Description: This garden contains more than it seems.
+Author: jedavis/Danny
+Tags: Easy, Forensics, picoCTF 2019
+Challenge from: picoCTF 2019
+Files: garden.jpg
+Hints:
+1. What is a hex editor?</pre>
+            <h2>Theory</h2>
+            <p>According to the description, we're gonna look through an image of a garden probably the metadata, but not really sure. Although if we look at the only hint, it seems we'll use a hex editor, so maybe the flag is somewhere inside the file, and I don't think it'll be in the metadata since they didn't mention anything about it.</p>
+            <h2>Solution</h2>
+            <p>Let's download the file and unzip it:</p>
+            <pre>shukularuni-picoctf@webshell:~$ wget https://jupiter.challenges.picoctf.org/static/d0e1ffb10fc0017c6a82c57900f3ffe3/garden.jpg
+--2025-04-26 16:53:52--  https://jupiter.challenges.picoctf.org/static/d0e1ffb10fc0017c6a82c57900f3ffe3/garden.jpg
+Resolving jupiter.challenges.picoctf.org (jupiter.challenges.picoctf.org)... 3.131.60.8
+Connecting to jupiter.challenges.picoctf.org (jupiter.challenges.picoctf.org)|3.131.60.8|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 2295192 (2.2M) [application/octet-stream]
+Saving to: 'garden.jpg'
+
+garden.jpg                                                          100%[=================================================================================================================================================================>]   2.19M  1.84MB/s    in 1.2s    
+
+2025-04-26 16:53:53 (1.84 MB/s) - 'garden.jpg' saved [2295192/2295192]
+
+shukularuni-picoctf@webshell:~$ ls
+QuickSFV.exe  README.txt  garden.jpg  links
+
+shukularuni-picoctf@webshell:~$ exiftool garden.jpg 
+ExifTool Version Number         : 12.40
+File Name                       : garden.jpg
+Directory                       : .
+File Size                       : 2.2 MiB
+...</pre>
+            <p>Nope, doesn't seem to be anything useful in the metadata as I thought in the theory. Let's try and rean the hex with xxd:</p>
+            <pre>shukularuni-picoctf@webshell:~$ xxd garden.jpg | less</pre>
+            <p>Or maybe not, because the image is 2.2 megabytes, and scrolling through all that will take some time. So instead let's just search for the flag format by just piping it to grep:</p>
+            <pre>shukularuni-picoctf@webshell:~$ xxd garden.jpg | grep "picoCTF{"</pre>
+            <p>Nothing? That's weird, maybe not xxd, let's just take the entire file and give it to grep:</p>
+            <pre>shukularuni-picoctf@webshell:~$ cat garden.jpg | grep "picoCTF{"
+grep: (standard input): binary file matches</pre>
+            <p>Wait, no. I'm so dumb, I just remembered we can't really search through the binary of the image, if we need to search text, we have to search THROUGH text. So we'll get all the strings of the file and then search for it. That should do it:</p>
+            <pre>shukularuni-picoctf@webshell:~$ strings garden.jpg | grep "picoCTF{"
+Here is a flag "picoCTF{more_than_m33ts_the_3y3eBdBd2cc}"</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/408">https://play.picoctf.org/practice/challenge/408</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

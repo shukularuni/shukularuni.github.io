@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF CanYouSee @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF Forensics Guide</h1>
+        <p>here's how to solve CanYouSee</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Forensics Guides</a>
+            <hr>
+            <h2>CanYouSee</h2>
+            <pre>Name: CanYouSee
+Description: How about some hide and seek? Download this file here.
+Author: Mubarak Mikail
+Tags: Easy, Forensics, picoCTF 2024, browser_webshell_solvable
+Challenge from: picoCTF 2024
+Files: unknown.zip
+Hints:
+1. How can you view the information about the picture?
+2. If something isn't in the expected form, maybe it deserves attention?</pre>
+            <h2>Theory</h2>
+            <p>According to the description, there's really nothing that can give us a hint about what the challenge might be about. So let's see the hints, it seems we'll have to look for information inside a picture, sounds to me like this is a steganography challenge, so we'll use stuff like exiftool or zsteg, but we'll see that after downloading the file or image, whatever it is since it's inside a zip file.</p>
+            <h2>Solution</h2>
+            <p>Let's download the file and unzip it:</p>
+            <pre>shukularuni-picoctf@webshell:~$ wget https://artifacts.picoctf.net/c_titan/128/unknown.zip
+--2025-04-26 16:51:14--  https://artifacts.picoctf.net/c_titan/128/unknown.zip
+Resolving artifacts.picoctf.net (artifacts.picoctf.net)... 3.160.22.16, 3.160.22.92, 3.160.22.43, ...
+Connecting to artifacts.picoctf.net (artifacts.picoctf.net)|3.160.22.16|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 2252108 (2.1M) [application/octet-stream]
+Saving to: 'unknown.zip'
+
+unknown.zip                                                         100%[=================================================================================================================================================================>]   2.15M  1.82MB/s    in 1.2s    
+
+2025-04-26 16:51:15 (1.82 MB/s) - 'unknown.zip' saved [2252108/2252108]
+
+shukularuni-picoctf@webshell:~$ unzip unknown.zip
+Archive:  unknown.zip
+  inflating: ukn_reality.jpg
+
+shukularuni-picoctf@webshell:~$ ls
+ukn_reality.jpg  unknown.zip</pre>
+            <p>Alright so it is a picture, let's try exiftool first:</p>
+            <pre>shukularuni-picoctf@webshell:~$ exiftool ukn_reality.jpg
+ExifTool Version Number         : 12.40
+File Name                       : ukn_reality.jpg
+Directory                       : .
+File Size                       : 2.2 MiB
+File Modification Date/Time     : 2024:03:12 00:05:51+00:00
+File Access Date/Time           : 2024:03:12 00:05:51+00:00
+File Inode Change Date/Time     : 2025:04:26 16:51:25+00:00
+File Permissions                : -rw-r--r--
+File Type                       : JPEG
+File Type Extension             : jpg
+MIME Type                       : image/jpeg
+JFIF Version                    : 1.01
+Resolution Unit                 : inches
+X Resolution                    : 72
+Y Resolution                    : 72
+XMP Toolkit                     : Image::ExifTool 11.88
+Attribution URL                 : cGljb0NURntNRTc0RDQ3QV9ISUREM05fM2I5MjA5YTJ9Cg==
+Image Width                     : 4308
+Image Height                    : 2875
+Encoding Process                : Baseline DCT, Huffman coding
+Bits Per Sample                 : 8
+Color Components                : 3
+Y Cb Cr Sub Sampling            : YCbCr4:2:0 (2 2)
+Image Size                      : 4308x2875
+Megapixels                      : 12.4</pre>
+            <p>Okay, there it is! A Base64 string in the middle of the file metadata, a usual. Now let's just decode it with the Base64 decoder I always use:</p>
+            <pre>BASE64 DECODE (Base64Decode.com)
+
+INPUT: cGljb0NURntNRTc0RDQ3QV9ISUREM05fM2I5MjA5YTJ9Cg==
+
+OUTPUT: picoCTF{ME74D47A_HIDD3N_3b9209a2}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/408">https://play.picoctf.org/practice/challenge/408</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
