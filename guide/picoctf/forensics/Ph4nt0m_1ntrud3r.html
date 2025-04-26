@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF Ph4nt0m 1ntrud3r @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF Forensics Guide</h1>
+        <p>here's how to solve Ph4nt0m 1ntrud3r</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Forensics Guides</a>
+            <hr>
+            <h2>Ph4nt0m 1ntrud3r</h2>
+            <pre>Name: Ph4nt0m 1ntrud3r
+Description: A digital ghost has breached my defenses, and my sensitive data has been stolen! &#128561;&#128187; Your mission is to uncover how this phantom intruder infiltrated my system and retrieve the hidden flag. To solve this challenge, you'll need to analyze the provided PCAP file and track down the attack method. The attacker has cleverly concealed his moves in well timely manner. Dive into the network traffic, apply the right filters and show off your forensic prowess and unmask the digital intruder! Find the PCAP file here Network Traffic PCAP file and try to get the flag.
+Author: Prince Niyonshuti N.
+Tags: Easy, Forensics, picoCTF 2025, browser_webshell_solvable
+Challenge from: picoCTF 2025
+Files: myNetworkTraffic.pcap
+Hints:
+1. Filter your packets to narrow down your search.
+2. Attacks were done in timely manner.
+3. Time is essential</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to look through a large database of network traffic, and I'd guess the flag is scattered through the network requests. So for this level I installed a program called Wireshark, just to open the pcap file, I really don't know how it works, but the program is great tbh.</p>
+            <h2>Solution</h2>
+            <p>Let's download traffic file, and open it with Wireshark (image):</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/Ph4nt0m_1ntrud3r/1.png">
+            <p>So it seems there is some Base64 in the end there, and if we go through the other requests, there's Base64 in each of them, let's copy these and see if converting it to text gets us somewhere:</p>
+            <pre>E0@rPP Lhvf7II=
+E0@rPP /5fqQIg=
+E0@rPP y'fTd1V7s=
+E0@rPP 16HAGdM=
+E0@rPP PKHTSHY=
+E4@nPP [ezF0X3c0cw==
+E0@rPP 9KWLzF4=
+E0@rPP /ELpxZM=
+E0@rPP yhXzlxm8=
+E0@rPP f548XfQ=
+E4@nPP L MzE4ZGIyMg==
+E,@vPP ifQ==
+E0@rPP ibDmOhQk=
+E4@nPP ZXzM0c3lfdA==
+E0@rPP /Bbaggk=
+E0@rPP RZODaYw=
+E4@nPP AcGljb0NURg==
+E0@rPP FGn0CTc=
+E4@nPP YmhfNHJfZg==
+E4@nPP RbnRfdGg0dA==
+E0@rPP GIdHCVs=
+E0@rPP PTyeVM4=</pre>
+            <p>Let's clean that up:</p>
+            <pre>Lhvf7II=
+5fqQIg=
+fTd1V7s=
+16HAGdM=
+PKHTSHY=
+ezF0X3c0cw==
+9KWLzF4=
+ELpxZM=
+yhXzlxm8=
+f548XfQ=
+MzE4ZGIyMg==
+ifQ==
+ibDmOhQk=
+ZXzM0c3lfdA==
+Bbaggk=
+RZODaYw=
+AcGljb0NURg==
+FGn0CTc=
+YmhfNHJfZg==
+RbnRfdGg0dA==
+GIdHCVs=
+PTyeVM4=</pre>
+            <p>Also when getting these from the traffic file, there were some characters in the way, those were easy because Base64 doesn't have slashes, spaces, or an apostrophe. So I'll use this javascript code to go through each Base64 thing we got, and decode it two times, first just normal, and the second time cutting the first character of the string to check if there was some stuff that might have been in the way. Now that I ran the code, it seems there were a lot nonsensical Base64 strings, but these were the ones that have normal flag characters:</p>
+            <pre>BASE64 DECODE (Base64Decode.com)
+
+INPUT: for(let i of list){console.log(base64_decode(i));console.log(base64_decode(i.slice(1)))}
+
+OUTPUT:
+{1t_w4s
+318db22
+}
+_34sy_t
+picoCTF
+bh_4r_f
+nt_th4t</pre>
+            <p>Now let's try rearranging these to be a flag, here you can see I didn't do it in the first try, but eventually got to a great flag, which is correct:</p>
+            <pre>picoCTF{1t_w4s_34sy_tnt_th4tbh_4r_f318db22}   # nope
+
+picoCTF{1t_w4s_34sy_tbh_4r_fnt_th4t318db22}   # nope
+
+picoCTF{1t_w4snt_th4t_34sy_tbh_4r_f318db22}   # yay correct</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/459">https://play.picoctf.org/practice/challenge/459</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
