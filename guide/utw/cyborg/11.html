@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTW Cyborg 11 &#8594; 12 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>UnderTheWire Cyborg Guide</h1>
+        <p>here's how to solve the Cyborg level 11 &#8594; 12</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Cyborg Guides</a>
+            <p>Previous Level Guide: <a href="10.html">Cyborg Level 10 &#8594; 11</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh cyborg11@cyborg.underthewire.tech -p 22</code></p>
+            <p>Password: <code>terminated!99</code></p>
+            <h2>Info</h2>
+            <pre>The password for cyborg12 is located in the IIS log. The password is not Mozilla or Opera.
+
+NOTE:
+– The password will be lowercase no matter how it appears on the screen.
+
+&#9660; HINT:
+A log is just a file, load the content then search what you are looking for or not what you looking for. Sometimes extra noise is a good thing.</pre>
+            <h2>Theory</h2>
+            <p>To get the password, we just need to find where the log file is in the system and then run it through a command to filter all the entries that aren't from either mozilla or opera. The command is basically just getting the content of the log file, and then going through each entry of the log file checking if it's mozilla or opera, and if it is, then skip it, we just want whatever there is that isn't these two, basically. So these are the commands, the dir is just to see if the file is in there or if it's not then we'll find it later:</p>
+            <pre>dir C:\inetpub
+Get-Content C:\inetpub\logfilewhatever.yay | Where-Object { $_ -notlike '*mozilla*' -and $_ -notlike '*opera*' }</pre>
+            <h2>Solution</h2>
+            <p>Now that we are in the shell, let's see if the log file is in here:</p>
+            <pre>PS C:\users\cyborg11\desktop&gt; dir C:\inetpub
+
+
+    Directory: C:\inetpub
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+d-----        12/9/2018   7:41 PM                custerr
+d-----        1/23/2025   3:20 PM                history
+d-----        8/30/2018  10:45 AM                logs
+d-----        12/9/2018   7:41 PM                temp
+d-----        12/9/2018   7:42 PM                wwwroot</pre>
+            <p>Doesn't seem to be here, the next logical thing would be to go to the logs folder, and it might be there. So spoiler alert, it is there, but it is within a folder that is also withing so many folders, so let's just go through all of them here until we get to the file:</p>
+            <pre>PS C:\users\cyborg11\desktop&gt; dir C:\inetpub\logs
+
+
+    Directory: C:\inetpub\logs
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+d-----        8/30/2018  10:45 AM                logfiles
+
+PS C:\users\cyborg11\desktop&gt; dir C:\inetpub\logs\logfiles
+
+
+    Directory: C:\inetpub\logs\logfiles
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+d-----        8/30/2018  10:45 AM                w3svc1
+
+PS C:\users\cyborg11\desktop&gt; dir C:\inetpub\logs\logfiles\w3svc1
+
+
+    Directory: C:\inetpub\logs\logfiles\w3svc1
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----        8/30/2018   5:52 AM        1099641 u_ex160413.log</pre>
+            <p>Now that we have the file, we'll insert its location to the large command from the theory and execute it, and that should give us the password or however it does that:</p>
+            <pre>PS C:\users\cyborg11\desktop&gt; Get-Content C:\inetpub\logs\logfiles\w3svc1\u_ex160413.log | Where-Object { $_ -notlike '*mozilla*' -and $_ -notlike '*opera*' }
+#Software: Microsoft Internet Information Services 8.5
+#Version: 1.0
+#Date: 2016-04-13 04:14:01
+#Fields: date time s-sitename s-computername s-ip cs-method cs-uri-stem cs-uri-query s-port cs-username c-ip cs-version cs(User-Agent) cs(Cookie) cs(Referer) cs-host sc-status sc-substatus sc-win32-status sc-bytes cs-bytes time-taken 2016-04-13 04:14:12 W3SVC1 Century 172.31.45.65 GET / - 80 - 172.31.45.65 HTTP/1.1 LordHelmet/5.0+(CombTheDesert)+Password+is:spaceballs - - century.underthewire.tech 200 0 0 925 118 0</pre>
+            <p>There it is, extract the password from `Password+is:spaceballs`, and that's it:</p>
+            <pre>spaceballs</pre>
+            <p>And that's the password! Now we should be good to go to the next level.</p>
+            <a target="_blank" href="https://underthewire.tech/cyborg-11">https://underthewire.tech/cyborg-11</a>
+            <hr>
+            Next Level Guide: <a href="12.html">Cyborg Level 12 &#8594; Level 13</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

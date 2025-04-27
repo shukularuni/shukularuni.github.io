@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTW Cyborg 10 &#8594; 11 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>UnderTheWire Cyborg Guide</h1>
+        <p>here's how to solve the Cyborg level 10 &#8594; 11</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Cyborg Guides</a>
+            <p>Previous Level Guide: <a href="9.html">Cyborg Level 9 &#8594; 10</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh cyborg10@cyborg.underthewire.tech -p 22</code></p>
+            <p>Password: <code>onita99</code></p>
+            <h2>Info</h2>
+            <pre>The password for cyborg11 is the description of the Applocker Executable deny policy for ill_be_back.exe PLUS the name of the file on the desktop.
+
+NOTE:
+– If the description is “green$” and the file on the desktop is called “28”, then the password is “green$28”.
+– The password will be lowercase no matter how it appears on the screen.
+
+&#9660; HINT:
+Powershell is a great applockerpolicy tool just go GET it.</pre>
+            <h2>Theory</h2>
+            <p>To get the password, it's just a simple command, get AppLockerPolicy, the command matches perfectly what the description tells us to do. Gets the local, the effective, or a domain AppLocker policy, and then the effective option after it because it gets both the local and any applied AppLocker domain policies on the local computer. Then we will select the specific object of well, the only object there is in the command, and expand it, because then it'll look like a messy array that doesn't even fit on the screen. And of course, the second part of the password, the name of the file with dir:</p>
+            <pre>dir
+Get-AppLockerPolicy -Effective | Select-Object -ExpandProperty RuleCollections</pre>
+            <h2>Solution</h2>
+            <p>Now that we are in the shell, let's run the command and see if it actually does what we theorized it'd do:</p>
+            <pre>PS C:\users\cyborg10\desktop&gt; Get-AppLockerPolicy -Effective | Select-Object -ExpandProperty RuleCollections
+
+
+PathConditions      : {C:\Users\cyborg10\Documents\ill_be_back.exe}
+PathExceptions      : {}
+PublisherExceptions : {}
+HashExceptions      : {}
+Id                  : cf7f9744-e5de-4189-8499-236666a32796
+Name                : C:\Users\cyborg10\Documents\ill_be_back.exe
+Description         : terminated!
+UserOrGroupSid      : S-1-1-0
+Action              : Deny</pre>
+            <p>Perfect! We have the description of the exe file. Now we just need the name of the file in here and we should be done:</p>
+            <pre>PS C:\users\cyborg10\desktop&gt; dir
+
+
+    Directory: C:\users\cyborg10\desktop
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----        8/30/2018  10:45 AM              0 99</pre>
+            <p>Now just join the two and we get this:</p>
+            <pre>terminated!99</pre>
+            <p>And that's the password! Now we should be good to go to the next level.</p>
+            <a target="_blank" href="https://underthewire.tech/cyborg-10">https://underthewire.tech/cyborg-10</a>
+            <hr>
+            Next Level Guide: <a href="11.html">Cyborg Level 11 &#8594; Level 12</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

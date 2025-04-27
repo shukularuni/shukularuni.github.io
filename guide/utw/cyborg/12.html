@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTW Cyborg 12 &#8594; 13 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>UnderTheWire Cyborg Guide</h1>
+        <p>here's how to solve the Cyborg level 12 &#8594; 13</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Cyborg Guides</a>
+            <p>Previous Level Guide: <a href="11.html">Cyborg Level 11 &#8594; 12</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh cyborg12@cyborg.underthewire.tech -p 22</code></p>
+            <p>Password: <code>spaceballs</code></p>
+            <h2>Info</h2>
+            <pre>The password for cyborg13 is the first four characters of the base64 encoded full path to the file that started the i_heart_robots service PLUS the name of the file on the desktop.
+
+NOTE:
+– An example of a full path would be ‘c:\some_folder\test.exe’.
+– Be sure to use ‘unicode’ in your encoding.
+– If the encoded base64 is “rwmed2fdreewrt34t” and the file on the desktop is called “_address”, then the password is “rwme_address”.
+– The password will be lowercase no matter how it appears on the screen.
+
+&#9660; HINT:
+Remember there are two steps to base64 decode.</pre>
+            <h2>Theory</h2>
+            <p>To get the password, we just need to find what program starts the service in the description. For that, the command is simple, first we need to look through windows services using cim instance like we've done before to get system information and stuff, then we search for the name of the service. And that should be it, we get the path from there and convert it to Base64 in command. But I'm too lazy to use commands to do Base64 encoding, so instead we'll do it manually, and to do that we have to know how it's done in powershell. And what happens is, first it converts all of the characters to decimal or hex, and puts a 0 character between each, like a blank space, I don't know why it does that, but after putting those zero characters, then it does convert it to Base64. So we'll do that manually because yes, and also the command to get the path and dir to get the second half of the password:</p>
+            <pre>dir
+Get-CimInstance win32_service -Filter 'Name like "i_heart_robots"'</pre>
+            <h2>Solution</h2>
+            <p>Now that we are in the shell, first let's just get the name of the file in the desktop:</p>
+            <pre>PS C:\users\cyborg12\desktop&gt; dir
+
+
+    Directory: C:\users\cyborg12\desktop
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----        8/30/2018  10:45 AM              0 _heart</pre>
+            <p>Now let's see what the path to the file that started the i_heart_robots service is to then encode it like powershell:</p>
+            <pre>PS C:\users\cyborg12\desktop&gt; Get-CimInstance win32_service -Filter 'Name like "i_heart_robots"'
+
+ProcessId Name           StartMode State   Status ExitCode
+--------- ----           --------- -----   ------ --------
+0         i_heart_robots Disabled  Stopped OK     1077</pre>
+            <p>Doesn't seem like it's here, let's try selecting the path to actually get it for real this time:</p>
+            <pre>PS C:\users\cyborg12\desktop&gt; Get-CimInstance win32_service -Filter 'Name like "i_heart_robots"' | Select-Object PathName
+
+PathName
+--------
+c:\windows\system32\cmd.exe</pre>
+            <p>Great, now all we have to do is do it in the powershell way, which I'll do manually because I don't know how to system base64 stuff in commands. So first, convert it to hex:</p>
+            <pre>TEXT TO HEXADECIMAL (online converter)
+
+INPUT: c:\windows\system32\cmd.exe
+
+OUTPUT: 63 3A 5C 77 69 6E 64 6F 77 73 5C 73 79 73 74 65 6D 33 32 5C 63 6D 64 2E 65 78 65</pre>
+            <p>Now add a zero between each character like the powershell system stuff does:</p>
+            <pre>`63 3A 5C 77 69 6E 64 6F 77 73 5C 73 79 73 74 65 6D 33 32 5C 63 6D 64 2E 65 78 65 `.replaceAll(' ',' 0 ')
+
+'63 0 3A 0 5C 0 77 0 69 0 6E 0 64 0 6F 0 77 0 73 0 5C 0 73 0 79 0 73 0 74 0 65 0 6D 0 33 0 32 0 5C 0 63 0 6D 0 64 0 2E 0 65 0 78 0 65 0 '</pre>
+            <p>Finally, convert this hexadecimal to Base64:</p>
+            <pre>HEXADECIMAL TO BASE64
+
+INPUT: 63 0 3A 0 5C 0 77 0 69 0 6E 0 64 0 6F 0 77 0 73 0 5C 0 73 0 79 0 73 0 74 0 65 0 6D 0 33 0 32 0 5C 0 63 0 6D 0 64 0 2E 0 65 0 78 0 65 0
+
+OUTPUT: YwA6AFwAdwBpAG4AZABvAHcAcwBcAHMAeQBzAHQAZQBtADMAMgBcAGMAbQBkAC4AZQB4AGUA</pre>
+            <p>There it is, now just take the first 4 characters and make them lowercase, and join it with the name of the file in the desktop:</p>
+            <pre>ywa6_heart</pre>
+            <p>And that's the password! Now we should be good to go to the next level.</p>
+            <a target="_blank" href="https://underthewire.tech/cyborg-12">https://underthewire.tech/cyborg-12</a>
+            <hr>
+            Next Level Guide: <a href="13.html">Cyborg Level 13 &#8594; Level 14</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTW Cyborg 14 &#8594; 15 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>UnderTheWire Cyborg Guide</h1>
+        <p>here's how to solve the Cyborg level 14 &#8594; 15</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Cyborg Guides</a>
+            <p>Previous Level Guide: <a href="13.html">Cyborg Level 13 &#8594; 14</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh cyborg14@cyborg.underthewire.tech -p 22</code></p>
+            <p>Password: <code>22_days</code></p>
+            <h2>Info</h2>
+            <pre>The password for cyborg15 is the caption for the DCOM application setting for application ID {59B8AFA0-229E-46D9-B980-DDA2C817EC7E} PLUS the name of the file on the desktop.
+
+NOTE:
+– If the caption is “dcom” and the file on the desktop is called “_address”, then the password is “dcom_address”.
+– The password will be lowercase no matter how it appears on screen.
+
+&#9660; HINT:
+win32_DCOMApplicationSetting</pre>
+            <h2>Theory</h2>
+            <p>To get the password, we need to get the caption of a DCOM app setting with that app id. So we can just look for DCOM apps with the class name dcom application, pretty simple. Although then we have to filter for the app id, which if you see right here, I'm using percentage signs, which means wildcard. This just tells powershell to find any app id that contains this id anywhere inside it, and you might say that what if we just don't include these signs, or maybe just use the asterisk like always. Well, no. If you don't put anything in the place of those percentage signs, then it will search for a setting with that name specifically, and the asterisks are looking for the specific characters of the app id, so I think wildcard is the best option we have here. And that leaves us with this command and dir to get the filename:</p>
+            <pre>dir
+Get-CimInstance -ClassName Win32_DCOMApplication -Filter 'AppID like "%59B8AFA0-229E-46D9-B980-DDA2C817EC7E%"'</pre>
+            <h2>Solution</h2>
+            <p>Now that we are in the shell, first let's just get the name of the file in the desktop:</p>
+            <pre>PS C:\users\cyborg14\desktop&gt; dir
+
+
+    Directory: C:\users\cyborg14\desktop
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----        8/30/2018  10:45 AM              0 _objects</pre>
+            <p>Now let's do the other command to get the caption with that app id:</p>
+            <pre>PS C:\users\cyborg14\desktop&gt; Get-CimInstance -ClassName Win32_DCOMApplication -Filter 'AppID like "%59B8AFA0-229E-46D9-
+B980-DDA2C817EC7E%"'
+
+AppID                                  Name     InstallDate
+-----                                  ----     -----------
+{59B8AFA0-229E-46d9-B980-DDA2C817EC7E} propshts</pre>
+            <p>There isn't a caption here, let's list everything that comes with this setting of the app id:</p>
+            <pre>PS C:\users\cyborg14\desktop&gt; Get-CimInstance -ClassName Win32_DCOMApplication -Filter 'AppID like "%59B8AFA0-229E-46D9-
+B980-DDA2C817EC7E%"' | Select-Object *
+
+
+Name                  : propshts
+Status                :
+Caption               : propshts
+Description           : propshts
+InstallDate           :
+AppID                 : {59B8AFA0-229E-46d9-B980-DDA2C817EC7E}
+PSComputerName        :
+CimClass              : root/cimv2:Win32_DCOMApplication
+CimInstanceProperties : {Caption, Description, InstallDate, Name...}
+CimSystemProperties   : Microsoft.Management.Infrastructure.CimSystemProperties</pre>
+            <p>Oh, that's the caption, it's the same, nah that's fine. Now just join the caption with the name of the file in the desktop, and we get this:</p>
+            <pre>propshts_objects</pre>
+            <p>And that's the password! Now we should be good to go to the next level.</p>
+            <a target="_blank" href="https://underthewire.tech/cyborg-14">https://underthewire.tech/cyborg-14</a>
+            <hr>
+            Next Level Guide: <a href="15.html">Cyborg Level 15</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
