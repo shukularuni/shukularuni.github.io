@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF interencdec @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF Cryptography Guide</h1>
+        <p>here's how to solve interencdec</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Cryptography Guides</a>
+            <hr>
+            <h2>interencdec</h2>
+            <pre>Name: interencdec
+Description: Can you get the real meaning from this file. Download the file here.
+Author: NGIRIMANA Schadrack
+Tags: Easy, Cryptography, picoCTF 2024, base64, browser_webshell_solvable, caesar
+Challenge from: picoCTF 2024
+Files: enc_flag
+Hints:
+1. Engaging in various decoding processes is of utmost importance</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we'll have to decode something from the file, and it'll be Base64 and Caesar Cypher because of the tags. So yeah nothing else to get out of that, so let's go to look at that file.</p>
+            <h2>Solution</h2>
+            <p>Download the file and see what it has:</p>
+            <pre>shukularuni-picoctf@webshell:~$ wget https://artifacts.picoctf.net/c_titan/111/enc_flag
+--2025-04-28 14:41:20--  https://artifacts.picoctf.net/c_titan/111/enc_flag
+Resolving artifacts.picoctf.net (artifacts.picoctf.net)... 3.160.22.92, 3.160.22.128, 3.160.22.43, ...
+Connecting to artifacts.picoctf.net (artifacts.picoctf.net)|3.160.22.92|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 73 [application/octet-stream]
+Saving to: 'enc_flag'
+
+enc_flag                                                            100%[=================================================================================================================================================================>]      73  --.-KB/s    in 0s      
+
+2025-04-28 14:41:20 (19.1 MB/s) - 'enc_flag' saved [73/73]
+
+shukularuni-picoctf@webshell:~$ cat enc_flag
+YidkM0JxZGtwQlRYdHFhR3g2YUhsZmF6TnFlVGwzWVROclh6ZzVNR3N5TXpjNWZRPT0nCg==</pre>
+            <p>Yup, that's Base64, let's use the online decoder I always use:</p>
+            <pre>BASE64 DECODE (Base64Decode.com)
+
+INPUT: YidkM0JxZGtwQlRYdHFhR3g2YUhsZmF6TnFlVGwzWVROclh6ZzVNR3N5TXpjNWZRPT0nCg==
+
+OUTPUT: b'd3BqdkpBTXtqaGx6aHlfazNqeTl3YTNrXzg5MGsyMzc5fQ=='</pre>
+            <p>Again? But now it's wrapped around byte stuff, Idk just remove that and decode it again:</p>
+            <pre>Caesar Cypher (online tool i think)
+
+INPUT: wpjvJAM{jhlzhy_k3jy9wa3k_890k2379}
+
+SHIFT: 7
+
+OUTPUT:
+&gt;7 (&lt;19) - picoCTF{caesar_d3cr9pt3d_890d2379}
+&lt;7 (&gt;19) - dwqcQHT{qosgof_r3qf9dh3r_890r2379}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/418">https://play.picoctf.org/practice/challenge/418</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

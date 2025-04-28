@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF The Numbers @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF Cryptography Guide</h1>
+        <p>here's how to solve The Numbers</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Cryptography Guides</a>
+            <hr>
+            <h2>The Numbers</h2>
+            <pre>Name: The Numbers
+Description: The numbers... what do they mean?
+Author: Danny
+Tags: Easy, Cryptography, picoCTF 2019
+Challenge from: picoCTF 2019
+Files: the_numbers.png
+Hints:
+1. The flag is in the format PICOCTF{}</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag I don't really know since the challenge information doesn't give us anything to work with, so let's just go and see that image.</p>
+            <h2>Solution</h2>
+            <p>First, download the image and see what it has:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/The_Numbers/chall.png">
+            <p>We can copy down all the numbers and get what each letter is, manually, so basically counting for 1 is A 2 is B, etc. But that is boring, if you wanna do it that way, go ahead. But the way I'm gonna do it, is basically just first take out the numbers of the image:</p>
+            <pre>16 9 3 15 3 20 6 { 20 8 5 14 21 13 2 5 18 19 13 1 19 15 14 }</pre>
+            <p>Then put them in a list:</p>
+            <pre>&gt;&gt;&gt; '16 9 3 15 3 20 6 20 8 5 14 21 13 2 5 18 19 13 1 19 15 14'.split(' ')
+['16', '9', '3', '15', '3', '20', '6', '20', '8', '5', '14', '21', '13', '2', '5', '18', '19', '13', '1', '19', '15', '14']</pre>
+            <p>After that, we'll do this python code to add 64 to each one, so that it corresponds to its letter in the ASCII table, and then put them all back in a string separated by a space to then convert it to text:</p>
+            <pre>nums = ['16', '9', '3', '15', '3', '20', '6', '20', '8', '5', '14', '21', '13', '2', '5', '18', '19', '13', '1', '19', '15', '14']
+
+all = ''
+
+for i in nums:
+  all += str( int(i) + 64 ) + ' '
+
+print(all)</pre>
+            <p>And from that code we get this:</p>
+            <pre>C:\Users\shukularuni\Documents&gt;python nums.py
+80 73 67 79 67 84 70 84 72 69 78 85 77 66 69 82 83 77 65 83 79 78 </pre>
+            <p>Now convert it to text and that should be it:</p>
+            <pre>PICOCTFTHENUMBERSMASON</pre>
+            <p>Now we can just put the curly parenthesis back in, and the flag format correctly, and we get this:</p>
+            <pre>picoCTF{THENUMBERSMASON}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "not good"! :(</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/68">https://play.picoctf.org/practice/challenge/68</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

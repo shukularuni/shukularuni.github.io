@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF 13 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF Cryptography Guide</h1>
+        <p>here's how to solve 13</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Cryptography Guides</a>
+            <hr>
+            <h2>13</h2>
+            <pre>Name: 13
+Description: Cryptography can be easy, do you know what ROT13 is? cvpbPGS{abg_gbb_onq_bs_n_ceboyrz}
+Author: Alex Fulton/Daniel Tunitis
+Tags: Easy, Cryptography, picoCTF 2019
+Challenge from: picoCTF 2019
+Hints:
+1. This can be solved online if you don't want to do it by hand!</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag, it's just a rotation 13 cypher, or well, Caesar Cypher with a shift of 13, which is exactly halfway through the alphabet, that's why it's used so much. So yeah, let's just use the online decipherer for Caesar Cypher.</p>
+            <h2>Solution</h2>
+            <p>Now let's just put it in the Caesar Cypher with a shift of 13 and let's see what we get:</p>
+            <pre>Caesar Cypher (online tool i think)
+
+INPUT: cvpbPGS{abg_gbb_onq_bs_n_ceboyrz}
+
+SHIFT: 13
+
+OUTPUT:
+&lt;13 (&gt;13) - picoCTF{not_too_bad_of_a_problem}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/62">https://play.picoctf.org/practice/challenge/62</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

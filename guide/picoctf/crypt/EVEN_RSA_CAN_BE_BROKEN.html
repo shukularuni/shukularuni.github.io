@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF EVEN RSA CAN BE BROKEN??? @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF Cryptography Guide</h1>
+        <p>here's how to solve EVEN RSA CAN BE BROKEN???</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Cryptography Guides</a>
+            <hr>
+            <h2>EVEN RSA CAN BE BROKEN???</h2>
+            <pre>Name: EVEN RSA CAN BE BROKEN???
+Description: This service provides you an encrypted flag. Can you decrypt it with just N & e? Connect to the program with netcat: $ nc verbal-sleep.picoctf.net 51434 The program's source code can be downloaded here.
+Author: Nana Ama Atombo-Sackey
+Tags: Easy, Cryptography, picoCTF 2025, browser_webshell_solvable
+Challenge from: picoCTF 2025
+Files: encrypt.py
+Hints:
+1. How much do we trust randomness?
+2. Notice anything interesting about N?
+3. Try comparing N across multiple requests</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we'll have to decode something, the description doesn't really hint us to anything right now. But it does say to do multiple of the N thing to observe a pattern, which I'm really good at observing patterns, so this is probably gonna be fun. And so with that out of the way, let's just go see that NetCat.</p>
+            <h2>Solution</h2>
+            <p>Enter to the NetCat multiple times to observe a pattern:</p>
+            <pre>shukularuni-picoctf@webshell:~$ nc verbal-sleep.picoctf.net 51434
+N: 21511323182015280139726900830073357944805764228776196251891646976456200848099353085175251661726150640642128205815022374602078136636374105276185064508581282
+e: 65537
+cyphertext: 12998801538278723301402122076496535275641785743975876359022927180225416317364195772603671429846203330283023398759071592137130121742105578878614755924355899
+
+shukularuni-picoctf@webshell:~$ nc verbal-sleep.picoctf.net 51434
+N: 22837686695166899680915412025225835428896655787536552585859866699680414039569256965938237335537210162559594373888286339777239081195809461908897198309997642
+e: 65537
+cyphertext: 4493102784286037939816208271246130028072283479924096595424796746657990941080862301672137426972488754836724014943244178175300294851712287925257824756427897
+
+shukularuni-picoctf@webshell:~$ nc verbal-sleep.picoctf.net 51434
+N: 13878680353518459581666350916540946796511894252175146908369864756503405810870814612360758562339401049422700036254144279790642735079946894234205148652275246
+e: 65537
+cyphertext: 260174861880606391137822051183903927425359156507998211601100449994495771139476577070496438519990451989454604661486074905681900232900746091007176398836395
+
+shukularuni-picoctf@webshell:~$ nc verbal-sleep.picoctf.net 51434
+N: 17881151153327589846874298928367655732538947737779578683875362376142233637614013092399430966782317856797243490572136562457935836873093683058220663993797026
+e: 65537
+cyphertext: 645221402853437823655989248450559054643854566678355332922056508940032806338169549703312541932279859674784581006748776053705090263990867220318220142007639
+
+shukularuni-picoctf@webshell:~$ nc verbal-sleep.picoctf.net 51434
+N: 17187960567343501813136671251545190833058693091054964342754284666407113397796871635098733625418946805611372618454396109618338417001254142761100481077722058
+e: 65537
+cyphertext: 6605803303183397691718681468506477638191920851103977034778048244172379382076213763448212113008480173512602847051360113603074622487162882701069397256816857</pre>
+            <p>Huh, this is interesting, the values of N are always even, we can confirm this by looking at the code where it generates the N variable. So to solve this challenge we can just reverse engineer the encoding the original code does, for that first divide N by two, and use // instead of normal division to get the accurate result instead of its scientific notation. Then we need to swap bytes_to_long with long_to_bytes, because it's a function that converts text or just character values to a weird mesh of numbers. And enter the numbers we got from the NetCat in their corresponding variables, they're all different but I guess they all work the same, so let's just grab the from latest NetCat just in case. The variables are; N and e really straight forward, c is for cyphertext, p is the lowest denominator, so 2, and q which is N with the lowest denominator, so N divided by 2. Now we get into the important reverse engineering, the phi value calculates something that you can call Euler's totient or phi-function. After that we calculate the modular inverse, of the key (e) with the phi-function. Then calculate the private exponent. And then finally convert the long string of numbers that has passed through multiple mathematical operations that I don't even fully understand, and convert that large number to readable text, and the flag:</p>
+            <pre>&gt;&gt;&gt; 17187960567343501813136671251545190833058693091054964342754284666407113397796871635098733625418946805611372618454396109618338417001254142761100481077722058//2
+8593980283671750906568335625772595416529346545527482171377142333203556698898435817549366812709473402805686309227198054809169208500627071380550240538861029</pre>
+            <pre>from Crypto.Util.number import long_to_bytes, inverse
+
+N=17187960567343501813136671251545190833058693091054964342754284666407113397796871635098733625418946805611372618454396109618338417001254142761100481077722058
+
+e=65537
+
+c=6605803303183397691718681468506477638191920851103977034778048244172379382076213763448212113008480173512602847051360113603074622487162882701069397256816857
+
+p=2
+
+q=8593980283671750906568335625772595416529346545527482171377142333203556698898435817549366812709473402805686309227198054809169208500627071380550240538861029
+                
+phi = (p-1)*(q-1)
+inv = inverse(e, phi)
+
+dc = pow(c, inv, N)
+
+flag = long_to_bytes(dc).decode()
+
+print(flag)</pre>
+            <p>So just run that code, and we get this:</p>
+            <pre>C:\Users\shukularuni\Documents&gt;python decrypt.py
+picoCTF{tw0_1$_pr!m381772be5}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/470">https://play.picoctf.org/practice/challenge/470</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

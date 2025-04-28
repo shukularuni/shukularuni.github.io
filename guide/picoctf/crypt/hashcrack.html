@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF hashcrack @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF Cryptography Guide</h1>
+        <p>here's how to solve hashcrack</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Cryptography Guides</a>
+            <hr>
+            <h2>hashcrack</h2>
+            <pre>Name: hashcrack
+Description: A company stored a secret message on a server which got breached due to the admin using weakly hashed passwords. Can you gain access to the secret stored within the server? Access the server using nc verbal-sleep.picoctf.net 51759
+Author: Nana Ama Atombo-Sackey
+Tags: Easy, Cryptography, picoCTF 2025, browser_webshell_solvable
+Challenge from: picoCTF 2025
+Hints:
+1. Understanding hashes is very crucial. <a target="_blank" href="https://primer.picoctf.org/#_hashing">Read more here</a>.
+2. Can you identify the hash algorithm? Look carefully at the length and structure of each hash identified.
+3. Tried using any hash cracking tools?</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag, I think we might have to crack hashes, and for that there is a really cool website called CrackStation, that has hashes of the most simple and popular passwords that exist, so I guess it's a good source we can have for this challenge. So yeah, that's about everything we can get from the challenge information, so let's go and enter to the NetCat.</p>
+            <h2>Solution</h2>
+            <p>Enter to the NetCat from the description:</p>
+            <pre>shukularuni-picoctf@webshell:~$ nc verbal-sleep.picoctf.net 51759
+Welcome!! Looking For the Secret?
+
+We have identified a hash: 482c811da5d5b4bc6d497ffa98491e38
+Enter the password for identified hash:</pre>
+            <p>Great! An MD5 hash, let's send that to CrackStation and see what kind of password it is:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/hashcrack/1.png">
+            <pre>Enter the password for identified hash: password123
+Correct! You've cracked the MD5 hash with no secret found!
+
+Flag is yet to be revealed!! Crack this hash: b7a875fc1ea228b9061041b7cec4bd3c52ab3ce3
+Enter the password for the identified hash:</pre>
+            <p>Now that's SHA1, we don't have to change anything, as CrackStation already does that for us:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/hashcrack/2.png">
+            <pre>Enter the password for the identified hash: letmein
+Correct! You've cracked the SHA-1 hash with no secret found!
+
+Almost there!! Crack this hash: 916e8c4f79b25028c9e467f1eb8eee6d6bbdff965f9928310ad30a8d88697745
+Enter the password for the identified hash:</pre>
+            <p>Almost there? Alright let's finish this by sending the SHA256 to CrackStation:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/hashcrack/3.png">
+            <pre>Enter the password for the identified hash: qwerty098
+Correct! You've cracked the SHA-256 hash with a secret found. 
+The flag is: picoCTF{UseStr0nG_h@shEs_&PaSswDs!_ce730f64}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/475">https://play.picoctf.org/practice/challenge/475</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
