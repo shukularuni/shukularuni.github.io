@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF format string 0 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF Binary Exploitation Guide</h1>
+        <p>here's how to solve format string 0</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Binary Exploitation Guides</a>
+            <hr>
+            <h2>format string 0</h2>
+            <pre>Name: format string 0
+Description: Can you use your knowledge of format strings to make the customers happy? Download the binary here. Download the source here. Connect with the challenge instance here: nc mimas.picoctf.net 50754
+Author: Cheng Zhang
+Tags: Easy, Binary Exploitation, picoCTF 2024, format_string, browser_webshell_solvable
+Challenge from: picoCTF 2024
+Files: format-string-0, format-string-0.c
+Hints:
+1. This is an introduction of format string vulnerabilities. Look up "format specifiers" if you have never seen them before.
+2. Just try out the different options</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag it doesn't really tell us much about what the challenge has, but it does say it's some sort of option choosing thing or whatever. So let's enter to the NetCat.</p>
+            <h2>Solution</h2>
+            <p>Enter to the NetCat:</p>
+            <pre>Welcome to our newly-opened burger place Pico 'n Patty! Can you help the picky customers find their favorite burger?
+Here comes the first customer Patrick who wants a giant bite.
+Please choose from the following burgers: Breakf@st_Burger, Gr%114d_Cheese, Bac0n_D3luxe
+Enter your recommendation: Bac0n_D3luxe
+Bac0n_D3luxePatrick is still hungry!
+Try to serve him something of larger size!</pre>
+            <p>Huh, the option I chose wasn't correct, I really don't know where we're going with this, but I'm just gonna choose something else and see if it works or something:</p>
+            <pre>shukularuni-picoctf@webshell:~$ nc mimas.picoctf.net 61200
+Welcome to our newly-opened burger place Pico 'n Patty! Can you help the picky customers find their favorite burger?
+Here comes the first customer Patrick who wants a giant bite.
+Please choose from the following burgers: Breakf@st_Burger, Gr%114d_Cheese, Bac0n_D3luxe
+Enter your recommendation: Gr%114d_Cheese
+Gr                                                                                                           4202954_Cheese
+Good job! Patrick is happy! Now can you serve the second customer?</pre>
+            <p>Okay, that's weird, but I kind of understand it, let me explain. So the name Gr%114d_Cheese isn't just some weird character change to make it look cooler. The %114d in the name literally just tells the program to print a number with a padding of 114 characters, so when you enter that option, because it's a valid option in the menu, it can be executed because printf interprets %114d as part of the format, not just text, so that makes it print a bunch of spaces and a number, which is obviously more that 64 characters and that triggers the memory like we did in heap 0 to pass it onto a vulnerable part of the memory. So yeah, it worked not by luck, but because it was to make printf print stuff it shouldn't. So let's continue and see what the next option is:</p>
+            <pre>Good job! Patrick is happy! Now can you serve the second customer?
+Sponge Bob wants something outrageous that would break the shop (better be served quick before the shop owner kicks you out!)
+Please choose from the following burgers: Pe%to_Portobello, $outhwest_Burger, Cla%sic_Che%s%steak
+Enter your recommendation:</pre>
+            <p>Then we get to the option to do, this time we have different option, let's go through them see what might be the one instead of choosing randomly now that we know how this works. First we have Pe%to_Portobello, doesn't really seem interesting, and while it does have a percentage sign, I don't think %t exists. Then we have, $outhwest_Burger, just a dollar sign, I don't think that'll do anything. Finally, "Cla%sic_Che%s%steak" unlike the other options, this one has three %s format specifiers in it and because the program uses printf on the input, that means that those %s tell the program to grab data from memory and treat it like a string. And because the program doesn't control what's on the stack, the %s grab garbage addresses, and when it tries to read memory at the garbage addresses, it crashes. And when it crashes, it triggers the programs custom segfault handler, which conveniently prints the flag, so if you choose that burger, we actually caused a controlled crash to get the flag:</p>
+            <pre>Enter your recommendation: Cla%sic_Che%s%steak
+ClaCla%sic_Che%s%steakic_Che(null)
+picoCTF{7h3_cu570m3r_15_n3v3r_SEGFAULT_a1d85b3e}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>Why is this challenge bad? Sure, the idea is there, and once you understand it, it makes so much sense. First, you're supposed to overflow the output using something like %114d in Gr%114d_Cheese, to then crash the program by abusing %s to read from invalid memory with Cla%sic_Che%s%steak, and until that point, it's pretty cool. But the way it's done doesn't really help you to see that. At first, the challenge makes it seem like it's just a silly "choose a burger" game, the description doesn't give you any way of knowing that it's a format string vulnerability or memory corruption challenge apart from the Name. So unless you already know about format string vulnerabilities, which you aren't because this is one of the first challenges to make you experiment with that, and that you're suspicious enough to look at the burger names and not pass it like "changing characters for something else to make it look cooler" kind of thing, it feels like you're just guessing randomly until you get correct burger. There's no feedback or stuff that could help you connect the dots, unless you do deep research like I did to properly explain this challenge. And so finally, when I got the flag, it felt more guessing game than what it tries to be. It would've been way more fun and understandable if the challenge gave you just a bit more context or made the playability a little more visible instead of hiding everything behind an IP that everybody knows (SpongeBob) and weird burger menu names.</p>
+            <p>I rated this level as "not good"! :(</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/433">https://play.picoctf.org/practice/challenge/433</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
