@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF Flag Hunters @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF Reverse Engineering Guide</h1>
+        <p>here's how to solve Flag Hunters</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Reverse Engineering Guides</a>
+            <hr>
+            <h2>Flag Hunters</h2>
+            <pre>Name: Flag Hunters
+Description: Lyrics jump from verses to the refrain kind of like a subroutine call. There's a hidden refrain this program doesn't print by default. Can you get it to print it? There might be something in it for you. The program's source code can be downloaded here. Connect to the program with netcat: $ nc verbal-sleep.picoctf.net 59014
+Author: syreal
+Tags: Easy, Reverse Engineering, picoCTF 2025, browser_webshell_solvable
+Challenge from: picoCTF 2025
+Files: lyric-reader.py
+Hints:
+1. This program can easily get into undefined states. Don't be shy about Ctrl-C.
+2. Unsanitized user input is always good, right?
+3. Is there any syntax that is ripe for subversion?</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to do something about jumping from verse to verse, or something, and that there's a hidden part of the lyrics that doesn't show up, yup that's definitely where the flag is at. So let's check out that python code and see if we can devise a plan to get the flag. Alright, looking at the code, it's interesting, the flag is a variable inside a text block called secret_intro, and so when you enter to the NetCat the lines start being read by the program one by one. When it goes through a line with the word REFRAIN, it jumps to the [REFRAIN] section and does the line by line reading of that block, but then there's a part where the crowd can sing along, so basically an input to put a line into the lyrics. But wait, the input is not sanitized, so that means we can inject code into this crowd part, specifically ;RETURN 0. This is because the line reader that splits every line and prints each one by one, it splits it by a semicolon (;), and that puts the crowd input into another item in the split because it's starts with the string "Crowd: " we can't really do commands from there with that text in the middle of the way. And the next item in the queue will be the command RETURN 0, which is gonna be read by the line reader, and if you remember from before, the commands from earlier that the word REFRAIN, jumps to the [REFRAIN] section, well there are also RETURN for all numbers from 0 to 9 for each section no matter if it's a refrain or a verse or whatever, and if we look at the code the return 0 will teleport to line 0, so basically the secret block of text, the one that contains the flag. So now let's continue onto the solution to go into the NetCat.</p>
+            <pre>;RETURN 0</pre>
+            <h2>Solution</h2>
+            <p>So, now that we know how to break the level, let's enter to the NetCat and enter that return 0 thing:</p>
+            <pre>shukularuni-picoctf@webshell:~$ nc verbal-sleep.picoctf.net 59014
+Command line wizards, we’re starting it right,
+Spawning shells in the terminal, hacking all night.
+Scripts and searches, grep through the void,
+Every keystroke, we're a cypher's envoy.
+Brute force the lock or craft that regex,
+Flag on the horizon, what challenge is next?
+
+We’re flag hunters in the ether, lighting up the grid,
+No puzzle too dark, no challenge too hid.
+With every exploit we trigger, every byte we decrypt,
+We’re chasing that victory, and we’ll never quit.
+Crowd: ;RETURN 0
+
+Echoes in memory, packets in trace,
+Digging through the remnants to uncover with haste.
+Hex and headers, carving out clues,
+Resurrect the hidden, it's forensics we choose.
+Disk dumps and packet dumps, follow the trail,
+Buried deep in the noise, but we will prevail.
+
+We’re flag hunters in the ether, lighting up the grid,
+No puzzle too dark, no challenge too hid.
+With every exploit we trigger, every byte we decrypt,
+We’re chasing that victory, and we’ll never quit.
+Crowd: 
+Pico warriors rising, puzzles laid bare,
+Solving each challenge with precision and flair.
+With unity and skill, flags we deliver,
+The ether’s ours to conquer, picoCTF{70637h3r_f0r3v3r_05182f4f}
+
+
+[REFRAIN]
+We’re flag hunters in the ether, lighting up the grid,
+No puzzle too dark, no challenge too hid.
+With every exploit we trigger, every byte we decrypt,
+We’re chasing that victory, and we’ll never quit.
+Crowd: 
+Pico warriors rising, puzzles laid bare,
+Solving each challenge with precision and flair.
+With unity and skill, flags we deliver,
+The ether’s ours to conquer, picoCTF{70637h3r_f0r3v3r_05182f4f}
+
+
+[REFRAIN]
+We’re flag hunters in the ether, lighting up the grid,
+No puzzle too dark, no challenge too hid.
+With every exploit we trigger, every byte we decrypt,
+We’re chasing that victory, and we’ll never quit.
+Crowd: 
+Pico warriors rising, puzzles laid bare,
+Solving each challenge with precision and flair.
+With unity and skill, flags we deliver,
+The ether’s ours to conquer, picoCTF{70637h3r_f0r3v3r_05182f4f}
+
+
+[REFRAIN]
+We’re flag hunters in the ether, lighting up the grid,
+No puzzle too dark, no challenge too hid.
+With every exploit we trigger, every byte we decrypt,
+We’re chasing that victory, and we’ll never quit.
+Crowd: 
+Pico warriors rising, puzzles laid bare,
+Solving each challenge with precision and flair.
+With unity and skill, flags we deliver,
+The ether’s ours to conquer, picoCTF{70637h3r_f0r3v3r_05182f4f}
+
+
+[REFRAIN]
+We’re flag hunters in the ether, lighting up the grid,
+No puzzle too dark, no challenge too hid.
+With every exploit we trigger, every byte we decrypt,
+We’re chasing that victory, and we’ll never quit.
+Crowd: 
+Pico warriors rising, puzzles laid bare,
+Solving each challenge with precision and flair.
+With unity and skill, flags we deliver,
+The ether’s ours to conquer, picoCTF{70637h3r_f0r3v3r_05182f4f}
+
+
+[REFRAIN]
+We’re flag hunters in the ether, lighting up the grid,
+No puzzle too dark, no challenge too hid.
+With every exploit we trigger, every byte we decrypt,
+We’re chasing that victory, and we’ll never quit.
+Crowd: 
+Pico warriors rising, puzzles laid bare,
+Solving each challenge with precision and flair.
+With unity and skill, flags we deliver,
+The ether’s ours to conquer, picoCTF{70637h3r_f0r3v3r_05182f4f}
+
+
+[REFRAIN]
+We’re flag hunters in the ether, lighting up the grid,
+No puzzle too dark, no challenge too hid.
+With every exploit we trigger, every byte we decrypt,
+We’re chasing that victory, and we’ll never quit.
+Crowd:</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/472">https://play.picoctf.org/practice/challenge/472</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
