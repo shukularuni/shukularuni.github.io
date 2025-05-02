@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF vault-door-5 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF Reverse Engineering Guide</h1>
+        <p>here's how to solve vault-door-5</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Reverse Engineering Guides</a>
+            <hr>
+            <h2>vault-door-5</h2>
+            <pre>Name: vault-door-5
+Description: In the last challenge, you mastered octal (base 8), decimal (base 10), and hexadecimal (base 16) numbers, but this vault door uses a different change of base as well as URL encoding! The source code for this vault is here: VaultDoor5.java
+Author: Mark E. Haase
+Tags: Medium, Reverse Engineering, picoCTF 2019
+Challenge from: picoCTF 2019
+Files: VaultDoor5.java
+Hints:
+1. You may find an encoder/decoder tool helpful, such as <a target="_blank" href="https://encoding.tools/">https://encoding.tools/</a>
+2. Read the wikipedia articles on URL encoding and base 64 encoding to understand how they work and what the results look like.</pre>
+            <h2>Theory</h2>
+            <p>According to the description, this is gonna be a series of challenges of "doors", that are like codes we have to change or something to get the flag of each door, and that kinda stuff. So for this fifth one, it's gonna be some URL encoding, alright, let's go download the code and see what's inside.</p>
+            <h2>Solution</h2>
+            <p>So, let's open the code we just downloaded and see what's going on in this door (also now I'm just gonna put the only part of the code that matters):</p>
+            <pre>public boolean checkPassword(String password) {
+    String urlEncoded = urlEncode(password.getBytes());
+    String base64Encoded = base64Encode(urlEncoded.getBytes());
+    String expected = "JTYzJTMwJTZlJTc2JTMzJTcyJTc0JTMxJTZlJTY3JTVm"
+                    + "JTY2JTcyJTMwJTZkJTVmJTYyJTYxJTM1JTY1JTVmJTM2"
+                    + "JTM0JTVmJTMwJTYyJTM5JTM1JTM3JTYzJTM0JTY2";
+    return base64Encoded.equals(expected);
+}</pre>
+            <p>Oh would you look at that. That's definitely Base64, so let's use the decoder we always use to see what it might have:</p>
+            <pre>BASE64 DECODE (Base64Decode.com)
+
+INPUT: JTYzJTMwJTZlJTc2JTMzJTcyJTc0JTMxJTZlJTY3JTVmJTY2JTcyJTMwJTZkJTVmJTYyJTYxJTM1JTY1JTVmJTM2JTM0JTVmJTMwJTYyJTM5JTM1JTM3JTYzJTM0JTY2
+
+OUTPUT: %63%30%6e%76%33%72%74%31%6e%67%5f%66%72%30%6d%5f%62%61%35%65%5f%36%34%5f%30%62%39%35%37%63%34%66</pre>
+            <p>And there it is! The URL encoding we were promised. Now just use any URL decoder, even Google Chrome has one integrated in its browser:</p>
+            <pre>URL DECODE (online converter)
+
+INPUT: %63%30%6e%76%33%72%74%31%6e%67%5f%66%72%30%6d%5f%62%61%35%65%5f%36%34%5f%30%62%39%35%37%63%34%66
+
+OUTPUT: c0nv3rt1ng_fr0m_ba5e_64_0b957c4f</pre>
+            <p>Now just add the flag format:</p>
+            <pre>picoCTF{c0nv3rt1ng_fr0m_ba5e_64_0b957c4f}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/77">https://play.picoctf.org/practice/challenge/77</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

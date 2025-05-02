@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF vault-door-3 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF Reverse Engineering Guide</h1>
+        <p>here's how to solve vault-door-3</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Reverse Engineering Guides</a>
+            <hr>
+            <h2>vault-door-3</h2>
+            <pre>Name: vault-door-3
+Description: This vault uses for-loops and byte arrays. The source code for this vault is here: VaultDoor3.java
+Author: Mark E. Haase
+Tags: Medium, Reverse Engineering, picoCTF 2019
+Challenge from: picoCTF 2019
+Files: VaultDoor3.java
+Hints:
+1. Make a table that contains each value of the loop variables and the corresponding buffer index that it writes to.</pre>
+            <h2>Theory</h2>
+            <p>According to the description, this is gonna be a series of challenges of "doors", that are like codes we have to change or something to get the flag of each door, and that kinda stuff. So for this third one, it's gonna be about for loops and stuff, alright, let's go download the code and see what's inside.</p>
+            <h2>Solution</h2>
+            <p>So, let's open the code we just downloaded and see what's going on in this door (also now I'm just gonna put the only part of the code that matters):</p>
+            <pre>public boolean checkPassword(String password) {
+    if (password.length() != 32) {
+        return false;
+    }
+    char[] buffer = new char[32];
+    int i;
+    for (i=0; i&lt;8; i++) {
+        buffer[i] = password.charAt(i);
+    }
+    for (; i&lt;16; i++) {
+        buffer[i] = password.charAt(23-i);
+    }
+    for (; i&lt;32; i+=2) {
+        buffer[i] = password.charAt(46-i);
+    }
+    for (i=31; i&gt;=17; i-=2) {
+        buffer[i] = password.charAt(i);
+    }
+    String s = new String(buffer);
+    return s.equals("jU5t_a_sna_3lpm12g94c_u_4_m7ra41");
+}</pre>
+            <p>Alright, so while this looks complicated, it's really simple, it's gonna turn your input into a list with each character as an item. Then the characters 1 to 8 are gonna stay the same, while the characters 9 through 16 are gonna be in reverse order, so 9 is 16, 10 is 15, and so on. Then for the other half it's similar, the characters 18 through 32 are gonna stay the same, but it's only gonna be the even numbers, and then finally the characters 17 to 31 are gonna do that same reversed thing but it's only gonna be between the odd numbers, so 17 is 31, 19 is 29, and so on. So we'll create a python code to do this same thing but take the password on the code as an input and then divide the characters into a string and do all the shenanigans again with pretty variable names:</p>
+            <pre>nay = list("jU5t_a_sna_3lpm12g94c_u_4_m7ra41")
+yea = [''] * 32
+
+for i in range(0, 8):
+  yea[i] = nay[i]
+
+for i in range(8, 16):
+  yea[23 - i] = nay[i]
+
+for i in range(16, 32, 2):
+  yea[46 - i] = nay[i]
+
+for i in range(31, 16, -2):
+  yea[i] = nay[i]
+
+print(''.join(yea))</pre>
+            <p>And if we run it:</p>
+            <pre>C:\Users\shukularuni\Documents>python door3.py
+jU5t_a_s1mpl3_an4gr4m_4_u_c79a21</pre>
+            <p>Now that we have the inside of the flag. Just add the flag format:</p>
+            <pre>picoCTF{jU5t_a_s1mpl3_an4gr4m_4_u_c79a21}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/60">https://play.picoctf.org/practice/challenge/60</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

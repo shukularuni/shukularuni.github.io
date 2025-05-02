@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF vault-door-6 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF Reverse Engineering Guide</h1>
+        <p>here's how to solve vault-door-6</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Reverse Engineering Guides</a>
+            <hr>
+            <h2>vault-door-6</h2>
+            <pre>Name: vault-door-6
+Description: This vault uses an XOR encryption scheme. The source code for this vault is here: VaultDoor6.java
+Author: Mark E. Haase
+Tags: Medium, Reverse Engineering, picoCTF 2019
+Challenge from: picoCTF 2019
+Files: VaultDoor6.java
+Hints:
+1. If X ^ Y = Z, then Z ^ Y = X. Write a program that decrypts the flag based on this fact.</pre>
+            <h2>Theory</h2>
+            <p>According to the description, this is gonna be a series of challenges of "doors", that are like codes we have to change or something to get the flag of each door, and that kinda stuff. So for this sixth one, it's gonna be something like XOR or something idk, alright, let's go download the code and see what's inside.</p>
+            <h2>Solution</h2>
+            <p>So, let's open the code we just downloaded and see what's going on in this door (also now I'm just gonna put the only part of the code that matters):</p>
+            <pre>public boolean checkPassword(String password) {
+    if (password.length() != 32) {
+        return false;
+    }
+    byte[] passBytes = password.getBytes();
+    byte[] myBytes = {
+        0x3b, 0x65, 0x21, 0xa , 0x38, 0x0 , 0x36, 0x1d,
+        0xa , 0x3d, 0x61, 0x27, 0x11, 0x66, 0x27, 0xa ,
+        0x21, 0x1d, 0x61, 0x3b, 0xa , 0x2d, 0x65, 0x27,
+        0xa , 0x6c, 0x61, 0x6d, 0x37, 0x6d, 0x6d, 0x6d,
+    };
+    for (int i=0; i&lt;32; i++) {
+        if (((passBytes[i] ^ 0x55) - myBytes[i]) != 0) {
+            return false;
+        }
+    }
+    return true;
+}</pre>
+            <p>Oh no, wait. So turns out the minions tried to recreate XOR, but they did like something else. So they just get the decimal of each character in your input, then to the power of 55 in hexadecimal and subtract it from the real password, and if they are the same, then the password in the input is correct. So yeah, it's literally giving us the answer right there, if we elevate the password that's already written down to 55 in hex, and convert it to tex, then it should give us the real password. So a python code for that would be this, first put all the characters from the real password here in an array, and then go through each item doing the 55 hex thing and join it all:</p>
+            <pre>l = [0x3b, 0x65, 0x21, 0xa , 0x38, 0x0 , 0x36, 0x1d, 0xa , 0x3d, 0x61, 0x27, 0x11, 0x66, 0x27, 0xa , 0x21, 0x1d, 0x61, 0x3b, 0xa , 0x2d, 0x65, 0x27, 0xa , 0x6c, 0x61, 0x6d, 0x37, 0x6d, 0x6d, 0x6d]
+
+for i in l:
+  print(chr(i ^ 0x55), end='')</pre>
+            <p>And if we run it:</p>
+            <pre>C:\Users\shukularuni\Documents>python door6.py
+n0t_mUcH_h4rD3r_tH4n_x0r_948b888</pre>
+            <p>Now just add the flag format:</p>
+            <pre>picoCTF{n0t_mUcH_h4rD3r_tH4n_x0r_948b888}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/45">https://play.picoctf.org/practice/challenge/45</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

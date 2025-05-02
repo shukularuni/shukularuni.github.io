@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF vault-door-4 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF Reverse Engineering Guide</h1>
+        <p>here's how to solve vault-door-4</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Reverse Engineering Guides</a>
+            <hr>
+            <h2>vault-door-4</h2>
+            <pre>Name: vault-door-4
+Description: This vault uses ASCII encoding for the password. The source code for this vault is here: VaultDoor4.java
+Author: Mark E. Haase
+Tags: Medium, Reverse Engineering, picoCTF 2019
+Challenge from: picoCTF 2019
+Files: VaultDoor4.java
+Hints:
+1. Use a search engine to find an "ASCII table".
+2. You will also need to know the difference between octal, decimal, and hexadecimal numbers.</pre>
+            <h2>Theory</h2>
+            <p>According to the description, this is gonna be a series of challenges of "doors", that are like codes we have to change or something to get the flag of each door, and that kinda stuff. So for this fourth one, it's gonna be about some ASCII stuff, maybe encodings of these? Idk, alright, let's go download the code and see what's inside.</p>
+            <h2>Solution</h2>
+            <p>So, let's open the code we just downloaded and see what's going on in this door (also now I'm just gonna put the only part of the code that matters):</p>
+            <pre>public boolean checkPassword(String password) {
+    byte[] passBytes = password.getBytes();
+    byte[] myBytes = {
+        106 , 85  , 53  , 116 , 95  , 52  , 95  , 98  ,
+        0x55, 0x6e, 0x43, 0x68, 0x5f, 0x30, 0x66, 0x5f,
+        0142, 0131, 0164, 063 , 0163, 0137, 070 , 0146,
+        '4' , 'a' , '6' , 'c' , 'b' , 'f' , '3' , 'b' ,
+    };
+    for (int i=0; i&lt;32; i++) {
+        if (passBytes[i] != myBytes[i]) {
+            return false;
+        }
+    }
+    return true;
+}</pre>
+            <p>Yeah, this one seems easy. There are four types of encoding in there it seems. The first line is just decimal, because it's just the numbers by themselves, so for this first one we can use a decimal to text converter:</p>
+            <pre>DECIMAL TO TEXT (online converter)
+
+INPUT: 106 , 85  , 53  , 116 , 95  , 52  , 95  , 98
+
+OUTPUT: jU5t_4_b</pre>
+            <p>Now the second line, has 0x at the beginning of each character, so that means it's hex:</p>
+            <pre>HEXADECIMAL TO TEXT (online converter)
+
+INPUT: 0x55, 0x6e, 0x43, 0x68, 0x5f, 0x30, 0x66, 0x5f
+
+OUTPUT: UnCh_0f_</pre>
+            <p>For this one, it's pretty simple, large numbers with an unecessary zero in the start of each, obviously octal:</p>
+            <pre>OCTAL TO TEXT (online converter)
+
+INPUT: 0142, 0131, 0164, 063 , 0163, 0137, 070 , 0146
+
+OUTPUT: bYt3s_8f</pre>
+            <p>And now the last one, I was actually wrong, this one's not encoded, so we'll just add them to the other three parts and add the flag format:</p>
+            <pre>['4', 'a', '6', 'c', 'b', 'f', '3', 'b'] =&gt; "4a6cbf3b"</pre>
+            <pre>picoCTF{jU5t_4_bUnCh_0f_bYt3s_8f4a6cbf3b}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/71">https://play.picoctf.org/practice/challenge/71</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

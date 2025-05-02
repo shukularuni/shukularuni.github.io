@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF vault-door-7 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF Reverse Engineering Guide</h1>
+        <p>here's how to solve vault-door-7</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Reverse Engineering Guides</a>
+            <hr>
+            <h2>vault-door-7</h2>
+            <pre>Name: vault-door-7
+Description: This vault uses bit shifts to convert a password string into an array of integers. Hurry, agent, we are running out of time to stop Dr. Evil's nefarious plans! The source code for this vault is here: VaultDoor7.java
+Author: Mark E. Haase
+Tags: Hard, Reverse Engineering, picoCTF 2019
+Challenge from: picoCTF 2019
+Files: VaultDoor7.java
+Hints:
+1. Use a decimal/hexadecimal converter such as this one: <a target="_blank" href="https://www.mathsisfun.com/binary-decimal-hexadecimal-converter.html">https://www.mathsisfun.com/binary-decimal-hexadecimal-converter.html</a>
+2. You will also need to consult an ASCII table such as this one: <a target="_blank" href="https://www.asciitable.com/">https://www.asciitable.com/</a></pre>
+            <h2>Theory</h2>
+            <p>According to the description, this is gonna be a series of challenges of "doors", that are like codes we have to change or something to get the flag of each door, and that kinda stuff. So for this seventh one, it's gonna be some bit shifting, alright, let's go download the code and see what's inside.</p>
+            <h2>Solution</h2>
+            <p>So, let's open the code we just downloaded and see what's going on in this door (also now I'm just gonna put the only part of the code that matters):</p>
+            <pre>public int[] passwordToIntArray(String hex) {
+    int[] x = new int[8];
+    byte[] hexBytes = hex.getBytes();
+    for (int i=0; i&lt;8; i++) {
+        x[i] = hexBytes[i*4]   &lt;&lt; 24
+             | hexBytes[i*4+1] &lt;&lt; 16
+             | hexBytes[i*4+2] &lt;&lt; 8
+             | hexBytes[i*4+3];
+    }
+    return x;
+}
+
+public boolean checkPassword(String password) {
+    if (password.length() != 32) {
+        return false;
+    }
+    int[] x = passwordToIntArray(password);
+    return x[0] == 1096770097
+        &amp;&amp; x[1] == 1952395366
+        &amp;&amp; x[2] == 1600270708
+        &amp;&amp; x[3] == 1601398833
+        &amp;&amp; x[4] == 1716808014
+        &amp;&amp; x[5] == 1734291511
+        &amp;&amp; x[6] == 960049251
+        &amp;&amp; x[7] == 1681089078;
+}</pre>
+            <p>Yeah, this one's pretty easy, because the encryption we are looking at here is just a simple packing of characters into 32 bit stuff that was done by the byte shifts, so each 4 characters of the password were converted to one of those large 32 bit numbers integer. And there's exactly a pwntools function that can do this for us, p32(), which packs an integer into 4 bytes in an endianness, so by putting it big endianness we get the original password. Also put all the 32 bit numbers in a list to go through them individually in the p32 part:</p>
+            <pre>from pwn import *
+
+l = [1096770097, 1952395366, 1600270708, 1601398833, 1716808014, 1734291511, 960049251, 1681089078]
+
+print(''.join(p32(i, endian='big') for i in l))</pre>
+            <p>And if we run it:</p>
+            <pre>C:\Users\shukularuni\Documents>python door7.py
+Traceback (most recent call last):
+  File "C:\Users\shukularuni\Documents\door7.py", line 5, in &lt;module&gt;
+    print(''.join(p32(i, endian='big') for i in l))
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: sequence item 0: expected str instance, bytes found</pre>
+            <p>Oh, yeah, I forgot it's in bytes, we just need to define it as that if not python will hate us. So we'll add b'' to the string joiner in the print part:</p>
+            <pre>from pwn import *
+
+l = [1096770097, 1952395366, 1600270708, 1601398833, 1716808014, 1734291511, 960049251, 1681089078]
+
+print(b''.join(p32(i, endian='big') for i in l))</pre>
+            <p>And if we run it:</p>
+            <pre>C:\Users\shukularuni\Documents>python door7.py
+b'A_b1t_0f_b1t_sh1fTiNg_07990cd3b6'</pre>
+            <p>Now just remove the bytes thing and add the flag format:</p>
+            <pre>picoCTF{A_b1t_0f_b1t_sh1fTiNg_07990cd3b6}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/45">https://play.picoctf.org/practice/challenge/45</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

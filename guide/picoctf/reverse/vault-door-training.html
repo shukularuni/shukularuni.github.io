@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF vault-door-training @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF Reverse Engineering Guide</h1>
+        <p>here's how to solve vault-door-training</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Reverse Engineering Guides</a>
+            <hr>
+            <h2>vault-door-training</h2>
+            <pre>Name: vault-door-training
+Description: Your mission is to enter Dr. Evil's laboratory and retrieve the blueprints for his Doomsday Project. The laboratory is protected by a series of locked vault doors. Each door is controlled by a computer and requires a password to open. Unfortunately, our undercover agents have not been able to obtain the secret passwords for the vault doors, but one of our junior agents obtained the source code for each vault's computer! You will need to read the source code for each level to figure out what the password is for that vault door. As a warmup, we have created a replica vault in our training facility. The source code for the training vault is here: VaultDoorTraining.java
+Author: Mark E. Haase
+Tags: Easy, Reverse Engineering, picoCTF 2019
+Challenge from: picoCTF 2019
+Files: VaultDoorTraining.java
+Hints:
+1. The password is revealed in the program's source code.</pre>
+            <h2>Theory</h2>
+            <p>According to the description, this is gonna be a series of challenges of "doors", that are like codes we have to change or something to get the flag of each door, and that kinda stuff. So for this first one, it's actually not a real door, it's just training, for some reason. But let's go download the code and see what's inside.</p>
+            <h2>Solution</h2>
+            <p>So, let's open the code we just downloaded and see what's going on in this door:</p>
+            <pre>import java.util.*;
+
+class VaultDoorTraining {
+    public static void main(String args[]) {
+        VaultDoorTraining vaultDoor = new VaultDoorTraining();
+        Scanner scanner = new Scanner(System.in); 
+        System.out.print("Enter vault password: ");
+        String userInput = scanner.next();
+	String input = userInput.substring("picoCTF{".length(),userInput.length()-1);
+	if (vaultDoor.checkPassword(input)) {
+	    System.out.println("Access granted.");
+	} else {
+	    System.out.println("Access denied!");
+	}
+   }
+
+    // The password is below. Is it safe to put the password in the source code?
+    // What if somebody stole our source code? Then they would know what our
+    // password is. Hmm... I will think of some ways to improve the security
+    // on the other doors.
+    //
+    // -Minion #9567
+    public boolean checkPassword(String password) {
+        return password.equals("w4rm1ng_Up_w1tH_jAv4_3808d338b46");
+    }
+}</pre>
+            <p>And oh no, it's literally in the code without any security, well I guess it's just the first level, so we can just copy that right away. And add the flag format:</p>
+            <pre>picoCTF{w4rm1ng_Up_w1tH_jAv4_3808d338b46}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/7">https://play.picoctf.org/practice/challenge/7</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
