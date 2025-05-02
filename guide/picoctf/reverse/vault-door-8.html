@@ -120,7 +120,7 @@ class Main {
   }
   static public char[] unscramble(String input) {
     char[] a = input.toCharArray();
-    for (int b = 0; b < a.length; b++) {
+    for (int b = 0; b &lt; a.length; b++) {
       char c = a[b];
       c = switchBits(c, 6, 7);
       c = switchBits(c, 2, 5);
@@ -136,13 +136,13 @@ class Main {
   }
 
   static public char switchBits(char c, int p1, int p2) {
-    char mask1 = (char) (1 << p1);
-    char mask2 = (char) (1 << p2);
-    char bit1 = (char) (c & mask1);
-    char bit2 = (char) (c & mask2);
-    char rest = (char) (c & ~(mask1 | mask2));
+    char mask1 = (char) (1 &lt;&lt; p1);
+    char mask2 = (char) (1 &lt;&lt; p2);
+    char bit1 = (char) (c &amp; mask1);
+    char bit2 = (char) (c &amp; mask2);
+    char rest = (char) (c &amp; ~(mask1 | mask2));
     char shift = (char) (p2 - p1);
-    char result = (char) ((bit1 << shift) | (bit2 >> shift) | rest);
+    char result = (char) ((bit1 &lt;&lt; shift) | (bit2 &gt;&gt; shift) | rest);
     return result;
   }
 }</pre>
