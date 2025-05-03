@@ -65,12 +65,12 @@ total 11128
             <p>Perfect! We have the difference. Now let's enter to the NetCat and see what address we get for main:</p>
             <pre>shukularuni-picoctf@webshell:~$ nc rescued-float.picoctf.net 63667
 Address of main: 0x633564a2533d
-Enter the address to jump to, ex => 0x12345:</pre>
+Enter the address to jump to, ex =&gt; 0x12345:</pre>
             <p>Now use the same python code to subtract the difference from the address of main of this session and get the address of win of this session:</p>
             <pre>&gt;&gt;&gt; print( hex( 0x633564a2533d - 0x96 ) )
 0x633564a252a7</pre>
             <p>Let's go now just input the address of win that we got, and finally get the flag:</p>
-            <pre>Enter the address to jump to, ex => 0x12345: 0x633564a252a7
+            <pre>Enter the address to jump to, ex =&gt; 0x12345: 0x633564a252a7
 Your input: 633564a252a7
 You won!
 picoCTF{b4s1c_p051t10n_1nd3p3nd3nc3_00dea386}</pre>
