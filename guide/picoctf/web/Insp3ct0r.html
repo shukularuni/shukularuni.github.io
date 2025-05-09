@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF Insp3ct0r @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF Web Exploitation Guide</h1>
+        <p>here's how to solve Insp3ct0r</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Web Exploitation Guides</a>
+            <hr>
+            <h2>Insp3ct0r</h2>
+            <pre>Name: Insp3ct0r
+Description: Kishor Balan tipped us off that the following code may need inspection: https://jupiter.challenges.picoctf.org/problem/41511/ (link) or http://jupiter.challenges.picoctf.org:41511
+Author: zaratec/danny
+Tags: Easy, Web Exploitation, picoCTF 2019
+Challenge from: picoCTF 2019
+Hints:
+1. How do you inspect web code on a browser?
+2. There's 3 parts</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to find the flag somewhere around the website we're given. So let's go to this website and see something like view source.</p>
+            <h2>Solution</h2>
+            <p>So we'll open the website in the view source, accessible by pressing Ctrl+U:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/Insp3ct0r/1.jpg">
+            <p>So yeah, that's the first part of the flag, let's see, there's two other links, a style, and javascript files, let's go to the style file and see if there's something interesting in there:</p>
+            <pre>...
+
+#tabintro { background-color: #ccc; }
+#tababout { background-color: #ccc; }
+
+/* You need CSS to make pretty pages. Here's part 2/3 of the flag: t3ct1ve_0r_ju5t */</pre>
+            <p>Yup that's the second part, now let's go to that javascript file and see if the last part is there:</p>
+            <pre>...
+                
+window.onload = function() {
+    openTab('tabintro', this, '#222');
+}
+
+/* Javascript sure is neat. Anyways part 3/3 of the flag: _lucky?832b0699} */</pre>
+            <p>And if we join all the three parts:</p>
+            <pre>picoCTF{tru3_d3t3ct1ve_0r_ju5t_lucky?832b0699}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/18">https://play.picoctf.org/practice/challenge/18</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

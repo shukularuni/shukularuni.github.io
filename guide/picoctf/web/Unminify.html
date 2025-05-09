@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF Unminify @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF Web Exploitation Guide</h1>
+        <p>here's how to solve Unminify</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Web Exploitation Guides</a>
+            <hr>
+            <h2>Unminify</h2>
+            <pre>Name: Unminify
+Description: I don't like scrolling down to read the code of my website, so I've squished it. As a bonus, my pages load faster! Browse here, and find the flag!
+Author: Jeffery John
+Tags: Easy, Web Exploitation, picoCTF 2024, obfuscation, browser_webshell_solvable, minification
+Challenge from: picoCTF 2024
+Hints:
+1. Try CTRL+U / &#8984;+U in your browser to view the page source. You can also add 'view-source:' before the URL, or try curl &lt;URL&gt; in your shell.
+2. Minification reduces the size of code, but does not change its functionality.
+3. What tools do developers use when working on a website? Many text editors and browsers include formatting.</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to run a bookmarklet in the page address they just gave us. A bookmarklet is basically a kind of bookmark, but instead of taking you to a website, it runs a small JavaScript code in your browser on the page you're already on. You click it like a normal bookmark, but instead of loading a new site, it runs that code right there on the current page. For example, let's say that you're on a website with really small text, so a bookmarklet could make all the text bigger when you click it, without needing to install anything, it just does it. So let's go to the site and see what this bookmarklet is about.</p>
+            <h2>Solution</h2>
+            <p>So we'll open the website in the view source tab that you can access from right click, or Ctrl+U:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/Unminify/1.jpg">
+            <p>So we'll use that little checkbox at the top left that says Line Wrap, to instead of the code getting out of the screen, it wraps at the end of the screen and uses the next line. And there it is, we can see the flag down there, look I even put arrows pointing at it:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/Unminify/2.jpg">
+            <p>And the flag from the image is:</p>
+            <pre>picoCTF{pr3tty_c0d3_d9c45a0b}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/426">https://play.picoctf.org/practice/challenge/426</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

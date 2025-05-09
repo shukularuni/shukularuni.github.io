@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF WebDecode @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF Web Exploitation Guide</h1>
+        <p>here's how to solve WebDecode</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Web Exploitation Guides</a>
+            <hr>
+            <h2>WebDecode</h2>
+            <pre>Name: WebDecode
+Description: Do you know how to use the web inspector? Start searching here to find the flag
+Author: Nana Ama Atombo-Sackey
+Tags: Easy, Web Exploitation, picoCTF 2024, browser_webshell_solvable
+Challenge from: picoCTF 2024
+Hints:
+1. Use the web inspector on other files included by the web page.
+2. The flag may or may not be encoded</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to search through a website or something. So let's go to the website and see what we can look for.</p>
+            <h2>Solution</h2>
+            <p>So we'll open the website:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/WebDecode/1.jpg">
+            <p>Hmm, they're saying the flag is not here, and keep looking for it. Let's see the about page at the top there:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/WebDecode/2.jpg">
+            <p>Alright, so the page tells us that the flag is here somewhere in the code, let's go to the Ctrl+U or view source:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/WebDecode/3.jpg">
+            <p>This code may look normal to you, but if you look closely, there is a Base64 string inside a notify thing of the html. So let's decode it with the website I always use:</p>
+            <pre>BASE64 DECODE (Base64Decode.com)
+
+INPUT: cGljb0NURnt3ZWJfc3VjYzNzc2Z1bGx5X2QzYzBkZWRfMDJjZGNiNTl9
+
+OUTPUT: picoCTF{web_succ3ssfully_d3c0ded_02cdcb59}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/427">https://play.picoctf.org/practice/challenge/427</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

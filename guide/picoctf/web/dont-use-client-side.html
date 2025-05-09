@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF dont-use-client-side @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF Web Exploitation Guide</h1>
+        <p>here's how to solve dont-use-client-side</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Web Exploitation Guides</a>
+            <hr>
+            <h2>dont-use-client-side</h2>
+            <pre>Name: dont-use-client-side
+Description: Can you break into this super secure portal? https://jupiter.challenges.picoctf.org/problem/29835/ (link) or http://jupiter.challenges.picoctf.org:29835
+Author: Alex Fulton/Danny
+Tags: Easy, Web Exploitation, picoCTF 2019
+Challenge from: picoCTF 2019
+Hints:
+1. Never trust the client</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to find some way of breaking a password portal or something like that, so we'll look through the code of the site with view source (accessible through Ctrl+U) and see if that gives us a hint about how to get the flag or whatever.</p>
+            <h2>Solution</h2>
+            <p>So we'll open the website:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/dont-use-client-side/1.png">
+            <p>Looks like it's a password checker of some sort, let's go to the view source by pressing Ctrl+U or right click, to see if gives us a clue like I mentioned in theory:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/dont-use-client-side/2.jpg">
+            <p>Alright, that's interesting how the password for is being checked, the input gets split every 4 characters and then is all checked every group of 4 characters in a weird order. So let's grab all these and use the multiplicators they have to put them in the correct order:</p>
+            <pre>checkpass.substring(0, split) == 'pico'
+checkpass.substring(split, split*2) == 'CTF{'
+checkpass.substring(split*2, split*3) == 'no_c'
+checkpass.substring(split*3, split*4) == 'lien'
+checkpass.substring(split*4, split*5) == 'ts_p'
+checkpass.substring(split*5, split*6) == 'lz_7'
+checkpass.substring(split*6, split*7) == '723c'
+checkpass.substring(split*7, split*8) == 'e}'</pre>
+            <p>Let's clean up the parts of the code we don't need:</p>
+            <pre>pico
+CTF{
+no_c
+lien
+ts_p
+lz_7
+723c
+e}  </pre>
+            <p>If we join all of these we get the flag, and we can check it with the password checker in the website, so that we can see if it's really correct:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/dont-use-client-side/3.jpg">
+            <p>So yeah, the flag is:</p>
+            <pre>picoCTF{no_clients_plz_7723ce}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/66">https://play.picoctf.org/practice/challenge/66</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

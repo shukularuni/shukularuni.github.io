@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF IntroToBurp @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF Web Exploitation Guide</h1>
+        <p>here's how to solve IntroToBurp</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Web Exploitation Guides</a>
+            <hr>
+            <h2>IntroToBurp</h2>
+            <pre>Name: IntroToBurp
+Description: Try here to find the flag
+Author: Nana Ama Atombo-Sackey & Sabine Gisagara
+Tags: Easy, Web Exploitation, picoCTF 2024
+Challenge from: picoCTF 2024
+Hints:
+1. Try using burpsuite to intercept request to capture the flag.
+2. Try mangling the request, maybe their server-side code doesn't handle malformed requests very well.</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we don't have much info, but it does say that we'll use Burp, or Burpsuite. That is a program that lets you look at and edit webpage request headers and other information. Request headers are like pieces of information your browser includes when it makes a request to a website, like what kind of device you're using, what page you came from, your login credentials (from a form), etc. It's the information you send to a website's server before they send you their webpage back to you, like a kind of authentication, some websites use this to only let you visit their page if you came from a specific page, others use it to take log in info through pages to send to a server, etc. So let's go to this website and see what it might be about.</p>
+            <h2>Solution</h2>
+            <p>So we'll open the website, and oh it's a registration, let's just enter random info and see if we get something:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/IntroToBurp/1.jpg">
+            <p>And we get a two factor authenticator, so again let's put a random value:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/IntroToBurp/2.jpg">
+            <p>And we got it incorrect, so we definitely can't know what that 2fa might be:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/IntroToBurp/3.png">
+            <p>So let's do it again but let's check the header request:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/IntroToBurp/4.jpg">
+            <p>Doesn't seem to help much, so let's see the hints. Second one says that their code isn't good at dealing with bad requests. So maybe we can confuse the server by entering without a 2fa, so basically removing the entire variable, so that when it checks for correct 2fa, there isn't one to begin with, so it'll just skip the part where it checks that, although that's what I think will happen. But yeah just remove that entire line:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/IntroToBurp/5.jpg">
+            <p>And if we forward this request making sure you left those lines even though we just removed the entire input, because it'll crash instead. We bypass the 2fa by just not being there in the first place:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/IntroToBurp/6.png">
+            <p>And so, the flag is:</p>
+            <pre>picoCTF{#0TP_Bypvss_SuCc3$S_e1eb16ed}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "not good"! :(</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/419">https://play.picoctf.org/practice/challenge/419</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

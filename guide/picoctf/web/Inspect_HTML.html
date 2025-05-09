@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF Inspect HTML @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF Web Exploitation Guide</h1>
+        <p>here's how to solve Inspect HTML</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Web Exploitation Guides</a>
+            <hr>
+            <h2>Inspect HTML</h2>
+            <pre>Name: Inspect HTML
+Description: Can you get the flag? Go to this website and see what you can discover.
+Author: LT 'syreal' Jones
+Tags: Easy, Web Exploitation, picoCTF 2022, inspector
+Challenge from: picoCTF 2022
+Hints:
+1. What is the web inspector in web browsers?</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to inspect the HTML of that website, we don't get any more info on it, so let's just go to the website already.</p>
+            <h2>Solution</h2>
+            <p>So we'll open the website:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/Inspect_HTML/1.jpg">
+            <p>Nothing of interest in here, so let's go to the view source and see if there's something in there like mentioned before:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/Inspect_HTML/2.png">
+            <p>Yup, the flag is there, in a comment, great. So the flag from the image is:</p>
+            <pre>picoCTF{1n5p3t0r_0f_h7ml_fd5d57bd}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/275">https://play.picoctf.org/practice/challenge/275</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

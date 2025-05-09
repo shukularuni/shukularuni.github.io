@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF Cookies @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF Web Exploitation Guide</h1>
+        <p>here's how to solve Cookies</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Web Exploitation Guides</a>
+            <hr>
+            <h2>Cookies</h2>
+            <pre>Name: Cookies
+Description: Who doesn't love cookies? Try to figure out the best one. http://mercury.picoctf.net:54219/
+Author: madStacks
+Tags: Easy, Web Exploitation, picoCTF 2021
+Challenge from: picoCTF 2021</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to do something with cookies, so let's just enter the page and go look at what cookies there might be in the Application tab in DevTools.</p>
+            <h2>Solution</h2>
+            <p>So we'll open the website:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/Cookies/1.jpg">
+            <p>So far we can see that the name cookie has a value of -1, let's try putting snickerdoodle, because it's the input's placeholder:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/Cookies/2.jpg">
+            <p>So this is interesting, the menu has a name value of -1, and snickerdoodle has 0, so let's go through every number until we find all the kinds of cookies from all the name cookie values:</p>
+            <pre>name = -1   # Not-a-Cookie / Home screen
+name = 0    # I love snickerdoodle cookies!
+name = 1    # I love chocolate chip cookies!
+name = 2    # I love oatmeal raisin cookies!
+name = 3    # I love gingersnap cookies!
+name = 4    # I love shortbread cookies!
+name = 5    # I love peanut butter cookies!
+name = 6    # I love whoopie pie cookies!
+name = 7    # I love sugar cookies!
+name = 8    # I love molasses cookies!
+name = 9    # I love kiss cookies!
+name = 10   # I love biscotti cookies!
+name = 11   # I love butter cookies!
+name = 12   # I love spritz cookies!
+name = 13   # I love snowball cookies!
+name = 14   # I love drop cookies!
+name = 15   # I love thumbprint cookies!
+name = 16   # I love pinwheel cookies!
+name = 17   # I love wafer cookies!
+name = 18   # Flag: picoCTF{3v3ry1_l0v3s_c00k135_96cdadfd}
+name = 19   # I love macaroon cookies!
+name = 20   # I love fortune cookies!
+name = 21   # I love crinkle cookies!
+name = 22   # I love icebox cookies!
+name = 23   # I love gingerbread cookies!
+name = 24   # I love tassie cookies!
+name = 25   # I love lebkuchen cookies!
+name = 26   # I love macaron cookies!
+name = 27   # I love black and white cookies!
+name = 28   # I love white chocolate macadamia cookies!</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I went through all of these cookie values manually... But it's fine because I was listening to fire music while doing it 🔥</p>
+            <p>I rated this level as "not good"! :(</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/173">https://play.picoctf.org/practice/challenge/173</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF GET aHEAD @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF Web Exploitation Guide</h1>
+        <p>here's how to solve GET aHEAD</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Web Exploitation Guides</a>
+            <hr>
+            <h2>GET aHEAD</h2>
+            <pre>Name: GET aHEAD
+Description: Find the flag being held on this server to get ahead of the competition http://mercury.picoctf.net:15931/
+Author: madStacks
+Tags: Easy, Web Exploitation, picoCTF 2021
+Challenge from: picoCTF 2021
+Hints:
+1. Maybe you have more than 2 choices
+2. Check out tools like Burpsuite to modify your requests and look at the responses</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we don't get much info, but in the hints it says that there are two choices, and there might be more than those in some way, and also to use Burpsuite to do something with these. So let's go to the page and see what it might have.</p>
+            <h2>Solution</h2>
+            <p>So we'll open the website:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/GET_aHEAD/1.png">
+            <p>We have two buttons that, after clicking them, it changes the colors of the screen, so let's click these two again, but with intercept to get what each is doing different from the other to make it do a different color from the other:</p>
+            <pre>Blue</pre>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/GET_aHEAD/2.jpg">
+            <pre>Red</pre>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/GET_aHEAD/3.jpg">
+            <p>So it seems that the red option uses get, while blue, does post. Basically GET, is like when you're visiting any website, you send a get request, and the server gives you the webpage contents. And POST, is when you send content to the server instead of recieving it, like a form where you fill your login information, you don't request a website, you send information to change something in the service, like the fact that you are a registered user now. So now what do we do, we know what each button does, they use a GET and POST header to change the color of the background. Remember the name of this challenge? "GET aHEAD", We know GET is used in here, but what is HEAD in the name of the level? HEAD is almost exactly like GET, but it doesn't give you content, just the headers, and between that it's another way to do a header request, and that it's literally in the title of the challenge, I'm pretty sure that we just need to change that GET for HEAD. So we'll change that:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/GET_aHEAD/4.jpg">
+            <p>And we get this:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/GET_aHEAD/5.jpg">
+            <p>Yes! we got it. So, the flag is:</p>
+            <pre>picoCTF{r3j3ct_th3_du4l1ty_82880908}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/132">https://play.picoctf.org/practice/challenge/132</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

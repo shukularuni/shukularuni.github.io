@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF Includes @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF Web Exploitation Guide</h1>
+        <p>here's how to solve Includes</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Web Exploitation Guides</a>
+            <hr>
+            <h2>Includes</h2>
+            <pre>Name: Includes
+Description: Can you get the flag? Go to this website and see what you can discover.
+Author: LT 'syreal' Jones
+Tags: Easy, Web Exploitation, picoCTF 2022, inspector
+Challenge from: picoCTF 2022
+Hints:
+1. Is there more code than what the inspector initially shows?</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to inspect the HTML of that website, we don't get any more info on it, so let's just go to the website already.</p>
+            <h2>Solution</h2>
+            <p>So we'll open the website, and theres a button huh:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/Includes/1.jpg">
+            <p>Alright, there's an alert in JavaScript being executed from another file, so let's see the view source with Ctrl+U and see if there's something in there that could help us:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/Includes/2.png">
+            <p>There are two links, let's go to the style.css first which is the file that does all the styling of HTML:</p>
+            <pre>body {
+  background-color: lightblue;
+}
+
+/*  picoCTF{1nclu51v17y_1of2_  */</pre>
+            <p>Yay, that's first part of the flag, now let's look in the script.js, which is the one that executed that alert before:</p>
+            <pre>function greetings()
+{
+  alert("This code is in a separate file!");
+}
+
+//  f7w_2of2_b8f4b022}</pre>
+            <p>Now that we have both parts of the flag, let's just join them, and we get this:</p>
+            <pre>picoCTF{1nclu51v17y_1of2_f7w_2of2_b8f4b022}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/274">https://play.picoctf.org/practice/challenge/274</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

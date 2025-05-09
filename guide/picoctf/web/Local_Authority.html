@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF Local Authority @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF Web Exploitation Guide</h1>
+        <p>here's how to solve Local Authority</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Web Exploitation Guides</a>
+            <hr>
+            <h2>Local Authority</h2>
+            <pre>Name: Local Authority
+Description: Can you get the flag? Go to this website and see what you can discover.
+Author: LT 'syreal' Jones
+Tags: Easy, Web Exploitation, picoCTF 2022, browser_webshell_solvable
+Challenge from: picoCTF 2022
+Hints:
+1. How is the password checked on this website?</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag it doesn't tell us much, so let's just enter the webpage given in there.</p>
+            <h2>Solution</h2>
+            <p>So we'll open the website:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/Local_Authority/1.png">
+            <p>Looks like they're asking for a log in, imma just put some random stuff and see what happens:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/Local_Authority/2.png">
+            <p>Alright, so the hint mentioned something about looking at how the code is checked, so in this same page that has the unsuccessful log in we'll look through the Sources tab in DevTools, and it doesn't seem to let me look at login.php, so let's see that secure.js:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/Local_Authority/3.png">
+            <p>Oh. Oh no, that is a really bad way to check passwords, not only leaving the password and username in the code itself, but in the javascript code instead of the php, atleast php would've hidden the code because it runs server-side, but not JavaScript!! Oh well, we'll just paste these credentials into the login from before and get the flag:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/Local_Authority/4.png">
+            <p>And the flag from the image is:</p>
+            <pre>picoCTF{j5_15_7r4n5p4r3n7_b0c2c9cb}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/278">https://play.picoctf.org/practice/challenge/278</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF head-dump @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF Web Exploitation Guide</h1>
+        <p>here's how to solve head-dump</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Web Exploitation Guides</a>
+            <hr>
+            <h2>head-dump</h2>
+            <pre>Name: head-dump
+Description: Welcome to the challenge! In this challenge, you will explore a web application and find an endpoint that exposes a file containing a hidden flag. The application is a simple blog website where you can read articles about various topics, including an article about API Documentation. Your goal is to explore the application and find the endpoint that generates files holding the server’s memory, where a secret flag is hidden. The website is running picoCTF News.
+Author: Prince Niyonshuti N.
+Tags: Easy, Web Exploitation, picoCTF 2025, browser_webshell_solvable
+Challenge from: picoCTF 2025
+Hints:
+1. Explore backend development with us
+2. The head was dumped.</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to find some way to get to a file or something, through reading articles in this simple blog application. So let's enter to that website and see what we can get there.</p>
+            <h2>Solution</h2>
+            <p>So we'll open the website:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/head-dump/1.jpg">
+            <p>Okay! Here we are, and there looks to be a lot of links, so let's just click all of them. Starting by those three in the left that have the about page and service page with the home, that should be this same page:</p>
+            <pre>&lt;h1&gt;About Us&lt;/h1&gt;&lt;p&gt;We are a team dedicated to providing exciting CTF challenges.&lt;/p&gt;</pre>
+            <pre>&lt;h1&gt;Our Services&lt;/h1&gt;&lt;p&gt;We offer various CTF challenges and training services.&lt;/p&gt;</pre>
+            <p>Yeah, nothing too interesting, although, if we click all the hashtag links we find in the home page, we find one specifically that does something other than reload the page, it takes us to the API docs:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/head-dump/2.jpg">
+            <p>Oh would you look at that, in the bottom it says "heapdump", and it sounds almost exactly like the name of the level, let's expand that and see if it gives us a little info to help us pin point what exactly it does:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/head-dump/3.png">
+            <p>Hmm, no nothing here. Well, let's go to to that page:</p>
+            <pre>HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Disposition: attachment; filename="heapdump-1746295521074.heapsnapshot"</pre>
+            <p>Oh, this is pretty easy, it's just a heapsnapshot file, which just stores the JavaScript heap memory data. And this file can be opened really easily, your usual browser should be able to open and view it. But because the file is not binary, it's plain text, that means we can download that into our shell and just use grep to find the flag's format:</p>
+            <pre>shukularuni-picoctf@webshell:~$ wget http://verbal-sleep.picoctf.net:53355/heapdump
+--2025-05-03 17:55:29--  http://verbal-sleep.picoctf.net:53355/heapdump
+Resolving verbal-sleep.picoctf.net (verbal-sleep.picoctf.net)... 3.138.217.147
+Connecting to verbal-sleep.picoctf.net (verbal-sleep.picoctf.net)|3.138.217.147|:53355... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 9081100 (8.7M) [application/octet-stream]
+Saving to: 'heapdump'
+
+heapdump                                                            100%[=================================================================================================================================================================&gt;]   8.66M  1.82MB/s    in 4.7s    
+
+2025-05-03 17:55:37 (1.83 MB/s) - 'heapdump' saved [9081100/9081100]
+
+shukularuni-picoctf@webshell:~$ grep "picoCTF{" heapdump
+picoCTF{Pat!3nt_15_Th3_K3y_f1179e46}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/476">https://play.picoctf.org/practice/challenge/476</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
