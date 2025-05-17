@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF RED @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF Forensics Guide</h1>
+        <p>here's how to solve RED</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Forensics Guides</a>
+            <hr>
+            <h2>RED</h2>
+            <pre>Name: DISKO 1
+Description: Can you find the flag in this disk image? Download the disk image here.
+Author: Darkraicg492
+Tags: Easy, Forensics, picoGym Exclusive
+Challenge from: picoGym Exclusive
+Files: disko-1.dd.gz
+Hints:
+1. Maybe Strings could help? If only there was a way to do that?</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to look through a disk image file, which judging by the other disk file challenges we've gotten in picoCTF in the past, it's probably gonna be hard, although this is an easy level so let's not judge yet. But back to the challenge, honestly doesn't tell us anything about the challenge, and future me here, we really can't do this challenge without reading the hint, which is to use strings. So, if we need to use strings for something, then this challenge is really easy now, we just need to download uncompress and strings pipe to grep to find the flag. Which basically, we'll just look for all human readable characters with the strings command, and then pipe that output to grep which will find the format of any picoCTF flag, giving us this command:</p>
+            <pre>strings disk_file_idk.dd | grep "picoCTF{"</pre>
+            <h2>Solution</h2>
+            <p>Let's download the disk and see what it has:</p>
+            <pre>shukularuni-picoctf@webshell:~$ wget https://artifacts.picoctf.net/c/538/disko-1.dd.gz
+--2025-05-17 13:55:50--  https://artifacts.picoctf.net/c/538/disko-1.dd.gz
+Resolving artifacts.picoctf.net (artifacts.picoctf.net)... 3.160.5.71, 3.160.5.93, 3.160.5.42, ...
+Connecting to artifacts.picoctf.net (artifacts.picoctf.net)|3.160.5.71|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 20484476 (20M) [application/octet-stream]
+Saving to: 'disko-1.dd.gz'
+
+disko-1.dd.gz                                                       100%[=================================================================================================================================================================&gt;]  19.54M  1.82MB/s    in 11s     
+
+2025-05-17 13:56:01 (1.82 MB/s) - 'disko-1.dd.gz' saved [20484476/20484476]</pre>
+            <p>Oh wait, almost forgot, look at that, it's compressed in GZIP compression, so we can use the already integrated command gunzip with the d option to decompress the file:</p>
+            <pre>shukularuni-picoctf@webshell:~$ gunzip -d disko-1.dd.gz
+
+shukularuni-picoctf@webshell:~$ ls
+README.txt  disko-1.dd</pre>
+            <p>Now, we can search for the flag for real this time with the command from theory:</p>
+            <pre>shukularuni-picoctf@webshell:~$ strings disko-1.dd | grep "picoCTF{"
+picoCTF{1t5_ju5t_4_5tr1n9_e3408eef}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>Didn't like it because the description could've been done better. The problem is the description says too little, and the hint just spoils you the entire level, although it's probably for beginners and that kind of stuff, could've been done just a little better, I think.</p>
+            <p>I rated this level as "not good"! :(</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/505">https://play.picoctf.org/practice/challenge/505</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
