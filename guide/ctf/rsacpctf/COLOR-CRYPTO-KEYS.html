@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RSAC picoCTF COLOR-CRYPTO-KEYS @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>RSAC picoCTF Guide</h1>
+        <p>here's how to solve COLOR-CRYPTO-KEYS</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the RSAC picoCTF Guides</a>
+            <hr>
+            <h2>COLOR-CRYPTO-KEYS</h2>
+            <pre>Name: COLOR-CRYPTO-KEYS
+Description: The mysterious picoCTF designer has encrypted all our files, but we've found this web page we think could unlock it. Can you find the key? The mysterious webpage is here.
+Type: Forensics
+Challenge from: RSAC picoCTF 2025
+Hints:
+1. Beauty is in the bytes of the beholder.
+2. It's sad the color #c0ffee isn't black like coffee.
+3. It's also sad that #c0ffee actually spells &#xC0;&#xFF;&#xEE; in extended ASCII.</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to find it encrypted in some place in the website we're given. This doesn't give us much more info than that, so let's go to the website and find out over on the solution.</p>
+            <h2>Solution</h2>
+            <p>So let's enter to the website and see what might be hiding here:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/rsacpctf/COLOR-CRYPTO-KEYS/1.png">
+            <p>Nothing interesting there let's look at the code of the webpage:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/rsacpctf/COLOR-CRYPTO-KEYS/2.jpg">
+            <p>Yeah, it seems the colors are actually decimal characters disguised between the rgb css function for colors, but yeah, we'll just grab those numbers and remove the 0 NULL characters at the end there, and we get this:</p>
+            <pre>DECIMAL TO TEXT (online converter)
+
+INPUT: 99, 111, 108, 111, 114, 105, 115, 116, 104, 101, 107, 101, 121
+
+OUTPUT: coloristhekey</pre>
+            <p>There we go! That's the flag.</p>
+            <p>Don't be dumb like me and put the flag format around the coloristhekey thing, because you don't need it, and I was for an hour looking for why it wouldn't let me enter the flag, until someone in the discord server told me that you don't need to wrap it around the picoCTF{}, it's just that by itself.</p>
+            <hr>
+            <a target="_blank" href="https://rsac.picoctf.org/level/2/5">https://rsac.picoctf.org/level/2/5</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

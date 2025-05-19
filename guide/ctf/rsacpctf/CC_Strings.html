@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RSAC picoCTF CC Strings @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>RSAC picoCTF Guide</h1>
+        <p>here's how to solve CC Strings</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the RSAC picoCTF Guides</a>
+            <hr>
+            <h2>CC Strings</h2>
+            <pre>Name: CC Strings
+Description: We know this program has the flag, but he won't talk!
+Type: Forensics
+Challenge from: RSAC picoCTF 2025
+Files: chall
+Hints:
+1. Now CyberChef has a "Strings" function!
+2. The flag is 23 characters long</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to make a compiled program talk or something like that, it really doesn't give any info at all, so let's take a quick look at the hints. So it seems we need to use strings, a command to see all the human readable characters of a binary file, then pipe it to grep which we'll use to find the usual format of the flag:</p>
+            <pre>~$ strings chall | grep "picoCTF{"</pre>
+            <h2>Solution</h2>
+            <p>So first of all, we'll download the file and give it executing permission, I wanna test something:</p>
+            <pre>shukularuni-picoctf@webshell:~$ wget https://rsac-picoctf-files.picoctf.net/c_rsac_challenges/9bed09c066682468c60d448cc29baace87710bfa3f8c5879bdd33ad1b711e769/chall
+--2025-05-19 18:01:29--  https://rsac-picoctf-files.picoctf.net/c_rsac_challenges/9bed09c066682468c60d448cc29baace87710bfa3f8c5879bdd33ad1b711e769/chall
+Resolving rsac-picoctf-files.picoctf.net (rsac-picoctf-files.picoctf.net)... 3.160.22.87, 3.160.22.54, 3.160.22.19, ...
+Connecting to rsac-picoctf-files.picoctf.net (rsac-picoctf-files.picoctf.net)|3.160.22.87|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 16000 (16K) [application/octet-stream]
+Saving to: 'chall'
+
+chall                                                               100%[=================================================================================================================================================================&gt;]  15.62K  --.-KB/s    in 0s      
+
+2025-05-19 18:01:29 (263 MB/s) - 'chall' saved [16000/16000]
+
+shukularuni-picoctf@webshell:~$ chmod +x chall</pre>
+            <p>Before doing anything else, let's see what happens if we execute it just usually:</p>
+            <pre>shukularuni-picoctf@webshell:~$ ./chall 
+I will never reveal my secrets!</pre>
+            <p>Okay, so if they don't want to cooperate, then we'll have to use the strings command to search for the flag then:</p>
+            <pre>shukularuni-picoctf@webshell:~$ strings chall | grep "picoCTF{"
+picoCTF{41w4y5_57r1n95}</pre>
+            <p>There we go! That's the flag.</p>
+            <hr>
+            <a target="_blank" href="https://rsac.picoctf.org/level/2/4">https://rsac.picoctf.org/level/2/4</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

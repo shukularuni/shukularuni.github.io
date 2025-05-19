@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RSAC picoCTF Basic Authentication @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>RSAC picoCTF Guide</h1>
+        <p>here's how to solve Basic Authentication</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the RSAC picoCTF Guides</a>
+            <hr>
+            <h2>Basic Authentication</h2>
+            <pre>Name: Basic Authentication
+Description: &#128204; You capture a web request with the following Basic Auth string: cm9vdDphZG1pbg== What is the revealed username and password?
+Type: General Skills
+Challenge from: RSAC picoCTF 2025
+Hints:
+1. Do you know how basic authentication encodes credentials?
+2. The right online tool makes this easy, chef</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to reveal a username and password with a weird looking string. If you don't know what Base64 is, then you should check out other levels I've done on this, but yeah judging by how there's two equal signs at the end, which Base64 usually has either one or two, sometimes none, but not that common. And also that it has uppercase and lowercase letters and numbers which is another indicator of Base64. So, let's go to that website I always use for Base64 that I definitely recommend using no promo, and enter the string, decode it, and send it as challenge flag to check if it's correct.</p>
+            <h2>Solution</h2>
+            <p>So, if we go to the base64 decoding website and input that, we get:</p>
+            <pre>BASE64 DECODE (Base64Decode.com)
+
+INPUT: cm9vdDphZG1pbg==
+
+OUTPUT: root:admin</pre>
+            <p>And if we check it:</p>
+            <pre>ENTER: root:admin
+
+Correct!</pre>
+            <p>There we go! That's the flag.</p>
+            <hr>
+            <a target="_blank" href="https://rsac.picoctf.org/level/1/16">https://rsac.picoctf.org/level/1/16</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

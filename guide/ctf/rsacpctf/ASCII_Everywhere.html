@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RSAC picoCTF ASCII Everywhere @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>RSAC picoCTF Guide</h1>
+        <p>here's how to solve ASCII Everywhere</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the RSAC picoCTF Guides</a>
+            <hr>
+            <h2>ASCII Everywhere</h2>
+            <pre>Name: ASCII Everywhere
+Description: We've discovered a flag-spewing machine, but can't figure out the output. Can you? The flag-spewing server is running here.
+Type: Cryptography
+Challenge from: RSAC picoCTF 2025
+Hints:
+1. I think this is some sort of standard encoding.
+2. Text is usually ASCII or similar</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to figure out how the website is giving us the flag. So not much that we can get here, so let's just go to the website and see what shenanigans the machine be talking about.</p>
+            <h2>Solution</h2>
+            <p>So we'll enter this website they give us and see what kind of machine spewing that might be:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/rsacpctf/ASCII_Everywhere/1.png">
+            <p>Oh yup, that is definitely decimal data, you can see that because it's separated by two and three digit characters, anc they are all in the range of between 60 and 120, which are the uppercase and lowercase letters in decimal or the ASCII table. So let's use an online converter to automatically pass this to text, although you can also do this with python if you'd like:</p>
+            <pre>DECIMAL TO TEXT (online converter)
+
+INPUT: 112 105 99 111 67 84 70 123 97 115 99 105 105 95 102 108 97 103 115 95 97 114 101 95 101 97 115 121 95 102 99 52 57 49 99 98 52 125
+
+OUTPUT: picoCTF{ascii_flags_are_easy_fc491cb4}</pre>
+            <p>There we go! That's the flag.</p>
+            <hr>
+            <a target="_blank" href="https://rsac.picoctf.org/level/2/2">https://rsac.picoctf.org/level/2/2</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
