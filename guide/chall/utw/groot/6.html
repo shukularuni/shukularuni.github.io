@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTW Groot 6 &#8594; 7 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>UnderTheWire Groot Guide</h1>
+        <p>here's how to solve the Groot level 6 &#8594; 7</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Groot Guides</a>
+            <p>Previous Level Guide: <a href="5.html">Groot Level 5 &#8594; 6</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh groot6@groot.underthewire.tech -p 22</code></p>
+            <p>Password: <code>wk11_enterprise</code></p>
+            <h2>Info</h2>
+            <pre>The password for groot7 is the name of the program that is set to start when this user logs in PLUS the name of the file on the desktop.
+
+NOTE:
+– Omit the executable extension.
+– If the program is “mspaint” and the file on the desktop is named “_log”, the password would be “mspaint_log”.
+– The password will be lowercase no matter how it appears on the screen.
+
+&#9660; HINT :
+<a target="_blank" href="https://web.archive.org/web/20140926011841/https://blog.cylance.com/windows-registry-persistence-part-2-the-run-keys-and-search-order">https://blog.cylance.com/windows-registry-persistence-part-2-the-run-keys-and-search-order</a></pre>
+            <h2>Theory</h2>
+            <p>To get the password, as the description says, we're told to find the name of the program at startup, or well, when the user enters in the system at startup, we've already seen this kind of stuff before in another one of these levels, I don't remember, but I do remember this command. I'm not gonna get into the specifics of it because it's pretty self-explanatory, but the gist is that it lists all programs that open at startup, so when the user logs in after turning on their computer, stuff like that. So the command looks like this:</p>
+            <pre>Get-CimInstance Win32_StartupCommand</pre>
+            <h2>Solution</h2>
+            <p>Now that we are inside the shell, we can see what the second part of the command is with dir:</p>
+            <pre>PS C:\users\Groot6\desktop&gt; dir
+
+
+    Directory: C:\users\Groot6\desktop
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----        8/21/2020   1:24 PM              0 _rules</pre>
+            <p>Now we can use the other command to see the startup programs:</p>
+            <pre>PS C:\users\Groot6\desktop&gt; Get-CimInstance Win32_StartupCommand
+
+Command          User                Caption
+-------          ----                -------
+                 underthewire\Groot6 New Value #1
+                 underthewire\Groot6 New Value #2
+                 underthewire\Groot6 New Value #3
+                 underthewire\Groot6 New Value #4
+C:\star-lord.exe underthewire\Groot6 star-lord</pre>
+            <p>I'm gonna go out on a limb, and say that it's the star-lord one, not only is it the only one with a path, but also the only one that makes sense, because the others are just newly created values. So we can grab that name, removing the C part of the path and the extension to get the "name" of the file, or just copy the caption, so let's just join that with the file in the directory, and this is our final password:</p>
+            <pre>star-lord_rules</pre>
+            <p>And that's the password! Now we should be good to go to the next level.</p>
+            <a target="_blank" href="https://underthewire.tech/groot-6">https://underthewire.tech/groot-6</a>
+            <hr>
+            Next Level Guide: <a href="7.html">Groot Level 7 &#8594; Level 8</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

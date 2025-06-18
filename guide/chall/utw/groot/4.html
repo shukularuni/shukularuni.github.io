@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTW Groot 4 &#8594; 5 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>UnderTheWire Groot Guide</h1>
+        <p>here's how to solve the Groot level 4 &#8594; 5</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Groot Guides</a>
+            <p>Previous Level Guide: <a href="3.html">Groot Level 3 &#8594; 4</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh groot4@groot.underthewire.tech -p 22</code></p>
+            <p>Password: <code>5</code></p>
+            <h2>Info</h2>
+            <pre>The password for groot5 is the name of the Drax subkey within the HKEY_CURRENT_USER (HKCU) registry hive.
+
+NOTE:
+– The password will be lowercase no matter how it appears on the screen.</pre>
+            <h2>Theory</h2>
+            <p>To get the password, as the description says, we're told to find the name of a subkey inside the `HKEY_CURRENT_USER` registry hive that's under a parent key containing "Drax" in the name. Important note here: because PowerShell's registry provider doesn't support the `-Filter` option or wildcards for key names specifically, we can use a recursive enumeration and pipe it over to `Where-Object` to try and find these keys.</p>
+            <p>For that we can make this command. It recursively enumerates all keys under <code>HKCU:\</code>, then ignoring any error with the `-ErrorAction SilentlyContinue` option. The output is then piped to Where-Object which searches for any registry keys that contains the string "Drax" in it's full freaking path. Then when we get the output of this command, as the description says, the name of this subkey is the password, and just put it in lowercase if it has some uppercase letters and that should be it. Finally, the command we can use for doing all of that is this right here:</p>
+            <pre>Get-ChildItem HKCU:\ -Recurse -ErrorAction SilentlyContinue | Where-Object {$_.Name -like '*Drax*'}</pre>
+            <h2>Solution</h2>
+            <p>Now that we are inside the shell, we can run the command from theory and get the password, and it doesn't seem to have any uppercase so it's just that:</p>
+            <pre>PS C:\users\Groot4\desktop&gt; Get-ChildItem HKCU:\ -Recurse -ErrorAction SilentlyContinue | Where-Object {$_.Name -like '*Drax*'}
+
+
+    Hive: HKEY_CURRENT_USER\Software\Microsoft\Assistance
+
+
+Name                           Property
+----                           --------
+Drax                           destroyer : test
+
+
+    Hive: HKEY_CURRENT_USER\Software\Microsoft\Assistance\Drax
+
+
+Name                           Property
+----                           --------
+destroyer</pre>
+            <p>And that's the password! Now we should be good to go to the next level.</p>
+            <a target="_blank" href="https://underthewire.tech/groot-4">https://underthewire.tech/groot-4</a>
+            <hr>
+            Next Level Guide: <a href="5.html">Groot Level 5 &#8594; Level 6</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTW Groot 10 &#8594; 11 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>UnderTheWire Groot Guide</h1>
+        <p>here's how to solve the Groot level 10 &#8594; 11</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Groot Guides</a>
+            <p>Previous Level Guide: <a href="9.html">Groot Level 9 &#8594; 10</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh groot10@groot.underthewire.tech -p 22</code></p>
+            <p>Password: <code>t-25_tester</code></p>
+            <h2>Info</h2>
+            <pre>The password for groot11 is the one word that makes the two files on the desktop different.
+
+NOTE:
+– The password will be lowercase no matter how it appears on the screen.</pre>
+            <h2>Theory</h2>
+            <p>To get the password, as the description says, we're told to find the difference between the two files in the desktop. This is really simple, as there's already a command that does this for us. Compare-Object, although it only compares two strings, so for that, we can inject the file's content as a string with Get-Content. Finally, use the dir command to know what the two file's names are, and the commands look like this:</p>
+            <pre>dir
+Compare-Object (Get-Content first_text.txt) (Get-Content second_text.txt)</pre>
+            <h2>Solution</h2>
+            <p>Now that we are inside the shell, we can see what the filenames might be:</p>
+            <pre>PS C:\users\Groot10\desktop&gt; dir
+
+
+    Directory: C:\users\Groot10\desktop
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----        8/30/2018   5:52 AM          17324 new.txt
+-a----        8/30/2018   5:52 AM          17313 old.txt</pre>
+            <p>Now that we know the names of the two files, we can put them in the command from earlier:</p>
+            <pre>PS C:\users\Groot10\desktop&gt; Compare-Object (Get-Content old.txt) (Get-Content new.txt)
+
+InputObject SideIndicator
+----------- -------------
+taserface   =&gt;</pre>
+            <p>And that's the password! Now we should be good to go to the next level.</p>
+            <a target="_blank" href="https://underthewire.tech/groot-10">https://underthewire.tech/groot-10</a>
+            <hr>
+            Next Level Guide: <a href="11.html">Groot Level 11 &#8594; Level 12</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

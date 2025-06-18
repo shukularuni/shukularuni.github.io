@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTW Groot 7 &#8594; 8 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>UnderTheWire Groot Guide</h1>
+        <p>here's how to solve the Groot level 7 &#8594; 8</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Groot Guides</a>
+            <p>Previous Level Guide: <a href="6.html">Groot Level 6 &#8594; 7</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh groot7@groot.underthewire.tech -p 22</code></p>
+            <p>Password: <code>star-lord_rules</code></p>
+            <h2>Info</h2>
+            <pre>The password for groot8 is the name of the dll, as depicted in the registry, associated with the “applockerfltr” service PLUS the name of the file on the desktop.
+
+NOTE:
+– The password will be lowercase no matter how it appears on the screen.
+– If the name of the dll is “abc.dll” and the file on the desktop is named “_1234”, the password would be “abc_1234”.</pre>
+            <h2>Theory</h2>
+            <p>To get the password, as the description says, we're told to find the name of the dll program in the applockerfltr service in the registry. So the command is basically just going to the services in the registry, and then using Where-Object, because as I've said before in one of these levels, you can't use stuff like the -Filter option and wildcards in the registry, so Where-Object is an option to work with, and just search applocker with that. And this is the command we get:</p>
+            <pre>dir
+Get-ChildItem 'HKLM:\SYSTEM\CurrentControlSet\Services' | Where-Object {$_.Name -like '*applocker*'}</pre>
+            <h2>Solution</h2>
+            <p>Now that we are inside the shell, we can see what the second part of the command is with dir:</p>
+            <pre>PS C:\users\Groot7\desktop&gt; dir
+
+
+    Directory: C:\users\Groot7\desktop
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----        5/31/2021   5:13 PM              0 _home</pre>
+            <p>We can now use the other command to see the applockerfltr service:</p>
+            <pre>PS C:\users\Groot7\desktop&gt; Get-ChildItem 'HKLM:\SYSTEM\CurrentControlSet\Services' | Where-Object {$_.Name -like '*applocker*'}
+
+
+    Hive: HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services
+
+
+Name                           Property
+----                           --------
+applockerfltr                  DisplayName     : @%systemroot%\system32\srpapi.dll,-102
+                               ErrorControl    : 1
+                               ImagePath       : system32\drivers\applockerfltr.sys
+                               Start           : 3
+                               Type            : 1
+                               Description     : @%systemroot%\system32\srpapi.dll,-103
+                               DependOnService : {FltMgr, AppID, AppIDSvc}</pre>
+            <p>There it is, the property with the name of applockerfltr gives us a dll file path, we can just remove that path and extension to only get the name of the file, then join it with the name of the file in the desktop, and we get this:</p>
+            <pre>srpapi_home</pre>
+            <p>And that's the password! Now we should be good to go to the next level.</p>
+            <a target="_blank" href="https://underthewire.tech/groot-7">https://underthewire.tech/groot-7</a>
+            <hr>
+            Next Level Guide: <a href="8.html">Groot Level 8 &#8594; Level 9</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

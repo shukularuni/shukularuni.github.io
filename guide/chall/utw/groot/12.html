@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTW Groot 12 &#8594; 13 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>UnderTheWire Groot Guide</h1>
+        <p>here's how to solve the Groot level 12 &#8594; 13</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Groot Guides</a>
+            <p>Previous Level Guide: <a href="11.html">Groot Level 11 &#8594; 12</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh groot12@groot.underthewire.tech -p 22</code></p>
+            <p>Password: <code>spaceships</code></p>
+            <h2>Info</h2>
+            <pre>The password for groot13 is the owner of the Nine Realms folder on the desktop.
+
+NOTE:
+– Exclude the Administrator, the Administrators group, and System.
+– The password will be lowercase with no punctuation no matter how it appears on the screen. For example, if the owner is “john.doe”, it would be “johndoe”.</pre>
+            <h2>Theory</h2>
+            <p>To get the password, as the description says, we're told to find the owner of the folder in the desktop. That's really easy, we just need this command Get-Acl, which just stands for access control lists of a file or folder, or whatever resource. Basically it just gives you access information about some thing in the directory, like maybe the owner, yeah. So the commands are that, and dir to get the name of the folder:</p>
+            <pre>dir
+Get-Acl foldername.ext</pre>
+            <h2>Solution</h2>
+            <p>Now that we are inside the shell, we can get the folder's name with dir:</p>
+            <pre>PS C:\users\Groot12\desktop&gt; dir
+
+
+    Directory: C:\users\Groot12\desktop
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+d-----        8/30/2018  10:51 AM                Nine Realms</pre>
+            <p>Now that we know the name of the folder, we can put it in the get-acl command to get the password:</p>
+            <pre>PS C:\users\Groot12\desktop&gt; Get-Acl "Nine Realms"
+
+
+    Directory: C:\users\Groot12\desktop
+
+
+Path        Owner                Access
+----        -----                ------
+Nine Realms underthewire\Airwolf NT AUTHORITY\SYSTEM Allow  FullControl...</pre>
+            <p>Now just grab the owner, which is just that but removing the underthewire part along with the backslash. And as always, making it lowercase, so the password comes out to be:</p>
+            <pre>airwolf</pre>
+            <p>And that's the password! Now we should be good to go to the next level.</p>
+            <a target="_blank" href="https://underthewire.tech/groot-12">https://underthewire.tech/groot-12</a>
+            <hr>
+            Next Level Guide: <a href="13.html">Groot Level 13 &#8594; Level 14</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

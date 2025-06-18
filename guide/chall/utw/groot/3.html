@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTW Groot 3 &#8594; 4 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>UnderTheWire Groot Guide</h1>
+        <p>here's how to solve the Groot level 3 &#8594; 4</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Groot Guides</a>
+            <p>Previous Level Guide: <a href="2.html">Groot Level 2 &#8594; 3</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh groot3@groot.underthewire.tech -p 22</code></p>
+            <p>Password: <code>hiding</code></p>
+            <h2>Info</h2>
+            <pre>The password for groot4 is the number of times the word “beetle” is listed in the file on the desktop.</pre>
+            <h2>Theory</h2>
+            <p>To get the password, as the description says, we could probably do some really confusing and complex command, or download the file directly like in another level. So we'll use this command, scp which is used for copying a file from a system to another, and even works with any operating system, you just need to know the location, which is very probable that it's in the desktop, and the name of the file that we don't know yet. Then a website or code that finds all instances of a specific thing in a big string, like this file. And we need to search for " beetle " with spaces around it, because in the description, it tells us that we need to find the whole word only, so that even if the words have beetle inside it, but it's not exactly beetle, it'll not count them. And after that, check if there is a beetle at either the first word, or the last word, because these don't have both spaces around it, and if there is, add it to the final count. And the commands, kinda like last level:</p>
+            <pre>dir
+scp groot3@groot.underthewire.tech:C:\path\to\file.txt C:\Users\shukularuni\Documents</pre>
+            <h2>Solution</h2>
+            <p>Now that we are inside the shell, let's see what the file location of that is:</p>
+            <pre>PS C:\users\Groot3\desktop&gt; dir
+
+
+    Directory: C:\users\Groot3\desktop
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----        8/30/2018   5:52 AM        2357296 words.txt</pre>
+            <p>Now that we know what the file name is, we can run the scp command with it:</p>
+
+            <pre>PS C:\Users\shukularuni&gt;scp groot3@groot.underthewire.tech:C:\users\Groot3\desktop\words.txt C:\Users\shukularuni\Documents
+groot3@groot.underthewire.tech's password: hiding
+words.txt                                                                             100% 2302KB 146.2KB/s   00:15</pre>
+            <p>Now that we have the file, we can paste the entire thing in a website that counts all patterns of this, and because we just want beetle exactly we'll put spaces and we get this:</p>
+            <pre>Text: a b c d e f g h i j k l m n o p q r s t u v w x y z aa ab ac ad ae af ...
+Search for: " beetle "
+
+Result: 5 instances of " beetle ".</pre>
+            <p>Now to we just need to check if there is a beetle in either the first word or the last, because if that's so, then the spaces around it will skip it, since instead of the space it's the beginning or ending of the file. And luckily, there isn't a beetle in the beginning nor the end the file, so the count we got is the correct password:</p>
+            <pre>5</pre>
+            <p>And that's the password! Now we should be good to go to the next level.</p>
+            <a target="_blank" href="https://underthewire.tech/groot-3">https://underthewire.tech/groot-3</a>
+            <hr>
+            Next Level Guide: <a href="4.html">Groot Level 4 &#8594; Level 5</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

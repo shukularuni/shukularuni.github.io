@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTW Groot 5 &#8594; 6 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>UnderTheWire Groot Guide</h1>
+        <p>here's how to solve the Groot level 5 &#8594; 6</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Groot Guides</a>
+            <p>Previous Level Guide: <a href="4.html">Groot Level 4 &#8594; 5</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh groot5@groot.underthewire.tech -p 22</code></p>
+            <p>Password: <code>destroyer</code></p>
+            <h2>Info</h2>
+            <pre>The password for groot6 is the name of the workstation that the user with a username of “baby.groot” can log into as depicted in Active Directory PLUS the name of the file on the desktop
+
+NOTE:
+– If the workstation is “system1” and the file on the desktop is named “_log”, the password would be “system1_log”.
+– The password will be lowercase no matter how it appears on the screen.</pre>
+            <h2>Theory</h2>
+            <p>To get the password, as the description says, we're told to find the workstation of the user in the description there, and yeah, that's about it. So for that we, could use this command: we need to look through the active directory users, then filter by their name in the Security Account Manager, and well, search for the user, oh this was shorter than I thought, well yeah here's that command:</p>
+            <pre>Get-ADUser -Filter 'samAccountName -like "baby.groot"'</pre>
+            <h2>Solution</h2>
+            <p>Now that we are inside the shell, we can see what the second part of the command is with dir:</p>
+            <pre>PS C:\users\Groot5\desktop&gt; dir
+
+
+    Directory: C:\users\Groot5\desktop
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----        9/20/2020   3:38 PM              0 _enterprise</pre>
+            <p>Now we can use the other command to find the workstation of that user:</p>
+            <pre>PS C:\users\Groot5\desktop&gt; Get-ADUser -Filter 'samAccountName -like "baby.groot"'
+
+
+DistinguishedName : CN=Groot \ ,OU=T-65,OU=X-Wing,DC=underthewire,DC=tech
+Enabled           : False
+GivenName         : Baby
+Name              : Groot
+ObjectClass       : user
+ObjectGUID        : c938286d-f672-45b7-97ee-b371f0e39836
+SamAccountName    : baby.groot
+SID               : S-1-5-21-758131494-606461608-3556270690-2175
+Surname           : Groot
+UserPrincipalName : baby.groot</pre>
+            <p>Huh doesn't seem to be here, I knew the command was too short, but it was just a gut feeling so I guess it doesn't count after all. Let's just include it in the properties and see if it works now:</p>
+            <pre>PS C:\users\Groot5\desktop&gt; Get-ADUser -Filter 'samAccountName -like "baby.groot"' -Properties userWorkstations
+
+
+DistinguishedName : CN=Groot \ ,OU=T-65,OU=X-Wing,DC=underthewire,DC=tech
+Enabled           : False
+GivenName         : Baby
+Name              : Groot
+ObjectClass       : user
+ObjectGUID        : c938286d-f672-45b7-97ee-b371f0e39836
+SamAccountName    : baby.groot
+SID               : S-1-5-21-758131494-606461608-3556270690-2175
+Surname           : Groot
+UserPrincipalName : baby.groot
+userWorkstations  : wk11</pre>
+            <p>There it is... so let's just join that with the file in the directory, and this is our final password:</p>
+            <pre>wk11_enterprise</pre>
+            <p>And that's the password! Now we should be good to go to the next level.</p>
+            <a target="_blank" href="https://underthewire.tech/groot-5">https://underthewire.tech/groot-5</a>
+            <hr>
+            Next Level Guide: <a href="6.html">Groot Level 6 &#8594; Level 7</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

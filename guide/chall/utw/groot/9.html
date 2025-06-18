@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTW Groot 9 &#8594; 10 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>UnderTheWire Groot Guide</h1>
+        <p>here's how to solve the Groot level 9 &#8594; 10</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Groot Guides</a>
+            <p>Previous Level Guide: <a href="8.html">Groot Level 8 &#8594; 9</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh groot9@groot.underthewire.tech -p 22</code></p>
+            <p>Password: <code>call_me_starlord</code></p>
+            <h2>Info</h2>
+            <pre>The password for groot10 is the name of the OU that doesn’t have accidental deletion protection enabled PLUS the name of the file on the desktop.
+
+NOTE:
+– If the name of the OU is called “blue” and the file on the desktop is named “_bob”, the password would be “blue_bob”.
+– The password will be lowercase no matter how it appears on the screen.</pre>
+            <h2>Theory</h2>
+            <p>To get the password, as the description says, we're told to find the OU of the object that specifically doesn't have accidental deletion. So to find this object in the first place, we need to know what the name of this accidental deletion property or whatever it is, so we can search through everything searching for a member with "delet" in the name, we don't know if it might be `deletion` or `delete`, then when we get the name of this thing, we can search for the places that specifically don't have this property. And finally, the dir command to get the name of the file in the desktop. And the commands are:</p>
+            <pre>dir
+Get-ADOrganizationalUnit -Filter * -Properties * | Get-Member -Name '*delet*'
+Get-ADOrganizationalUnit -Filter * -Properties &lt;name&gt; | Where-Object {-not $_.&lt;name&gt;}</pre>
+            <h2>Solution</h2>
+            <p>Now that we are inside the shell, we can see what the second part of the command is with dir:</p>
+            <pre>PS C:\users\Groot9\desktop&gt; dir
+
+
+    Directory: C:\users\Groot9\desktop
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----        8/30/2018  10:51 AM              0 _tester</pre>
+            <p>Now we can use the second command to know which deletion object it might be:</p>
+            <pre>PS C:\users\Groot9\desktop&gt; Get-ADOrganizationalUnit -Filter * -Properties * | Get-Member -Name '*delet*'
+
+
+   TypeName: Microsoft.ActiveDirectory.Management.ADOrganizationalUnit
+
+Name                            MemberType Definition
+----                            ---------- ----------
+Deleted                         Property   System.Boolean Deleted {get;}
+isDeleted                       Property   System.Boolean isDeleted {get;}
+ProtectedFromAccidentalDeletion Property   System.Boolean ProtectedFromAccidentalDeletion {get;set;}</pre>
+            <p>Now just grab that one about accidental deletion, and put it on the third command:</p>
+            <pre>PS C:\users\Groot9\desktop&gt; Get-ADOrganizationalUnit -Filter * -Properties ProtectedFromAccidentalDeletion | Where-Object {-not $_.ProtectedFromAccidentalDeletion}
+
+
+City                            :
+Country                         :
+DistinguishedName               : OU=T-25,OU=X-Wing,DC=underthewire,DC=tech
+LinkedGroupPolicyObjects        : {cn={49401C32-4145-463F-B5E7-816926D4F78D},cn=policies,cn=system,DC=underthewire,DC=tech}
+ManagedBy                       :
+Name                            : T-25
+ObjectClass                     : organizationalUnit
+ObjectGUID                      : fc15c303-dd9a-4c44-a941-314cc6fdd394
+PostalCode                      :
+ProtectedFromAccidentalDeletion : False
+State                           :
+StreetAddress                   :</pre>
+            <p>Now just get that OU in lowercase, and join it with the name of the file in the desktop:</p>
+            <pre>t-25_tester</pre>
+            <p>And that's the password! Now we should be good to go to the next level.</p>
+            <a target="_blank" href="https://underthewire.tech/groot-9">https://underthewire.tech/groot-9</a>
+            <hr>
+            Next Level Guide: <a href="10.html">Groot Level 10 &#8594; Level 11</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

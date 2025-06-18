@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTW Groot 1 &#8594; 2 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>UnderTheWire Groot Guide</h1>
+        <p>here's how to solve the Groot level 1 &#8594; 2</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Groot Guides</a>
+            <p>Previous Level Guide: <a href="0.html">Groot Level 0 &#8594; 1</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh groot1@groot.underthewire.tech -p 22</code></p>
+            <p>Password: <code>groot1</code></p>
+            <h2>Info</h2>
+            <pre>The password for groot2 is the last five alphanumeric characters of the MD5 hash of this system’s hosts file.
+
+NOTE:
+– The password will be lowercase no matter how it appears on the screen.
+
+IMPORTANT:
+Once you feel you have completed the Groot1 challenge, start a new connection to the server, and log in with the username of Groot2 and this password will be the answer from Groot1. If successful, close out the Groot1 connection and begin to solve the Groot2 challenge. This concept is repeated over and over until you reach the end of the game.</pre>
+            <h2>Theory</h2>
+            <p>To get the password we'll use the session we entered in the previous level, and from there we have to get the MD5 hash of the system hosts file, this all sounded easy until I remembered that I have no clue how to use MD5 in PowerShell, although I do know how to in CMD. So yeah for this challenge we are going to go into Windows CMD and use certutil, which is the only way I know to get the hash of a file in windows shells. For that we'll use the certutil command, hashing for a file for MD5. Now all we need is where the system hosts is located. And a quick look through windows documentation tells us it's in drivers/etc/hosts inside System32. So yeah here's the command, we'll see how we put the file later:</p>
+            <pre>cmd
+certutil -hashfile FileName.ext MD5</pre>
+            <h2>Solution</h2>
+            <p>Because we're already inside of the PowerShell from the previous level, we can go ahead and go into CMD:</p>
+            <pre>Windows PowerShell
+Copyright (C) 2016 Microsoft Corporation. All rights reserved.
+
+Under the Wire... PowerShell Training for the People!
+PS C:\users\Groot1\desktop> cmd
+
+Microsoft Windows [Version 10.0.14393]
+(c) 2016 Microsoft Corporation. All rights reserved.
+
+C:\users\Groot1\desktop&gt;</pre>
+            <p>Perfect, so it does let us go into CMD, now let's do that certutil command and see if we get it:</p>
+            <pre>C:\users\Groot1\desktop&gt;certutil -hashfile C:\Windows\System32\drivers\etc\hosts MD5
+MD5 hash of file C:\Windows\System32\drivers\etc\hosts:
+6eec08310bd5328ffc8fb72cd8e464c3
+CertUtil: -hashfile command completed successfully.</pre>
+            <p>There we go, we got the MD5 of the system's hosts, now let's take the last five characters, and because they're already lowercase, we have these last five chars:</p>
+            <pre>464c3</pre>
+            <p>And that's the password! Now we should be good to go to the next level.</p>
+            <a target="_blank" href="https://underthewire.tech/groot-1">https://underthewire.tech/groot-1</a>
+            <hr>
+            Next Level Guide: <a href="2.html">Groot Level 2 &#8594; Level 3</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
