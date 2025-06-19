@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeChall Training: Stegano I @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>WeChall Training: Stegano I</h1>
+        <p>here's how to solve Training: Stegano I</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the WeChall Guides</a>
+            <hr>
+            <h2>Training: Stegano I</h2>
+            <pre>Name: Training: Stegano I
+Tags: Training, Stegano
+Description: This is the most basic image stegano I can think of.
+
+[stegano1.bmp]</pre>
+            <h2>Theory</h2>
+            <p>To get the solution, as the description says, we have to get something from this image, and judging by how it says that it's the most basic steganography thing, then it must be something related to getting information from the image whether it's in a comment or just plain text inside of it, so for that we can use some tools like exif and zsteg, they recover information hidden in an image, exif is more about metadata and zsteg is just about everything else.</p>
+            <h2>Solution</h2>
+            <p>So, first we need to download the image:</p>
+            <pre>shukularuni-picoctf@webshell:~$ wget https://www.wechall.net/en/challenge/training/stegano1/stegano1.bmp
+--2025-06-19 19:02:44--  https://www.wechall.net/en/challenge/training/stegano1/stegano1.bmp
+Resolving www.wechall.net (www.wechall.net)... 5.44.104.158, 2a02:2b80:101:104::92
+Connecting to www.wechall.net (www.wechall.net)|5.44.104.158|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 102 [image/x-ms-bmp]
+Saving to: 'stegano1.bmp'
+
+stegano1.bmp                                                        100%[=================================================================================================================================================================&gt;]     102  --.-KB/s    in 0s      
+
+2025-06-19 19:02:44 (8.09 MB/s) - 'stegano1.bmp' saved [102/102]</pre>
+            <p>Now let's use exif with the image we just got and see if there's anything here of help:</p>
+            <pre>shukularuni-picoctf@webshell:~$ exiftool stegano1.bmp 
+ExifTool Version Number         : 12.40
+File Name                       : stegano1.bmp
+Directory                       : .
+File Size                       : 102 bytes
+File Modification Date/Time     : 2015:05:05 19:19:08+00:00
+File Access Date/Time           : 2025:06:19 19:02:44+00:00
+File Inode Change Date/Time     : 2025:06:19 19:02:44+00:00
+File Permissions                : -rw-rw-r--
+File Type                       : BMP
+File Type Extension             : bmp
+MIME Type                       : image/bmp
+BMP Version                     : Windows V3
+Image Width                     : 4
+Image Height                    : 4
+Planes                          : 1
+Bit Depth                       : 24
+Compression                     : None
+Image Length                    : 48
+Pixels Per Meter X              : 0
+Pixels Per Meter Y              : 0
+Num Colors                      : Use BitDepth
+Num Important Colors            : All
+Image Size                      : 4x4
+Megapixels                      : 0.000016</pre>
+            <p>And there's nothing that could help us there, let's use zsteg instead, and see if there's anything else here:</p>
+            <pre>shukularuni-picoctf@webshell:~$ zsteg stegano1.bmp 
+imagedata           .. text: "Look what the hex-edit revealed: passwd:steganoI"
+b3,r,lsb,xY         .. file: MySQL table definition file Version 74
+b3,b,lsb,xY         .. file: PGP symmetric key encrypted data -
+b4,rgb,msb,xY       .. file: MPEG ADTS, layer III,  v2.5, 144 kbps, 11.025 kHz, 2x Monaural</pre>
+            <p>There we go! That's the solution.</p>
+            <p>I voted this level as:</p>
+            <pre>Diff: 01
+Ed  : 02
+Fun : 10</pre>
+            <hr>
+            <a target="_blank" href="https://wechall.net/en/challenge/training/stegano1/index.php">https://wechall.net/en/challenge/training/stegano1/index.php</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

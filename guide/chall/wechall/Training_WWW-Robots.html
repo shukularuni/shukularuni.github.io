@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeChall Training: WWW-Robots @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>WeChall Training: WWW-Robots</h1>
+        <p>here's how to solve Training: WWW-Robots</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the WeChall Guides</a>
+            <hr>
+            <h2>Training: WWW-Robots</h2>
+            <pre>Name: Training: WWW-Robots
+Tags: HTTP, Training
+Description: In this little training challenge, you are going to learn about the Robots_exclusion_standard.
+The robots.txt file is used by web crawlers to check if they are allowed to crawl and index your website or only parts of it.
+Sometimes these files reveal the directory structure instead protecting the content from being crawled.
+
+Enjoy!</pre>
+            <h2>Theory</h2>
+            <p>To get the solution, as the description says, we have to go to the robots.txt file, and I was just going to explain it, but the description already did that for me so. The quick version, to control bot traffic to your website you create a robots.txt file that says what each thing can go to and do and see, for example, Google uses this to know where their search crawler bot can go to get, I don't know, description, the title of the page, and other metadata to show you when you search something in it. So I'm guessing this robots.txt file is in the root of the website, so let's go over there.</p>
+            <h2>Solution</h2>
+            <p>Let's go to the robots.txt file in the WeChall domain:</p>
+            <pre>https://wechall.net/robots.txt</pre>
+            <pre>User-agent: *
+Disallow: /challenge/training/www/robots/T0PS3CR3T
+Disallow: /index.php?
+Disallow: /users/with/
+Disallow: /stats/
+Disallow: /graph/
+Disallow: /img/</pre>
+            <p>Oh and look at that one that says "top secret", I'm sure it's there. And going over there just completes the level. So yeah, copy that link and put it in the WeChall domain, and should be good to go:</p>
+            <pre>https://wechall.net/challenge/training/www/robots/T0PS3CR3T</pre>
+            <pre>WeChall: Your answer is correct!</pre>
+            <p>There we go! That's the solution.</p>
+            <p>I voted this level as:</p>
+            <pre>Diff: 02
+Ed  : 10
+Fun : 08</pre>
+            <hr>
+            <a target="_blank" href="https://wechall.net/en/challenge/training/www/robots/index.php">https://wechall.net/en/challenge/training/www/robots/index.php</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

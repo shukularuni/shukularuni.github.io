@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeChall Training: No DNS @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>WeChall Training: No DNS</h1>
+        <p>here's how to solve Training: No DNS</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the WeChall Guides</a>
+            <hr>
+            <h2>Training: No DNS</h2>
+            <pre>Name: Training: No DNS
+Tags: Training, Network
+Description: Hello Hacker,
+
+In this little training challenge you have to request https://make.love.not.war.com/challenge/training/net/nodns/etc/hosts.php.
+
+I hope this info is enough.
+
+- gizmore
+
+Shouts go out to the wechall admins; dloser, tehron and livinskull :)</pre>
+            <h2>Theory</h2>
+            <p>To get the solution, as the description says, we have to enter to the link over there, but there's a catch. This make.love.not.war.com domain is not real, and if you go to the link you will see that it doesn't exist. So what can we do? We can maybe pass it through the WeChall website, this is because if you focus on the link, it's structure is similar to the challenge's page url. So we can maybe go to the same link but replacing the domain with the IP address of the WeChall website, although first, to know the IP address of the WeChall website, we're gonna use a simple python command.</p>
+            <h2>Solution</h2>
+            <p>Let's use python to view the IP address of WeChall:</p>
+            <pre>&gt;&gt;&gt; import socket
+
+&gt;&gt;&gt; socket.getaddrinfo("wechall.net", None)
+[(&lt;AddressFamily.AF_INET: 2&gt;, 0, 0, '', ('5.44.104.158', 0))]</pre>
+            <p>There it is, now let's replace the domain with this IP:</p>
+            <pre>https://5.44.104.158/en/challenge/training/net/nodns/etc/hosts.php</pre>
+            <pre>You have to make a request to "make.love.not.war.com".</pre>
+            <p>Okay, I see. So we NEED to go to the `make.love.not.war.com` website, but because it doesn't exist we're gonna do something known as: Host header injection. I don't know much about it, but basically if a server doesn't validate the host, then you can enter a website with a different host, thereby unlocking stuff to do, like bypassing security or inject bad links. We can do this by using burpsuite or python. Burp is the easier option, you just need to go to the same link as before but then modify the header to be the `make.love.not.war.com` website.</p>
+            <p>Although, I'm going to do it in python. It's also kind of simple, let me tell you. First of course, we need to request the website from the WeChall IP, then in the header, change the Host to be the `make.love.not.war.com` website, and in the cookies, I didn't put mine, but basically it's just an identifier for your account, that if I get the answer from this python it automatically completes the level in my account. You can find yours by going to the WeChall.net website and if you're logged in, you should have a cookie variable in the Application tab of the DevTools of the page. Then just see if we get an OK from the site and give the website code for writeup purposes:</p>
+            <pre>import requests
+
+resutl = requests.get("https://5.44.104.158/challenge/training/net/nodns/etc/hosts.php", headers={"Host": "make.love.not.war.com"}, cookies={"WC": "&lt;redacted&gt;"}, verify=False)
+
+if resutl.status_code == 200:
+  print("it worked")
+  print(resutl.text)</pre>
+            <p>Now let's run this code and see if we get it:</p>
+            <pre>C:\Users\shukularuni\sh_w_imgstff_fgunp\wechall\Training_No_DNS&gt;python main.py
+it worked
+
+...
+Your answer is correct. Congratulations you have solved this challenge.
+You gained 0.15% (5 points) on WeChall.
+...</pre>
+            <p>There we go! It just gets marked as complete when doing that.</p>
+            <p>I voted this level as:</p>
+            <pre>Diff: 05
+Ed  : 10
+Fun : 10</pre>
+            <hr>
+            <a target="_blank" href="https://wechall.net/en/challenge/training/net/nodns/index.php">https://wechall.net/en/challenge/training/net/nodns/index.php</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
