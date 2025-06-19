@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeChall CGX#11: Cross Site Scripting @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>WeChall CGX#11: Cross Site Scripting</h1>
+        <p>here's how to solve CGX#11: Cross Site Scripting</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the WeChall Guides</a>
+            <hr>
+            <h2>CGX#11: Cross Site Scripting</h2>
+            <pre>Description: Hello future Hackers,
+
+In this tutorial you will learn a tiny bit about XSS.
+There is a little training challenge waiting for you, which we will dicuss in the video.
+
+You can see the source of the vulnerable application under mask1.code
+
+You can play with it a bit, like we did in the video, and the solution is the name of the php function that you can use to display userinput safely.
+
+Greetings
+- gizmore and x</pre>
+            <h2>Theory</h2>
+            <p>So this one's a little problem of php, a pretty cool language I know. So this one's a little tricky, it's about Cross-Site Scripting (XSS). This happens when you let users input stuff without sanitization, letting them to inject bad HTML or bad JavaScript. In PHP, the easiest ways to prevent XSS is by using the <code>htmlspecialchars()</code> function, which basically converts any special characters like &lt;, &gt;, &#34;, and &amp; to their entities in HTML: &amp;lt;, &amp;gt;, &amp;quot;, and &amp;amp;, making any HTML tags just plain text in the browser and not executed like actual HTML. So that means, that by using the <code>htmlspecialchars()</code> function, you can let users create content while not having XSS vulnerabilities.</p>
+            <h2>Solution</h2>
+            <p>So now that we know what function they're talking about, we'll put the name of the function here (without the parentheses), and check if we were right:</p>
+            <pre>Answer: htmlspecialchars
+
+WeChall: Your answer is correct!</pre>
+            <p>I voted this level as:</p>
+            <pre>Diff: 05
+Ed  : 10
+Fun : 08</pre>
+            <hr>
+            <a target="_blank" href="https://wechall.net/en/challenge/codegeex/02_00_encodings/02_40_ascii/index.php">https://wechall.net/en/challenge/codegeex/02_00_encodings/02_40_ascii/index.php</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
