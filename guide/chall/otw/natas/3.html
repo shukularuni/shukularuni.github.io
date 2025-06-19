@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTW Natas 2 &#8594; 3 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>OverTheWire Natas Guide</h1>
+        <p>here's how to solve the natas level 2 &#8594; 3</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Natas Guides</a>
+            <p>Previous Level Guide: <a href="2.html">Natas Level 1 &#8594; 2</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>Username: <code>natas3</code></p>
+            <p>Password: <code>ttQTW9h4DCaw8myewTz0wHnpFGm78DjY</code></p>
+            <p>URL: <code>http://natas3.natas.labs.overthewire.org</code></p>
+            <h2>Info</h2>
+            <pre>Description: No description, get inside the level to know.</pre>
+            <h2>Theory</h2>
+            <p>Not much to do with the details from the task, so just skipping to doing it.</p>
+            <h2>Solution</h2>
+            <p>We enter to the url with the password from last level:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/natas/3/1.jpg">
+            <p>Yeah no, last time you told me the same thing, but there was something there. So let's go check View Source on Ctrl+U, just in case there is something, even though they've been telling us there's not but there actually is:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/natas/3/2.jpg">
+            <p>And yeah, you are referring to `robots.txt` there. It is a file that's used to control traffic in your website, like which bots can access what, and all that. And because they mentioned the crawler of Google "not finding this", it's pretty obvious they are pointing at `robots.txt`. So let's go over there and see if they give us something:</p>
+            <pre>http://natas3.natas.labs.overthewire.org/robots.txt</pre>
+            <pre>User-agent: *
+Disallow: /s3cr3t/</pre>
+            <p>Yup, that just links us to another page, in the folder called s3cr3t, ohh so ominous! So let's go to that folder in the level's domain:</p>
+            <pre>http://natas3.natas.labs.overthewire.org/s3cr3t/</pre>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/natas/3/3.jpg">
+            <p>And the `users.txt` file is back, let's enter over there and see if we get the password:</p>
+            <pre>natas4:dBbzfpIIuBWMyB051PIidHgaGfNeSeUP</pre>
+            <p>And that's our password! Now you can exit and go to the next level.</p>
+            <a target="_blank" href="https://overthewire.org/wargames/natas/natas3.html">https://overthewire.org/wargames/natas/natas3.html</a>
+            <hr>
+            Next Level Guide: <a href="4.html">Natas Level 3 &#8594; Level 4</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
