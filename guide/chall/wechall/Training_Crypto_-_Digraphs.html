@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeChall Training: Crypto - Digraphs @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>WeChall Training: Crypto - Digraphs</h1>
+        <p>here's how to solve Training: Crypto - Digraphs</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the WeChall Guides</a>
+            <hr>
+            <h2>Training: Crypto - Digraphs</h2>
+            <pre>Name: Training: Crypto - Digraphs
+Tags: Crypto, Training
+Score: 2
+Description: This time I am using a Digraphs crypto scheme to encrypt one letter into two characters.
+With only 26 different letters I am able to encrypt up to 26*26 different characters.
+The big problem again is sharing the key, but the cipher is easily broken anyway.
+The message is in the current language, is written with correct case and punctuation. There are no line breaks.
+
+Good luck!
+
+nfznxfbaqiikbiysafikbiiuznxfvkvz jjznys fzxtnfqicxpybixtfz biioiuvk ywxtvkvkikbaxt vkysnfnfxtvkvkerysafafcxvz ztikvk xfznbi biznzn fziuereriunfysafbi xtiubiioxtqixn ztikvk iucs ztxtafafxn baznznfz tzznoavz xtxfbixtqi biioiuvk knxtcxavznqifz ikvk vkznafysbiiuznxfxn ywernferqiikvkikbafzoaznvz</pre>
+            <h2>Theory</h2>
+            <p>To get the solution, as the description says, we have to decode this matrix cipher, but because we have no idea what it says, I think we can do it in a really creative way. In the previous level of substitution, we used a tool to find letter density and get the original message back. So because all this is just letters swapped for two-letter-blocks, we can just assign each combination a letter and put it on that substitution solver, so that we can get the original message.</p>
+            <h2>Solution</h2>
+            <p>First, let's separate all the two-letter-blocks, the parentheses are spaces:</p>
+            <pre>nf zn xf ba qi ik bi ys af ik bi iu zn xf vk vz () jj zn ys () fz xt nf qi cx py bi xt fz () bi io iu vk () yw xt vk vk ik ba xt () vk ys nf nf xt vk vk er ys af af cx vz () zt ik vk () xf zn bi () bi zn zn () fz iu er er iu nf ys af bi () xt iu bi io xt qi xn () zt ik vk () iu cs () zt xt af af xn () ba zn zn fz () tz zn oa vz () xt xf bi xt qi () bi io iu vk () kn xt cx av zn qi fz () ik vk () vk zn af ys bi iu zn xf xn () yw er nf er qi ik vk ik ba fz oa zn vz</pre>
+            <p>Now that we have each letter separated, we can replace each two-letter-block with a single placeholder letter, treating every unique block as if it were a symbol in the substitution cipher. The specific letters we choose don't matter; what matters is that the same block always gets the same letter, and no two different blocks share a letter, and spaces are kept the same so word boundaries are still there. So at the end, the resulting text can be run through the substitution solver, which will work based on the letter frequencies rather than the actual placeholder letters. So in my case, I just went through each two-letter-block assigning it in alphabetical order, because yes:</p>
+            <pre>a b c d e f g h i f g j b c k l () m b h () n o a e p q g o n () g r j k () s o k k f d o () k h a a o k k t h i i p l () u f k () c b g () g b b () n j t t j a h i g () o j g r o e v () u f k () j w () u o i i v () d b b n () x b y l () o c g o e () g r j k () z o p u b e n () f k () k b i h g j b c v () s t a t e f k f d n y b l</pre>
+            <p>Just gonna remove all spaces and leave parentheses as the original spaces:</p>
+            <pre>abcdefghifgjbckl mbh noaepqgon grjk sokkfdo khaaokkthiipl ufk cbg gbb njttjahig ojgroev ufk jw uoiiv dbbn xbyl ocgoe grjk zopuben fk kbihgjbcv statefkfdnybl</pre>
+            <p>And now let's use the substitution solver to see what we get:</p>
+            <pre>Substitution Solver (guballa.de)
+
+Input: abcdefghifgjbckl mbh noaepqgon grjk sokkfdo khaaokkthiipl ufk cbg gbb njttjahig ojgroev ufk jw uoiiv dbbn xbyl ocgoe grjk zopuben fk kbihgjbcv statefkfdnybl
+
+Key map:
+abcdefghijklmnopqrstuvwxyz
+congratulismbdeyphvfwkxjqz
+
+Result: congratulationsm you decrypted this vessage successfullym was not too difficult eithery was if welly good jobm enter this keyword as solutiony mfcfrasagdbom</pre>
+            <p>The key map might have some issues and result could be confusing, since it's using M and Y for symbols, and the substitution solver just isn't perfect. I'll clear the result and symbols:</p>
+            <pre>congratulations! you decrypted this message successfully! was not too difficult either, was if well, good job! enter this keyword as solution, mfcfrasagdbo!</pre>
+            <p>There we go! That's the solution.</p>
+            <p>I voted this level as:</p>
+            <pre>Diff: 06
+Ed  : 01
+Fun : 02</pre>
+            <hr>
+            <a target="_blank" href="https://www.wechall.net/challenge/training/crypto/digraph/index.php">https://www.wechall.net/challenge/training/crypto/digraph/index.php</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

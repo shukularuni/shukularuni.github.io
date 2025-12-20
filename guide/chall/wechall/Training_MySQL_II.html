@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeChall Training: MySQL II @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>WeChall Training: MySQL II</h1>
+        <p>here's how to solve Training: MySQL II</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the WeChall Guides</a>
+            <hr>
+            <h2>Training: MySQL II</h2>
+            <pre>Name: Training: MySQL II
+Tags: MySQL, Exploit, Training
+Score: 2
+Description: This one is the same as <a href="Training_MySQL_I.html" target="_blank">MySQL1</a>, but you have to come up with a more advanced injection to trick this authentication.
+Your mission is again: Login yourself as admin.
+Again you are given the sourcecode, also as highlighted version.
+
+Enjoy!</pre>
+            <h2>Theory</h2>
+            <p>To complete this challenge, we have to look through the PHP source code again, and now find a way to enter into the admin account with the login below with an updated code that should probably make it harder to break. So, I'll check the code and will see you in a moment.</p>
+            <h2>Solution</h2>
+            <p>Okay, so looking through the code it seems this challenge is almost the same with minor changes, we can still inject SQL on the username so that's cool. So, if we focus our attention to line 53:</p>
+            <pre>if ($result['password'] !== $password) { <i>fail code</i> };</pre>
+            <p>The line is basically checking the input password with the password as MD5, and ending the code if it's not equal, so to exploit this we can create our own password that can be anything and pass it to MD5:</p>
+            <pre>MD5 (online converter)
+
+INPUT: hallo
+
+OUTPUT: 598d4c200461b81522a3328565c25f7c</pre>
+            <p>So, now we'll use this line of SQL that creates a union so that it forces a forge and gives a new row for admin, which makes the database return our password first, and checks our MD5 password with our own password, and it will let us enter as admin:</p>
+            <pre>Username: ' UNION SELECT 1,'admin','598d4c200461b81522a3328565c25f7c' #
+Password: hallo
+
+Auth2: Welcome back, admin!</pre>
+            <p>So now when we enter that, it has to first check the row that was created for the union and then the password, so the MD5 hash gets assigned to the password, and we enter admin because this is what is happening on the code:</p>
+            <pre>if ('598d4c200461b81522a3328565c25f7c' !== md5("hallo")) { <i>fail code</i> };   # they're the same so the fail code gets skipped and you win</pre>
+            <p>There we go! It just gets marked as complete when doing that.</p>
+            <p>I voted this level as:</p>
+            <pre>Diff: 03
+Ed  : 05
+Fun : 07</pre>
+            <hr>
+            <a target="_blank" href="https://www.wechall.net/challenge/training/mysql/auth_bypass2/index.php">https://www.wechall.net/challenge/training/mysql/auth_bypass2/index.php</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

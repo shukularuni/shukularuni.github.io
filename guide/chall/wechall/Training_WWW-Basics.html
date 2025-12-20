@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeChall Training: WWW-Basics @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>WeChall Training: WWW-Basics</h1>
+        <p>here's how to solve Training: WWW-Basics</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the WeChall Guides</a>
+            <hr>
+            <h2>Training: WWW-Basics</h2>
+            <pre>Name: Training: WWW-Basics
+Tags: HTTP, Training
+Score: 2
+Description: As you know, a popular part of the internet is called the World-Wide-Web.
+The www consists of http servers, which serve html documents and other content types.
+Your mission here is easy. Setup a www server on your computer, make it accessible by the outside, and serve the file http://&lt;redacted&gt;:80/shukularuni/shukularuni.html.
+The content of the file has to be exactly:
+My name is shukularuni and iChall.
+The content has to be exact 34 bytes in length.
+
+As soon as you have set it up you can choose the port your server is using, 80 by default, and hit the button.
+
+Enjoy!</pre>
+            <h2>Theory</h2>
+            <p>I am broke, so I wont be getting the solution, but I can tell you how YOU can do it. It's really simple, WeChall just wants to verify that you can host a publicly reachable HTTP server and serve a file with exact contents at the specific URL. It checks the page by making an HTTP request to the IP address you're logged in from, so you won't be able to do that from your own computer, since it's buried behind a NAT connection, so anything you host there will not reach outside of your own home WiFi. So to host a publicly reachable web server from a personal machine is basically not possible (unless you port-forward which I won't tell you how to do because it's kinda hard and annoying).</p>
+            <p>So the strategy we'll use is to use a VPS with a public IP, a minimal server for the lowest cost because this challenge only requires serving a single static file with no more than 40 bytes of bandwidth. Considering that you don't want to waste that much money on a few worthless internet points, we'll stick to Vultr, which is cheap and well-documented (good documentation so that I can know how to set up the server without buying a server myself).</p>
+            <p>So because we're going to host a webpage on a server, the server doesn't have like a browser or is some kind of visual system, it's just a normal terminal you control, so we'll have to create the webpage and send it to WeChall all through terminal commands or scripts.</p>
+            <h2>Solution</h2>
+            <p>First, create a Vultr account, deposit the minimum, and pick the cheapest cloud compute instance. Then put the details of the server, the location, server type (Application - LEMP - CentOS 7), the smallest plan ($5/mo tier), and deploy. After deploying you'll see a public IPv4 address,you can visit this IP as an address to view a default server webpage.</p>
+            <p>Now SSH into your VPS server with the IP address and the password you got:</p>
+            <pre>~$ ssh root@&lt;YOUR SERVER IP HERE&gt;</pre>
+            <p>Once inside, go to nginx root, or well, where the files your website serves when someone enters the IP address:</p>
+            <pre>cd /usr/share/nginx/html</pre>
+            <p>Create the folder with your username and enter into it:</p>
+            <pre>mkdir shukularuni
+cd shukularuni</pre>
+            <p>Finally create the HTML file with the content that WeChall gave to you:</p>
+            <pre>echo -n "My name is shukularuni and iChall." > shukularuni.html</pre>
+            <p>Now verify that the message is in the web server with the given IP:</p>
+            <pre>http://&lt;YOUR SERVER IP HERE&gt;/shukularuni/shukularuni.html</pre>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/wechall/Training_WWW-Basics/1.jpg">
+            <p>Now install Python with yum, then get the requests library so that we can send the signal to WeChall that we have the server:</p>
+            <pre>yum -y install python-pip
+python -m pip install --upgrade pip
+python -m pip install requests</pre>
+            <p>Log into WeChall, and on any page of its website, go to the cookies, and grab the value from the cookie called "WC", this is your secret user ID (don't share it), which can be used to be logged in your user and to do challenges from other local entry points, like the server you're setting up:</p>
+            <pre>= Cookies =
+
+WC  XXXXXXXX-XXXXX-XXXXXXXXXXXXXXXX  wechall.net  /  33  ....  ....  ..........</pre>
+            <p>Now write this Python code to a file in the home folder with your WC cookie on the redacted part:</p>
+            <pre>import requests
+u='https://www.wechall.net/challenge/training/www/basic/index.php'
+c={'WC':'&lt;redacted&gt;'}
+a={'port':'80','go':'I have set it up. Please check my server.'}
+r=requests.post(u,cookies=c,data=a)
+print r.text</pre>
+            <p>Only thing left is to run the file with Python and you should get the response with the points won:</p>
+            <pre>~$ python code.py
+
+...
+
+&lt;span&gt;&lt;a href="/challenge_solvers_for/70/Training%3A+WWW-Basics"&gt;Solved By 1680 People&lt;/a&gt;&lt;/span&gt;
+&amp;nbsp;|&amp;nbsp;
+&lt;span&gt;113448 views&lt;/span&gt;
+&amp;nbsp;|&amp;nbsp;
+&lt;span&gt;since Nov 29, 2010 - 19:49:14&lt;/span&gt;&lt;/div&gt;
+&lt;h2&gt;&lt;a href="/challenge/training/www/basic/index.php"&gt;Training: WWW-Basics&lt;/a&gt;&lt;span class="wc_chall_tagtitle"&gt; (&lt;a href="/challs/HTTP"&gt;HTTP&lt;/a&gt;, &lt;a href="/challs/Training"&gt;Training&lt;/a&gt;)&lt;/span&gt;&lt;/h2&gt;&lt;div class="gwf_messages"&gt;
+        &lt;span class="gwf_msg_t"&gt;WeChall&lt;/span&gt;
+                &lt;ul&gt;
+                &lt;li&gt;Your answer is correct but you have already solved this challenge.&lt;br/&gt;Did you &lt;a href="/challvotes/70/Training%3A+WWW-Basics"&gt;vote for this challenge&lt;/a&gt; yet?&lt;/li&gt;
+
+        &lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class="cl"&gt;&lt;/div&gt;
+&lt;div class="box"&gt;
+        &lt;div class="box_t"&gt;Training: WWW-Basics&lt;/div&gt;
+        &lt;div class="box_c"&gt;As you know, a popular part of the internet is called the World-Wide-Web.&lt;br/&gt;The www consists of http servers, which serve html documents and other content types.&lt;br/&gt;Your mission here is easy. Setup a www server on your computer, make it accessible by the outside, and serve the file http://&lt;redacted&gt;:80/shukularuni/shukularuni.html.&lt;br/&gt;The content of the file has to be exactly:&lt;br/&gt;My name is shukularuni and iChall.&lt;br/&gt;The content has to be exact 34 bytes in length.&lt;br/&gt;&lt;br/&gt;As soon as you have set it up you can choose the port your server is using, 80 by default, and hit the button.&lt;br/&gt;&lt;br/&gt;Enjoy!&lt;/div&gt;
+&lt;/div&gt;
+
+...</pre>
+            <p>There we go! That's the solution.</p>
+            <p>I voted this level as:</p>
+            <pre>Diff: ??
+Ed  : ??
+Fun : ??
+
+?? - Haven't completed this yet.</pre>
+            <hr>
+            <a target="_blank" href="https://wechall.net/challenge/training/www/basic/index.php">https://wechall.net/challenge/training/www/basic/index.php</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

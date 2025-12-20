@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeChall Training: Math Pyramid @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>WeChall Training: Math Pyramid</h1>
+        <p>here's how to solve Training: Math Pyramid</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the WeChall Guides</a>
+            <hr>
+            <h2>Training: Math Pyramid</h2>
+            <pre>Name: Training: Math Pyramid
+Tags: Math, Training
+Score: 2
+Description: This is the first release of a math challenge.
+You have to come up with the shortest solution (9 chars or less) for a geometric function.
+And the story goes like:
+
+Pharao momo wants a square-based pyramid, where all the eight edges are of the same length 'a'.
+Please support him with a formula to calculate the volume for a given side length.
+Your co-workers already drew a sketch how the pyramid looks like from front-view:
+
+[pyramid.png]
+
+Example Formula: a^3/3*sqrt(a*a)
+Notation Hints: sqrt(), a^2, etc.
+
+Enjoy!
+
+Thanks go out to momo for the idea, Jinx for testing, paipai for a copy of EvalMath and Miles Kaufmann for writing the EvalMath class.</pre>
+            <h2>Theory</h2>
+            <p>To get the solution, as the description says, we'll have to do some math to solve this challenge. We have a square-based pyramid where every base edge has length `a`, every side (slanted) edge also has length `a`, so total edges = 8 meaning they're all equal. And that forces the apex to be directly above the center of the square, otherwise some edges would be longer. So let's try solving a formula for this pyramid.</p>
+            <h2>Solution</h2>
+            <p>The base is a square with side length of `a`, so the diagonal is like this:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/wechall/Training_Math_Pyramid/1.png">
+            <p>And the distance from center to a corner is half the diagonal, this will be one leg of the pyramid:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/wechall/Training_Math_Pyramid/2.png">
+            <p>Now we'll find the height by Pythagoras:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/wechall/Training_Math_Pyramid/3.png">
+            <p>So just substitute `r` with the one we already have:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/wechall/Training_Math_Pyramid/4.png">
+            <p>And finally, simplify</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/wechall/Training_Math_Pyramid/5.png"><br>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/wechall/Training_Math_Pyramid/6.png"><br>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/wechall/Training_Math_Pyramid/7.png">
+            <p>Now we'll calculate the volume of the pyramid with the general formula:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/wechall/Training_Math_Pyramid/8.png">
+            <p>Input in the formula the base (side is `a` so `a &#xB7; a` is `a&sup2;`) and the height we just got:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/wechall/Training_Math_Pyramid/9.png">
+            <p>Multiply the three, and we have a formula ready:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/wechall/Training_Math_Pyramid/10.png">
+            <pre>a^3/3*sqrt(2)</pre>
+            <p>Now all we have to do now is try to make this formula into 9 characters, because right now it's 13. We can rewrite the square root below to save some space:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/wechall/Training_Math_Pyramid/11.png">
+            <p>And entering that into our equation, it saves a whopping *one* character:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/wechall/Training_Math_Pyramid/12.png">
+            <pre>a^3/sqrt(18)</pre>
+            <p>Now because 12 is still bigger than 9, we have to find another way to gain more space. So if we rewrite the square root to be a one half exponent (it's the same as a square root), I think we can save a bit more space:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/wechall/Training_Math_Pyramid/13.png">
+            <p>And so, if we plug in that into our volume formula, we get exactly 9 characters:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/wechall/Training_Math_Pyramid/14.png">
+            <pre>a^3/18^.5</pre>
+            <p>There we go! That's the solution.</p>
+            <p>I voted this level as:</p>
+            <pre>Diff: 05
+Ed  : 08
+Fun : 06</pre>
+            <hr>
+            <a target="_blank" href="https://www.wechall.net/challenge/training/math/pyramid/index.php">https://www.wechall.net/challenge/training/math/pyramid/index.php</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeChall Training: Crypto - Transposition I @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>WeChall Training: Crypto - Transposition I</h1>
+        <p>here's how to solve Training: Crypto - Transposition I</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the WeChall Guides</a>
+            <hr>
+            <h2>Training: Crypto - Transposition I</h2>
+            <pre>Name: Training: Crypto - Transposition I
+Tags: Crypto, Training
+Score: 2
+Description: It seems that the simple substitution ciphers are too easy for you.
+From my own experience I can tell that transposition ciphers are more difficult to attack.
+However, in this training challenge you should have not much problems to reveal the plaintext.
+
+oWdnreuf.lY uoc nar ae dht eemssga eaw yebttrew eh nht eelttre sra enic roertco drre . Ihtni koy uowlu dilekt  oes eoyrup sawsro don:wq uhhvwcmilm.j</pre>
+            <h2>Theory</h2>
+            <p>To get the solution, as the description says, we have to decode this weird string. This is because it's a transcription cipher. It's similar to a substitution cipher, where each letter is mapped to a different one randomly, but instead of doing this randomly, it's more pattern-like. And since patterns are really my thing, then I'm going to take a look at this because from looking at it quickly makes it seem like real words. And yeah, if you see the first word, it says "Wonderful" it's actually an AB to BA, so it's divided every two letters, and they swap places. So `Hello!` would be `eHll!o`. We can decode this with a simple python code, just divide every two characters and write first the second character, then the first one, of every group of two letters. Here:</p>
+            <pre>''.join(txt[i+1] + txt[i] for i in range(0,len(txt),2))</pre>
+            <h2>Solution</h2>
+            <p>So let's run this code:</p>
+            <pre>&gt;&gt;&gt; txt = 'oWdnreuf.lY uoc nar ae dht eemssga eaw yebttrew eh nht eelttre sra enic roertco drre . Ihtni koy uowlu dilekt  oes eoyrup sawsro don:wq uhhvwcmilm.j'
+
+&gt;&gt;&gt; ''.join(txt[i+1] + txt[i] for i in range(0,len(txt),2))
+'Wonderful. You can read the message way better when the letters are in correct order. I think you would like to see your password now: qhuvhcwimmlj.'</pre>
+            <p>There we go! That's the solution.</p>
+            <p>I voted this level as:</p>
+            <pre>Diff: 01
+Ed  : 02
+Fun : 06</pre>
+            <hr>
+            <a target="_blank" href="https://wechall.net/en/challenge/training/crypto/transposition1/index.php">https://wechall.net/en/challenge/training/crypto/transposition1/index.php</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

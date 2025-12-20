@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeChall Training: Encodings I @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>WeChall Training: Encodings I</h1>
+        <p>here's how to solve Training: Encodings I</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the WeChall Guides</a>
+            <hr>
+            <h2>Training: Encodings I</h2>
+            <pre>Name: Training: Encodings I
+Tags: Training, Encoding
+Score: 2
+Description: We intercepted this message from one challenger to another, maybe you can find out what they were talking about.
+To help you on your progress I coded a small java application, called JPK.
+Note: The message is most likely in english.
+
+10101001101000110100111100110100
+00011101001100101111100011101000
+10000011010011110011010000001101
+11010110111000101101001111010001
+00000110010111011101100011110111
+11100100110010111001000100000110
+00011110011110001111010011101001
+01011100100000101100111011111110
+10111100100100000111000011000011
+11001111100111110111110111111100
+10110010001000001101001111001101
+00000110010111000011110011111100
+11110011111010011000011110010111
+0100110010111100100101110</pre>
+            <h2>Theory</h2>
+            <p>To get the solution, as the description says, we have to decode this weird kind of binary with the program they're giving us. So let's download it and see how we can get this to be normal ASCII text.</p>
+            <h2>Solution</h2>
+            <p>Well I don't know how to use the program, so I'm gonna go to the help tab:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/wechall/Training_Encodings_I/1.jpg">
+            <p>Although, while messing with the BitsPerBlock thing, I discovered that the binary they gave us is 7 bits. So basically instead of the usual binary being eight consecutive 0s and 1s, it's just seven. So now I can make this little code to divide these in 7 so that we can convert it back to ASCII:</p>
+            <pre>&gt;&gt;&gt; thing = "theBinaryTheyGaveUs".replace(" ",'')
+
+&gt;&gt;&gt; chunks = [thing[i:i+7] for i in range(0, len(thing), 7)]
+
+&gt;&gt;&gt; txt = ''
+
+&gt;&gt;&gt; for i in chunks:
+...   txt += i + ', '
+
+&gt;&gt;&gt; txt
+'1010100, 1101000, 1101001, 1110011, 0100000, 1110100, 1100101, 1111000, 1110100, 0100000, 1101001, 1110011, 0100000, 0110111, 0101101, 1100010, 1101001, 1110100, 0100000, 1100101, 1101110, 1100011, 1101111, 1100100, 1100101, 1100100, 0100000, 1100001, 1110011, 1100011, 1101001, 1101001, 0101110, 0100000, 1011001, 1101111, 1110101, 1110010, 0100000, 1110000, 1100001, 1110011, 1110011, 1110111, 1101111, 1110010, 1100100, 0100000, 1101001, 1110011, 0100000, 1100101, 1100001, 1110011, 1111001, 1110011, 1110100, 1100001, 1110010, 1110100, 1100101, 1110010, 0101110, '</pre>
+            <p>Perfect, now let's just put that in a binary to text online converter or whatever to get the solution:</p>
+            <pre>BINARY TO TEXT (online converter)
+
+INPUT: 1010100, 1101000, 1101001, 1110011, 0100000, 1110100, 1100101, 1111000, 1110100, 0100000, 1101001, 1110011, 0100000, 0110111, 0101101, 1100010, 1101001, 1110100, 0100000, 1100101, 1101110, 1100011, 1101111, 1100100, 1100101, 1100100, 0100000, 1100001, 1110011, 1100011, 1101001, 1101001, 0101110, 0100000, 1011001, 1101111, 1110101, 1110010, 0100000, 1110000, 1100001, 1110011, 1110011, 1110111, 1101111, 1110010, 1100100, 0100000, 1101001, 1110011, 0100000, 1100101, 1100001, 1110011, 1111001, 1110011, 1110100, 1100001, 1110010, 1110100, 1100101, 1110010, 0101110
+
+OUTPUT: This text is 7-bit encoded ascii. Your password is easystarter.</pre>
+            <p>There we go! It just gets marked as complete when doing that.</p>
+            <p>I voted this level as:</p>
+            <pre>Diff: 02
+Ed  : 05
+Fun : 05</pre>
+            <hr>
+            <a target="_blank" href="https://wechall.net/en/challenge/training/encodings1/index.php">https://wechall.net/en/challenge/training/encodings1/index.php</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

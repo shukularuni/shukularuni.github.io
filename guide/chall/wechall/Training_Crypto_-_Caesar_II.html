@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeChall Training: Crypto - Caesar II @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>WeChall Training: Crypto - Caesar II</h1>
+        <p>here's how to solve Training: Crypto - Caesar II</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the WeChall Guides</a>
+            <hr>
+            <h2>Training: Crypto - Caesar II</h2>
+            <pre>Name: Training: Crypto - Caesar II
+Tags: Crypto, Training
+Score: 2
+Description: I guess you are done with Caesar I, aren't you?
+The big problem with caesar is that it does not allow digits or other characters.
+I have fixed this, and now I can use any ascii character in the plaintext.
+The keyspace has increased from 26 to 128 too. \o/
+
+Enjoy!
+
+18 40 40 35 20 3B 40 33 7D 20 4A 40 46 20 44 40
+3D 47 36 35 20 40 3F 36 20 3E 40 43 36 20 34 39
+32 3D 3D 36 3F 38 36 20 3A 3F 20 4A 40 46 43 20
+3B 40 46 43 3F 36 4A 7F 20 25 39 3A 44 20 40 3F
+36 20 48 32 44 20 37 32 3A 43 3D 4A 20 36 32 44
+4A 20 45 40 20 34 43 32 34 3C 7F 20 28 32 44 3F
+78 45 20 3A 45 10 20 02 03 09 20 3C 36 4A 44 20
+3A 44 20 32 20 42 46 3A 45 36 20 44 3E 32 3D 3D
+20 3C 36 4A 44 41 32 34 36 7D 20 44 40 20 3A 45
+20 44 39 40 46 3D 35 3F 78 45 20 39 32 47 36 20
+45 32 3C 36 3F 20 4A 40 46 20 45 40 40 20 3D 40
+3F 38 20 45 40 20 35 36 34 43 4A 41 45 20 45 39
+3A 44 20 3E 36 44 44 32 38 36 7F 20 28 36 3D 3D
+20 35 40 3F 36 7D 20 4A 40 46 43 20 44 40 3D 46
+45 3A 40 3F 20 3A 44 20 39 33 34 3A 36 35 3D 3F
+38 32 41 36 7F</pre>
+            <h2>Theory</h2>
+            <p>To get the solution, as the description says, we have to shift that text however many characters to get the original message, it's no longer just a normal caesar cipher, now it's using the entire ASCII code. So for this challenge, we can't just use an online converter, we'll create a code to go through all the solutions and we'll check one by one to see if there's some real text somewhere.</p>
+            <h2>Solution</h2>
+            <p>We'll create this python code to first convert each character by splitting, from hexadecimal to normal characters, then a loop will go through all 128 possibilities that the characters can swap to, and then print them all with the shift they have at the beginning of each line:</p>
+            <pre>txt="""18 40 40 35 20 3B 40 33 7D 20 4A 40 46 20 44 40
+3D 47 36 35 20 40 3F 36 20 3E 40 43 36 20 34 39
+32 3D 3D 36 3F 38 36 20 3A 3F 20 4A 40 46 43 20
+3B 40 46 43 3F 36 4A 7F 20 25 39 3A 44 20 40 3F
+36 20 48 32 44 20 37 32 3A 43 3D 4A 20 36 32 44
+4A 20 45 40 20 34 43 32 34 3C 7F 20 28 32 44 3F
+78 45 20 3A 45 10 20 02 03 09 20 3C 36 4A 44 20
+3A 44 20 32 20 42 46 3A 45 36 20 44 3E 32 3D 3D
+20 3C 36 4A 44 41 32 34 36 7D 20 44 40 20 3A 45
+20 44 39 40 46 3D 35 3F 78 45 20 39 32 47 36 20
+45 32 3C 36 3F 20 4A 40 46 20 45 40 40 20 3D 40
+3F 38 20 45 40 20 35 36 34 43 4A 41 45 20 45 39
+3A 44 20 3E 36 44 44 32 38 36 7F 20 28 36 3D 3D
+20 35 40 3F 36 7D 20 4A 40 46 43 20 44 40 3D 46
+45 3A 40 3F 20 3A 44 20 39 33 34 3A 36 35 3D 3F
+38 32 41 36 7F""".replace('\n',' ').split(' ')
+ 
+arr=[]
+ 
+for i in txt:
+ arr.append(int(i,16))
+ 
+for i in range(128):
+ a=[]
+ for j in arr:
+  a.append(chr(i+j))
+ b="".join(a)
+ print(f'[{i}] {b}\n')</pre>
+            <a target="_blank" href="https://archive.org/download/sh_w_imgstff_fgunp/wechall/Training_Crypto_-_Caesar_II/ceaser2.py">caeser2.py</a>
+            <p>Now let's run the code and search for one that works. And it seems there's some readable text over on the 47th shift:</p>
+            <pre>C:\Users\shukularuni\sh_w_imgstff_fgunp\wechall\Training_Crypto_-_Caesar_II&gt;python ceaser2.py
+
+...
+
+[46] FnncNina&#xAB;NxntNrnkudcNnmdNlnqdNbg`kkdmfdNhmNxntqNintqmdxNSghrNnmdNv`rNe`hqkxNd`rxNsnNbq`bj?NV`rm&#xA6;sNhs>N017NjdxrNhrN`NpthsdNrl`kkNjdxro`bd&#xAB;NrnNhsNrgntkcm&#xA6;sNg`udNs`jdmNxntNsnnNknmfNsnNcdbqxosNsghrNldrr`fdNVdkkNcnmd&#xAB;NxntqNrnktshnmNhrNgabhdckmf`od
+
+[47] GoodOjob&not;OyouOsolvedOoneOmoreOchallengeOinOyourOjourney&reg;OThisOoneOwasOfairlyOeasyOtoOcrack&reg;OWasn&sect;tOit?O128OkeysOisOaOquiteOsmallOkeyspace&not;OsoOitOshouldn&sect;tOhaveOtakenOyouOtooOlongOtoOdecryptOthisOmessage&reg;OWellOdone&not;OyourOsolutionOisOhbciedlngape&reg;
+
+[48] HppePkpcPzpvPtpmwfePpofPnpsfPdibmmfohfPjoPzpvPkpvsofz&#xAF;PUijtPpofPxbtPgbjsmzPfbtzPupPdsbdl&#xAF;PXbto&uml;uPju@P239PlfztPjtPbPrvjufPtnbmmPlfztqbdfPtpPjuPtipvmeo&uml;uPibwfPublfoPzpvPuppPmpohPupPefdszquPuijtPnfttbhf&#xAF;PXfmmPepofPzpvsPtpmvujpoPjtPicdjfemohbqf&#xAF;
+
+...</pre>
+            <p>Let's clear that one up, it's pretty simple to know which symbol is what thing, let's change O for spaces, registered symbol for the dot, that bar symbol for an exclamation sign, and the section sign for the apostrophe:</p>
+            <pre>Good job! you solved one more challenge in your journey. This one was fairly easy to crack. Wasn't it? 128 keys is a quite small keyspace! so it shouldn't have taken you too long to decrypt this message. Well done! your solution is hbciedlngape.</pre>
+            <p>There we go! That's the solution.</p>
+            <p>I voted this level as:</p>
+            <pre>Diff: 05
+Ed  : 02
+Fun : 00</pre>
+            <hr>
+            <a target="_blank" href="https://www.wechall.net/challenge/training/crypto/caesar2/index.php">https://www.wechall.net/challenge/training/crypto/caesar2/index.php</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

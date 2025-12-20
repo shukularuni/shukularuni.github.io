@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeChall Training: Register Globals @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>WeChall Training: Register Globals</h1>
+        <p>here's how to solve Training: Register Globals</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the WeChall Guides</a>
+            <hr>
+            <h2>Training: Register Globals</h2>
+            <pre>Name: Training: Register Globals
+Tags: Exploit, PHP, Training
+Score: 2
+Description: This challenge is a relict of old PHP times, where register globals has been enabled by default, which often lead to security issues.
+Again, your job is to login as admin, and you are given the sourcecode as well as highlighted version.
+
+Here is the link to the vulnerable script.
+I have also setup a test account: test:test
+
+Enjoy!</pre>
+            <h2>Theory</h2>
+            <p>To get the solution, as the description says, we have to log in as admin without knowing the password. This challenge is about the classic PHP exploit from when `register_globals` was enabled by default, so we'll open the code to look for vulnerabilities.</p>
+            <h2>Solution</h2>
+            <p>So looking at the code, we see this important part on line 57:</p>
+            <pre>~ # EMULATE REGISTER GLOBALS = OFF
+foreach ($_GET as $k => $v) { unset($$k); }</pre>
+            <p>This piece of code loops through all GET parameters, so that means it lets us create arbitrary PHP variables. Now focus on line 29, this is the real stuff:</p>
+            <pre>if (isset($login))
+{
+        echo GWF_HTML::message('Register Globals', $chall->lang('msg_welcome_back', array(htmlspecialchars($login[0]), htmlspecialchars($login[1]))));
+        if (strtolower($login[0]) === 'admin') {
+                $chall->onChallengeSolved(GWF_Session::getUserID());
+        }
+}</pre>
+            <p>To pass this part $login must exist, and $login[0] must equal "admin". So basically, we can just set login[0] to "admin", becuase the login is bypassed due to register_globals allowing us to inject the $login variable directly through GET, passing the admin check without ever executing the password login code. So all we need to do is inject $login[0] with "admin", we can't do that in the user field, but we already verified before that it's possible to enter the values from the address bar because of the GET loop, so all we need to do is enter the value on the URL:</p>
+            <pre>https://www.wechall.net/challenge/training/php/globals/globals.php?login[0]=admin</pre>
+            <pre>PHP Notice(8): Undefined offset: 1 in /home/wechall/www/wc5/www/challenge/training/php/globals/globals.php line 34
+
+Register Globals: Welcome back, admin. Your userlevel is .
+
+WeChall: Your answer is correct. ...</pre>
+            <p>There we go! That's the solution.</p>
+            <p>I voted this level as:</p>
+            <pre>Diff: 03
+Ed  : 05
+Fun : 05</pre>
+            <hr>
+            <a target="_blank" href="https://www.wechall.net/challenge/training/php/globals/index.php">https://www.wechall.net/challenge/training/php/globals/index.php</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

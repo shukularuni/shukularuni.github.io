@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeChall Training: Checksums @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>WeChall Training: Checksums</h1>
+        <p>here's how to solve Training: Checksums</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the WeChall Guides</a>
+            <hr>
+            <h2>Training: Checksums</h2>
+            <pre>Name: Training: Checksums
+Tags: Encoding, Math, Training
+Score: 2
+Description: Give me a valid GAN (gizmore article number)
+
+gan.frm.htm
+
+Respect &#129307;
+- gizmore/pre>
+            <h2>Theory</h2>
+            <p>To get the solution, as the description says, we have to find a valid GAN to enter on the 9 digit inputs, to know how it works and find a way to reverse engineer it to be able to create our own GAN, we'll look at the page linked in a moment. See you in the solution.</p>
+            <h2>Solution</h2>
+            <p>So looking at the attached page, it has a form with 9 digit inputs in groups of 3. So looking at the source code, it seems that the creator accidentally left the code of validation on the page, on an HTML comment:</p>
+            <pre>?php
+function checkGAN($array) {
+	static $poly = [ 1, 5, 13, 31, 131, 131, 137, 7, 43, 1];
+	$sum = 1;
+	for ($i = 0; $i &lt; 8; ) {
+		$sum *= $poly[$i]; 
+		$sum += $array[$i++];
+	}
+	return ($sum % 10) == $array[8];
+}
+?</pre>
+            <p>The code seems to be running a simple polynomial-based checksum algorithm, also only the first eight digits can be anything in 0-9, but the 9th digit acts like a checksum. Although, you don't need to know anything complex for this, we don't even need to reverse it, we just need to copy the code, and change the `check for the last digit`, for a `print the last digit` and it should work just fine. Oh, and it's in python because I'm really lazy right now:</p>
+            <pre>e=[1,2,3,4,5,6,7,8]
+
+p=[1,5,13,31,131,131,137,7,43,1]
+v=1
+for i in range(8):v=v*p[i]+e[i]
+print(e,v%10)</pre>
+            <a target="_blank" href="https://archive.org/download/sh_w_imgstff_fgunp/wechall/Training_Checksums/gan.py">gan.py</a>
+            <p>You can change the `e` array to whatever you want and you will get a valid 9th digit:</p>
+            <pre>C:\Users\shukularuni\sh_w_imgstff_fgunp\wechall\Training_Checksums&gt;python gan.py
+[1, 2, 3, 4, 5, 6, 7, 8] 3
+
+C:\Users\shukularuni\sh_w_imgstff_fgunp\wechall\Training_Checksums&gt;python gan.py
+[1, 1, 1, 1, 1, 1, 1, 1] 1
+
+C:\Users\shukularuni\sh_w_imgstff_fgunp\wechall\Training_Checksums&gt;python gan.py
+[3, 8, 5, 1, 9, 4, 0, 7] 4</pre>
+            <p>So, just choose any number you want and go back to the challenge page to enter these numbers. Now you'll probably wonder, how do I submit this? Well, there is no submit button and you can't just press enter when in the inputs, so what I did was just run this command on the JS console when I'm done writing the digits to automatically submit the form on the challenge page:</p>
+            <pre>document.forms[0].submit()</pre>
+            <p>There we go! That's the solution.</p>
+            <p>I voted this level as:</p>
+            <pre>Diff: 03
+Ed  : 02
+Fun : 07</pre>
+            <hr>
+            <a target="_blank" href="https://www.wechall.net/challenge/training/encodings/checksums/index.php">https://www.wechall.net/challenge/training/encodings/checksums/index.php</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

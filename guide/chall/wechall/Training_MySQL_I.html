@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeChall Training: MySQL I @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>WeChall Training: MySQL I</h1>
+        <p>here's how to solve Training: MySQL I</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the WeChall Guides</a>
+            <hr>
+            <h2>Training: MySQL I</h2>
+            <pre>Name: Training: MySQL I
+Tags: MySQL, Exploit, Training
+Score: 2
+Description: This one is the classic mysql injection challenge.
+Your mission is easy: Login yourself as admin.
+Again you are given the sourcecode, also as highlighted version.
+
+Enjoy!</pre>
+            <h2>Theory</h2>
+            <p>To complete this challenge, we have to look through the PHP source code and find a way to enter into the admin account with the login below. So, I'll check the code and will see you in a moment.</p>
+            <h2>Solution</h2>
+            <p>Okay, so looking through the code this is a really simple classic SQL injection disguised with a lot of spacing to make it look more complex. So, if we go over to line 43, we can take a look at this goldmine of glitches:</p>
+            <pre>$query = "SELECT * FROM users WHERE username='$username' AND password='$password'";</pre>
+            <p>With this on the line, we can just do a simple SQL injection to comment out after the admin username so that it doesn't even process the password and lets us get into admin. The password can be anything since it will be commented out:</p>
+            <pre>Username: admin' --
+Password:
+
+Auth1: That doesn't seem right.</pre>
+            <p>Huh, that didn't work, we can try to comment with the hashtag symbol instead, this usually happens with testing environments like WeChall:</p>
+            <pre>Username: admin' #
+Password: <i>anything</i>
+
+Auth1: Welcome back, %1$s!</pre>
+            <p>Little weird that we are refered as some strange characters. There we go! It just gets marked as complete when doing that.</p>
+            <p>I voted this level as:</p>
+            <pre>Diff: 01
+Ed  : 05
+Fun : 06</pre>
+            <hr>
+            <a target="_blank" href="https://www.wechall.net/challenge/training/mysql/auth_bypass1/index.php">https://www.wechall.net/challenge/training/mysql/auth_bypass1/index.php</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeChall Training: Regex @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>WeChall Training: Regex</h1>
+        <p>here's how to solve Training: Regex</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the WeChall Guides</a>
+            <hr>
+            <h2>Training: Regex</h2>
+            <pre>Name: Training: Regex
+Tags: Training, Regex
+Score: 2
+Description: Your objective in this challenge is to learn the regex syntax.
+Regular Expressions are a powerful tool in your way to master programming, so you should be able to solve this challenge, at least!
+The solution to every task is always the shortest regular expression pattern possible.
+Also note that you have to submit delimiters in the patterns too. Example pattern: /joe/i. The delimiter has to be /
+
+Your first lesson is easy: submit the regular expression the matches an empty string, and only an empty string.</pre>
+            <h2>Theory</h2>
+            <p>To get the solution, as the description says, we have to answer with the Regular Expression (RegEx) for nothing, ``. This is simple, all we have to do is put the starting character, which is <code>^</code>, and the end character, which is <code>$</code>, both together. Basically just start the string and end it immediately:</p>
+            <pre>^$</pre>
+            <h2>Solution</h2>
+            <p>So let's submit this solution and see if we were right:</p>
+            <pre>Answer: ^$
+
+WeChall: Your answer is wrong.</pre>
+            <p>Well, maybe it did need the solidus (/) around it. I forgot that RegEx requires using delimeters, it's these solidus characters around everything to signify that you are in fact, using RegEx. So let's put some solidus around it and submit again:</p>
+            <pre>Answer: /^$/
+
+WeChall: Correct, let`s see if you can come up with a pattern for the next problem.
+Easy enough. Your next task is to submit a regular expression that matches only the string 'wechall' without quotes.</pre>
+            <p>Oh, so there's more? Okay let's see. To put `wechall` in RegEx, we'll just use the same thing as before with the solidus and all that. So because <code>^</code> is the starting character and <code>$</code> is the ending, then we can just put the word between these two:</p>
+            <pre>Answer: /^wechall$/
+
+WeChall: Correct, let`s see if you can come up with a pattern for the next problem.
+Ok, matching static strings is not the main goal of regular expressions.
+Your next task is to submit an expression that matches valid filenames for certain images.
+Your pattern shall match all images with the name wechall.ext or wechall4.ext and a valid image extension.
+Valid image extensions are .jpg, .gif, .tiff, .bmp and .png.
+Here are some examples for valid filenames: wechall4.tiff, wechall.png, wechall4.jpg, wechall.bmp</pre>
+            <p>Now we need to have both `wechall` and `wechall4` with some image extensions, first we need to put the wechall filename, with the 4 and a questionmark to make it optional. Then the extension dot with a backslash to match the literal dot. and then have the option to be any of the file extensions mentioned above:</p>
+            <pre>Answer: /^wechall4?\.(jpg|gif|tiff|bmp|png)$/
+
+WeChall: Your pattern would capture a string, but this is not wanted. Please use a non capturing group.
+Your answer is wrong.</pre>
+            <p>Oh right, forgot about the non-capturing groups, so we need to use `?:` inside the image formats parentheses at the start there to make it optional to choose between the file extensions instead of searching for all of them at the same time. Imagine that! So yeah, just add that:</p>
+            <pre>Answer: /^wechall4?\.(?:jpg|gif|tiff|bmp|png)$/
+
+WeChall: Correct, let`s see if you can come up with a pattern for the next problem.
+It is nice that we have valid images now, but could you please capture the filename, without extension, too?
+As an example: wechall4.jpg should capture/return wechall4 in your pattern now.</pre>
+            <p>Oh yeah, capturing the filename without the extension, that's simple, just put a parentheses around the wechall4 filename:</p>
+            <pre>Answer: /^(wechall4?)\.(?:jpg|gif|tiff|bmp|png)$/
+
+WeChall: Your answer is correct!
+Well done, this is enough for a very first lesson of regular expressions. Mission accomplished.</pre>
+            <p>There we go! That's the solution.</p>
+            <p>I voted this level as:</p>
+            <pre>Diff: 04
+Ed  : 10
+Fun : 10</pre>
+            <p>* Solidus: it's just the name for the slash character: "/".</p>
+            <hr>
+            <a target="_blank" href="https://wechall.net/en/challenge/training/regex/index.php">https://wechall.net/en/challenge/training/regex/index.php</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

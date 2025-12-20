@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeChall Training: Warchall - The Beginning @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>WeChall Training: Warchall - The Beginning</h1>
+        <p>here's how to solve Training: Warchall - The Beginning</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the WeChall Guides</a>
+            <hr>
+            <h2>Training: Warchall - The Beginning</h2>
+            <pre>Name: Training: Warchall - The Beginning
+Tags: Realistic, Linux, Shell, Warchall
+Score: 2
+Description: You are now becoming a linux superhacker.
+
+Create an SSH account with the form below.
+Then enter the 6 solutions to level 0-5 separated by comma.
+Example: bitwarrior,Solution1,Solution2,Solution3,Solution4,Solution5
+
+Proudly presented by the The Warchall(tm) Staff
+Thanks and shouts to xd-- for idea, motivation and inspiration!</pre>
+            <h2>Theory</h2>
+            <p>To get the full answer with all 6 solutions, first we need to put a secure password on the form below the description, it doesn't necessarily have to be your account password. Then you have to run the command you get in your terminal, I don't know what we'll find in the SSH, so let's enter already.</p>
+            <h2>Solution</h2>
+            <p>So if we enter and check the files, we see this welcoming file:</p>
+            <pre>~$ ls
+WELCOME.md  level  www  www_access.log  www_error.log
+
+~$ cat WELCOME.md
+Welcome, challenger to warchall.net.
+
+We hope to be able to present some more realistic challenges in a safe (or not so safe environment) and hope you will like the project!
+
+You will find the solution to each level in
+/home/level
+or
+/home/user/yournick/level
+
+=========================
+== COOL ASCII ART HERE ==
+=========================
+
+tehron,noother,bsdhell,livinskull,kwisatz,gizmore,jjk,paipai
+(warchall.net)</pre>
+            <p>Alright, let's go to the level folder and check the first:</p>
+            <pre>~$ cd /home/level
+
+/home/level$ ls
+00_welcome      05_privacy            12_pytong    level01
+01_choice_tree  07_tropical_fruits    14_live_fi   matrixman
+02              08_sshz               15_live_rfi  special
+03              10_choose_your_path   20_live_rce
+04_kwisatz      11_choose_your_path2  21_nurxxed
+
+/home/level$ cd 00_welcome
+
+/home/level/00_welcome$ ls
+README.md
+
+/home/level/00_welcome$ cat README.md
+Welcome to the WarChall box.
+We hope you will learn a bit about linux systems here, and enjoy your stay.
+
+================================
+= All your activity is logged. =
+================================
+= If you find a way around our protections,
+= please contact us!  =
+= support@wechall.net =
+=======================
+We are looking for bitwarriors that can provide funny and educative challenges.
+=======================
+
+Oh .... and your solution to level0 is: "bitwarrior" without the quotes.
+
+ - The WarChall Staff</pre>
+            <p>Okay that is the first solution, now let's go to the next:</p>
+            <pre>/home/level/00_welcome$ cd ../01_choice_tree
+
+/home/level/01_choice_tree$ ls
+README.md  blue  green  red
+
+/home/level/01_choice_tree$ cat README.md
+Hello Hacker,
+
+You do not need to read this.
+good luck!</pre>
+            <p>It seems there are various folders, and opening that blue one just opens up to another folder, so i'm going to look at all the folders recursively to check anything inside of these repeating folders. And we can see there is a file called `SOLUTION.txt`, so let's check that:</p>
+            <pre>home/level/01_choice_tree$ ls -R
+.:
+README.md  blue  green  red
+
+./blue:
+hats
+
+./blue/hats:
+black  grey  white
+
+./blue/hats/black:
+jedi.md
+
+./blue/hats/black/jedi.md:
+sith.md
+
+./blue/hats/black/jedi.md/sith.md:
+PATH.path
+
+./blue/hats/grey:
+solution
+
+./blue/hats/grey/solution:
+patience
+
+./blue/hats/grey/solution/patience:
+SOLUTION.txt
+
+./blue/hats/white:
+README.EXE
+
+./green:
+README.md
+
+./red:
+you.die
+
+/home/level/01_choice_tree$ cat blue/hats/grey/solution/patience/SOLUTION.txt 
+This was just a little warmup.
+The solution to level 1 is "patience" without the quotes.</pre>
+            <p>Level 1 is done, let's go to the next:</p>
+            <pre>/home/level/01_choice_tree$ cd ../02
+
+/home/level/02$ ls
+documents  photos
+
+/home/level/02$ ls documents
+letter.txt
+
+/home/level/02$ ls photos
+thumbnails
+
+/home/level/02$ cat documents/letter.txt 
+Hey Jerry, I have sent you a letter.
+
+Greetings
+level02
+
+/home/level/02$ cat photos/thumbnails
+Super OS Thumbs v8.0
+Nothing here yet</pre>
+            <p>Hmm, there's nothing important here, let's try searching for hidden files:</p>
+            <pre>/home/level/02$ ls -a
+.  ..  .porb  documents  photos
+
+/home/level/02$ cd .porb
+
+/home/level/02/.porb$ ls -a
+.  ..  .solution
+
+/home/level/02/.porb$ cat .solution
+The solution is HiddenIsConfig</pre>
+            <p>There we go, that's 3 of 6. Let's continue with level3:</p>
+            <pre>/home/level/02/.porb$ cd ../../03
+
+/home/level/03$ ls
+
+/home/level/03$ ls -a
+.  ..  .bash_history  .local
+
+/home/level/03$ cat .bash_history
+The solution to SSH3 is: RepeatingHistory
+ls
+whoami
+exit
+ls
+ls -asl
+nano .bash_history
+ls -asl
+cat .bash_history
+ls -asl</pre>
+            <p>Okay, that was weirdly easy... Anyways that's the solution of Level3, now let's go to the fourth:</p>
+            <pre>/home/level/03$ cd ../04_kwisatz/
+
+/home/level/04_kwisatz$ ls
+README.nfo
+
+/home/level/04_kwisatz$ cat README.nfo
+Look in your ~
+
+/home/level/04_kwisatz$ ls ~/level
+04_kwisatz
+
+/home/level/04_kwisatz$ ls ~/level/04_kwisatz 
+README.txt  README2.md
+
+/home/level/04_kwisatz$ cat ~/level/04_kwisatz/README.txt
+Dear Future Hacker,
+
+I wrote you an important message in README2.md
+Please act accordingly.
+
+ The WarChall Staff 2023!
+ 
+ (c) 2011 kwisatz
+
+/home/level/04_kwisatz$ cat ~/level/04_kwisatz/README2.md
+# Congratulations!
+
+Dear Challenger,
+
+WarChall got erased once,
+hence, the original message is lost.
+
+I think kwisatz wanted to say:
+
+Hey there, welcome to wechall!
+
+ - kwisatz
+
+
+## Flag
+
+Your flag is: "AndOfCourseIDoKnowChown" without the quotes.</pre>
+            <p>We have the fifth piece of the answer, now let's go to level5 to get the sixth and final:</p>
+            <pre>/home/level/04_kwisatz$ cd ../05_privacy/
+
+/home/level/05_privacy$ ls
+README.md
+
+/home/level/05_privacy$ cat README.md 
+# WAR#5: Privacy
+
+Please protect your ~ from any other people than yourself.
+
+Then run ./checker
+
+( This does not work again yet. It would check and say the solution. )
+
+The 5th solution is "OKPRIVATE" without the quotes.
+
+
+ - The WeChall Staff</pre>
+            <p>Well, I have no clue where to find this `checker` program, but it did already give us the solution, so I'm not going to question anything. Now that we have all the solutions we can put them all in one string separated by commas (no spaces) and submit our answer:</p>
+            <pre>bitwarrior,patience,HiddenIsConfig,RepeatingHistory,AndOfCourseIDoKnowChown,OKPRIVATE</pre>
+            <p>There we go! That's the solution.</p>
+            <p>I voted this level as:</p>
+            <pre>Diff: 01
+Ed  : 03
+Fun : 05</pre>
+            <hr>
+            <a target="_blank" href="https://www.wechall.net/challenge/warchall/begins/index.php">https://www.wechall.net/challenge/warchall/begins/index.php</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

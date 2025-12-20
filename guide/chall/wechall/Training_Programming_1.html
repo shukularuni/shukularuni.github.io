@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeChall Training: Programming 1 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>WeChall Training: Programming 1</h1>
+        <p>here's how to solve Training: Programming 1</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the WeChall Guides</a>
+            <hr>
+            <h2>Training: Programming 1</h2>
+            <pre>Name: Training: Programming 1
+Tags: Training, Coding
+Score: 2
+Description: When you visit this link you receive a message.
+Submit the same message back to https://www.wechall.net/en/challenge/training/programming1/index.php?answer=the_message
+Your timelimit is 1.337 seconds</pre>
+            <h2>Theory</h2>
+            <p>To get the solution, as the description says, we have to get a message, although that message we get is a time bomb, and it blows itself up in like a single second. So unless you're like The Flash or something, you can't do this manually, but you know who can do this? A program, just a code that gets the message and opens it in the other link automatically. I'm going to use python because it's probably the easiest approach. So yeah here's a code, it's pretty simple, first we get the content of the link we get the message from with the cookie of your profile found in the only cookie of your session in any WeChall.net webpage, then immediately get the other link with the message there, and get the HTML of the result just in case:</p>
+            <pre>msg = requests.get("https://www.wechall.net/en/challenge/training/programming1/index.php?action=request", cookies={"WC": "&lt;redacted&gt;"})
+
+req = requests.get(f"https://www.wechall.net/en/challenge/training/programming1/index.php?answer={msg.text}", cookies={"WC": "&lt;redacted&gt;"})
+
+print(req.text)</pre>
+            <a target="_blank" href="https://archive.org/download/sh_w_imgstff_fgunp/wechall/Training_Programming_1/main.py">main.py</a>
+            <h2>Solution</h2>
+            <p>So let's run this python and see if it worked:</p>
+            <pre>C:\Users\shukularuni\sh_w_imgstff_fgunp\wechall\Training_Programming_1&gt;python main.py
+...
+Your answer is correct. Congratulations you have solved this challenge.
+You gained 0.29% (14 points) on WeChall.
+...</pre>
+            <p>There we go! It just gets marked as complete when doing that.</p>
+            <p>I voted this level as:</p>
+            <pre>Diff: 02
+Ed  : 00
+Fun : 05</pre>
+            <hr>
+            <a target="_blank" href="https://wechall.net/en/challenge/training/programming1/index.php">https://wechall.net/en/challenge/training/programming1/index.php</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

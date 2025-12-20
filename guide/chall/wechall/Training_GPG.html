@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeChall Training: GPG @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>WeChall Training: GPG</h1>
+        <p>here's how to solve Training: GPG</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the WeChall Guides</a>
+            <hr>
+            <h2>Training: GPG</h2>
+            <pre>Name: Training: GPG
+Tags: Crypto, Training
+Score: 2
+Description: In this challenge your goal is to setup gpg encryption for your emails.
+To do so, generate your keypairs locally and store your public key on wechall.
+Then all your mails sent by wechall are encrypted.
+To enable GPG encryption, please goto <a href="https://wechall.net/account" target="_blank">Your account settings</a>.
+When you are done, click the button below to send you a mail.
+
+Happy Challenging!</pre>
+            <h2>Theory</h2>
+            <p>To get the solution, as the description says, we have to set up our GPG encryption on WeChall, then click the button below to receive a message to decrypt with our GPG password. So to do that, you first need to verify that you have gpg installed (or GnuPG). After that we'll create the password and send it to WeChall.</p>
+            <h2>Solution</h2>
+            <p>So, we'll start to create the password:</p>
+            <pre>~$ gpg --full-generate-key
+gpg (GnuPG) 2.4.4; Copyright (C) 2024 g10 Code GmbH
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+
+Please select what kind of key you want:
+   (1) RSA and RSA
+   (2) DSA and Elgamal
+   (3) DSA (sign only)
+   (4) RSA (sign only)
+   (9) ECC (sign and encrypt) *default*
+  (10) ECC (sign only)
+  (14) Existing key from card
+Your selection?</pre>
+            <p>Here we'll put (1) RSA and RSA to create the correct GPG key:</p>
+            <pre>Your selection? 1
+RSA keys may be between 1024 and 4096 bits long.
+What keysize do you want? (3072)</pre>
+            <p>Enter a keysize of 4096 because that's the usual thing:</p>
+            <pre>What keysize do you want? (3072) 4096
+Requested keysize is 4096 bits
+Please specify how long the key should be valid.
+         0 = key does not expire
+      &gt;n&lt;  = key expires in n days
+      &gt;n&lt;w = key expires in n weeks
+      &gt;n&lt;m = key expires in n months
+      &gt;n&lt;y = key expires in n years
+Key is valid for? (0)</pre>
+            <p>Just put 0 or leave blank so that the key never expires, and tell it that everything's correct:</p>
+            <pre>Key is valid for? (0) 0
+Key does not expire at all
+Is this correct? (y/N) y
+
+GnuPG needs to construct a user ID to identify your key.</pre>
+            <p>Here you can put any name, I put my username. Then it's going to ask for email address, this one has to be the address you use for WeChall, then in the comment, you don't need to enter anything:</p>
+            <pre>Real name: Shukularuni
+Email address: shukularuni@gmail.com
+Comment: 
+You selected this USER-ID:
+    "Shukularuni &lt;shukularuni@gmail.com&gt;"
+
+Change (N)ame, (C)omment, (E)mail or (O)kay/(Q)uit?</pre>
+            <p>Press `O` for Okay, now finally, it will ask for a password, make a great password that you can remember, as you will be using it later into the challenge, when you enter the password you can move the mouse around a little to create some randomness so that the GPG key has better security:</p>
+            <pre>Change (N)ame, (C)omment, (E)mail or (O)kay/(Q)uit? o
+We need to generate a lot of random bytes. It is a good idea to perform
+some other action (type on the keyboard, move the mouse, utilize the
+disks) during the prime generation; this gives the random number
+generator a better chance to gain enough entropy.
+gpg: directory '/home/shukularuni/.gnupg/openpgp-revocs.d' created
+gpg: revocation certificate stored as '/home/shukularuni/.gnupg/openpgp-revocs.d/RANDOMHEX0DBF105B8C373948762B1B21BC8DC34.rev'
+public and secret key created and signed.
+
+pub   rsa4096 2025-12-19 [SC]
+      RANDOMHEX0DBF105B8C373948762B1B21BC8DC34
+uid                      Shukularuni &lt;shukularuni@gmail.com&gt;
+sub   rsa4096 2025-12-19 [E]</pre>
+            <p>Now print your private key (don't share it with anyone apart from WeChall):</p>
+            <pre>~$ gpg --armor --export shukularuni@gmail.com
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+redactedredactedredactedredactedredactedredactedredactedredacted
+edactedredactedredactedredactedredactedredactedredactedredactedr
+dactedredactedredactedredactedredactedredactedredactedredactedre
+actedredactedredactedredactedredactedredactedredactedredactedred
+ctedredactedredactedredactedredactedredactedredactedredactedreda
+tedredactedredactedredactedredactedredactedredactedredactedredac
+edredactedredactedredactedredactedredactedredactedredactedredact
+dredactedredactedredactedredactedredactedredactedredactedredacte
+redactedredactedredactedredactedredactedredactedredactedredacted
+edactedredactedredactedredactedredactedredactedredactedredactedr
+dactedredactedredactedredactedredactedredactedredactedredactedre
+actedredactedredactedredactedredactedredactedredactedredactedred
+ctedredactedredactedredactedredactedredactedredactedredactedreda
+tedredactedredactedredactedredactedredactedredactedredactedredac
+edredactedredactedredactedredactedredactedredactedredactedredact
+dredactedredactedredactedredactedredactedredactedredactedredacte
+redactedredactedredactedredactedredactedredactedredactedredacted
+edactedredactedredactedredactedredactedredactedredactedredactedr
+dactedredactedredactedredactedredactedredactedredactedredactedre
+actedredactedredactedredactedredactedredactedredactedredactedred
+ctedredactedredactedredactedredactedredactedredactedredactedreda
+tedredactedredactedredactedredactedredactedredactedredactedredac
+edredactedredactedredactedredactedredactedredactedredactedredact
+dredactedredactedredactedredactedredactedredactedredactedredacte
+redactedredactedredactedredactedredactedredactedredactedredacted
+edactedredactedredactedredactedredactedredactedredactedredactedr
+dactedredactedredactedredactedredactedredactedredactedredactedre
+actedredactedredactedredactedredactedredactedredactedredactedred
+ctedredactedredactedredactedredactedredactedredactedredactedreda
+tedredactedredactedredactedredactedredactedredactedredactedredac
+edredactedredactedredactedredactedredactedredactedredactedredact
+dredactedredactedredactedredactedredactedredactedredactedredacte
+redactedredactedredactedredactedredactedredactedredactedredacted
+edactedredactedredactedredactedredactedredactedredactedredactedr
+dactedredactedredactedredactedredactedredactedredactedredactedre
+actedredactedredactedredactedredactedredactedredactedredactedred
+ctedredactedredactedredactedredactedredactedredactedredactedreda
+tedredactedredactedredactedredactedredactedredactedredactedredac
+edredactedredactedredactedredactedredactedredactedredactedredact
+dredactedredactedredactedredactedredactedredactedredactedredacte
+redactedredactedredactedredactedredactedredactedredactedredacted
+edactedredactedredactedredactedredactedredactedredactedredactedr
+dactedredactedredactedredactedredactedredactedredactedredactedre
+actedredactedredactedredactedredactedredactedredactedredactedred
+ctedredactedredactedredactedredactedredactedredactedredactedreda
+tedredactedredactedredactedredactedredactedredactedredactedredac
+edredactedredactedredactedredactedredactedredactedredactedredact
+ed=
+=redacted
+-----END PGP PUBLIC KEY BLOCK-----</pre>
+            <p>Now go to your account settings through the link on the challenge page and paste your key on the big text input at the bottom, then click update key. Now if we look in the email because WeChall just told us they sent us an email, there seems to be something new for us:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/wechall/Training_GPG/1.jpg">
+            <p>So now paste the GPG into a file then decrypt it with GPG, with the password you previously set:</p>
+            <pre>~$ gpg --decrypt mail.asc
+      "Shukularuni &lt;shukularuni@gmail.com&gt;"
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv="Content-Type" content="text/html; charset=utf-8" /&gt;
+&lt;/head&gt;
+&lt;body&gt;
+Dear shukularuni,&lt;br /&gt;
+&lt;br /&gt;
+You have decided to turn on gpg encryption for emails sent by this robot.&lt;br /&gt;
+To do so, follow the link below:&lt;br /&gt;
+&lt;br /&gt;
+&lt;a href="https://www.wechall.net/index.php?mo=Account&amp;amp;me=SetupGPGKey&amp;amp;userid=70963&amp;amp;token=idk_bru_should_be_sum_hex_random_stuffok"&gt;https://www.wechall.net/index.php?mo=Account&amp;amp;me=SetupGPGKey&amp;amp;userid=70963&amp;amp;token=idk_bru_should_be_sum_hex_random_stuffok&lt;/a&gt;&lt;br /&gt;
+&lt;br /&gt;
+Kind Regards,&lt;br /&gt;
+The WeChall staff
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/wechall/Training_GPG/2.jpg">
+            <p>And when we enter in the link, WeChall says that GPG is complete. Now we can go back to the challenge and click the button that says "Send me encrypted mail please.":</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/wechall/Training_GPG/3.jpg">
+            <p>Now just paste it to another file, and let's decrypt this other email:</p>
+            <pre>~$ gpg --decrypt maile.asc
+      "Shukularuni &lt;shukularuni@gmail.com&gt;"
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv="Content-Type" content="text/html; charset=utf-8" /&gt;
+&lt;/head&gt;
+&lt;body&gt;
+Dear shukularuni,&lt;br /&gt;
+&lt;br /&gt;
+I just want to tell you the solution to the GPG challenge.&lt;br /&gt;
+It is: CRBBBIGSADGG&lt;br /&gt;
+&lt;br /&gt;
+Kind Regards,&lt;br /&gt;
+The WeChall Bot!
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/wechall/Training_GPG/4.jpg">
+            <p>There we go! That's the solution.</p>
+            <p>I voted this level as:</p>
+            <pre>Diff: 06
+Ed  : 06
+Fun : 06</pre>
+            <hr>
+            <a target="_blank" href="https://www.wechall.net/challenge/training/crypto/gpg/index.php">https://www.wechall.net/challenge/training/crypto/gpg/index.php</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

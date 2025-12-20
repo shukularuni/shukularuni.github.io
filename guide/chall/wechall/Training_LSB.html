@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeChall Training: LSB @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>WeChall Training: LSB</h1>
+        <p>here's how to solve Training: LSB</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the WeChall Guides</a>
+            <hr>
+            <h2>Training: LSB</h2>
+            <pre>Name: Training: LSB
+Tags: Stegano, Image, Training
+Score: 2
+Description: This is a very simple, yet spectacular trick.
+Can you see the hidden solution?
+
+Note: The solution is bound to your session ID and consists of twelve letters.
+
+Hidden Hint: http://wechall.blogspot.com/2007/11/steganabara-explained.html
+
+Thanks go out to buttmonkey for creating the image :)</pre>
+            <h2>Theory</h2>
+            <p>To get the solution, as the description says, we have to do some LSB magic (Least Significant Bit), this technique is usually used to uncover images below other images by just showing certain bits of each color, the challenge gives us a Hidden Hint to a download of Steganabara, but I tried it, and it seems really complicated. So instead I'll be using StegSolve (v1.3) by Caesum, which is so much easier to use, in Steganabara I needed to flip through the bits manually, whereas in StegSolve I just need to look through the images.</p>
+            <h2>Solution</h2>
+            <p>So let's download the image and put it into StegSolve:</p>
+            <pre>~$ wget https://www.wechall.net/challenge/training/stegano/LSB/temp/BOVzgpZynzVses4T.png
+--2025-12-19 07:51:31--  https://www.wechall.net/challenge/training/stegano/LSB/temp/BOVzgpZynzVses4T.png
+Resolving www.wechall.net (www.wechall.net)... 5.44.104.158, 2a02:2b80:101:104::92
+Connecting to www.wechall.net (www.wechall.net)|5.44.104.158|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 208264 (203K) [image/png]
+Saving to: 'BOVzgpZynzVses4T.png'
+
+BOVzgpZynzVses4T.png                                       100%[======================================================================================================================================>] 203.38K   534KB/s    in 0.4s    
+
+2025-12-19 07:51:32 (534 KB/s) - 'BOVzgpZynzVses4T.png' saved [208264/208264]</pre>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/wechall/Training_LSB/1.jpg">
+            <p>And just flip the pages until we find something odd and password-looking:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/wechall/Training_LSB/2.png">
+            <p>Yup, that seems like a 12-character password:</p>
+            <pre>GDODMBNHLEHP</pre>
+            <p>There we go! That's the solution.</p>
+            <p>I voted this level as:</p>
+            <pre>Diff: 03
+Ed  : 05
+Fun : 07</pre>
+            <hr>
+            <a target="_blank" href="https://www.wechall.net/challenge/training/stegaano/LSB/index.php">https://www.wechall.net/challenge/training/stegaano/LSB/index.php</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

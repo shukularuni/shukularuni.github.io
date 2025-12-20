@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeChall Training: Caterpillar @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>WeChall Training: Caterpillar</h1>
+        <p>here's how to solve Training: Caterpillar</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the WeChall Guides</a>
+            <hr>
+            <h2>Training: Caterpillar</h2>
+            <pre>Name: Training: Caterpillar
+Tags: Stegano
+Score: 2
+Description: I have drawn a picture of an caterpillar and hid some text in it.
+I am sure you can figure it out, as it is not too hard :)
+
+(caterpillar.png)[My perfectly drawn image of a caterpillar]
+
+Happy Challenging!</pre>
+            <h2>Theory</h2>
+            <p>To get the solution, as the description says, we have to find some hidden text in the image, and judging by how it's conveniently drawn in similarly colored balls that have just random color patterns, I think it's not so far off guessing that the hex values of the colors might be the message itself. I also did check for any metadata, but there's nothing there, clarifying our other theory even more.</p>
+            <h2>Solution</h2>
+            <p>By how different the hue of the head ball, I don't think that last one is part of the puzzle. So first let's get the hex values from each ball in the image. :</p>
+            <pre>#87c229, #79ba1e, #3e5212, #43520e, #b0c229, #557315, #7fb031, #aad442</pre>
+            <p>Yes, I went through each one individually getting the value, so now let's try Hexadecimal decoding on these values:</p>
+            <pre>HEXADECIMAL TO TEXT (online converter)
+
+INPUT: 87c22979ba1e3e521243520eb0c2295573157fb031aad442
+
+OUTPUT: .A)y*.&gt;R.CR.*A)Us..*1*OB</pre>
+            <p>Huh, that doesn't seem human readable. Although the theory still stands strong as I haven't found any other way of getting a hidden message yet. Hex is the most popular option, but we can use others like HSB, CMYK, or Lab. I'm not going to convert the Hex values to HSB, because that's harder than just getting the HSB values from the image itself again. So again I went through each ball getting the HSB value:</p>
+            <pre>hsl(83, 79, 76), hsl(85, 84, 73), hsl(79, 78, 32), hsl(73, 83, 32), hsl(67, 79, 76), hsl(79, 82, 45), hsl(83, 72, 69), hsl(77, 69, 83)</pre>
+            <p>Now that definetely looks like readable text, although HSB values are in decimal, not hexadecimal:</p>
+            <pre>DECIMAL TO TEXT (online converter)
+
+INPUT: 83, 79, 76, 85, 84, 73, 79, 78, 32, 73, 83, 32, 67, 79, 76, 79, 82, 45, 83, 72, 69, 77, 69, 83
+
+OUTPUT: SOLUTION IS COLOR-SHEMES</pre>
+            <p>There we go! That's the solution.</p>
+            <p>I voted this level as:</p>
+            <pre>Diff: 04
+Ed  : 06
+Fun : 04</pre>
+            <hr>
+            <a target="_blank" href="https://www.wechall.net/challenge/training/stegano/caterpillar/index.php">https://www.wechall.net/challenge/training/stegano/caterpillar/index.php</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

