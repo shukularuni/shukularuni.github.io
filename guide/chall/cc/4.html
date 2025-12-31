@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberChef #4 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>CyberChef challenge Guide</h1>
+        <p>here's how to solve cyberchef challenge #4</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the CyberChef Guides</a>
+            <p>Previous Level Guide: <a href="3.html">CyberChef challenge #3</a></p>
+            <hr>
+            <h2>Info</h2>
+            <pre>Name: CyberChef challenge #4
+Source: <a href="https://pastebin.com/qc0fb7Uw" target="_blank">https://pastebin.com/qc0fb7Uw</a>.
+Message: 1f 8b 08 08 f9 fc 70 5e 00 ff 48 69 6e 74 3a 20 44 65 74 65 63 74 20 46 69 6c 65 20 54 79 70 ...</pre>
+            <h2>Theory</h2>
+            <p>It's hexadecimal again, but we know from the previous challenge that it's because they're multiple layers of encryption. So, looking at the structure of the string, we can see a couple of binary characters at the start that remind me of Gzip compression. So let's decode it.</p>
+            <h2>Solution</h2>
+            <p>Let's put it into CyberChef to decode from Hex to check what it really is:</p>
+            <pre>recipe=From_Hex('Space')  # hex-to-text
+
+- INPUT: 1f 8b 08 08 f9 fc 70 5e 00 ff 48 69 6e 74 3a 20 44 65 74 65 63 74 20 46 69 6c 65 20 54 79 70 ...
+
+- OUTPUT:
+...uup^.yHint: Detect File Type.U.=rA ..{.b3</pre>
+            <p>Yup, just as I thought, it's Gzip compression. That binary start and the comment of the file to check file type just give it away, so let's decompress from Gunzip:</p>
+            <pre>recipe=From_Hex('Space')Gunzip()  # hex-to-text and gzip decompress
+
+- INPUT: 1f 8b 08 08 f9 fc 70 5e 00 ff 48 69 6e 74 3a 20 44 65 74 65 63 74 20 46 69 6c 65 20 54 79 70 ...
+
+- OUTPUT:
+Congratulations, you have completed CyberChef challenge #4!
+
+This challenge explored Gzip compression. To learn more, visit wikipedia.org/wiki/Gzip.
+
+The code for this challenge is 65e5f811-bd8a-4c59-b7d4-e3d3e02a7dd1.
+
+The next challenge can be found at https://pastebin.com/5Bs6LtT4.</pre>
+            <p>I didn't put the whole string because it too long, you can find it in the source on the info section.</p>
+            <p>There we go! That's the solution.</p>
+            <hr>
+            Next Level Guide: <a href="5.html">CyberChef challenge #5</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

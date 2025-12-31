@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberChef #7 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>CyberChef challenge Guide</h1>
+        <p>here's how to solve cyberchef challenge #7</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the CyberChef Guides</a>
+            <p>Previous Level Guide: <a href="6.html">CyberChef challenge #6</a></p>
+            <hr>
+            <h2>Info</h2>
+            <pre>Name: CyberChef challenge #7
+Source: <a href="https://pastebin.com/B7m2dUKL" target="_blank">https://pastebin.com/B7m2dUKL</a>.
+Message: cEJBVEVOR0hZTkdWQkFGDABMQkgAVU5JUgBQQlpDWVJHUlEAcExPUkVwVVJTAFBVTllZUkFUUgADFwEqKmdVVkYAUFVO...</pre>
+            <h2>Theory</h2>
+            <p>It's Base64 again, but we know from the previous challenge that it's because they're multiple layers of encryption. So, looking at the structure of the string, we can see a couple A and solidus characters, which means this has binary characters when decoding, that might be interesting to look into. So let's decode it.</p>
+            <h2>Solution</h2>
+            <p>Let's put it into CyberChef to decode from Base64 to check what it really is:</p>
+            <pre>recipe=From_Base64('A-Za-z0-9+/=',true,false)  # base64-to-text
+
+- INPUT: cEJBVEVOR0hZTkdWQkFGDABMQkgAVU5JUgBQQlpDWVJHUlEAcExPUkVwVVJTAFBVTllZUkFUUgADFwEqKmdVVkYAUFVO...
+
+- OUTPUT:
+pBATENGHYNGVBAF..LBH.UNIR.PBZCYRGRQ.pLORE...</pre>
+            <p>Alright that seems to be text that's been rotated with a shift of 13 in the caesar cipher just like the previous challenge, but it has weird binary characters everywhere, so let's also put URL encode so that we can see what the function of these characters are (I'm using URL encode so that it only encodes special characters like the binary thingies):</p>
+            <pre>recipe=From_Base64('A-Za-z0-9+/=',true,false)ROT13(true,true,false,13)Swap_case()URL_Encode(false)  # base64-to-text, rotation 13, swap case, and url-percent-encode
+
+- INPUT: cEJBVEVOR0hZTkdWQkFGDABMQkgAVU5JUgBQQlpDWVJHUlEAcExPUkVwVVJTAFBVTllZUkFUUgADFwEqKmdVVkYAUFVO...
+
+- OUTPUT:
+cONGRATULATIONS%0C%00YOU%00HAVE%00COMPLET...</pre>
+            <p>Let's also swap case becuase the first letter is lowercase and the others are uppercase, and it seems the null character (%00) seems to be space, while the new line is an asterisk, so let's replace those:</p>
+            <pre>recipe=From_Base64('A-Za-z0-9+/=',true,false)Gunzip()ROT13(true,true,false,13)Swap_case()URL_Encode(false)Find_/_Replace({'option':'Simple string','string':'*'},'\\n',true,false,true,false)Find_/_Replace({'option':'Simple string','string':'%00'},' ',true,false,true,false)  # base64-to-text, rotation 13, swap case, url-percent-encode, replace * for newline, and replace %00 for [space]
+
+- INPUT: cEJBVEVOR0hZTkdWQkFGDABMQkgAVU5JUgBQQlpDWVJHUlEAcExPUkVwVVJTAFBVTllZUkFUUgADFwEqKmdVVkYAUFVO...
+
+- OUTPUT:
+Congratulations%0C you have completed CyberChef challenge %03%17%01
+
+This challenge explored XOR encoding%0E To learn more%0C visit wikipedia%0Eorg%0Fwiki%0FExclusive%7For%0E
+
+The code for this challenge is %13f%16%18ef%10b%0D%17e%17f%0D%14a%12%14%0Da%15%13%18%0D%13b%11dcabe%12%11ad%0E
+
+The next challenge can be found at https%1A%0F%0Fpastebin%0Ecom%0FNYUd%16x%10A%0E</pre>
+            <p>Now I think we can clean some of the special characters using the completed text from a previous level:</p>
+            <pre>Congratulations, you have completed CyberChef challenge #%17!
+
+This challenge explored XOR encoding. To learn more, visit wikipedia.org/wiki/Exclusive_or.
+
+The code for this challenge is %13f%16%18ef%10b-%17e%17f-%14a%12%14-a%15%13%18-%13b%11dcabe%12%11ad.
+
+The next challenge can be found at https://pastebin.com/NYUd%16x%10A.</pre>
+            <p>Now we're almost there, I can see that the %17 is going to be 7 because of the challenge number we already know, so it's safe to say that any character in the 10-19 range is their equivalent number in the 0-9 range. So we can replace all the numbers:</p>
+            <pre>Congratulations, you have completed CyberChef challenge #7!
+
+This challenge explored XOR encoding. To learn more, visit wikipedia.org/wiki/Exclusive_or.
+
+The code for this challenge is 3f68ef0b-7e7f-4a24-a538-3b1dcabe21ad.
+
+The next challenge can be found at https://pastebin.com/NYUd6x0A.</pre>
+            <p>I didn't put the whole string because it too long, you can find it in the source on the info section.</p>
+            <p>There we go! That's the solution.</p>
+            <hr>
+            Next Level Guide: <a href="8.html">CyberChef challenge #8</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

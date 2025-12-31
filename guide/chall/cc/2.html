@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberChef #2 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>CyberChef challenge Guide</h1>
+        <p>here's how to solve cyberchef challenge #2</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the CyberChef Guides</a>
+            <p>Previous Level Guide: <a href="1.html">CyberChef challenge #1</a></p>
+            <hr>
+            <h2>Info</h2>
+            <pre>Name: CyberChef challenge #2
+Source: <a href="https://pastebin.com/GSnTAmkV" target="_blank">https://pastebin.com/GSnTAmkV</a>.
+Message: Q29uZ3JhdHVsYXRpb25zLCB5b3UgaGF2ZSBjb21wbGV0ZWQgQ3liZXJDaGVmIGNoYWxsZW5nZSAjMiEKClRoaXMgY2hh...</pre>
+            <h2>Theory</h2>
+            <p>Just looking at the string and seeing the character set it uses and the double equal sign at the end gives away that this is obviously Base64. So let's decode it.</p>
+            <h2>Solution</h2>
+            <p>Let's put it into CyberChef to decode from Base64:</p>
+            <pre>recipe=From_Base64('A-Za-z0-9%2B/%3D',false,false)  # base64-to-text
+
+- INPUT: Q29uZ3JhdHVsYXRpb25zLCB5b3UgaGF2ZSBjb21wbGV0ZWQgQ3liZXJDaGVmIGNoYWxsZW5nZSAjMiEKClRoaXMgY2hh...
+
+- OUTPUT:
+Congratulations, you have completed CyberChef challenge #2!
+
+This challenge explored Base64 encoding. To learn more, visit wikipedia.org/wiki/Base64.
+
+The code for this challenge is 3b9fae1d-93fe-4f2e-ab10-78d3c4f52784.
+
+The next challenge can be found at https://pastebin.com/LMQTiXA2.</pre>
+            <p>I didn't put the whole hex string because it too long, you can find it in the source on the info section.</p>
+            <p>There we go! That's the solution.</p>
+            <hr>
+            Next Level Guide: <a href="3.html">CyberChef challenge #3</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberChef #8 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>CyberChef challenge Guide</h1>
+        <p>here's how to solve cyberchef challenge #8</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the CyberChef Guides</a>
+            <p>Previous Level Guide: <a href="7.html">CyberChef challenge #7</a></p>
+            <hr>
+            <h2>Info</h2>
+            <pre>Name: CyberChef challenge #8
+Source: <a href="https://pastebin.com/NYUd6x0A" target="_blank">https://pastebin.com/NYUd6x0A</a>.
+Message: XHgzNlx4MzdceDIwXHgzMVx4MzFceDMxXHgyMFx4MzFceDMxXHgzMFx4MjBceDMxXHgzMFx4MzNceDIwXHgzMVx4MzFc...</pre>
+            <h2>Theory</h2>
+            <p>It's Base64 again, but we know from the previous challenge that it's because they're multiple layers of encryption. So, looking at the structure of the string, we can see a lot of repetition, I don't know what this means, it might be text, but again I don't know what this is. So let's decode it.</p>
+            <h2>Solution</h2>
+            <p>Let's put it into CyberChef to decode from Base64 to check what it really is:</p>
+            <pre>recipe=From_Base64('A-Za-z0-9+/=',true,false)  # base64-to-text
+
+- INPUT: XHgzNlx4MzdceDIwXHgzMVx4MzFceDMxXHgyMFx4MzFceDMxXHgzMFx4MjBceDMxXHgzMFx4MzNceDIwXHgzMVx4MzFc...
+
+- OUTPUT:
+\x36\x37\x20\x31\x31\x31\x20\x31\x31\x30\x...</pre>
+            <p>And now this is obviously hexadecimal, but with the \x encoding, we can also decode that:</p>
+            <pre>recipe=From_Base64('A-Za-z0-9+/=',true,false)From_Hex('\\x')  # base64-to-text and hex-to-text
+
+- INPUT: XHgzNlx4MzdceDIwXHgzMVx4MzFceDMxXHgyMFx4MzFceDMxXHgzMFx4MjBceDMxXHgzMFx4MzNceDIwXHgzMVx4MzFc...
+
+- OUTPUT:
+67 111 110 103 114 97 116 117 108 97 116 1...</pre>
+            <p>Alright, now you're just being silly going through every single basic encoding, this is straight up decimal, which yes, we can decode simply:</p>
+            <pre>recipe=From_Base64('A-Za-z0-9+/=',true,false)From_Hex('\\x')From_Decimal('Space',true)  # base64-to-text, hex-to-text, and decimal-to-text
+
+- INPUT: XHgzNlx4MzdceDIwXHgzMVx4MzFceDMxXHgyMFx4MzFceDMxXHgzMFx4MjBceDMxXHgzMFx4MzNceDIwXHgzMVx4MzFc...
+
+- OUTPUT:
+Congratulations, you have completed CyberChef challenge #8!
+
+This challenge explored Decimal Byte encoding. To learn more, visit wikipedia.org/wiki/Decimal.
+
+The code for this challenge is c10a4a30-c5e1-482d-a4d3-02658bf73493.
+
+The next challenge can be found at https://pastebin.com/HuwqpaKS.</pre>
+            <p>I didn't put the whole string because it too long, you can find it in the source on the info section.</p>
+            <p>There we go! That's the solution.</p>
+            <hr>
+            Next Level Guide: <a href="9.html">CyberChef challenge #9</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

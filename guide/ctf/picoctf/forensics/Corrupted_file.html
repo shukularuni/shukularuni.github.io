@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF Corrupted file @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF Forensics Guide</h1>
+        <p>here's how to solve Corrupted file</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Forensics Guides</a>
+            <hr>
+            <h2>Corrupted file</h2>
+            <pre>Name: Corrupted file
+Description: This file seems broken... or is it? Maybe a couple of bytes could make all the difference. Can you figure out how to bring it back to life? Download the file here.
+Author: Yahaya Meddy
+Tags: Easy, Forensics, picoMini by CMU-Africa, browser_webshell_solvable
+Challenge from: picoMini by CMU-Africa
+Files: file
+Hints:
+1. Try checking the file's header.
+2. JPEG
+3. Tools like xxd or hexdump can help you inspect and edit file bytes.</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to fix a "broken" file, so we can start by downloading the file and using the `file` command to try to see what file type it is, although it does say something about "a couple of bytes" so maybe we'll need to edit the bytes of the file to make it normal and functional again like it says "bring the file back to life" in the description.</p>
+            <h2>Solution</h2>
+            <p>Let's download the file and see what it is:</p>
+            <pre>shukularuni-picoctf@webshell:~$ wget https://challenge-files.picoctf.net/c_amiable_citadel/10f12b1f51f0a73a50f6bd08cc2d0ef6b1e8039a27daac52f27b450dabeaec97/file
+--2025-12-31 20:03:58--  https://challenge-files.picoctf.net/c_amiable_citadel/10f12b1f51f0a73a50f6bd08cc2d0ef6b1e8039a27daac52f27b450dabeaec97/file
+Resolving challenge-files.picoctf.net (challenge-files.picoctf.net)... 3.160.5.18, 3.160.5.40, 3.160.5.95, ...
+Connecting to challenge-files.picoctf.net (challenge-files.picoctf.net)|3.160.5.18|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 8757 (8.6K) [application/octet-stream]
+Saving to: 'file'
+
+file                                                       100%[======================================================================================================================================>]   8.55K  --.-KB/s    in 0s      
+
+2025-12-31 20:03:59 (337 MB/s) - 'file' saved [8757/8757]
+
+shukularuni-picoctf@webshell:~$ file file
+file: data</pre>
+            <p>Huh, it doesn't seem to tell us what it might be, maybe the coruption might be the header bytes, that would explain the challenge and the file command behaviour with how it doesn't detect any file type:</p>
+            <pre>shukularuni-picoctf@webshell:~$ xxd file | less
+00000000: 5c78 ffe0 0010 4a46 4946 0001 0100 0001  \x....JFIF......
+00000010: 0001 0000 ffdb 0043 0008 0606 0706 0508  .......C........
+00000020: 0707 0709 0908 0a0c 140d 0c0b 0b0c 1912  ................
+00000030: 130f 141d 1a1f 1e1d 1a1c 1c20 242e 2720  ........... $.' 
+00000040
+...</pre>
+            <p>Okay I see the problem, just as I thought, the problem is the header, this is a JPEG file, but the beginning should be ffd8ffe000a6946 and not have some random `\x` at the beginning. So we can replace the beginning with the real JPEG header bytes and it *should* work:</p>
+            <pre>Replace [5c 78 ff e0] with [ff d8 ff e0]</pre>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/Corrupted_file/1.jpg">
+            <pre>picoCTF{r3st0r1ng_th3_by73s_efd8c6c0}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/519">https://play.picoctf.org/practice/challenge/519</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

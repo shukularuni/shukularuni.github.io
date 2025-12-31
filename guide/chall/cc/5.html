@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberChef #5 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>CyberChef challenge Guide</h1>
+        <p>here's how to solve cyberchef challenge #5</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the CyberChef Guides</a>
+            <p>Previous Level Guide: <a href="4.html">CyberChef challenge #4</a></p>
+            <hr>
+            <h2>Info</h2>
+            <pre>Name: CyberChef challenge #5
+Source: <a href="https://pastebin.com/5Bs6LtT4" target="_blank">https://pastebin.com/5Bs6LtT4</a>.
+Message: 42 5a 68 39 31 41 59 26 53 59 34 3d 45 44 3d 31 37 3d 44 45 3d 30 30 3d 30 30 28 3d 44 46 3d ...</pre>
+            <h2>Theory</h2>
+            <p>It's hexadecimal again, but we know from the previous challenge that it's because they're multiple layers of encryption. So, looking at the structure of the string, we can see a couple of hex values for letters at the start, that might be interesting to look into. So let's decode it.</p>
+            <h2>Solution</h2>
+            <p>Let's put it into CyberChef to decode from Hex to check what it really is:</p>
+            <pre>recipe=From_Hex('Space')  # hex-to-text
+
+- INPUT: 42 5a 68 39 31 41 59 26 53 59 34 3d 45 44 3d 31 37 3d 44 45 3d 30 30 3d 30 30 28 3d 44 46 3d ...
+
+- OUTPUT:
+BZh91AY&SY4=ED=17=DE=00=00(=DF=80=00=10h=...</pre>
+            <p>Oh look, this is Bzip2. To decode it we need to make this the correct format, we can just use the quopri module of python and put it in a bzip file:</p>
+            <pre>~$ nano idk.py</pre>
+            <pre>import quopri
+
+idk=b"""BZh91AY&SY4=ED=17=DE=00=00(=DF=80=00=10h=07=F7=F0=0C=00f=00=3F=EF=DF=F00=00=
+=DA=81H=C4=C8=D0h=03C=08=00=00=C0=C82=00=0CF=83!=90=185O=14=F4F=94=FCRoB=
+=9E=A7=A6jF=9Ac=12mF=04:2=C8R]Rzh=10=11=01=AA=1F=86=1E=B0R=BA=0B^=16%=AF=07=
+=F1=D78t=CF=B7=16=95=8B=05=EA=940D=F1=14=C3=22bj=22=8Cm=AA=E5=A4=DE=94S=B4.=
+=A6=B3=AC=1B=80=08=3FF=DA,I=C5=B8	(=A2r5=08@=FA*=1Ea=DE^=9E=DB=1A=C3=8B&=
+=CD=92=D0=C2=12=AA*=03H=F8E=E80=A5=C5@=DE=F0=17=C8=D4=A0=9F=CE=F4 v=06,=
+Cn=E7=90=D9=C1d=05=B9=00X=D2H=FA=AF=AD=88=800=18=F7=90=12M&lt;&gt;v=0Ek=8B[=BF=
+=E6=10=8F=D1=D1=EA=EB=9DD=D0=D1=C4t=8C+=A8^=CB1:P=B7=08=BC	=
+=A2=17=A7=1F=F1w$S=85	=03N=D1}=E0"""
+
+stuff=quopri.decodestring(idk)
+
+with open('idk.bz2','wb') as f:
+ f.write(stuff)</pre>
+            <pre>~$ python3 idk.py
+
+~$ bzip2 -d idk.bz2
+
+~$ ls
+idk  idk.bz2  idk.py
+
+~$ cat idk
+Congratulations, you have completed CyberChef challenge #5!
+
+This challenge explored Quoted-Printable encoding. To learn more, visit wikipedia.org/wiki/Quoted-printable.
+
+The code for this challenge is dbe82a2e-81df-4641-9418-1901c8298e76.
+
+The next challenge can be found at https://pastebin.com/fzgyDUeD.</pre>
+            <p>I didn't put the whole string because it too long, you can find it in the source on the info section.</p>
+            <p>There we go! That's the solution.</p>
+            <hr>
+            Next Level Guide: <a href="6.html">CyberChef challenge #6</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

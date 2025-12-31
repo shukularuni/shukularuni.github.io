@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF Crack the Gate 1 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF Web Exploitation Guide</h1>
+        <p>here's how to solve Crack the Gate 1</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Web Exploitation Guides</a>
+            <hr>
+            <h2>Crack the Gate 1</h2>
+            <pre>Name: Crack the Gate 1
+Description: We're in the middle of an investigation. One of our persons of interest, ctf player, is believed to be hiding sensitive data inside a restricted web portal. We've uncovered the email address he uses to log in: ctf-player@picoctf.org. Unfortunately, we don't know the password, and the usual guessing techniques haven't worked. But something feels off... it's almost like the developer left a secret way in. Can you figure it out? The website is running here. Can you try to log in?
+Author: Yahaya Meddy
+Tags: Easy, Web Exploitation, picoMini by CMU-Africa, browser_webshell_solvable
+Challenge from: picoMini by CMU-Africa
+Hints:
+1. Developers sometimes leave notes in the code; but not always in plain text.
+2. A common trick is to rotate each letter by 13 positions in the alphabet.</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to enter into an account with an e-mail address and without the password, so we don't know anything from here yet, so let's enter to the site and view the source code with Ctrl+U of the webpage to know how the page works and maybe be able to get the password to log in.</p>
+            <h2>Solution</h2>
+            <p>So we'll open the website and check the source code of the webpage:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/Crack_the_Gate_1/1.jpg">
+            <p>Oh look at that, it's a comment with probably important information, but it seems to be rotated as it remains with normal text structure:</p>
+            <pre>Caesar Cipher (online tool i think)
+
+INPUT: ABGR: Wnpx - grzcbenel olcnff: hfr urnqre "K-Qri-Npprff: lrf
+
+SHIFT: FIND OUT
+
+OUTPUT:
+&gt;13 (&lt;13) - NOTE: Jack - temporary bypass: use header "X-Dev-Access: yes</pre>
+            <p>Okay yup, we just need to do everything normally, just put the e-mail address we got, the password can be virtually anything, but then we need to use BurpSuite&mdash;a tool used to change request headers when doing internet stuff&mdash;and just add that `X-Dev-Access` header. So first just put the address and anything on the password input:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/Crack_the_Gate_1/2.jpg">
+            <p>Before clicking on the Login button, remember to have turned on intercept so that we can view the request headers to the website so that we can edit it:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/Crack_the_Gate_1/3.jpg">
+            <p>Now just enter that `X-Dev-Access` thing on the request:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/Crack_the_Gate_1/4.jpg">
+            <p>And finally, press the forward button to make the modified request go through and get the flag without ever using a password:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/Crack_the_Gate_1/5.jpg">
+            <pre>picoCTF{brut4_f0rc4_1a386e6f}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/520">https://play.picoctf.org/practice/challenge/520</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

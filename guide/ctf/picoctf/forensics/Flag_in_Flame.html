@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF Flag in Flame @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF Forensics Guide</h1>
+        <p>here's how to solve Flag in Flame</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Forensics Guides</a>
+            <hr>
+            <h2>Flag in Flame</h2>
+            <pre>Name: Flag in Flame
+Description: The SOC team discovered a suspiciously large log file after a recent breach. When they opened it, they found an enormous block of encoded text instead of typical logs. Could there be something hidden within? Your mission is to inspect the resulting file and reveal the real purpose of it. The team is relying on your skills to uncover any concealed information within this unusual log. Download the encoded data here: Logs Data. Be prepared—the file is large, and examining it thoroughly is crucial .
+Author: Prince Niyonshuti N.
+Tags: Easy, Forensics, picoMini by CMU-Africa, browser_webshell_solvable
+Challenge from: picoMini by CMU-Africa
+Files: logs.txt
+Hints:
+1. Use base64 to decode the data and generate the image file.</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to look through this unusually large log file and reveal whatever message it has inside, so we'll use the less command first to see what we're getting into, and we'll continue from there.</p>
+            <h2>Solution</h2>
+            <p>Let's download the log and see what it has:</p>
+            <pre>shukularuni-picoctf@webshell:~$ wget https://challenge-files.picoctf.net/c_amiable_citadel/53216672a2c2381d0ed77a981fbf595657b3a8be3f0e0edff71b33c1baa6c9d6/logs.txt
+--2025-12-30 16:18:58--  https://challenge-files.picoctf.net/c_amiable_citadel/53216672a2c2381d0ed77a981fbf595657b3a8be3f0e0edff71b33c1baa6c9d6/logs.txt
+Resolving challenge-files.picoctf.net (challenge-files.picoctf.net)... 3.160.5.40, 3.160.5.95, 3.160.5.18, ...
+Connecting to challenge-files.picoctf.net (challenge-files.picoctf.net)|3.160.5.40|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 1592268 (1.5M) [application/octet-stream]
+Saving to: 'logs.txt'
+
+logs.txt                                                   100%[======================================================================================================================================>]   1.52M  1.82MB/s    in 0.8s    
+
+2025-12-30 16:18:59 (1.82 MB/s) - 'logs.txt' saved [1592268/1592268]
+
+shukularuni-picoctf@webshell:~$ cat logs.txt | less
+iVBORw0KGgoAAAANSUhEUgAAA4AAAASACAIAAAAh8bSOAAEAAElEQVR4nOz919MsyZUniP3OcY+IFJ+6
+ouqWBqoautDYRmN6emfaZmlc0mi2+7xPNJJ/GJ/4RvJtH5dmQ1vbHu4Mp9kzjQYGohuoAkrh1tWfysyI
+cPdz+HAiIj3Vp66oanHs2nczIyM8XB4t6PUP/i8ASEEDKKkqiQJQtgsgIjBUNWoUESJ1zjkiVUUiZiby
+IhIiVNWPpuPxuJxMiqI4OTt59uxZVTIRUaxDCJTaw8NDUpnNZm1d13Xt3ej27dvT6f58Pm8R67r2oze/
++93vFuPXFovFuNQQQhEf/vVf//Xs4ScKrVA5dlHKcTH+7374f5xOpx+d/PoXv/jFA/mthyd3pqoAABDW
+Ye+Nb/3pn/7ptLz9ySef/O1//rfkHKRhZr//7R//+Mee+ZNPPvnis18w80/++C++853v/OLXP//pT39a
+hCcAhEtV/fa/+j+8//77jPRv/+2/lQe/9s6zzAGcY+SLglJjb2dmVRIRImJmVSw/C4kIMxdF8cGf/Tdv
+vPHGsy+/+NnPfianT733FBcKFeK1nhMxAFbYugAAJQAikYiSQFS8q0TEFeMQgir/6I9/dPvtHywWi9/8
+5//5/Py8qPy8npdvfucHP/jBwXTyi1/8YvH5L0MI06pq23ame+//0R99+0d/2jTNlx//7W9/+1tqn5W+
+jFrGFMUf/Vf/8l++/60P27b9u7/99x/93d9VPFNVsBKRChFRoiKlpMJ7BwffeP9bh4eHn99/9OWXX955
+:</pre>
+            <p>Now if we look at the image, we can see some text:</p>
+            <pre>7069636F4354467B666F72656E736963735F616E616C797369735F69735F616D617A696E675F35636363376362307D</pre>
+            <p>This is hexadecimal, which we can convert to text with an online converter:</p>
+            <pre>HEXADECIMAL TO TEXT (online converter)
+
+INPUT: 7069636F4354467B666F72656E...
+
+OUTPUT: picoCTF{forensics_analysis_is_amazing_5ccc7cb0}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "not good"! :(</p>
+            <p>cause AI image bad</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/523">https://play.picoctf.org/practice/challenge/523</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

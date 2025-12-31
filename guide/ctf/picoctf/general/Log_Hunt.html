@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF Log Hunt @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF General Skills Guide</h1>
+        <p>here's how to solve Log Hunt</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the General Skills Guides</a>
+            <hr>
+            <h2>Log Hunt</h2>
+            <pre>Name: Log Hunt
+Description: Our server seems to be leaking pieces of a secret flag in its logs. The parts are scattered and sometimes repeated. Can you reconstruct the original flag? Download the logs and figure out the full flag from the fragments.
+Author: Yahaya Meddy
+Tags: Easy, General Skills, picoMini by CMU-Africa, browser_webshell_solvable
+Challenge from: picoMini by CMU-Africa
+Files: server.log
+Hints:
+1. You can use grep to filter only matching lines from the log.
+2. Some lines are duplicates; ignore extra occurrences.</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to download the server logs, then search and reconstruct all the parts of the flag, it seems pretty simple. So let's go to the terminal to download the file and check what it has in it.</p>
+            <h2>Solution</h2>
+            <p>First, we'll download the file to see what it might be:</p>
+            <pre>shukularuni-picoctf@webshell:~$ wget https://challenge-files.picoctf.net/c_amiable_citadel/49cec6157142f24a599f4164d5b63322c2494f801390d6f22eb91b3aa592bc66/server.log
+--2025-12-29 09:33:37--  https://challenge-files.picoctf.net/c_amiable_citadel/49cec6157142f24a599f4164d5b63322c2494f801390d6f22eb91b3aa592bc66/server.log
+Resolving challenge-files.picoctf.net (challenge-files.picoctf.net)... 3.160.5.64, 3.160.5.95, 3.160.5.18, ...
+Connecting to challenge-files.picoctf.net (challenge-files.picoctf.net)|3.160.5.64|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 108322 (106K) [application/octet-stream]
+Saving to: 'server.log'
+
+server.log                                                 100%[======================================================================================================================================>] 105.78K  --.-KB/s    in 0.05s   
+
+2025-12-29 09:33:37 (1.95 MB/s) - 'server.log' saved [108322/108322]</pre>
+            <p>We can open the file with less so that it doesn't immediately occupy the entire terminal:</p>
+            <pre>shukularuni-picoctf@webshell:~$ cat server.log | less
+[1990-08-09 10:00:10] INFO FLAGPART: picoCTF{us3_
+[1990-08-09 10:00:16] WARN Disk space low
+[1990-08-09 10:00:19] DEBUG Cache cleared
+[1990-08-09 10:00:23] WARN Disk space low
+[1990-08-09 10:00:25] INFO Service restarted
+[1990-08-09 10:00:33] WARN Disk space low
+[1990-08-09 10:00:38] ERROR Connection lost
+[1990-08-09 10:00:46] ERROR Failed login attempt
+[1990-08-09 10:00:48] INFO User logged in
+[1990-08-09 10:00:50] INFO User logged in
+:</pre>
+            <p>You can then enter `q` to exit the less view. Now I see that it has a part of the flag, so I guess we can just search the entire log to find "FLAGPART" to get all the parts of the flag:</p>
+            <pre>shukularuni-picoctf@webshell:~$ cat server.log | grep "FLAGPART"
+[1990-08-09 10:00:10] INFO FLAGPART: picoCTF{us3_
+[1990-08-09 10:02:55] INFO FLAGPART: y0urlinux_
+[1990-08-09 10:05:54] INFO FLAGPART: sk1lls_
+[1990-08-09 10:05:55] INFO FLAGPART: sk1lls_
+[1990-08-09 10:10:54] INFO FLAGPART: cedfa5fb}
+[1990-08-09 10:10:58] INFO FLAGPART: cedfa5fb}
+[1990-08-09 10:11:06] INFO FLAGPART: cedfa5fb}
+[1990-08-09 11:04:27] INFO FLAGPART: picoCTF{us3_
+[1990-08-09 11:04:29] INFO FLAGPART: picoCTF{us3_
+[1990-08-09 11:04:37] INFO FLAGPART: picoCTF{us3_
+[1990-08-09 11:09:16] INFO FLAGPART: y0urlinux_
+[1990-08-09 11:09:19] INFO FLAGPART: y0urlinux_
+[1990-08-09 11:12:40] INFO FLAGPART: sk1lls_
+[1990-08-09 11:12:45] INFO FLAGPART: sk1lls_
+[1990-08-09 11:16:58] INFO FLAGPART: cedfa5fb}
+[1990-08-09 11:16:59] INFO FLAGPART: cedfa5fb}
+[1990-08-09 11:17:00] INFO FLAGPART: cedfa5fb}
+[1990-08-09 12:19:23] INFO FLAGPART: picoCTF{us3_
+[1990-08-09 12:19:29] INFO FLAGPART: picoCTF{us3_
+[1990-08-09 12:19:32] INFO FLAGPART: picoCTF{us3_
+[1990-08-09 12:23:43] INFO FLAGPART: y0urlinux_
+[1990-08-09 12:23:45] INFO FLAGPART: y0urlinux_
+[1990-08-09 12:23:53] INFO FLAGPART: y0urlinux_
+[1990-08-09 12:25:32] INFO FLAGPART: sk1lls_
+[1990-08-09 12:28:45] INFO FLAGPART: cedfa5fb}
+[1990-08-09 12:28:49] INFO FLAGPART: cedfa5fb}
+[1990-08-09 12:28:52] INFO FLAGPART: cedfa5fb}</pre>
+            <p>Perfect, now we can join these parts without repeating them to get the flag:</p>
+            <pre>picoCTF{us3_y0urlinux_sk1lls_cedfa5fb}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/527">https://play.picoctf.org/practice/challenge/527</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

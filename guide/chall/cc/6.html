@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberChef #6 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>CyberChef challenge Guide</h1>
+        <p>here's how to solve cyberchef challenge #6</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the CyberChef Guides</a>
+            <p>Previous Level Guide: <a href="5.html">CyberChef challenge #5</a></p>
+            <hr>
+            <h2>Info</h2>
+            <pre>Name: CyberChef challenge #6
+Source: <a href="https://pastebin.com/fzgyDUeD" target="_blank">https://pastebin.com/fzgyDUeD</a>.
+Message: H4sIAL39cF4A/wtISixJzUvPqMxLL0tKTNNRyEnKUCjNyyxSKEiqSq4sSi8qVAjIyS9KDSgtKlYoKM2rrCxKLClSUDZT...</pre>
+            <h2>Theory</h2>
+            <p>It's Base64 again, but we know from the previous challenge that it's because they're multiple layers of encryption. So, looking at the structure of the string, we can see a couple A and solidus characters, which means this has binary characters when decoding, that might be interesting to look into. So let's decode it.</p>
+            <h2>Solution</h2>
+            <p>Let's put it into CyberChef to decode from Base64 to check what it really is:</p>
+            <pre>recipe=From_Base64('A-Za-z0-9+/=',true,false)  # base64-to-text
+
+- INPUT: H4sIAL39cF4A/wtISixJzUvPqMxLL0tKTNNRyEnKUCjNyyxSKEiqSq4sSi8qVAjIyS9KDSgtKlYoKM2rrCxKLClSUDZT...
+
+- OUTPUT:
+....&half;yp^.y.HJ,IIKI*IK/KJLOQEIEP(IE,R(H*J0...</pre>
+            <p>Oh yeah, this is definetely Gzip compression because of the null characters at the start:</p>
+            <pre>recipe=From_Base64('A-Za-z0-9+/=',true,false)Gunzip()  # base64-to-text and gzip decompress
+
+- INPUT: H4sIAL39cF4A/wtISixJzUvPqMxLL0tKTNNRyEnKUCjNyyxSKEiqSq4sSi8qVAjIyS9KDSgtKlYoKM2rrCxKLClSUDZT...
+
+- OUTPUT:
+Pbatenghyngvbaf, lbh unir pbzcyrgrq PlorePurs punyyratr #6!
+
+Guvf punyyratr rkcyberq EBG13 rapbqvat. Gb yrnea zber, ivfvg jvxvcrqvn.bet/jvxv/EBG13.
+
+Gur pbqr sbe guvf punyyratr vf 4s946qo0-134r-4666-9424-405053o0888s.
+
+Gur arkg punyyratr pna or sbhaq ng uuggcf://cnfgrova.pbz/O7z2qHXY.</pre>
+            <p>And that must be a caesar cipher, looking at how it says "EBG13" in various spots, I think it's safe to say that this is rotation 13, the very middle and most used rotation in the caesar cipher:</p>
+            <pre>recipe=From_Base64('A-Za-z0-9+/=',true,false)Gunzip()ROT13(true,true,false,13)  # base64-to-text, gzip decompress, and rotation 13
+
+- INPUT: H4sIAL39cF4A/wtISixJzUvPqMxLL0tKTNNRyEnKUCjNyyxSKEiqSq4sSi8qVAjIyS9KDSgtKlYoKM2rrCxKLClSUDZT...
+
+- OUTPUT:
+Congratulations, you have completed CyberChef challenge #6!
+
+This challenge explored ROT13 encoding. To learn more, visit wikipedia.org/wiki/ROT13.
+
+The code for this challenge is 4f946db0-134e-4666-9424-405053b0888f.
+
+The next challenge can be found at hhttps://pastebin.com/B7m2dUKL.</pre>
+            <p>I didn't put the whole string because it too long, you can find it in the source on the info section.</p>
+            <p>There we go! That's the solution.</p>
+            <hr>
+            Next Level Guide: <a href="7.html">CyberChef challenge #7</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

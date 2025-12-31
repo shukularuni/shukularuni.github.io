@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF Riddle Registry @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF Forensics Guide</h1>
+        <p>here's how to solve Riddle Registry</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Forensics Guides</a>
+            <hr>
+            <h2>Riddle Registry</h2>
+            <pre>Name: Riddle Registry
+Description: Hi, intrepid investigator! &#x1F4C4;&#x1F50D; You've stumbled upon a peculiar PDF filled with what seems like nothing more than garbled nonsense. But beware! Not everything is as it appears. Amidst the chaos lies a hidden treasure—an elusive flag waiting to be uncovered. Find the PDF file here Hidden Confidential Document and uncover the flag within the metadata.
+Author: Prince Niyonshuti N.
+Tags: Easy, Forensics, picoMini by CMU-Africa, browser_webshell_solvable
+Challenge from: picoMini by CMU-Africa
+Files: confidential.pdf
+Hints:
+1. Don't be fooled by the visible text; it's just a decoy!
+2. Look beyond the surface for hidden clues</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to find some hidden message inside this PDF file, we should download the file first, then use the poppler-utils app that gives us the pdftotext command, so that we can get all the text on the PDF file, because when I opened the PDF it had a couple of redacted details, so we'll check that. So let's first download the file.</p>
+            <h2>Solution</h2>
+            <p>Let's download the PDF file and see what text it has in it:</p>
+            <pre>shukularuni-picoctf@webshell:~$ wget https://challenge-files.picoctf.net/c_amiable_citadel/aa8b61ad4587052b730bc07906352e33d5a803f25708e2c8c115147039541a76/confidential.pdf
+--2025-12-29 21:31:16--  https://challenge-files.picoctf.net/c_amiable_citadel/aa8b61ad4587052b730bc07906352e33d5a803f25708e2c8c115147039541a76/confidential.pdf
+Resolving challenge-files.picoctf.net (challenge-files.picoctf.net)... 3.160.5.40, 3.160.5.95, 3.160.5.18, ...
+Connecting to challenge-files.picoctf.net (challenge-files.picoctf.net)|3.160.5.40|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 182705 (178K) [application/octet-stream]
+Saving to: 'confidential.pdf'
+
+confidential.pdf                                           100%[======================================================================================================================================>] 178.42K  --.-KB/s    in 0.09s   
+
+2025-12-29 21:31:16 (1.99 MB/s) - 'confidential.pdf' saved [182705/182705]
+
+shukularuni-picoctf@webshell:~$ pdftotext confidential.pdf
+
+shukularuni-picoctf@webshell:~$ cat confidential.txt
+Title: The Ultimate Guide to Flag Hunting
+Welcome to the challenge!
+Don't worry, this might look like gibberish, but maybe there's something hidden somewhere? I
+spent so much time creating this PDF with care... or maybe not!
+
+Here's a Quick Story:
+Once upon a time, in a land far, far away, there was a secret... But where could it be? Hidden
+deep within the document? Maybe the text holds clues?
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante venenatis
+dapibus posuere velit aliquet. Aenean lacinia bibendum nulla sed consectetur. Fusce dapibus,
+tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet
+risus. Curabitur blandit tempus porttitor. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+You thought this was important? Nah, it's just random text. Keep looking. Or maybe, just
+maybe, you're in the wrong place?
+
+Special Hidden Section:
+The author have done a great and good job
+Don't bother trying to reveal the hidden text, it's just nonsense anyway. Even if you somehow
+manage to do it, all you'll get is:
+No flag here. Nice try though!
+
+If you're still reading this, I'll tell you a secret: the answer might not be here after all...
+
+Good luck! You'll need it!</pre>
+            <p>Okay, so it seems even though there is "redacted" text on the document, there really isn't anything special on it. So let's check deeper like the hints told us, so instead let's check the metadata of the file:</p>
+            <pre>shukularuni-picoctf@webshell:~$ exiftool confidential.pdf
+ExifTool Version Number         : 12.76
+File Name                       : confidential.pdf
+Directory                       : .
+File Size                       : 183 kB
+File Modification Date/Time     : 2025:12:29 22:01:27+01:00
+File Access Date/Time           : 2025:12:29 22:15:11+01:00
+File Inode Change Date/Time     : 2025:12:29 22:01:29+01:00
+File Permissions                : -rw-rw-r--
+File Type                       : PDF
+File Type Extension             : pdf
+MIME Type                       : application/pdf
+PDF Version                     : 1.7
+Linearized                      : No
+Page Count                      : 1
+Producer                        : PyPDF2
+Author                          : cGljb0NURntwdXp6bDNkX20zdGFkYXRhX2YwdW5kIV9jYTc2YmJiMn0=</pre>
+            <p>Okay well that's interesting, that's just Base64:</p>
+            <pre>BASE64 DECODE (Base64Decode.com)
+
+INPUT: cGljb0NURntwdXp6bDNkX20zdGFkYXRhX2YwdW5kIV9jYTc2YmJiMn0=
+
+OUTPUT: picoCTF{puzzl3d_m3tadata_f0und!_ca76bbb2}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/530">https://play.picoctf.org/practice/challenge/530</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

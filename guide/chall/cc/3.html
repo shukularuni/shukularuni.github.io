@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberChef #3 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>CyberChef challenge Guide</h1>
+        <p>here's how to solve cyberchef challenge #3</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the CyberChef Guides</a>
+            <p>Previous Level Guide: <a href="2.html">CyberChef challenge #2</a></p>
+            <hr>
+            <h2>Info</h2>
+            <pre>Name: CyberChef challenge #3
+Source: <a href="https://pastebin.com/LMQTiXA2" target="_blank">https://pastebin.com/LMQTiXA2</a>.
+Message: 43 6f 6e 67 72 61 74 75 6c 61 74 69 6f 6e 73 25 32 43 25 32 30 79 6f 75 25 32 30 68 61 76 65 ...</pre>
+            <h2>Theory</h2>
+            <p>Seems like it's hexadecimal again, that's odd, so let's decode it to see if it might be hiding something else under the encoding.</p>
+            <h2>Solution</h2>
+            <p>Let's put it into CyberChef to decode from Hexadecimal:</p>
+            <pre>recipe=From_Hex('Space')  # hex-to-text
+
+- INPUT: 43 6f 6e 67 72 61 74 75 6c 61 74 69 6f 6e 73 25 32 43 25 32 30 79 6f 75 25 32 30 68 61 76 65 ...
+
+- OUTPUT:
+Congratulations%2C%20you%20have%20completed%20CyberChef%20challenge%20%233%21%0A%0AThis%20challenge%20explored%20URL%20percent%20encoding%2E%20To%20learn%20more%2C%20visit%20wikipedia%2Eorg%2Fwiki%2FPercent%2Dencoding%2E%0A%0AThe%20code%20for%20this%20challenge%20is%20959b09b9%2D267c%2D4585%2Dbc87%2D34aae2226e35%2E%0A%0AThe%20next%20challenge%20can%20be%20found%20at%20https%3A%2F%2Fpastebin%2Ecom%2Fqc0fb7Uw%2E</pre>
+            <p>Oh, it's just URL encoded on top of the Hex, so we can just attach the URL Decode to get the original message:</p>
+            <pre>recipe=URL_Decode(true)  # url-percent-decode
+
+- INPUT: Congratulations%2C%20you%20have%20completed%20CyberChef%20challenge%20%233%21%0A%0AThis%20cha...
+
+- OUTPUT:
+Congratulations, you have completed CyberChef challenge #3!
+
+This challenge explored URL percent encoding. To learn more, visit wikipedia.org/wiki/Percent-encoding.
+
+The code for this challenge is 959b09b9-267c-4585-bc87-34aae2226e35.
+
+The next challenge can be found at https://pastebin.com/qc0fb7Uw.</pre>
+            <p>I didn't put the whole string because it too long, you can find it in the source on the info section.</p>
+            <p>There we go! That's the solution.</p>
+            <hr>
+            Next Level Guide: <a href="4.html">CyberChef challenge #4</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
