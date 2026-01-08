@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PowerShell DNS @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>Windows Powershell Domain Name System Command stuff</h1>
+        <p>here's the list with small guides for all the commands of the windows powershell DNS that i could find</p>
+    </header>
+    <main>
+        <section>
+            <a href="/guide/cmds/ps/">Back to Powershell Commands</a><br><br>
+            <hr>
+            <ul id="l">
+              <li><a href="Export-DnsServerTrustAnchor.html">Export-DnsServerTrustAnchor</a></li>
+              <li><a href="Get-DnsServerRRL.html">Get-DnsServerRRL</a></li>
+              <li><a href="Set-DnsServerRRL.html">Set-DnsServerRRL</a></li>
+              <li><a href="Add-DnsClientNrptRule.html">Add-DnsClientNrptRule</a></li>
+              <li><a href="Add-DnsServerClientSubnet.html">Add-DnsServerClientSubnet</a></li>
+              <li><a href="Add-DnsServerConditionalForwarderZone.html">Add-DnsServerConditionalForwarderZone</a></li>
+              <li><a href="Add-DnsServerDirectoryPartition.html">Add-DnsServerDirectoryPartition</a></li>
+              <li><a href="Add-DnsServerForwarder.html">Add-DnsServerForwarder</a></li>
+              <li><a href="Add-DnsServerPrimaryZone.html">Add-DnsServerPrimaryZone</a></li>
+              <li><a href="Add-DnsServerQueryResolutionPolicy.html">Add-DnsServerQueryResolutionPolicy</a></li>
+              <li><a href="Add-DnsServerRecursionScope.html">Add-DnsServerRecursionScope</a></li>
+              <li><a href="Add-DnsServerResourceRecord.html">Add-DnsServerResourceRecord</a></li>
+              <li><a href="Add-DnsServerResourceRecordA.html">Add-DnsServerResourceRecordA</a></li>
+              <li><a href="Add-DnsServerResourceRecordAAAA.html">Add-DnsServerResourceRecordAAAA</a></li>
+              <li><a href="Add-DnsServerResourceRecordCName.html">Add-DnsServerResourceRecordCName</a></li>
+              <li><a href="Add-DnsServerResourceRecordDnsKey.html">Add-DnsServerResourceRecordDnsKey</a></li>
+              <li><a href="Add-DnsServerResourceRecordDS.html">Add-DnsServerResourceRecordDS</a></li>
+              <li><a href="Add-DnsServerResourceRecordMX.html">Add-DnsServerResourceRecordMX</a></li>
+              <li><a href="Add-DnsServerResourceRecordPtr.html">Add-DnsServerResourceRecordPtr</a></li>
+              <li><a href="Add-DnsServerResponseRateLimitingExceptionlist.html">Add-DnsServerResponseRateLimitingExceptionlist</a></li>
+              <li><a href="Add-DnsServerRootHint.html">Add-DnsServerRootHint</a></li>
+              <li><a href="Add-DnsServerSecondaryZone.html">Add-DnsServerSecondaryZone</a></li>
+              <li><a href="Add-DnsServerSigningKey.html">Add-DnsServerSigningKey</a></li>
+              <li><a href="Add-DnsServerStubZone.html">Add-DnsServerStubZone</a></li>
+              <li><a href="Add-DnsServerTrustAnchor.html">Add-DnsServerTrustAnchor</a></li>
+              <li><a href="Add-DnsServerVirtualizationInstance.html">Add-DnsServerVirtualizationInstance</a></li>
+              <li><a href="Add-DnsServerZoneDelegation.html">Add-DnsServerZoneDelegation</a></li>
+              <li><a href="Add-DnsServerZoneScope.html">Add-DnsServerZoneScope</a></li>
+              <li><a href="Add-DnsServerZoneTransferPolicy.html">Add-DnsServerZoneTransferPolicy</a></li>
+              <li><a href="Add-VpnConnectionTriggerDnsConfiguration.html">Add-VpnConnectionTriggerDnsConfiguration</a></li>
+              <li><a href="Clear-DnsClientCache.html">Clear-DnsClientCache</a></li>
+              <li><a href="Clear-DnsServerCache.html">Clear-DnsServerCache</a></li>
+              <li><a href="Clear-DnsServerStatistics.html">Clear-DnsServerStatistics</a></li>
+              <li><a href="ConvertTo-DnsServerPrimaryZone.html">ConvertTo-DnsServerPrimaryZone</a></li>
+              <li><a href="ConvertTo-DnsServerSecondaryZone.html">ConvertTo-DnsServerSecondaryZone</a></li>
+              <li><a href="Disable-DnsServerPolicy.html">Disable-DnsServerPolicy</a></li>
+              <li><a href="Disable-DnsServerSigningKeyRollover.html">Disable-DnsServerSigningKeyRollover</a></li>
+              <li><a href="Disable-NetDnsTransitionConfiguration.html">Disable-NetDnsTransitionConfiguration</a></li>
+              <li><a href="Enable-DnsServerPolicy.html">Enable-DnsServerPolicy</a></li>
+              <li><a href="Enable-DnsServerSigningKeyRollover.html">Enable-DnsServerSigningKeyRollover</a></li>
+              <li><a href="Enable-NetDnsTransitionConfiguration.html">Enable-NetDnsTransitionConfiguration</a></li>
+              <li><a href="Export-DnsServerDnsSecPublicKey.html">Export-DnsServerDnsSecPublicKey</a></li>
+              <li><a href="Export-DnsServerZone.html">Export-DnsServerZone</a></li>
+              <li><a href="Get-DnsClient.html">Get-DnsClient</a></li>
+              <li><a href="Get-DnsClientCache.html">Get-DnsClientCache</a></li>
+              <li><a href="Get-DnsClientGlobalSetting.html">Get-DnsClientGlobalSetting</a></li>
+              <li><a href="Get-DnsClientNrptGlobal.html">Get-DnsClientNrptGlobal</a></li>
+              <li><a href="Get-DnsClientNrptPolicy.html">Get-DnsClientNrptPolicy</a></li>
+              <li><a href="Get-DnsClientNrptRule.html">Get-DnsClientNrptRule</a></li>
+              <li><a href="Get-DnsClientServerAddress.html">Get-DnsClientServerAddress</a></li>
+              <li><a href="Get-DnsServer.html">Get-DnsServer</a></li>
+              <li><a href="Get-DnsServerCache.html">Get-DnsServerCache</a></li>
+              <li><a href="Get-DnsServerClientSubnet.html">Get-DnsServerClientSubnet</a></li>
+              <li><a href="Get-DnsServerDiagnostics.html">Get-DnsServerDiagnostics</a></li>
+              <li><a href="Get-DnsServerDirectoryPartition.html">Get-DnsServerDirectoryPartition</a></li>
+              <li><a href="Get-DnsServerDnsSecZoneSetting.html">Get-DnsServerDnsSecZoneSetting</a></li>
+              <li><a href="Get-DnsServerDsSetting.html">Get-DnsServerDsSetting</a></li>
+              <li><a href="Get-DnsServerEDns.html">Get-DnsServerEDns</a></li>
+              <li><a href="Get-DnsServerForwarder.html">Get-DnsServerForwarder</a></li>
+              <li><a href="Get-DnsServerGlobalNameZone.html">Get-DnsServerGlobalNameZone</a></li>
+              <li><a href="Get-DnsServerGlobalQueryBlockList.html">Get-DnsServerGlobalQueryBlockList</a></li>
+              <li><a href="Get-DnsServerQueryResolutionPolicy.html">Get-DnsServerQueryResolutionPolicy</a></li>
+              <li><a href="Get-DnsServerRecursion.html">Get-DnsServerRecursion</a></li>
+              <li><a href="Get-DnsServerRecursionScope.html">Get-DnsServerRecursionScope</a></li>
+              <li><a href="Get-DnsServerResourceRecord.html">Get-DnsServerResourceRecord</a></li>
+              <li><a href="Get-DnsServerResponseRateLimiting.html">Get-DnsServerResponseRateLimiting</a></li>
+              <li><a href="Get-DnsServerResponseRateLimitingExceptionlist.html">Get-DnsServerResponseRateLimitingExceptionlist</a></li>
+              <li><a href="Get-DnsServerRootHint.html">Get-DnsServerRootHint</a></li>
+              <li><a href="Get-DnsServerScavenging.html">Get-DnsServerScavenging</a></li>
+              <li><a href="Get-DnsServerSetting.html">Get-DnsServerSetting</a></li>
+              <li><a href="Get-DnsServerSigningKey.html">Get-DnsServerSigningKey</a></li>
+              <li><a href="Get-DnsServerStatistics.html">Get-DnsServerStatistics</a></li>
+              <li><a href="Get-DnsServerTrustAnchor.html">Get-DnsServerTrustAnchor</a></li>
+              <li><a href="Get-DnsServerTrustPoint.html">Get-DnsServerTrustPoint</a></li>
+              <li><a href="Get-DnsServerVirtualizationInstance.html">Get-DnsServerVirtualizationInstance</a></li>
+              <li><a href="Get-DnsServerZone.html">Get-DnsServerZone</a></li>
+              <li><a href="Get-DnsServerZoneAging.html">Get-DnsServerZoneAging</a></li>
+              <li><a href="Get-DnsServerZoneDelegation.html">Get-DnsServerZoneDelegation</a></li>
+              <li><a href="Get-DnsServerZoneScope.html">Get-DnsServerZoneScope</a></li>
+              <li><a href="Get-DnsServerZoneTransferPolicy.html">Get-DnsServerZoneTransferPolicy</a></li>
+              <li><a href="Get-NetDnsTransitionConfiguration.html">Get-NetDnsTransitionConfiguration</a></li>
+              <li><a href="Get-NetDnsTransitionMonitoring.html">Get-NetDnsTransitionMonitoring</a></li>
+              <li><a href="Get-UalDns.html">Get-UalDns</a></li>
+              <li><a href="Import-DnsServerResourceRecordDS.html">Import-DnsServerResourceRecordDS</a></li>
+              <li><a href="Import-DnsServerRootHint.html">Import-DnsServerRootHint</a></li>
+              <li><a href="Import-DnsServerTrustAnchor.html">Import-DnsServerTrustAnchor</a></li>
+              <li><a href="Invoke-DnsServerSigningKeyRollover.html">Invoke-DnsServerSigningKeyRollover</a></li>
+              <li><a href="Invoke-DnsServerZoneSign.html">Invoke-DnsServerZoneSign</a></li>
+              <li><a href="Invoke-DnsServerZoneUnsign.html">Invoke-DnsServerZoneUnsign</a></li>
+              <li><a href="Register-DnsClient.html">Register-DnsClient</a></li>
+              <li><a href="Register-DnsServerDirectoryPartition.html">Register-DnsServerDirectoryPartition</a></li>
+              <li><a href="Remove-DnsClientNrptRule.html">Remove-DnsClientNrptRule</a></li>
+              <li><a href="Remove-DnsServerClientSubnet.html">Remove-DnsServerClientSubnet</a></li>
+              <li><a href="Remove-DnsServerDirectoryPartition.html">Remove-DnsServerDirectoryPartition</a></li>
+              <li><a href="Remove-DnsServerForwarder.html">Remove-DnsServerForwarder</a></li>
+              <li><a href="Remove-DnsServerQueryResolutionPolicy.html">Remove-DnsServerQueryResolutionPolicy</a></li>
+              <li><a href="Remove-DnsServerRecursionScope.html">Remove-DnsServerRecursionScope</a></li>
+              <li><a href="Remove-DnsServerResourceRecord.html">Remove-DnsServerResourceRecord</a></li>
+              <li><a href="Remove-DnsServerResponseRateLimitingExceptionlist.html">Remove-DnsServerResponseRateLimitingExceptionlist</a></li>
+              <li><a href="Remove-DnsServerRootHint.html">Remove-DnsServerRootHint</a></li>
+              <li><a href="Remove-DnsServerSigningKey.html">Remove-DnsServerSigningKey</a></li>
+              <li><a href="Remove-DnsServerTrustAnchor.html">Remove-DnsServerTrustAnchor</a></li>
+              <li><a href="Remove-DnsServerVirtualizationInstance.html">Remove-DnsServerVirtualizationInstance</a></li>
+              <li><a href="Remove-DnsServerZone.html">Remove-DnsServerZone</a></li>
+              <li><a href="Remove-DnsServerZoneDelegation.html">Remove-DnsServerZoneDelegation</a></li>
+              <li><a href="Remove-DnsServerZoneScope.html">Remove-DnsServerZoneScope</a></li>
+              <li><a href="Remove-DnsServerZoneTransferPolicy.html">Remove-DnsServerZoneTransferPolicy</a></li>
+              <li><a href="Remove-VpnConnectionTriggerDnsConfiguration.html">Remove-VpnConnectionTriggerDnsConfiguration</a></li>
+              <li><a href="Reset-DnsServerZoneKeyMasterRole.html">Reset-DnsServerZoneKeyMasterRole</a></li>
+              <li><a href="Reset-NetDnsTransitionConfiguration.html">Reset-NetDnsTransitionConfiguration</a></li>
+              <li><a href="Restore-DnsServerPrimaryZone.html">Restore-DnsServerPrimaryZone</a></li>
+              <li><a href="Restore-DnsServerSecondaryZone.html">Restore-DnsServerSecondaryZone</a></li>
+              <li><a href="Resume-DnsServerZone.html">Resume-DnsServerZone</a></li>
+              <li><a href="Set-DnsClient.html">Set-DnsClient</a></li>
+              <li><a href="Set-DnsClientGlobalSetting.html">Set-DnsClientGlobalSetting</a></li>
+              <li><a href="Set-DnsClientNrptGlobal.html">Set-DnsClientNrptGlobal</a></li>
+              <li><a href="Set-DnsClientNrptRule.html">Set-DnsClientNrptRule</a></li>
+              <li><a href="Set-DnsClientServerAddress.html">Set-DnsClientServerAddress</a></li>
+              <li><a href="Set-DnsServer.html">Set-DnsServer</a></li>
+              <li><a href="Set-DnsServerCache.html">Set-DnsServerCache</a></li>
+              <li><a href="Set-DnsServerClientSubnet.html">Set-DnsServerClientSubnet</a></li>
+              <li><a href="Set-DnsServerConditionalForwarderZone.html">Set-DnsServerConditionalForwarderZone</a></li>
+              <li><a href="Set-DnsServerDiagnostics.html">Set-DnsServerDiagnostics</a></li>
+              <li><a href="Set-DnsServerDnsSecZoneSetting.html">Set-DnsServerDnsSecZoneSetting</a></li>
+              <li><a href="Set-DnsServerDsSetting.html">Set-DnsServerDsSetting</a></li>
+              <li><a href="Set-DnsServerEDns.html">Set-DnsServerEDns</a></li>
+              <li><a href="Set-DnsServerForwarder.html">Set-DnsServerForwarder</a></li>
+              <li><a href="Set-DnsServerGlobalNameZone.html">Set-DnsServerGlobalNameZone</a></li>
+              <li><a href="Set-DnsServerGlobalQueryBlockList.html">Set-DnsServerGlobalQueryBlockList</a></li>
+              <li><a href="Set-DnsServerPrimaryZone.html">Set-DnsServerPrimaryZone</a></li>
+              <li><a href="Set-DnsServerQueryResolutionPolicy.html">Set-DnsServerQueryResolutionPolicy</a></li>
+              <li><a href="Set-DnsServerRecursion.html">Set-DnsServerRecursion</a></li>
+              <li><a href="Set-DnsServerRecursionScope.html">Set-DnsServerRecursionScope</a></li>
+              <li><a href="Set-DnsServerResourceRecord.html">Set-DnsServerResourceRecord</a></li>
+              <li><a href="Set-DnsServerResourceRecordAging.html">Set-DnsServerResourceRecordAging</a></li>
+              <li><a href="Set-DnsServerResponseRateLimiting.html">Set-DnsServerResponseRateLimiting</a></li>
+              <li><a href="Set-DnsServerResponseRateLimitingExceptionlist.html">Set-DnsServerResponseRateLimitingExceptionlist</a></li>
+              <li><a href="Set-DnsServerRootHint.html">Set-DnsServerRootHint</a></li>
+              <li><a href="Set-DnsServerScavenging.html">Set-DnsServerScavenging</a></li>
+              <li><a href="Set-DnsServerSecondaryZone.html">Set-DnsServerSecondaryZone</a></li>
+              <li><a href="Set-DnsServerSetting.html">Set-DnsServerSetting</a></li>
+              <li><a href="Set-DnsServerSigningKey.html">Set-DnsServerSigningKey</a></li>
+              <li><a href="Set-DnsServerStubZone.html">Set-DnsServerStubZone</a></li>
+              <li><a href="Set-DnsServerVirtualizationInstance.html">Set-DnsServerVirtualizationInstance</a></li>
+              <li><a href="Set-DnsServerZoneAging.html">Set-DnsServerZoneAging</a></li>
+              <li><a href="Set-DnsServerZoneDelegation.html">Set-DnsServerZoneDelegation</a></li>
+              <li><a href="Set-DnsServerZoneTransferPolicy.html">Set-DnsServerZoneTransferPolicy</a></li>
+              <li><a href="Set-NetDnsTransitionConfiguration.html">Set-NetDnsTransitionConfiguration</a></li>
+              <li><a href="Set-VpnConnectionTriggerDnsConfiguration.html">Set-VpnConnectionTriggerDnsConfiguration</a></li>
+              <li><a href="Show-DnsServerCache.html">Show-DnsServerCache</a></li>
+              <li><a href="Show-DnsServerKeyStorageProvider.html">Show-DnsServerKeyStorageProvider</a></li>
+              <li><a href="Start-DnsServerScavenging.html">Start-DnsServerScavenging</a></li>
+              <li><a href="Start-DnsServerZoneTransfer.html">Start-DnsServerZoneTransfer</a></li>
+              <li><a href="Step-DnsServerSigningKeyRollover.html">Step-DnsServerSigningKeyRollover</a></li>
+              <li><a href="Suspend-DnsServerZone.html">Suspend-DnsServerZone</a></li>
+              <li><a href="Sync-DnsServerZone.html">Sync-DnsServerZone</a></li>
+              <li><a href="Test-DnsServer.html">Test-DnsServer</a></li>
+              <li><a href="Test-DnsServerDnsSecZoneSetting.html">Test-DnsServerDnsSecZoneSetting</a></li>
+              <li><a href="Unregister-DnsServerDirectoryPartition.html">Unregister-DnsServerDirectoryPartition</a></li>
+              <li><a href="Update-DnsServerTrustPoint.html">Update-DnsServerTrustPoint</a></li>
+              <li><a href="Resolve-DnsName.html">Resolve-DnsName</a></li>
+            </ul>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

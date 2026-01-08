@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTW Oracle 4 &#8594; 5 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>UnderTheWire Oracle Guide</h1>
+        <p>here's how to solve the Oracle level 4 &#8594; 5</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Oracle Guides</a>
+            <p>Previous Level Guide: <a href="3.html">Oracle Level 3 &#8594; 4</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh oracle4@oracle.underthewire.tech -p 22</code></p>
+            <p>Password: <code>05/09/2017</code></p>
+            <h2>Info</h2>
+            <pre>The password for oracle5 is the name of the GPO that was last created PLUS the name of the file on the user’s desktop.
+
+NOTE:
+– If the GPO name is “blob” and the file on the desktop is named “1234”, the password would be “blob1234”.
+– The password will be lowercase no matter how it appears on the screen.
+
+&#9660; HINT:
+
+Good thing there is a module with cmdlets that can help with this…</pre>
+            <h2>Theory</h2>
+            <p>To get the password, as the description says, we have to get name of the latest GPO on the system, for that we can use the Get-GPO command with the option for all modules, then we could sort them with the Sort-Object command, although, I don't know the name of the column so we'll have to enter to the shell first, because we also need the name of the file in the Desktop. We can see all GPO's with the command I just described:</p>
+            <pre>Get-GPO -All</pre>
+            <h2>Solution</h2>
+            <p>Now that we are inside of the shell, let's see the name of the file:</p>
+            <pre>PS C:\users\Oracle4\desktop&gt; dir
+
+    Directory: C:\users\Oracle4\desktop
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----        8/30/2018  10:49 AM              0 83</pre>
+            <p>Now let's view all GPO's with the command from theory:</p>
+            <pre>PS C:\users\Oracle4\desktop&gt; Get-GPO -All
+
+
+DisplayName      : Default Domain Policy
+DomainName       : underthewire.tech
+Owner            : underthewire\Domain Admins
+Id               : 31b2f340-016d-11d2-945f-00c04fb984f9
+GpoStatus        : AllSettingsEnabled
+Description      :
+CreationTime     : 8/30/2018 2:51:10 AM
+ModificationTime : 8/30/2018 10:45:42 AM
+UserVersion      : AD Version: 0, SysVol Version: 0
+ComputerVersion  : AD Version: 4, SysVol Version: 4
+WmiFilter        :
+
+DisplayName      : Charlie
+...</pre>
+            <p>Okay, all we need now is to attach the Sort-Object command to the end of the other and searching with CreationTime as descending:</p>
+            <pre>PS C:\users\Oracle4\desktop&gt; Get-GPO -All | Sort-Object CreationTime -Descending
+
+
+DisplayName      : Alpha
+DomainName       : underthewire.tech
+Owner            : underthewire\Domain Admins
+Id               : 49401c32-4145-463f-b5e7-816926d4f78d
+GpoStatus        : AllSettingsEnabled
+Description      : Are you there?
+CreationTime     : 1/13/2019 9:40:20 PM
+ModificationTime : 1/13/2019 9:40:20 PM
+UserVersion      : AD Version: 0, SysVol Version: 0
+ComputerVersion  : AD Version: 0, SysVol Version: 0
+WmiFilter        :
+
+DisplayName      : Charlie
+...</pre>
+            <p>There we go, now that we have both the GPO and the name of the file, we can join them in lowercase:</p>
+            <pre>alpha83</pre>
+            <a target="_blank" href="https://underthewire.tech/oracle-4">https://underthewire.tech/oracle-4</a>
+            <hr>
+            Next Level Guide: <a href="5.html">Oracle Level 5 &#8594; Level 6</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

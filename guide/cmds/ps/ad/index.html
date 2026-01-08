@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PowerShell Active Directory @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>Windows Powershell Active Directory Command stuff</h1>
+        <p>here's the list with small guides for all the commands of the windows powershell AD that i could find</p>
+    </header>
+    <main>
+        <section>
+            <a href="/guide/cmds/ps/">Back to Powershell Commands</a><br><br>
+            <hr>
+            <ul id="l">
+              <li><a href="Add-ADCentralAccessPolicyMember.html">Add-ADCentralAccessPolicyMember</a></li>
+              <li><a href="Add-ADComputerServiceAccount.html">Add-ADComputerServiceAccount</a></li>
+              <li><a href="Add-ADDomainControllerPasswordReplicationPolicy.html">Add-ADDomainControllerPasswordReplicationPolicy</a></li>
+              <li><a href="Add-ADFineGrainedPasswordPolicySubject.html">Add-ADFineGrainedPasswordPolicySubject</a></li>
+              <li><a href="Add-ADGroupMember.html">Add-ADGroupMember</a></li>
+              <li><a href="Add-ADPrincipalGroupMembership.html">Add-ADPrincipalGroupMembership</a></li>
+              <li><a href="Add-ADResourcePropertyListMember.html">Add-ADResourcePropertyListMember</a></li>
+              <li><a href="Clear-ADAccountExpiration.html">Clear-ADAccountExpiration</a></li>
+              <li><a href="Clear-ADClaimTransformLink.html">Clear-ADClaimTransformLink</a></li>
+              <li><a href="Complete-ADServiceAccountMigration.html">Complete-ADServiceAccountMigration</a></li>
+              <li><a href="Disable-ADAccount.html">Disable-ADAccount</a></li>
+              <li><a href="Disable-ADOptionalFeature.html">Disable-ADOptionalFeature</a></li>
+              <li><a href="Enable-ADAccount.html">Enable-ADAccount</a></li>
+              <li><a href="Enable-ADOptionalFeature.html">Enable-ADOptionalFeature</a></li>
+              <li><a href="Get-ADAccountAuthorizationGroup.html">Get-ADAccountAuthorizationGroup</a></li>
+              <li><a href="Get-ADAccountResultantPasswordReplicationPolicy.html">Get-ADAccountResultantPasswordReplicationPolicy</a></li>
+              <li><a href="Get-ADAuthenticationPolicy.html">Get-ADAuthenticationPolicy</a></li>
+              <li><a href="Get-ADAuthenticationPolicySilo.html">Get-ADAuthenticationPolicySilo</a></li>
+              <li><a href="Get-ADCentralAccessPolicy.html">Get-ADCentralAccessPolicy</a></li>
+              <li><a href="Get-ADCentralAccessRule.html">Get-ADCentralAccessRule</a></li>
+              <li><a href="Get-ADClaimTransformPolicy.html">Get-ADClaimTransformPolicy</a></li>
+              <li><a href="Get-ADClaimType.html">Get-ADClaimType</a></li>
+              <li><a href="Get-ADComputer.html">Get-ADComputer</a></li>
+              <li><a href="Get-ADComputerServiceAccount.html">Get-ADComputerServiceAccount</a></li>
+              <li><a href="Get-ADDCCloningExcludedApplicationList.html">Get-ADDCCloningExcludedApplicationList</a></li>
+              <li><a href="Get-ADDefaultDomainPasswordPolicy.html">Get-ADDefaultDomainPasswordPolicy</a></li>
+              <li><a href="Get-ADDomain.html">Get-ADDomain</a></li>
+              <li><a href="Get-ADDomainController.html">Get-ADDomainController</a></li>
+              <li><a href="Get-ADDomainControllerPasswordReplicationPolicy.html">Get-ADDomainControllerPasswordReplicationPolicy</a></li>
+              <li><a href="Get-ADDomainControllerPasswordReplicationPolicyUsage.html">Get-ADDomainControllerPasswordReplicationPolicyUsage</a></li>
+              <li><a href="Get-ADFineGrainedPasswordPolicy.html">Get-ADFineGrainedPasswordPolicy</a></li>
+              <li><a href="Get-ADFineGrainedPasswordPolicySubject.html">Get-ADFineGrainedPasswordPolicySubject</a></li>
+              <li><a href="Get-ADForest.html">Get-ADForest</a></li>
+              <li><a href="Get-ADGroup.html">Get-ADGroup</a></li>
+              <li><a href="Get-ADGroupMember.html">Get-ADGroupMember</a></li>
+              <li><a href="Get-ADObject.html">Get-ADObject</a></li>
+              <li><a href="Get-ADOptionalFeature.html">Get-ADOptionalFeature</a></li>
+              <li><a href="Get-ADOrganizationalUnit.html">Get-ADOrganizationalUnit</a></li>
+              <li><a href="Get-ADPrincipalGroupMembership.html">Get-ADPrincipalGroupMembership</a></li>
+              <li><a href="Get-ADReplicationAttributeMetadata.html">Get-ADReplicationAttributeMetadata</a></li>
+              <li><a href="Get-ADReplicationConnection.html">Get-ADReplicationConnection</a></li>
+              <li><a href="Get-ADReplicationFailure.html">Get-ADReplicationFailure</a></li>
+              <li><a href="Get-ADReplicationPartnerMetadata.html">Get-ADReplicationPartnerMetadata</a></li>
+              <li><a href="Get-ADReplicationQueueOperation.html">Get-ADReplicationQueueOperation</a></li>
+              <li><a href="Get-ADReplicationSite.html">Get-ADReplicationSite</a></li>
+              <li><a href="Get-ADReplicationSiteLink.html">Get-ADReplicationSiteLink</a></li>
+              <li><a href="Get-ADReplicationSiteLinkBridge.html">Get-ADReplicationSiteLinkBridge</a></li>
+              <li><a href="Get-ADReplicationSubnet.html">Get-ADReplicationSubnet</a></li>
+              <li><a href="Get-ADReplicationUpToDatenessVectorTable.html">Get-ADReplicationUpToDatenessVectorTable</a></li>
+              <li><a href="Get-ADResourceProperty.html">Get-ADResourceProperty</a></li>
+              <li><a href="Get-ADResourcePropertyList.html">Get-ADResourcePropertyList</a></li>
+              <li><a href="Get-ADResourcePropertyValueType.html">Get-ADResourcePropertyValueType</a></li>
+              <li><a href="Get-ADRootDSE.html">Get-ADRootDSE</a></li>
+              <li><a href="Get-ADServiceAccount.html">Get-ADServiceAccount</a></li>
+              <li><a href="Get-ADTrust.html">Get-ADTrust</a></li>
+              <li><a href="Get-ADUser.html">Get-ADUser</a></li>
+              <li><a href="Get-ADUserResultantPasswordPolicy.html">Get-ADUserResultantPasswordPolicy</a></li>
+              <li><a href="Grant-ADAuthenticationPolicySiloAccess.html">Grant-ADAuthenticationPolicySiloAccess</a></li>
+              <li><a href="Install-ADServiceAccount.html">Install-ADServiceAccount</a></li>
+              <li><a href="Move-ADDirectoryServer.html">Move-ADDirectoryServer</a></li>
+              <li><a href="Move-ADDirectoryServerOperationMasterRole.html">Move-ADDirectoryServerOperationMasterRole</a></li>
+              <li><a href="Move-ADObject.html">Move-ADObject</a></li>
+              <li><a href="New-ADAuthenticationPolicy.html">New-ADAuthenticationPolicy</a></li>
+              <li><a href="New-ADAuthenticationPolicySilo.html">New-ADAuthenticationPolicySilo</a></li>
+              <li><a href="New-ADCentralAccessPolicy.html">New-ADCentralAccessPolicy</a></li>
+              <li><a href="New-ADCentralAccessRule.html">New-ADCentralAccessRule</a></li>
+              <li><a href="New-ADClaimTransformPolicy.html">New-ADClaimTransformPolicy</a></li>
+              <li><a href="New-ADClaimType.html">New-ADClaimType</a></li>
+              <li><a href="New-ADComputer.html">New-ADComputer</a></li>
+              <li><a href="New-ADDCCloneConfigFile.html">New-ADDCCloneConfigFile</a></li>
+              <li><a href="New-ADFineGrainedPasswordPolicy.html">New-ADFineGrainedPasswordPolicy</a></li>
+              <li><a href="New-ADGroup.html">New-ADGroup</a></li>
+              <li><a href="New-ADObject.html">New-ADObject</a></li>
+              <li><a href="New-ADOrganizationalUnit.html">New-ADOrganizationalUnit</a></li>
+              <li><a href="New-ADReplicationSite.html">New-ADReplicationSite</a></li>
+              <li><a href="New-ADReplicationSiteLink.html">New-ADReplicationSiteLink</a></li>
+              <li><a href="New-ADReplicationSiteLinkBridge.html">New-ADReplicationSiteLinkBridge</a></li>
+              <li><a href="New-ADReplicationSubnet.html">New-ADReplicationSubnet</a></li>
+              <li><a href="New-ADResourceProperty.html">New-ADResourceProperty</a></li>
+              <li><a href="New-ADResourcePropertyList.html">New-ADResourcePropertyList</a></li>
+              <li><a href="New-ADServiceAccount.html">New-ADServiceAccount</a></li>
+              <li><a href="New-ADUser.html">New-ADUser</a></li>
+              <li><a href="Remove-ADAuthenticationPolicy.html">Remove-ADAuthenticationPolicy</a></li>
+              <li><a href="Remove-ADAuthenticationPolicySilo.html">Remove-ADAuthenticationPolicySilo</a></li>
+              <li><a href="Remove-ADCentralAccessPolicy.html">Remove-ADCentralAccessPolicy</a></li>
+              <li><a href="Remove-ADCentralAccessPolicyMember.html">Remove-ADCentralAccessPolicyMember</a></li>
+              <li><a href="Remove-ADCentralAccessRule.html">Remove-ADCentralAccessRule</a></li>
+              <li><a href="Remove-ADClaimTransformPolicy.html">Remove-ADClaimTransformPolicy</a></li>
+              <li><a href="Remove-ADClaimType.html">Remove-ADClaimType</a></li>
+              <li><a href="Remove-ADComputer.html">Remove-ADComputer</a></li>
+              <li><a href="Remove-ADComputerServiceAccount.html">Remove-ADComputerServiceAccount</a></li>
+              <li><a href="Remove-ADDomainControllerPasswordReplicationPolicy.html">Remove-ADDomainControllerPasswordReplicationPolicy</a></li>
+              <li><a href="Remove-ADFineGrainedPasswordPolicy.html">Remove-ADFineGrainedPasswordPolicy</a></li>
+              <li><a href="Remove-ADFineGrainedPasswordPolicySubject.html">Remove-ADFineGrainedPasswordPolicySubject</a></li>
+              <li><a href="Remove-ADGroup.html">Remove-ADGroup</a></li>
+              <li><a href="Remove-ADGroupMember.html">Remove-ADGroupMember</a></li>
+              <li><a href="Remove-ADObject.html">Remove-ADObject</a></li>
+              <li><a href="Remove-ADOrganizationalUnit.html">Remove-ADOrganizationalUnit</a></li>
+              <li><a href="Remove-ADPrincipalGroupMembership.html">Remove-ADPrincipalGroupMembership</a></li>
+              <li><a href="Remove-ADReplicationSite.html">Remove-ADReplicationSite</a></li>
+              <li><a href="Remove-ADReplicationSiteLink.html">Remove-ADReplicationSiteLink</a></li>
+              <li><a href="Remove-ADReplicationSiteLinkBridge.html">Remove-ADReplicationSiteLinkBridge</a></li>
+              <li><a href="Remove-ADReplicationSubnet.html">Remove-ADReplicationSubnet</a></li>
+              <li><a href="Remove-ADResourceProperty.html">Remove-ADResourceProperty</a></li>
+              <li><a href="Remove-ADResourcePropertyList.html">Remove-ADResourcePropertyList</a></li>
+              <li><a href="Remove-ADResourcePropertyListMember.html">Remove-ADResourcePropertyListMember</a></li>
+              <li><a href="Remove-ADServiceAccount.html">Remove-ADServiceAccount</a></li>
+              <li><a href="Remove-ADUser.html">Remove-ADUser</a></li>
+              <li><a href="Rename-ADObject.html">Rename-ADObject</a></li>
+              <li><a href="Reset-ADServiceAccountMigration.html">Reset-ADServiceAccountMigration</a></li>
+              <li><a href="Reset-ADServiceAccountPassword.html">Reset-ADServiceAccountPassword</a></li>
+              <li><a href="Restore-ADObject.html">Restore-ADObject</a></li>
+              <li><a href="Revoke-ADAuthenticationPolicySiloAccess.html">Revoke-ADAuthenticationPolicySiloAccess</a></li>
+              <li><a href="Search-ADAccount.html">Search-ADAccount</a></li>
+              <li><a href="Set-ADAccountAuthenticationPolicySilo.html">Set-ADAccountAuthenticationPolicySilo</a></li>
+              <li><a href="Set-ADAccountControl.html">Set-ADAccountControl</a></li>
+              <li><a href="Set-ADAccountExpiration.html">Set-ADAccountExpiration</a></li>
+              <li><a href="Set-ADAccountPassword.html">Set-ADAccountPassword</a></li>
+              <li><a href="Set-ADAuthenticationPolicy.html">Set-ADAuthenticationPolicy</a></li>
+              <li><a href="Set-ADAuthenticationPolicySilo.html">Set-ADAuthenticationPolicySilo</a></li>
+              <li><a href="Set-ADCentralAccessPolicy.html">Set-ADCentralAccessPolicy</a></li>
+              <li><a href="Set-ADCentralAccessRule.html">Set-ADCentralAccessRule</a></li>
+              <li><a href="Set-ADClaimTransformLink.html">Set-ADClaimTransformLink</a></li>
+              <li><a href="Set-ADClaimTransformPolicy.html">Set-ADClaimTransformPolicy</a></li>
+              <li><a href="Set-ADClaimType.html">Set-ADClaimType</a></li>
+              <li><a href="Set-ADComputer.html">Set-ADComputer</a></li>
+              <li><a href="Set-ADDefaultDomainPasswordPolicy.html">Set-ADDefaultDomainPasswordPolicy</a></li>
+              <li><a href="Set-ADDomain.html">Set-ADDomain</a></li>
+              <li><a href="Set-ADDomainMode.html">Set-ADDomainMode</a></li>
+              <li><a href="Set-ADFineGrainedPasswordPolicy.html">Set-ADFineGrainedPasswordPolicy</a></li>
+              <li><a href="Set-ADForest.html">Set-ADForest</a></li>
+              <li><a href="Set-ADForestMode.html">Set-ADForestMode</a></li>
+              <li><a href="Set-ADGroup.html">Set-ADGroup</a></li>
+              <li><a href="Set-ADObject.html">Set-ADObject</a></li>
+              <li><a href="Set-ADOrganizationalUnit.html">Set-ADOrganizationalUnit</a></li>
+              <li><a href="Set-ADReplicationConnection.html">Set-ADReplicationConnection</a></li>
+              <li><a href="Set-ADReplicationSite.html">Set-ADReplicationSite</a></li>
+              <li><a href="Set-ADReplicationSiteLink.html">Set-ADReplicationSiteLink</a></li>
+              <li><a href="Set-ADReplicationSiteLinkBridge.html">Set-ADReplicationSiteLinkBridge</a></li>
+              <li><a href="Set-ADReplicationSubnet.html">Set-ADReplicationSubnet</a></li>
+              <li><a href="Set-ADResourceProperty.html">Set-ADResourceProperty</a></li>
+              <li><a href="Set-ADResourcePropertyList.html">Set-ADResourcePropertyList</a></li>
+              <li><a href="Set-ADServiceAccount.html">Set-ADServiceAccount</a></li>
+              <li><a href="Set-ADUser.html">Set-ADUser</a></li>
+              <li><a href="Show-ADAuthenticationPolicyExpression.html">Show-ADAuthenticationPolicyExpression</a></li>
+              <li><a href="Start-ADServiceAccountMigration.html">Start-ADServiceAccountMigration</a></li>
+              <li><a href="Sync-ADObject.html">Sync-ADObject</a></li>
+              <li><a href="Test-ADServiceAccount.html">Test-ADServiceAccount</a></li>
+              <li><a href="Undo-ADServiceAccountMigration.html">Undo-ADServiceAccountMigration</a></li>
+              <li><a href="Uninstall-ADServiceAccount.html">Uninstall-ADServiceAccount</a></li>
+              <li><a href="Unlock-ADAccount.html">Unlock-ADAccount</a></li>
+            </ul>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

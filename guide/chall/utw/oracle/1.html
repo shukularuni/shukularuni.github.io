@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTW Oracle 1 &#8594; 2 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>UnderTheWire Oracle Guide</h1>
+        <p>here's how to solve the Oracle level 1 &#8594; 2</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Oracle Guides</a>
+            <p>Previous Level Guide: <a href="0.html">Oracle Level 0 &#8594; 1</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh oracle1@oracle.underthewire.tech -p 22</code></p>
+            <p>Password: <code>oracle1</code></p>
+            <h2>Info</h2>
+            <pre>The password for oracle2 is the timezone in which this system is set to.
+
+NOTE:
+– The password is the abbreviation of the timezone. For example, if it is listed as being in the Eastern timezone, the answer is est.
+– The password will be lowercase no matter how it appears on the screen.
+
+
+IMPORTANT:
+Once you feel you have completed the Oracle1 challenge, start a new connection to the server, and log in with the username of Oracle2 and this password will be the answer from Oracle1. If successful, close out the Oracle1 connection and begin to solve the Oracle2 challenge. This concept is repeated over and over until you reach the end of the game.
+
+&#9660; HINT:
+
+https://docs.microsoft.com/en-us/powershell/scripting/samples/working-with-registry-keys?view=powershell-7.1</pre>
+            <h2>Theory</h2>
+            <p>To get the password we'll use the session we entered in the previous level, and from there we have to get the timezone with the Get-Timezone command, a command that gives insight into the timezone of the system, and offset, etc. So yeah here's the command, we'll see how we put the file later:</p>
+            <pre>Get-Timezone</pre>
+            <h2>Solution</h2>
+            <p>Because we're already inside of the PowerShell from the previous level, we can go ahead and get the timezone with the command:</p>
+            <pre>Windows PowerShell 
+Copyright (C) 2016 Microsoft Corporation. All rights reserved.
+
+Under the Wire... PowerShell Training for the People!
+PS C:\users\Oracle1\desktop&gt; Get-Timezone
+
+
+Id                         : UTC
+DisplayName                : (UTC) Coordinated Universal Time
+StandardName               : Coordinated Universal Time
+DaylightName               : Coordinated Universal Time
+BaseUtcOffset              : 00:00:00
+SupportsDaylightSavingTime : False</pre>
+            <p>Now we can just put the timezone in lowercase to get the password:</p>
+            <pre>utc</pre>
+            <a target="_blank" href="https://underthewire.tech/oracle-1">https://underthewire.tech/oracle-1</a>
+            <hr>
+            Next Level Guide: <a href="2.html">Oracle Level 2 &#8594; Level 3</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

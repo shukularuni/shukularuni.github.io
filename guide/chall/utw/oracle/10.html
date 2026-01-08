@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTW Oracle 10 &#8594; 11 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>UnderTheWire Oracle Guide</h1>
+        <p>here's how to solve the Oracle level 10 &#8594; 11</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Oracle Guides</a>
+            <p>Previous Level Guide: <a href="9.html">Oracle Level 9 &#8594; 10</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh oracle10@oracle.underthewire.tech -p 22</code></p>
+            <p>Password: <code>utw_exch9229</code></p>
+            <h2>Info</h2>
+            <pre>The password for oracle11 is the .biz site the user has previously navigated to.
+
+NOTE:
+– Don’t include the extension.
+– The password will be lowercase no matter how it appears on the screen.
+
+&#9660; HINT:
+
+The registry is awesome!</pre>
+            <h2>Theory</h2>
+            <p>To get the password, as the description says, we have to get name of the site that the user has visited that ends on a `.biz` top-level domain (TLD). For that we just need to view Typed URLs on whatever browser is used on the computer, for those two we can use registry commands Test-Path checks if the path exists and Get-ChildItem gets the stuff inside the registry folders. We don't know the browser, so we can use Test-Path to see if it's either Edge or Internet Explorer, which usually come pre-installed on Windows, then if we see something we'll see the TypedURLs folder inside the browser to check for that `.biz` URL. The commands are like this:</p>
+            <pre>Test-Path "HKCU:\Software\Microsoft\PROGRAM"
+Get-ChildItem "HKCU:\Software\Microsoft\PROGRAM\TypedURLs"</pre>
+            <h2>Solution</h2>
+            <p>Now that we are inside of the shell, let's check if Edge is installed on the system:</p>
+            <pre>PS C:\users\Oracle10\desktop&gt; Test-Path "HKCU:\Software\Microsoft\Edge"
+False</pre>
+            <p>Nope, Edge is not in the system, so let's check for Internet Explorer:</p>
+            <pre>PS C:\users\Oracle10\desktop&gt; Test-Path "HKCU:\Software\Microsoft\Internet Explorer"
+True</pre>
+            <p>Yup, now let's go to the TypedURLs folder to view if any of those folders have the `.biz` TLD:</p>
+            <pre>PS C:\users\Oracle10\desktop&gt; Get-Item "HKCU:\Software\Microsoft\Internet Explorer\TypedURLs"
+
+    Hive: HKEY_CURRENT_USER\Software\Microsoft\Internet Explorer\TypedURLs
+
+Name            Property
+----            --------
+TypedURLs       url1 : http://go.microsoft.com/fwlink/?linkid=66138&clcid=0x409
+                url2 : http://google.com
+                url3 : http://underthewire.tech
+                url4 : http://bimmerfest.com
+                url5 : http://nba.com
+                url6 : http://yondu.biz
+                url7 : http://hardknocks.edu
+                url8 : http://installation.org</pre>
+            <p>There we go, now that we have the URL with the `.biz` TLD, we can remove the TLD and http protocol, and we'll get the password:</p>
+            <pre>yondu</pre>
+            <a target="_blank" href="https://underthewire.tech/oracle-10">https://underthewire.tech/oracle-10</a>
+            <hr>
+            Next Level Guide: <a href="11.html">Oracle Level 11 &#8594; Level 12</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

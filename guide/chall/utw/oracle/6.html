@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTW Oracle 6 &#8594; 7 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>UnderTheWire Oracle Guide</h1>
+        <p>here's how to solve the Oracle level 6 &#8594; 7</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Oracle Guides</a>
+            <p>Previous Level Guide: <a href="5.html">Oracle Level 5 &#8594; 6</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh oracle6@oracle.underthewire.tech -p 22</code></p>
+            <p>Password: <code>charlie1337</code></p>
+            <h2>Info</h2>
+            <pre>The password for oracle7 is the name of the OU that doesn’t have a GPO linked to it PLUS the name of the file on the user’s desktop.
+
+NOTE:
+– The password will be lowercase no matter how it appears on the screen.
+– Exclude the “Groups” OU.
+
+&#9660; HINT:
+
+You may find you want to look in Group Policy however, maybe Active Directory is a better choice…</pre>
+            <h2>Theory</h2>
+            <p>To get the password, as the description says, we have to get name of the file in the Desktop and then get the name of an Organizational Unit (OU) that is not linked to a Group Policy Object (GPO). To do this we can use a command to fetch all ADOU's except the ones named Groups, and then show the objects with Get-Member. We'll use this command to see if we can find the OU that is not linked to a GPO:</p>
+            <pre>Get-ADOrganizationalUnit -Filter 'Name -notlike "Groups"' -Properties * | Get-Member</pre>
+            <h2>Solution</h2>
+            <p>Now that we are inside of the shell, let's see the name of the file:</p>
+            <pre>PS C:\users\Oracle6\desktop&gt; dir
+
+    Directory: C:\users\Oracle6\desktop
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----        8/30/2018  10:50 AM              0 1337</pre>
+            <p>Now let's search for a OU without a GPO with the command from theory:</p>
+            <pre>PS C:\users\Oracle6\desktop&gt; Get-ADOrganizationalUnit -Filter 'Name -notlike "Groups"' -Properties * | Get-Member
+
+
+   TypeName: Microsoft.ActiveDirectory.Management.ADOrganizationalUnit
+
+Name                            MemberType            Definition
+----                            ----------            ----------
+Contains                        Method                bool Contains(string propertyName)
+Equals                          Method                bool Equals(System.Object obj)
+GetEnumerator                   Method                System.Collections.IDictionaryEnumerator GetEnumerator()
+GetHashCode                     Method                int GetHashCode()
+GetType                         Method                type GetType()
+...
+dSCorePropagationData           Property              Microsoft.ActiveDirectory.Management.ADPropertyValueCollection dSCorePropagationData {get;}
+gPLink                          Property              System.String gPLink {get;set;}
+instanceType                    Property              System.Int32 instanceType {get;}
+...</pre>
+            <p>I highly suspect and feel like that gPLink has to do something with GPO, I don't know it might be part of the name just saying (gPLink=groupPolicyLink). Jokes aside, I think it's pretty obvious that gPLink is the thing we have to remove from our list. So, we'll use the same command, although now we'll go by putting a -not option on Where-Object, so that it basically skips anything to do with gPLink:</p>
+            <pre>PS C:\users\Oracle6\desktop&gt; Get-ADOrganizationalUnit -Filter 'Name -notlike "Groups"' -Properties * | Where-Object {-not $_.gPLink}
+
+CanonicalName                   : underthewire.tech/X-Wing/T-50
+City                            :
+CN                              :
+Country                         :
+Created                         : 8/30/2018 3:21:13 AM
+createTimeStamp                 : 8/30/2018 3:21:13 AM
+Deleted                         :
+Description                     :
+DisplayName                     :
+DistinguishedName               : OU=T-50,OU=X-Wing,DC=underthewire,DC=tech
+dSCorePropagationData           : {8/30/2018 3:21:14 AM, 1/1/1601 12:00:00 AM}
+gPLink                          : null
+instanceType                    : 4
+isDeleted                       :
+LastKnownParent                 :
+LinkedGroupPolicyObjects        : {}
+ManagedBy                       :
+Modified                        : 8/30/2018 3:21:14 AM
+modifyTimeStamp                 : 8/30/2018 3:21:14 AM
+Name                            : T-50
+nTSecurityDescriptor            : System.DirectoryServices.ActiveDirectorySecurity
+ObjectCategory                  : CN=Organizational-Unit,CN=Schema,CN=Configuration,DC=underthewire,DC=tech
+ObjectClass                     : organizationalUnit
+ObjectGUID                      : 5ace8bef-c00e-4f58-a543-3fd45436f1d4
+ou                              : {T-50}
+PostalCode                      :
+ProtectedFromAccidentalDeletion : True
+sDRightsEffective               : 0
+State                           :
+StreetAddress                   :
+uSNChanged                      : 13674
+uSNCreated                      : 13673
+whenChanged                     : 8/30/2018 3:21:14 AM
+whenCreated                     : 8/30/2018 3:21:13 AM</pre>
+            <p>There we go, now that we have both the Name attribute of the OU and the name of the file, we can join them in lowercase:</p>
+            <pre>t-50_97</pre>
+            <a target="_blank" href="https://underthewire.tech/oracle-6">https://underthewire.tech/oracle-6</a>
+            <hr>
+            Next Level Guide: <a href="7.html">Oracle Level 7 &#8594; Level 8</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

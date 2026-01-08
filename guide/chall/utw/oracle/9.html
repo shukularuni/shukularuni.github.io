@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTW Oracle 9 &#8594; 10 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>UnderTheWire Oracle Guide</h1>
+        <p>here's how to solve the Oracle level 9 &#8594; 10</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Oracle Guides</a>
+            <p>Previous Level Guide: <a href="8.html">Oracle Level 8 &#8594; 9</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh oracle9@oracle.underthewire.tech -p 22</code></p>
+            <p>Password: <code>star-lord</code></p>
+            <h2>Info</h2>
+            <pre>The password for oracle10 is the computer name of the DNS record of the mail server listed in the UnderTheWire.tech zone PLUS the name of the file on the user’s desktop.
+
+NOTE:
+– If the server name is “some_blob” and the file on the desktop is named “1234”, the password would be “some_blob1234”.
+– Only submit the computer name and not the fully qualified domain name.
+– The password will be lowercase no matter how it appears on the screen.</pre>
+            <h2>Theory</h2>
+            <p>To get the password, as the description says, we have to get the name of the computer that manages mail exchange in DNS, and the name of the file in the Desktop. For that we can use a DNS command, specifically the Server Resource Record one, which only needs one option -ZoneName where we would specify the "UnderTheWire.tech" zone. The command I described would be this:</p>
+            <pre>Get-DnsServerResourceRecord -ZoneName "UnderTheWire.tech"</pre>
+            <h2>Solution</h2>
+            <p>Now that we are inside of the shell, let's see the name of the file in the Desktop:</p>
+            <pre>PS C:\users\Oracle9\desktop&gt; dir
+
+    Directory: C:\users\Oracle9\desktop
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----        8/30/2018  10:51 AM              0 9229</pre>
+            <p>Now let's use the command from theory to check all computers under the `UnderTheWire.tech` zone to find the mail exchange machine:</p>
+            <pre>PS C:\users\Oracle9\desktop&gt; Get-DnsServerResourceRecord -ZoneName 'UnderTheWire.tech'
+
+HostName                  RecordType Type       Timestamp            TimeToLive      RecordData
+--------                  ---------- ----       ---------            ----------      ----------
+@                         A          1          1/5/2026 5:00:00 AM  00:10:00        192.99.167.156
+@                         NS         2          0                    01:00:00        utw.underthewire.tech.
+@                         SOA        6          0                    01:00:00        [10109][utw.underthewire.tech.][hostmaster.unde...
+_msdcs                    NS         2          0                    01:00:00        utw.underthewire.tech.
+_gc._tcp.Default-First... SRV        33         1/5/2026 5:00:00 AM  00:10:00        [0][100][3268][utw.underthewire.tech.]
+_kerberos._tcp.Default... SRV        33         1/5/2026 5:00:00 AM  00:10:00        [0][100][88][utw.underthewire.tech.]
+_ldap._tcp.Default-Fir... SRV        33         1/5/2026 5:00:00 AM  00:10:00        [0][100][389][utw.underthewire.tech.]
+_gc._tcp                  SRV        33         1/5/2026 5:00:00 AM  00:10:00        [0][100][3268][utw.underthewire.tech.]
+_kerberos._tcp            SRV        33         1/5/2026 5:00:00 AM  00:10:00        [0][100][88][utw.underthewire.tech.]
+_kpasswd._tcp             SRV        33         1/5/2026 5:00:00 AM  00:10:00        [0][100][464][utw.underthewire.tech.]
+_ldap._tcp                SRV        33         1/5/2026 5:00:00 AM  00:10:00        [0][100][389][utw.underthewire.tech.]
+_kerberos._udp            SRV        33         1/5/2026 5:00:00 AM  00:10:00        [0][100][88][utw.underthewire.tech.]
+_kpasswd._udp             SRV        33         1/5/2026 5:00:00 AM  00:10:00        [0][100][464][utw.underthewire.tech.]
+CYBORG718W100N            A          1          0                    01:00:00        172.31.45.167
+DomainDnsZones            A          1          1/5/2026 5:00:00 AM  00:10:00        192.99.167.156
+_ldap._tcp.Default-Fir... SRV        33         1/5/2026 5:00:00 AM  00:10:00        [0][100][389][utw.underthewire.tech.]
+_ldap._tcp.DomainDnsZones SRV        33         1/5/2026 5:00:00 AM  00:10:00        [0][100][389][utw.underthewire.tech.]
+ForestDnsZones            A          1          1/5/2026 5:00:00 AM  00:10:00        192.99.167.156
+_ldap._tcp.Default-Fir... SRV        33         1/5/2026 5:00:00 AM  00:10:00        [0][100][389][utw.underthewire.tech.]
+_ldap._tcp.ForestDnsZones SRV        33         1/5/2026 5:00:00 AM  00:10:00        [0][100][389][utw.underthewire.tech.]
+utw                       A          1          0                    01:00:00        192.99.167.156
+utw_exch                  MX         15         0                    01:00:00        [10][mail.utw_exch.]</pre>
+            <p>Oh it must be `utw_exch` because it has the RecordType of MX, which stands for Mail eXchange, now that we have that and the name of the file in the Desktop, we'll just join both to get the password:</p>
+            <pre>utw_exch9229</pre>
+            <a target="_blank" href="https://underthewire.tech/oracle-9">https://underthewire.tech/oracle-9</a>
+            <hr>
+            Next Level Guide: <a href="10.html">Oracle Level 10 &#8594; Level 11</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

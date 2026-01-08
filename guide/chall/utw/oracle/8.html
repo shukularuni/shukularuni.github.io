@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTW Oracle 8 &#8594; 9 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>UnderTheWire Oracle Guide</h1>
+        <p>here's how to solve the Oracle level 8 &#8594; 9</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Oracle Guides</a>
+            <p>Previous Level Guide: <a href="7.html">Oracle Level 7 &#8594; 8</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh oracle8@oracle.underthewire.tech -p 22</code></p>
+            <p>Password: <code>multiverse111</code></p>
+            <h2>Info</h2>
+            <pre>The password for oracle9 is the name of the file in the GET Request from www.guardian.galaxy.com within the log file on the desktop.
+
+NOTE:
+– Don’t include the extension.
+– The password will be lowercase no matter how it appears on the screen.</pre>
+            <h2>Theory</h2>
+            <p>To get the password, as the description says, we have to get whatever GET request was done to the website on the description from the web logs on file on the Desktop, we can use the Get-Content command to print out the text, then if it's a lot of content we'll use Select-String to search the exact webpage request.</p>
+            <h2>Solution</h2>
+            <p>Now that we are inside of the shell, let's see the name of the log file:</p>
+            <pre>PS C:\users\Oracle8\desktop&gt; dir
+
+    Directory: C:\users\Oracle8\desktop
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----        8/30/2018   5:52 AM         405295 logs.txt</pre>
+            <p>Alright, now we'll use the Get-Content with Select-String because we can see the size of the file is roughly 400KB, which would fill the terminal and would take some time to load, so we'll put the website given to us in the description on the Select-String command:</p>
+            <pre>PS C:\users\Oracle7\desktop&gt; Get-Content .\logs.txt | Select-String "www.guardian.galaxy.com"
+PS C:\users\Oracle7\desktop&gt;</pre>
+            <p>Nothing huh? Maybe it's the quotes:</p>
+            <pre>PS C:\users\Oracle7\desktop&gt; Get-Content .\logs.txt | Select-String 'www.guardian.galaxy.com'
+PS C:\users\Oracle7\desktop&gt;</pre>
+            <p>Nope. That's odd, let's try removing the w&sup3; off the URL:</p>
+            <pre>PS C:\users\Oracle7\desktop&gt; Get-Content .\logs.txt | Select-String 'guardian.galaxy.com'
+
+guardian.galaxy.com - - [28/Jul/1995:13:03:55 -0400] "GET /images/star-lord.gif HTTP/1.0" 200 786</pre>
+            <p>Oh perfect, now that we have the filename requested, we just remove the extension and all other request stuff off the line, and we get the password:</p>
+            <pre>star-lord</pre>
+            <a target="_blank" href="https://underthewire.tech/oracle-8">https://underthewire.tech/oracle-8</a>
+            <hr>
+            Next Level Guide: <a href="9.html">Oracle Level 9 &#8594; Level 10</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

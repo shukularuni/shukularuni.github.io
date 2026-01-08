@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTW Oracle 7 &#8594; 8 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>UnderTheWire Oracle Guide</h1>
+        <p>here's how to solve the Oracle level 7 &#8594; 8</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Oracle Guides</a>
+            <p>Previous Level Guide: <a href="6.html">Oracle Level 6 &#8594; 7</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh oracle7@oracle.underthewire.tech -p 22</code></p>
+            <p>Password: <code>t-50_97</code></p>
+            <h2>Info</h2>
+            <pre>The password for oracle8 is the name of the domain that a trust is built with PLUS the name of the file on the user’s desktop.
+
+NOTE:
+– The password will be lowercase no matter how it appears on the screen.
+– If the name of the trust is “blob” and the file on the desktop is named “1234”, the password would be “blob1234”.</pre>
+            <h2>Theory</h2>
+            <p>To get the password, as the description says, we have to get name of whatever has a trust built with the system, we can do this by using Active Directory, specifically the Get-ADTrust command to get all the trusted things of the system, just like this with the -Filter option for any, to view all trusted thingies of the system:</p>
+            <pre>Get-ADTrust -Filter *</pre>
+            <h2>Solution</h2>
+            <p>Now that we are inside of the shell, let's see the name of the file:</p>
+            <pre>PS C:\users\Oracle7\desktop&gt; dir
+
+    Directory: C:\users\Oracle7\desktop
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----        8/30/2018  10:50 AM              0 111</pre>
+            <p>Now let's see all trusted things from Acive Directory:</p>
+            <pre>PS C:\users\Oracle7\desktop&gt; Get-ADTrust -Filter *
+
+
+Direction               : Outbound
+DisallowTransivity      : True
+DistinguishedName       : CN=multiverse,CN=System,DC=underthewire,DC=tech
+ForestTransitive        : False
+IntraForest             : False
+IsTreeParent            : False
+IsTreeRoot              : False
+Name                    : multiverse
+ObjectClass             : trustedDomain
+ObjectGUID              : bbfcc0ca-e586-4058-9aef-c6b4a6b32708
+SelectiveAuthentication : False
+SIDFilteringForestAware : False
+SIDFilteringQuarantined : False
+Source                  : DC=underthewire,DC=tech
+Target                  : multiverse
+TGTDelegation           : False
+TrustAttributes         : 1
+TrustedPolicy           :
+TrustingPolicy          :
+TrustType               : MIT
+UplevelOnly             : False
+UsesAESKeys             : False
+UsesRC4Encryption       : False</pre>
+            <p>Oh there we go, we have a trusted thingie with the Name of "multiverse", now we'll just join it with the name of the file in the Desktop to get the password:</p>
+            <pre>multiverse111</pre>
+            <a target="_blank" href="https://underthewire.tech/oracle-7">https://underthewire.tech/oracle-7</a>
+            <hr>
+            Next Level Guide: <a href="8.html">Oracle Level 8 &#8594; Level 9</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

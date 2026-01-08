@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTW Oracle 11 &#8594; 12 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>UnderTheWire Oracle Guide</h1>
+        <p>here's how to solve the Oracle level 11 &#8594; 12</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Oracle Guides</a>
+            <p>Previous Level Guide: <a href="10.html">Oracle Level 10 &#8594; 11</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh oracle11@oracle.underthewire.tech -p 22</code></p>
+            <p>Password: <code>yondu</code></p>
+            <h2>Info</h2>
+            <pre>The password for oracle12 is the drive letter associated with the mapped drive that this user has.
+
+NOTE:
+– Submission should be one letter and lowercase.
+
+&#9660; HINT:
+
+The registry is awesome!</pre>
+            <h2>Theory</h2>
+            <p>To get the password, as the description says, we have to get the letter of the drive that is associated to the drive that we have (the C: drive). To do this, we can use the get-smbmapping command, which just enumerates all the mapped network drives. That's it, pretty simple huh? So let's get to the shell. The command we'll use is just this:</p>
+            <pre>Get-SmbMapping</pre>
+            <h2>Solution</h2>
+            <p>Now that we are inside of the shell, we'll run the command to see all mapped drives:</p>
+            <pre>PS C:\users\Oracle11\desktop&gt; Get-SmbMapping
+
+Status      Local Path Remote Path            
+------      ---------- -----------            
+Unavailable M:         \\127.0.0.1\WsusContent</pre>
+            <p>Yup, that's it. Now just make the drive letter lowercase and remove its colon:</p>
+            <pre>m</pre>
+            <a target="_blank" href="https://underthewire.tech/oracle-11">https://underthewire.tech/oracle-11</a>
+            <hr>
+            Next Level Guide: <a href="12.html">Oracle Level 12 &#8594; Level 13</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

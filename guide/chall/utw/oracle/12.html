@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTW Oracle 12 &#8594; 13 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>UnderTheWire Oracle Guide</h1>
+        <p>here's how to solve the Oracle level 12 &#8594; 13</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Oracle Guides</a>
+            <p>Previous Level Guide: <a href="11.html">Oracle Level 11 &#8594; 12</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh oracle12@oracle.underthewire.tech -p 22</code></p>
+            <p>Password: <code>m</code></p>
+            <h2>Info</h2>
+            <pre>The password for oracle13 is the IP of the system that this user has previously established a remote desktop with.
+
+&#9660; HINT:
+
+The registry is awesome!</pre>
+            <h2>Theory</h2>
+            <p>To get the password, as the description says, we have to get an IP that has been established on the system to a remote desktop. This type of connection stuff (SSH,SSL,etc) would normally be stored on the terminal or in PowerShell, the thing is; I don't know how the terminal or PowerShell are called on the system registry, so we'll have to look for them on the Microsoft Apps folder on the registry, which is found inside the Software folder of the User's registry, we've used registry previously a lot so this might be easy. So the command to view the Microsoft registry would be this:</p>
+            <pre>Get-ChildItem "HKCU:\Software\Microsoft"</pre>
+            <h2>Solution</h2>
+            <p>Now that we are inside of the shell, we'll run the command to see if we have any PowerShells or Terminals that could save IP connections:</p>
+            <pre>PS C:\users\Oracle12\desktop&gt; Get-ChildItem "HKCU:\Software\Microsoft"
+
+    Hive: HKEY_CURRENT_USER\Software\Microsoft
+
+Name                           Property
+----                           --------
+Active Setup
+Assistance
+AuthCookies
+Command Processor              PathCompletionChar : 9
+                               EnableExtensions   : 1
+                               CompletionChar     : 9
+                               DefaultColor       : 0
+CTF
+EMET
+EventSystem
+F12
+Feeds
+FTP                            Use PASV : yes
+GameBarApi
+IdentityCRL                    MigrationDone : 1
+Internet Connection Wizard     Completed : 1
+Internet Explorer
+Keyboard
+MediaPlayer
+MSF
+Narrator
+OneDrive                       DisablePersonalSync : 1
+Osk                            RunningState : 0
+PlayToReceiver                 AutoStart : 0
+ScreenMagnifier                RunningState : 0
+Sensors
+ServerManager                  InitializationComplete       : 0
+                               CheckedUnattendLaunchSetting : 1
+Speech
+Speech Virtual
+Speech_OneCore
+SystemCertificates
+TabletTip
+Terminal Server Client
+UEV
+WAB
+WcmSvc
+Windows
+Windows NT
+Windows Search
+Wisp</pre>
+            <p>Oh we have a terminal, we'll just plug in "Terminal Server Client" as a subfolder to the same command we just used to view anything left on the terminal:</p>
+            <pre>PS C:\users\Oracle12\desktop&gt; Get-ChildItem "HKCU:\Software\Microsoft\Terminal Server Client"
+
+    Hive: HKEY_CURRENT_USER\Software\Microsoft\Terminal Server Client
+
+Name                           Property
+----                           --------
+192.168.2.3                    UsernameHint : MyServer\raccoon</pre>
+            <p>There we go, now just copy that IP and we can continue to the next level:</p>
+            <pre>192.168.2.3</pre>
+            <a target="_blank" href="https://underthewire.tech/oracle-12">https://underthewire.tech/oracle-12</a>
+            <hr>
+            Next Level Guide: <a href="13.html">Oracle Level 13 &#8594; Level 14</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

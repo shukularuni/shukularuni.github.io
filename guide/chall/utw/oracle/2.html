@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTW Oracle 2 &#8594; 3 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>UnderTheWire Oracle Guide</h1>
+        <p>here's how to solve the Oracle level 2 &#8594; 3</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Oracle Guides</a>
+            <p>Previous Level Guide: <a href="1.html">Oracle Level 1 &#8594; 2</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh oracle2@oracle.underthewire.tech -p 22</code></p>
+            <p>Password: <code>utc</code></p>
+            <h2>Info</h2>
+            <pre>The password for oracle3 is the last five digits of the MD5 hash, from the hashes of files on the desktop that appears twice.
+
+NOTE:
+– The password will be lowercase no matter how it appears on the screen.
+
+&#9660; HINT:
+
+After getting the hashes of all the files on the desktop, there will be two hashes that are the same, submit the last 5 digits of them.
+
+&#9660; HINT:
+
+A way to do this is to do one command and pipe it to another…</pre>
+            <h2>Theory</h2>
+            <p>To get the password, as the description says, we have to get the hash of the two files that have the same content&mdash;or rather, the same hash&mdash;and then just using part of the MD5 hash for the password to the next level. So, we can use this command that first gets all the files of the current directory, the Desktop as we learned from other levels, then add a column with the MD5 hash of each, and finally sort them alphabetically so that if there are two files that share the same hash, they will be right next to eachother and we'll know right away which two files have the same content. So this is the command we'll be using:</p>
+            <pre>Get-Childitem -File | Get-Filehash -Algorithm MD5 | Sort-Object Hash</pre>
+            <h2>Solution</h2>
+            <p>Now that we are inside of the shell, let's get the hashes of all files and sort them alphabetically to see any that repeat:</p>
+            <pre>PS C:\users\Oracle2\desktop&gt; Get-Childitem -File | Get-Filehash -Algorithm MD5 | Sort-Object Hash
+
+Algorithm       Hash                                   Path
+---------       ----                                   ----
+MD5             0E848B375C2871DBFE0AD405B58BF4E2       C:\users\Oracle2\desktop\file19.txt
+MD5             1463397F8FDB4B99CDE3DB0B1E37EA6E       C:\users\Oracle2\desktop\file11.txt
+MD5             1C579B4F21EB236E0CC7ABBB0313AE4C       C:\users\Oracle2\desktop\file15.txt
+MD5             1E0054A7A7C6D8C820C7307F94513E50       C:\users\Oracle2\desktop\file21.txt
+MD5             226F590B023BF532FBEEB46154288644       C:\users\Oracle2\desktop\file10.txt
+MD5             3444EAB3BB3F80522031104151DAADA5       C:\users\Oracle2\desktop\file7.txt
+MD5             3705066150D7BF296F1E0F0EDC0DB9FA       C:\users\Oracle2\desktop\file6.txt
+MD5             39A77E07A13922A8C971EB0BEEFFCEE3       C:\users\Oracle2\desktop\file8.txt
+MD5             3E00A2BF4B49C7D18DBA79DD39C4B19C       C:\users\Oracle2\desktop\file18.txt
+MD5             41E65125606DE228B94CC2C97B401C1A       C:\users\Oracle2\desktop\file20.txt
+MD5             4A22F5027B6E3C09C9743DB955B6878A       C:\users\Oracle2\desktop\file2.txt
+MD5             4CEB4AAE0231B53834280CC5314FB932       C:\users\Oracle2\desktop\file1.txt
+MD5             5BE11FF0037EED156F77213658C2F5C4       C:\users\Oracle2\desktop\file16.txt
+MD5             5BE11FF0037EED156F77213658C2F5C4       C:\users\Oracle2\desktop\file.txt
+MD5             67CE823F3BCC2BCA22ADEB066160CF54       C:\users\Oracle2\desktop\file5.txt
+MD5             BA5DACAC4B8791D0A10C606C7DCCD10C       C:\users\Oracle2\desktop\file14.txt
+MD5             C6DDC40861E16E60E924C34ED00F787B       C:\users\Oracle2\desktop\file3.txt
+MD5             CABBDEAF260BF1FE922A8605D4DDD2BE       C:\users\Oracle2\desktop\file9.txt
+MD5             F0483A1F2E8A20412DBBFC12F99C1193       C:\users\Oracle2\desktop\file12.txt
+MD5             FAB743AE9D2C15F5B84975A891133CCB       C:\users\Oracle2\desktop\file13.txt
+MD5             FD74053193C5E5984E905FBDAD1D61BF       C:\users\Oracle2\desktop\file17.txt
+MD5             FEB6246F13187BFBCA82EB9105B04B61       C:\users\Oracle2\desktop\file4.txt</pre>
+            <p>There it is, a hash that repeats on `file.txt` and `file16.txt`, here:</p>
+            <pre>5BE11FF0037EED156F77213658C2F5C4 *.\file.txt
+5BE11FF0037EED156F77213658C2F5C4 *.\file16.txt</pre>
+            <p>Now we just need to grab the last 5 characters and put them lowercase:</p>
+            <pre>2f5c4</pre>
+            <a target="_blank" href="https://underthewire.tech/oracle-2">https://underthewire.tech/oracle-2</a>
+            <hr>
+            Next Level Guide: <a href="3.html">Oracle Level 3 &#8594; Level 4</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

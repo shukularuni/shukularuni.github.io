@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Powershell @ Shukularuni</title>
+    <title>PowerShell @ Shukularuni</title>
     <link rel="stylesheet" href="/style.css">
     <link rel="icon" type="image/x-icon" href="/icon.png">
 </head>
@@ -17,6 +17,8 @@
             <a href="/guide/cmds/">Back to Command stuff</a><br><br>
             <hr>
             <ul id="l">
+              <li><a href="ad/">Active Directory</a></li>
+              <li><a href="dns/">DNS commands</a></li>
               <li><a href="symbol-dot.html">.</a></li>
               <li><a href="symbol-dot-x2.html">..</a></li>
               <li><a href="symbol-coma.html">,</a></li>
@@ -34,7 +36,6 @@
               <li><a href="symbol-curr-prth.html">$()</a></li>
               <li><a href="symbol-at-prth.html">@()</a></li>
               <li><a href="F_operator.html">-F</a></li>
-              <li><a href="Active_Directory.html">Active Directory</a></li>
               <li><a href="Add-AppxProvisionedPackage.html">Add-AppxProvisionedPackage</a></li>
               <li><a href="Add-BitLockerKeyProtector.html">Add-BitLockerKeyProtector</a></li>
               <li><a href="Add-Computer.html">Add-Computer</a></li>
@@ -64,7 +65,6 @@
               <li><a href="Checkpoint-WebApplicationMonitoring.html">Checkpoint-WebApplicationMonitoring</a></li>
               <li><a href="Clear-Content.html">Clear-Content</a></li>
               <li><a href="Clear-Disk.html">Clear-Disk</a></li>
-              <li><a href="Clear-DnsClientCache.html">Clear-DnsClientCache</a></li>
               <li><a href="Clear-EventLog.html">Clear-EventLog</a></li>
               <li><a href="Clear-History.html">Clear-History</a></li>
               <li><a href="Clear-Host.html">Clear-Host</a></li>
@@ -91,6 +91,7 @@
               <li><a href="ConvertTo-Json.html">ConvertTo-Json</a></li>
               <li><a href="ConvertTo-SecureString.html">ConvertTo-SecureString</a></li>
               <li><a href="ConvertTo-Xml.html">ConvertTo-Xml</a></li>
+              <li><a href="Copy-GPO.html">Copy-GPO</a></li>
               <li><a href="Copy-Item.html">Copy-Item</a></li>
               <li><a href="Copy-ItemProperty.html">Copy-ItemProperty</a></li>
               <li><a href="Debug-Process.html">Debug-Process</a></li>
@@ -166,8 +167,6 @@
               <li><a href="Get-Culture.html">Get-Culture</a></li>
               <li><a href="Get-Date.html">Get-Date</a></li>
               <li><a href="Get-Disk.html">Get-Disk</a></li>
-              <li><a href="Get-DnsClientCache.html">Get-DnsClientCache</a></li>
-              <li><a href="Get-DnsClientServerAddress.html">Get-DnsClientServerAddress</a></li>
               <li><a href="Get-DscConfiguration.html">Get-DscConfiguration</a></li>
               <li><a href="Get-DscLocalConfigurationManager.html">Get-DscLocalConfigurationManager</a></li>
               <li><a href="Get-DscResource.html">Get-DscResource</a></li>
@@ -178,6 +177,14 @@
               <li><a href="Get-ExecutionPolicy.html">Get-ExecutionPolicy</a></li>
               <li><a href="Get-FileHash.html">Get-FileHash</a></li>
               <li><a href="Get-FormatData.html">Get-FormatData</a></li>
+              <li><a href="Get-GPInheritance.html">Get-GPInheritance</a></li>
+              <li><a href="Get-GPO.html">Get-GPO</a></li>
+              <li><a href="Get-GPOReport.html">Get-GPOReport</a></li>
+              <li><a href="Get-GPPermission.html">Get-GPPermission</a></li>
+              <li><a href="Get-GPPrefRegistryValue.html">Get-GPPrefRegistryValue</a></li>
+              <li><a href="Get-GPRegistryValue.html">Get-GPRegistryValue</a></li>
+              <li><a href="Get-GPResultantSetOfPolicy.html">Get-GPResultantSetOfPolicy</a></li>
+              <li><a href="Get-GPStarterGPO.html">Get-GPStarterGPO</a></li>
               <li><a href="Get-Help.html">Get-Help</a></li>
               <li><a href="Get-History.html">Get-History</a></li>
               <li><a href="Get-Host.html">Get-Host</a></li>
@@ -271,6 +278,7 @@
               <li><a href="Invoke-CimMethod.html">Invoke-CimMethod</a></li>
               <li><a href="Invoke-Command.html">Invoke-Command</a></li>
               <li><a href="Invoke-Expression.html">Invoke-Expression</a></li>
+              <li><a href="Invoke-GPUpdate.html">Invoke-GPUpdate</a></li>
               <li><a href="Invoke-History.html">Invoke-History</a></li>
               <li><a href="Invoke-Item.html">Invoke-Item</a></li>
               <li><a href="Invoke-Pester.html">Invoke-Pester</a></li>
@@ -295,6 +303,9 @@
               <li><a href="New-DSCCheckSum.html">New-DSCCheckSum</a></li>
               <li><a href="New-Event.html">New-Event</a></li>
               <li><a href="New-Eventlog.html">New-Eventlog</a></li>
+              <li><a href="New-GPLink.html">New-GPLink</a></li>
+              <li><a href="New-GPO.html">New-GPO</a></li>
+              <li><a href="New-GPStarterGPO.html">New-GPStarterGPO</a></li>
               <li><a href="New-Guid.html">New-Guid</a></li>
               <li><a href="New-Item.html">New-Item</a></li>
               <li><a href="New-ItemProperty.html">New-ItemProperty</a></li>
@@ -355,6 +366,10 @@
               <li><a href="Remove-Computer.html">Remove-Computer</a></li>
               <li><a href="Remove-Event.html">Remove-Event</a></li>
               <li><a href="Remove-EventLog.html">Remove-EventLog</a></li>
+              <li><a href="Remove-GPLink.html">Remove-GPLink</a></li>
+              <li><a href="Remove-GPO.html">Remove-GPO</a></li>
+              <li><a href="Remove-GPPrefRegistryValue.html">Remove-GPPrefRegistryValue</a></li>
+              <li><a href="Remove-GPRegistryValue.html">Remove-GPRegistryValue</a></li>
               <li><a href="Remove-Item.html">Remove-Item</a></li>
               <li><a href="Remove-ItemProperty.html">Remove-ItemProperty</a></li>
               <li><a href="Remove-Job.html">Remove-Job</a></li>
@@ -375,6 +390,7 @@
               <li><a href="Remove-WmiObject.html">Remove-WmiObject</a></li>
               <li><a href="Remove-WSManInstance.html">Remove-WSManInstance</a></li>
               <li><a href="Rename-Computer.html">Rename-Computer</a></li>
+              <li><a href="Rename-GPO.html">Rename-GPO</a></li>
               <li><a href="Rename-Item.html">Rename-Item</a></li>
               <li><a href="Rename-ItemProperty.html">Rename-ItemProperty</a></li>
               <li><a href="Rename-LocalGroup.html">Rename-LocalGroup</a></li>
@@ -382,7 +398,6 @@
               <li><a href="Repair-WindowsImage.html">Repair-WindowsImage</a></li>
               <li><a href="Reset-ComputerMachinePassword.html">Reset-ComputerMachinePassword</a></li>
               <li><a href="Resize-Partition.html">Resize-Partition</a></li>
-              <li><a href="Resolve-DnsName.html">Resolve-DnsName</a></li>
               <li><a href="Resolve-Path.html">Resolve-Path</a></li>
               <li><a href="Restart-Computer.html">Restart-Computer</a></li>
               <li><a href="Restart-Service.html">Restart-Service</a></li>
@@ -408,8 +423,12 @@
               <li><a href="Set-Culture.html">Set-Culture</a></li>
               <li><a href="Set-Date.html">Set-Date</a></li>
               <li><a href="Set-Disk.html">Set-Disk</a></li>
-              <li><a href="Set-DnsClientServerAddress.html">Set-DnsClientServerAddress</a></li>
               <li><a href="Set-ExecutionPolicy.html">Set-ExecutionPolicy</a></li>
+              <li><a href="Set-GPInheritance.html">Set-GPInheritance</a></li>
+              <li><a href="Set-GPLink.html">Set-GPLink</a></li>
+              <li><a href="Set-GPPermission.html">Set-GPPermission</a></li>
+              <li><a href="Set-GPPrefRegistryValue.html">Set-GPPrefRegistryValue</a></li>
+              <li><a href="Set-GPRegistryValue.html">Set-GPRegistryValue</a></li>
               <li><a href="Set-Item.html">Set-Item</a></li>
               <li><a href="Set-ItemProperty.html">Set-ItemProperty</a></li>
               <li><a href="Set-LocalGroup.html">Set-LocalGroup</a></li>

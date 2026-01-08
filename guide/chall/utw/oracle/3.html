@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTW Oracle 3 &#8594; 4 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>UnderTheWire Oracle Guide</h1>
+        <p>here's how to solve the Oracle level 3 &#8594; 4</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Oracle Guides</a>
+            <p>Previous Level Guide: <a href="2.html">Oracle Level 2 &#8594; 3</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh oracle3@oracle.underthewire.tech -p 22</code></p>
+            <p>Password: <code>2f5c4</code></p>
+            <h2>Info</h2>
+            <pre>The password for oracle4 is the date that the system logs were last wiped as depicted in the event logs on the desktop.
+
+NOTE:
+– The format for the password is 2 digit month, 2 digit day, 4 digit year. Ex: 5 Jan 2015 would be 01/05/2015.
+
+&#9660; HINT:
+
+https://msdn.microsoft.com/en-us/powershell/reference/5.1/microsoft.powershell.diagnostics/get-winevent</pre>
+            <h2>Theory</h2>
+            <p>To get the password, as the description says, we have to get the date from when the system was last wiped, well "clear" would be the type of word we'd have to look out for in the system logs. Although, I have no idea what type of log it might be or what the file is even called, so let's enter to the shell to know what to continue with.</p>
+            <h2>Solution</h2>
+            <p>Now that we are inside of the shell, let's view the directory to see what the logs are:</p>
+            <pre>PS C:\users\Oracle3\desktop&gt; dir
+
+    Directory: C:\users\Oracle3\desktop
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----        8/30/2018   5:52 AM        1118208 Oracle3_Security.evtx</pre>
+            <p>Oh it's just a normal Windows Event file, well that makes things easier. We can use this command to view all logs that are logged in this file:</p>
+            <pre>PS C:\users\Oracle3\desktop&gt; Get-Winevent -Path .\Oracle3_Security.evtx
+
+
+   ProviderName: Microsoft-Windows-Security-Auditing
+
+TimeCreated                     Id LevelDisplayName Message
+-----------                     -- ---------------- -------
+5/18/2017 11:38:23 PM         4624 Information      An account was successfully logged on....
+5/18/2017 11:38:23 PM         4672 Information      Special privileges assigned to new logon....
+5/18/2017 11:38:23 PM         4634 Information      An account was logged off....
+5/18/2017 11:37:38 PM         4624 Information      An account was successfully logged on....
+
+...</pre>
+            <p>To search for any clearing of system logs we can wildcard search the word "clear" to make it easier to find this log:</p>
+            <pre>PS C:\users\Oracle3\desktop&gt; Get-Winevent -Path .\Oracle3_Security.evtx | Where-Object {$_.Message -Like "*clear*"}
+
+
+   ProviderName: Microsoft-Windows-Eventlog
+
+TimeCreated                     Id LevelDisplayName Message
+-----------                     -- ---------------- -------
+5/9/2017 11:36:05 PM          1102 Information      The audit log was cleared....</pre>
+            <p>Would you look at that, there's only one log with the word. So let's grab that TimeCreated date and add a few zeros on the day and month to have it be the format requested from the description, and we get this:</p>
+            <pre>05/09/2017</pre>
+            <a target="_blank" href="https://underthewire.tech/oracle-3">https://underthewire.tech/oracle-3</a>
+            <hr>
+            Next Level Guide: <a href="4.html">Oracle Level 4 &#8594; Level 5</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

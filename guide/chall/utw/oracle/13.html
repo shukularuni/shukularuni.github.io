@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTW Oracle 13 &#8594; 14 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>UnderTheWire Oracle Guide</h1>
+        <p>here's how to solve the Oracle level 13 &#8594; 14</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Oracle Guides</a>
+            <p>Previous Level Guide: <a href="12.html">Oracle Level 12 &#8594; 13</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh oracle13@oracle.underthewire.tech -p 22</code></p>
+            <p>Password: <code>192.168.2.3</code></p>
+            <h2>Info</h2>
+            <pre>The password for oracle14 is the name of the user who created the Galaxy security group as depicted in the event logs on the desktop PLUS the name of the text file on the user’s desktop.
+
+NOTE:
+– If the user’s name is “randy” and the file on the desktop is named “1234”, the password would be “randy1234”.
+– The password will be lowercase no matter how it appears on the screen.
+
+&#9660; HINT:
+
+https://msdn.microsoft.com/en-us/powershell/reference/5.1/microsoft.powershell.diagnostics/get-winevent</pre>
+            <h2>Theory</h2>
+            <p>To get the password, as the description says, we have to get the user account that created the "Galaxy" group, and we can look it up on the event logs. I will guess that we are dealing with just a normal Windows Event file like previously on Oracle3, so all we need to do is search for log messages that contain the words group and create to search for created groups, and if nothing pops up we can just change the order to try again. So this is the command we'll be using on the shell:</p>
+            <pre>Get-WinEvent -Path .\FILE-NAME-HERE.EVTX | Where-Object {$_.Message -like '*group*create*'}</pre>
+            <h2>Solution</h2>
+            <p>Now that we are inside of the shell, we'll first use the dir command to see the file in the Desktop for the second part of the password, and to also know what the Windows Event file is called:</p>
+            <pre>PS C:\users\Oracle13\desktop&gt; dir
+
+    Directory: C:\users\Oracle13\desktop
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----        8/30/2018  10:51 AM              0 88
+-a----        8/30/2018   5:52 AM        2166784 security.evtx</pre>
+            <p>Now that we know the name of the file, we'll run the command from theory to check for any created groups on the system logs:</p>
+            <pre>PS C:\users\Oracle13\desktop&gt; Get-WinEvent -Path .\security.evtx | Where-Object {$_.Message -like '*group*create*'}
+
+   ProviderName: Microsoft-Windows-Security-Auditing
+
+TimeCreated                     Id LevelDisplayName Message
+-----------                     -- ---------------- -------
+5/19/2017 1:18:26 AM          4727 Information      A security-enabled globa...
+5/19/2017 1:16:17 AM          4727 Information      A security-enabled globa...</pre>
+            <p>Okay, this doesn't tell us much, so let's just expand the Message property to view the full values of these two and know who created them:</p>
+            <pre>PS C:\users\Oracle13\desktop&gt; Get-WinEvent -Path .\security.evtx | Where-Object {$_.Message -like '*group*create*'} | Select-Object -ExpandProperty Message
+A security-enabled global group was created.
+
+Subject:
+        Security ID:            S-1-5-21-2268727836-2773903800-2952248001-1621
+        Account Name:           gamora
+        Account Domain:         UNDERTHEWIRE
+        Logon ID:               0xBC24FF
+
+New Group:
+        Security ID:            S-1-5-21-2268727836-2773903800-2952248001-1626
+        Group Name:             Galaxy
+        Group Domain:           UNDERTHEWIRE
+
+Attributes:
+        SAM Account Name:       Galaxy
+        SID History:            -
+
+Additional Information:
+        Privileges:             -
+A security-enabled global group was created.
+
+Subject:
+        Security ID:            S-1-5-21-2268727836-2773903800-2952248001-500
+        Account Name:           Administrator
+        Account Domain:         UNDERTHEWIRE
+        Logon ID:               0xB6B6FE
+
+New Group:
+        Security ID:            S-1-5-21-2268727836-2773903800-2952248001-1625
+        Group Name:             Guardian
+        Group Domain:           UNDERTHEWIRE
+
+Attributes:
+        SAM Account Name:       Guardian
+        SID History:            -
+
+Additional Information:
+        Privileges:             -</pre>
+            <p>You can see that there are two of these entries but remember that we need the one that's called "Galaxy", and that's the first one, which is created by an account with the name "gamora", so let's enter that name and join it with the name of the file in the Desktop to get the password:</p>
+            <pre>gamora88</pre>
+            <a target="_blank" href="https://underthewire.tech/oracle-13">https://underthewire.tech/oracle-13</a>
+            <hr>
+            Next Level Guide: <a href="14.html">Oracle Level 14 &#8594; Level 15</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
