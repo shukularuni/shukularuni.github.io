@@ -28,9 +28,9 @@ Hints:
             <p>According to the description, to get the flag we have to inspect the HTML of that website, we don't get any more info on it, so let's just go to the website already.</p>
             <h2>Solution</h2>
             <p>So we'll open the website, and theres a button huh:</p>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/Includes/1.jpg">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/Includes/1.jpg" alt="Homepage and includes alert">
             <p>Alright, there's an alert in JavaScript being executed from another file, so let's see the view source with Ctrl+U and see if there's something in there that could help us:</p>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/Includes/2.png">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/Includes/2.png" alt="Source code">
             <p>There are two links, let's go to the style.css first which is the file that does all the styling of HTML:</p>
             <pre>body {
   background-color: lightblue;

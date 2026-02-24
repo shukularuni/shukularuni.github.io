@@ -29,14 +29,14 @@ Hints:
             <p>According to the description, to get the flag we have to find some way to get to a file or something, through reading articles in this simple blog application. So let's enter to that website and see what we can get there.</p>
             <h2>Solution</h2>
             <p>So we'll open the website:</p>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/head-dump/1.jpg">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/head-dump/1.jpg" alt="Normal looking website">
             <p>Okay! Here we are, and there looks to be a lot of links, so let's just click all of them. Starting by those three in the left that have the about page and service page with the home, that should be this same page:</p>
             <pre>&lt;h1&gt;About Us&lt;/h1&gt;&lt;p&gt;We are a team dedicated to providing exciting CTF challenges.&lt;/p&gt;</pre>
             <pre>&lt;h1&gt;Our Services&lt;/h1&gt;&lt;p&gt;We offer various CTF challenges and training services.&lt;/p&gt;</pre>
             <p>Yeah, nothing too interesting, although, if we click all the hashtag links we find in the home page, we find one specifically that does something other than reload the page, it takes us to the API docs:</p>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/head-dump/2.jpg">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/head-dump/2.jpg" alt="News API page">
             <p>Oh would you look at that, in the bottom it says "heapdump", and it sounds almost exactly like the name of the level, let's expand that and see if it gives us a little info to help us pin point what exactly it does:</p>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/head-dump/3.png">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/head-dump/3.png" alt="Heapdump diagnose section">
             <p>Hmm, no nothing here. Well, let's go to to that page:</p>
             <pre>HTTP/1.1 200 OK
 X-Powered-By: Express

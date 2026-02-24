@@ -47,13 +47,13 @@ cd shukularuni</pre>
             <pre>echo -n "My name is shukularuni and iChall." > shukularuni.html</pre>
             <p>Now verify that the message is in the web server with the given IP:</p>
             <pre>http://&lt;YOUR SERVER IP HERE&gt;/shukularuni/shukularuni.html</pre>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/wechall/Training_WWW-Basics/1.jpg">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/wechall/Training_WWW-Basics/1.jpg" alt="Webserver running">
             <p>Now install Python with yum, then get the requests library so that we can send the signal to WeChall that we have the server:</p>
             <pre>yum -y install python-pip
 python -m pip install --upgrade pip
 python -m pip install requests</pre>
             <p>Log into WeChall, and on any page of its website, go to the cookies, and grab the value from the cookie called "WC", this is your secret user ID (don't share it), which can be used to be logged in your user and to do challenges from other local entry points, like the server you're setting up:</p>
-            <pre>= Cookies =
+            <pre>== Cookies ==
 
 WC  XXXXXXXX-XXXXX-XXXXXXXXXXXXXXXX  wechall.net  /  33  ....  ....  ..........</pre>
             <p>Now write this Python code to a file in the home folder with your WC cookie on the redacted part:</p>

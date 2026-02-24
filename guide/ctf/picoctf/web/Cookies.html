@@ -26,9 +26,9 @@ Challenge from: picoCTF 2021</pre>
             <p>According to the description, to get the flag we have to do something with cookies, so let's just enter the page and go look at what cookies there might be in the Application tab in DevTools.</p>
             <h2>Solution</h2>
             <p>So we'll open the website:</p>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/Cookies/1.jpg">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/Cookies/1.jpg" alt="Cookies website">
             <p>So far we can see that the name cookie has a value of -1, let's try putting snickerdoodle, because it's the input's placeholder:</p>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/Cookies/2.jpg">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/Cookies/2.jpg" alt="Snickerdoode cookie responded">
             <p>So this is interesting, the menu has a name value of -1, and snickerdoodle has 0, so let's go through every number until we find all the kinds of cookies from all the name cookie values:</p>
             <pre>name = -1   # Not-a-Cookie / Home screen
 name = 0    # I love snickerdoodle cookies!

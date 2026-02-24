@@ -28,14 +28,14 @@ Hints:
             <p>According to the description, to get the flag we have to find the robots. This might be referring to the Robots.txt text file, which is used by website makers to instruct web crawlers (robots taking site information to match searches) like google and other search engines what to get or not to level out traffic in your website. So let's go to this link they're giving us.</p>
             <h2>Solution</h2>
             <p>So we'll open the website:</p>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/where_are_the_robots/1.jpg">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/where_are_the_robots/1.jpg" alt="Where's the robots?">
             <p>Yeah, so let's go to robots.txt and see if there's something in there:</p>
             <pre>http://jupiter.challenges.picoctf.org:56830/robots.txt</pre>
             <pre>User-agent: *
 Disallow: /1bb4c.html</pre>
             <p>Huh, there's a link in here, let's go there see if there's something of interest:</p>
             <pre>http://jupiter.challenges.picoctf.org:56830/1bb4c.html</pre>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/where_are_the_robots/2.jpg">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/where_are_the_robots/2.jpg" alt="Found them robots">
             <p>There's the flag. Now just copy it from there:</p>
             <pre>picoCTF{ca1cu1at1ng_Mach1n3s_1bb4c}</pre>
             <p>There we go! That's the flag.</p>

@@ -29,7 +29,7 @@ Hints:
             <pre>{{config}}</pre>
             <h2>Solution</h2>
             <p>So we'll open the website and enter the config command:</p>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/SSTI1/1.jpg">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/SSTI1/1.jpg" alt="Server configuration">
             <p>Although I don't know much about server configurations, and what we just got is just gibberish to me, so I'm just gonna forward it to an AI that actually knows what we're dealing with, and don't panic! I'm not gonna transform into an AI bro, it's just this one singular time that I really don't know what these server values or whatever this mess means:</p>
             <pre>Chatbot
 
@@ -40,12 +40,12 @@ BOT: That looks like the configuration output of a Flask server (a Python web fr
             <pre>{{ self.__init__.__globals__.__builtins__.__import__('os') }}</pre>
             <p>And that means that we can just use the command like a shell, just need to put the part to say we are executing commands and we get this command, that will execute the <code>ls -la</code> of a linux shell, which we can use like in the image below:</p>
             <pre>{{ self.__init__.__globals__.__builtins__.__import__('os').popen('ls -la').read() }}</pre>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/SSTI1/2.jpg">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/SSTI1/2.jpg" alt="root directory">
             <p>We can also go into Ctrl+U to view the source, because between the big text, and the fact that the spaces and new lines are all messed up because of HTML, view source is definitely a much better option:</p>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/SSTI1/3.png">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/SSTI1/3.png" alt="root directory line-wrap">
             <p>And now that we know the name of the file with the flag, we can use this command, which is just like before, but using the linux command cat to print the contents of the flag file:</p>
             <pre>{{ self.__init__.__globals__.__builtins__.__import__('os').popen('cat flag').read() }}</pre>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/SSTI1/4.jpg">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/SSTI1/4.jpg" alt="flag printed">
             <p>And the flag is:</p>
             <pre>picoCTF{s4rv3r_s1d3_t3mp14t3_1nj3ct10n5_4r3_c001_ae48ad61}</pre>
             <p>There we go! That's the flag.</p>

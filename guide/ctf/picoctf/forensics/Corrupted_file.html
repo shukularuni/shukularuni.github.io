@@ -55,7 +55,7 @@ file: data</pre>
 ...</pre>
             <p>Okay I see the problem, just as I thought, the problem is the header, this is a JPEG file, but the beginning should be ffd8ffe000a6946 and not have some random `\x` at the beginning. So we can replace the beginning with the real JPEG header bytes and it *should* work:</p>
             <pre>Replace [5c 78 ff e0] with [ff d8 ff e0]</pre>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/Corrupted_file/1.jpg">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/Corrupted_file/1.jpg" alt="Uncorrupted file">
             <pre>picoCTF{r3st0r1ng_th3_by73s_efd8c6c0}</pre>
             <p>There we go! That's the flag.</p>
             <p>I rated this level as "good"! :3</p>

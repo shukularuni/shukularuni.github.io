@@ -29,17 +29,17 @@ Hints:
             <p>According to the description, to get the flag we don't have much info, but it does say that we'll use Burp, or Burpsuite. That is a program that lets you look at and edit webpage request headers and other information. Request headers are like pieces of information your browser includes when it makes a request to a website, like what kind of device you're using, what page you came from, your login credentials (from a form), etc. It's the information you send to a website's server before they send you their webpage back to you, like a kind of authentication, some websites use this to only let you visit their page if you came from a specific page, others use it to take log in info through pages to send to a server, etc. So let's go to this website and see what it might be about.</p>
             <h2>Solution</h2>
             <p>So we'll open the website, and oh it's a registration, let's just enter random info and see if we get something:</p>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/IntroToBurp/1.jpg">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/IntroToBurp/1.jpg" alt="Registration form">
             <p>And we get a two factor authenticator, so again let's put a random value:</p>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/IntroToBurp/2.jpg">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/IntroToBurp/2.jpg" alt="2FA authentication">
             <p>And we got it incorrect, so we definitely can't know what that 2fa might be:</p>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/IntroToBurp/3.png">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/IntroToBurp/3.png" alt="'Invalid OTP'">
             <p>So let's do it again but let's check the header request:</p>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/IntroToBurp/4.jpg">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/IntroToBurp/4.jpg" alt="BurpSuite request">
             <p>Doesn't seem to help much, so let's see the hints. Second one says that their code isn't good at dealing with bad requests. So maybe we can confuse the server by entering without a 2fa, so basically removing the entire variable, so that when it checks for correct 2fa, there isn't one to begin with, so it'll just skip the part where it checks that, although that's what I think will happen. But yeah just remove that entire line:</p>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/IntroToBurp/5.jpg">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/IntroToBurp/5.jpg" alt="BurpSuite request without OTP">
             <p>And if we forward this request making sure you left those lines even though we just removed the entire input, because it'll crash instead. We bypass the 2fa by just not being there in the first place:</p>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/IntroToBurp/6.png">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/IntroToBurp/6.png" alt="Welcome message">
             <p>And so, the flag is:</p>
             <pre>picoCTF{#0TP_Bypvss_SuCc3$S_e1eb16ed}</pre>
             <p>There we go! That's the flag.</p>

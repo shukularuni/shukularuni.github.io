@@ -28,13 +28,13 @@ Hints:
             <p>According to the description, to get the flag it doesn't tell us much, so let's just enter the webpage given in there.</p>
             <h2>Solution</h2>
             <p>So we'll open the website:</p>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/Local_Authority/1.png">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/Local_Authority/1.png" alt="Log-in form">
             <p>Looks like they're asking for a log in, imma just put some random stuff and see what happens:</p>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/Local_Authority/2.png">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/Local_Authority/2.png" alt="Failed log-in">
             <p>Alright, so the hint mentioned something about looking at how the code is checked, so in this same page that has the unsuccessful log in we'll look through the Sources tab in DevTools, and it doesn't seem to let me look at login.php, so let's see that secure.js:</p>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/Local_Authority/3.png">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/Local_Authority/3.png" alt="Log-in credentials leaked">
             <p>Oh. Oh no, that is a really bad way to check passwords, not only leaving the password and username in the code itself, but in the javascript code instead of the php, atleast php would've hidden the code because it runs server-side, but not JavaScript!! Oh well, we'll just paste these credentials into the login from before and get the flag:</p>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/Local_Authority/4.png">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/Local_Authority/4.png" alt="Flag">
             <p>And the flag from the image is:</p>
             <pre>picoCTF{j5_15_7r4n5p4r3n7_b0c2c9cb}</pre>
             <p>There we go! That's the flag.</p>

@@ -28,14 +28,14 @@ Hints:
             <p>According to the description, to get the flag we have to find some way of breaking a password portal or something like that, so we'll look through the code of the site with view source (accessible through Ctrl+U) and see if that gives us a hint about how to get the flag or whatever.</p>
             <h2>Solution</h2>
             <p>So we'll open the website and log in with Joe with a random password and see what happens:</p>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/logon/1.png">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/logon/1.png" alt="Factory log-in form">
             <pre>I'm sorry Joe's password is super secure. You're not getting in that way.</pre>
             <p>Hmm, looks like Joe's account is really secure, let's try with random credentials:</p>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/logon/2.png">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/logon/2.png" alt="Logged-in but no flag">
             <p>We have logged in! But with a random user that doesn't seem to have flag permissions. Although I just noticed the link for this page is /flag, so this must have something great. I have checked the code of the page and there's nothing important there, let's check the cookies, maybe there's something:</p>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/logon/3.png">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/logon/3.png" alt="Cookies tab">
             <p>Oh and would you look at that, there's a cookie called admin, and it's on false. I guess we can just change that to "True" and reload the page, and we get this:</p>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/logon/4.png">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/logon/4.png" alt="Now logged-in correctly">
             <p>So yeah, the flag is:</p>
             <pre>Flag: picoCTF{th3_c0nsp1r4cy_l1v3s_0c98aacc}</pre>
             <p>There we go! That's the flag.</p>

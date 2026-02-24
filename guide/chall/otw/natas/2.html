@@ -27,12 +27,12 @@
             <p>Not much to do with the details from the task, so just skipping to doing it.</p>
             <h2>Solution</h2>
             <p>We enter to the url with the password from last level:</p>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/natas/2/1.jpg">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/natas/2/1.jpg" alt="Titlecard">
             <p>Is there really nothing in this page? Let's see the View Source with Ctrl+U to see if there's some clue or something that could help us find the password:</p>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/natas/2/2.png">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/natas/2/2.png" alt="Source code link">
             <p>Oh, would you look at that. A link that takes us to an image that's just 1x1 pixels. Although, take a look at the link we're directed at, it's the 1x1 pixel image inside a folder. What if we go into that folder instead, basically just removing the `pixel.png` part off the url:</p>
             <pre>http://natas2.natas.labs.overthewire.org/files/</pre>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/natas/2/3.jpg">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/natas/2/3.jpg" alt="Files directory">
             <p>Yeah, look at that, a different file! If we open this `users.txt` file, we get this:</p>
             <pre># username:password
 alice:BYNdCesZqW

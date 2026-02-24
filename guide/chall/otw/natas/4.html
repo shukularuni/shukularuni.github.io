@@ -27,13 +27,13 @@
             <p>Not much to do with the details from the task, so just skipping to doing it.</p>
             <h2>Solution</h2>
             <p>We enter to the url with the password from last level:</p>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/natas/4/1.jpg">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/natas/4/1.jpg" alt="Titlecard">
             <p>Okay, so the level wants us to enter to this page from the next level we haven't even unlocked yet. Weird ask, but possible, we can do this by using Burpsuite, a program to modify request headers for websites. The gist of it, when you enter a website, it asks for some information from your computer, so that the website can give you back the content, just sending a request for the information in the website with your information so that the server can send that information back to you. So we can put intercept on, to stop requests before sending them to modify them, just click the refresh button and the request will appear:</p>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/natas/4/2.jpg">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/natas/4/2.jpg" alt="BurpSuite request">
             <p>As you can see in the image, I've changed the referer to come from the website of natas5. Basically this line:</p>
             <pre>Referer: http://natas5.natas.labs.overthewire.org/</pre>
             <p>Which gets us to this page when forwarding the modified request:</p>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/natas/4/3.jpg">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/natas/4/3.jpg" alt="Response password">
             <pre>Access granted. The password for natas5 is LuOIFyQ3DXMhY92i7FKL9JC5o1NLo8Y8</pre>
             <p>And that's our password! Now you can exit and go to the next level.</p>
             <a target="_blank" href="https://overthewire.org/wargames/natas/natas4.html">https://overthewire.org/wargames/natas/natas4.html</a>

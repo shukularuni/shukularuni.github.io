@@ -42,7 +42,7 @@ Note: The message is most likely in english.
             <p>To get the solution, as the description says, we have to decode this weird kind of binary with the program they're giving us. So let's download it and see how we can get this to be normal ASCII text.</p>
             <h2>Solution</h2>
             <p>Well I don't know how to use the program, so I'm gonna go to the help tab:</p>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/wechall/Training_Encodings_I/1.jpg">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/wechall/Training_Encodings_I/1.jpg" alt="JPK help section">
             <p>Although, while messing with the BitsPerBlock thing, I discovered that the binary they gave us is 7 bits. So basically instead of the usual binary being eight consecutive 0s and 1s, it's just seven. So now I can make this little code to divide these in 7 so that we can convert it back to ASCII:</p>
             <pre>&gt;&gt;&gt; thing = "theBinaryTheyGaveUs".replace(" ",'')
 

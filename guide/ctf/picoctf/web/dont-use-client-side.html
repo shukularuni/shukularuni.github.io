@@ -28,9 +28,9 @@ Hints:
             <p>According to the description, to get the flag we have to find some way of breaking a password portal or something like that, so we'll look through the code of the site with view source (accessible through Ctrl+U) and see if that gives us a hint about how to get the flag or whatever.</p>
             <h2>Solution</h2>
             <p>So we'll open the website:</p>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/dont-use-client-side/1.png">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/dont-use-client-side/1.png" alt="Log-in form">
             <p>Looks like it's a password checker of some sort, let's go to the view source by pressing Ctrl+U or right click, to see if gives us a clue like I mentioned in theory:</p>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/dont-use-client-side/2.jpg">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/dont-use-client-side/2.jpg" alt="Split password checker">
             <p>Alright, that's interesting how the password for is being checked, the input gets split every 4 characters and then is all checked every group of 4 characters in a weird order. So let's grab all these and use the multiplicators they have to put them in the correct order:</p>
             <pre>checkpass.substring(0, split) == 'pico'
 checkpass.substring(split, split*2) == 'CTF{'

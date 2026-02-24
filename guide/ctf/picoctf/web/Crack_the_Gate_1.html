@@ -29,7 +29,7 @@ Hints:
             <p>According to the description, to get the flag we have to enter into an account with an e-mail address and without the password, so we don't know anything from here yet, so let's enter to the site and view the source code with Ctrl+U of the webpage to know how the page works and maybe be able to get the password to log in.</p>
             <h2>Solution</h2>
             <p>So we'll open the website and check the source code of the webpage:</p>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/Crack_the_Gate_1/1.jpg">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/Crack_the_Gate_1/1.jpg" alt="Source code comment">
             <p>Oh look at that, it's a comment with probably important information, but it seems to be rotated as it remains with normal text structure:</p>
             <pre>Caesar Cipher (online tool i think)
 
@@ -40,13 +40,13 @@ SHIFT: FIND OUT
 OUTPUT:
 &gt;13 (&lt;13) - NOTE: Jack - temporary bypass: use header "X-Dev-Access: yes</pre>
             <p>Okay yup, we just need to do everything normally, just put the e-mail address we got, the password can be virtually anything, but then we need to use BurpSuite&mdash;a tool used to change request headers when doing internet stuff&mdash;and just add that `X-Dev-Access` header. So first just put the address and anything on the password input:</p>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/Crack_the_Gate_1/2.jpg">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/Crack_the_Gate_1/2.jpg" alt="Log-in form">
             <p>Before clicking on the Login button, remember to have turned on intercept so that we can view the request headers to the website so that we can edit it:</p>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/Crack_the_Gate_1/3.jpg">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/Crack_the_Gate_1/3.jpg" alt="BurpSuite request">
             <p>Now just enter that `X-Dev-Access` thing on the request:</p>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/Crack_the_Gate_1/4.jpg">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/Crack_the_Gate_1/4.jpg" alt="Changed BurpSuite request">
             <p>And finally, press the forward button to make the modified request go through and get the flag without ever using a password:</p>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/Crack_the_Gate_1/5.jpg">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/Crack_the_Gate_1/5.jpg" alt="Log-in success alert">
             <pre>picoCTF{brut4_f0rc4_1a386e6f}</pre>
             <p>There we go! That's the flag.</p>
             <p>I rated this level as "good"! :3</p>

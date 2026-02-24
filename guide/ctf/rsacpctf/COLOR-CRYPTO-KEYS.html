@@ -30,9 +30,9 @@ Hints:
             <p>According to the description, to get the flag we have to find it encrypted in some place in the website we're given. This doesn't give us much more info than that, so let's go to the website and find out over on the solution.</p>
             <h2>Solution</h2>
             <p>So let's enter to the website and see what might be hiding here:</p>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/rsacpctf/COLOR-CRYPTO-KEYS/1.png">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/rsacpctf/COLOR-CRYPTO-KEYS/1.png" alt="Secret keys in the image color">
             <p>Nothing interesting there let's look at the code of the webpage:</p>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/rsacpctf/COLOR-CRYPTO-KEYS/2.jpg">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/rsacpctf/COLOR-CRYPTO-KEYS/2.jpg" alt="Source code">
             <p>Yeah, it seems the colors are actually decimal characters disguised between the rgb css function for colors, but yeah, we'll just grab those numbers and remove the 0 NULL characters at the end there, and we get this:</p>
             <pre>DECIMAL TO TEXT (online converter)
 

@@ -40,33 +40,33 @@ Thanks go out to momo for the idea, Jinx for testing, paipai for a copy of EvalM
             <p>To get the solution, as the description says, we'll have to do some math to solve this challenge. We have a square-based pyramid where every base edge has length `a`, every side (slanted) edge also has length `a`, so total edges = 8 meaning they're all equal. And that forces the apex to be directly above the center of the square, otherwise some edges would be longer. So let's try solving a formula for this pyramid.</p>
             <h2>Solution</h2>
             <p>The base is a square with side length of `a`, so the diagonal is like this:</p>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/wechall/Training_Math_Pyramid/1.png">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/wechall/Training_Math_Pyramid/1.png" alt="d = a * sqrt2">
             <p>And the distance from center to a corner is half the diagonal, this will be one leg of the pyramid:</p>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/wechall/Training_Math_Pyramid/2.png">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/wechall/Training_Math_Pyramid/2.png" alt="r = (a * sqrt2)/2">
             <p>Now we'll find the height by Pythagoras:</p>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/wechall/Training_Math_Pyramid/3.png">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/wechall/Training_Math_Pyramid/3.png" alt="h^2 + r^2 = a^2">
             <p>So just substitute `r` with the one we already have:</p>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/wechall/Training_Math_Pyramid/4.png">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/wechall/Training_Math_Pyramid/4.png" alt="h^2 + ((a*sqrt2)/2)^2 = a^2">
             <p>And finally, simplify</p>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/wechall/Training_Math_Pyramid/5.png"><br>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/wechall/Training_Math_Pyramid/6.png"><br>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/wechall/Training_Math_Pyramid/7.png">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/wechall/Training_Math_Pyramid/5.png" alt="h^2 + (a^2)/2 = a^2"><br>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/wechall/Training_Math_Pyramid/6.png" alt="h^2 = (a^2)/2"><br>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/wechall/Training_Math_Pyramid/7.png" alt="h = a/sqrt2">
             <p>Now we'll calculate the volume of the pyramid with the general formula:</p>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/wechall/Training_Math_Pyramid/8.png">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/wechall/Training_Math_Pyramid/8.png" alt="V = 1/3 * b * h">
             <p>Input in the formula the base (side is `a` so `a &#xB7; a` is `a&sup2;`) and the height we just got:</p>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/wechall/Training_Math_Pyramid/9.png">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/wechall/Training_Math_Pyramid/9.png" alt="V = 1/3 * a^2 * a/sqrt2">
             <p>Multiply the three, and we have a formula ready:</p>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/wechall/Training_Math_Pyramid/10.png">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/wechall/Training_Math_Pyramid/10.png" alt="V = a^3/(3 * sqrt2)">
             <pre>a^3/3*sqrt(2)</pre>
             <p>Now all we have to do now is try to make this formula into 9 characters, because right now it's 13. We can rewrite the square root below to save some space:</p>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/wechall/Training_Math_Pyramid/11.png">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/wechall/Training_Math_Pyramid/11.png" alt="3 * sqrt2 = sqrt(3^2 * 2) = sqrt18">
             <p>And entering that into our equation, it saves a whopping *one* character:</p>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/wechall/Training_Math_Pyramid/12.png">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/wechall/Training_Math_Pyramid/12.png" alt="V = a^3/sqrt18">
             <pre>a^3/sqrt(18)</pre>
             <p>Now because 12 is still bigger than 9, we have to find another way to gain more space. So if we rewrite the square root to be a one half exponent (it's the same as a square root), I think we can save a bit more space:</p>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/wechall/Training_Math_Pyramid/13.png">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/wechall/Training_Math_Pyramid/13.png" alt="sqrt18 = 18^0.5">
             <p>And so, if we plug in that into our volume formula, we get exactly 9 characters:</p>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/wechall/Training_Math_Pyramid/14.png">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/wechall/Training_Math_Pyramid/14.png" alt="V = a^3/18^.5">
             <pre>a^3/18^.5</pre>
             <p>There we go! That's the solution.</p>
             <p>I voted this level as:</p>

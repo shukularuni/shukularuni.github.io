@@ -34,11 +34,11 @@ URL:      http://natas0.natas.labs.overthewire.org</pre>
             <p>To log into the game, the instructions say enter to a website with username and password. As it says in the description, this is going to be about web challenges and web exploitation, with servers, and all of that. I've looked through these levels, and they are not gonna have descriptions apart from the username and URL, so there's not gonna be theory for these, except this first one.</p>
             <h2>Solution</h2>
             <p>So let's enter to the URL they gave us:</p>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/natas/0/1.jpg">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/natas/0/1.jpg" alt="Sign-in window">
             <p>And enter the username and password we are given:</p>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/natas/0/2.jpg">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/natas/0/2.jpg" alt="Titlecard">
             <p>Now that we are inside the website, let's see what we have to do. It says there that the flag is somewhere in that page, so we can probably find it by just going into View Source with right click, or Ctrl+U, which is just a fancy term for the code of the website exactly like the server sent it to you. So if we open this View Source:</p>
-            <img src="https://archive.org/download/sh_w_imgstff_fgunp/natas/0/3.jpg">
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/natas/0/3.jpg" alt="Source code comment">
             <pre>&lt;!--The password for natas1 is HtPBZi9UCgzH3jni7JtVqsmJsFnMcqJm --&gt;</pre>
             <p>And that's our password! Now you can exit and go to the next level.</p>
             <a target="_blank" href="https://overthewire.org/wargames/natas/natas0.html">https://overthewire.org/wargames/natas/natas0.html</a>
