@@ -36,7 +36,7 @@ HTTP request sent, awaiting response... 200 OK
 Length: 3995553 (3.8M) [application/octet-stream]
 Saving to: 'files.zip'
 
-files.zip                                                           100%[=================================================================================================================================================================&gt;]   3.81M  1.82MB/s    in 2.1s    
+files.zip                                                           100%[=================================================================================================================================================================&gt;]   3.81M  1.82MB/s    in 2.1s
 
 2025-04-13 18:38:39 (1.82 MB/s) - 'files.zip' saved [3995553/3995553]
 
@@ -45,24 +45,24 @@ Archive:  files.zip
    creating: files/
    creating: files/satisfactory_books/
    creating: files/satisfactory_books/more_books/
-  inflating: files/satisfactory_books/more_books/37121.txt.utf-8  
-  inflating: files/satisfactory_books/23765.txt.utf-8  
-  inflating: files/satisfactory_books/16021.txt.utf-8  
-  inflating: files/13771.txt.utf-8   
+  inflating: files/satisfactory_books/more_books/37121.txt.utf-8
+  inflating: files/satisfactory_books/23765.txt.utf-8
+  inflating: files/satisfactory_books/16021.txt.utf-8
+  inflating: files/13771.txt.utf-8
    creating: files/adequate_books/
    creating: files/adequate_books/more_books/
    creating: files/adequate_books/more_books/.secret/
    creating: files/adequate_books/more_books/.secret/deeper_secrets/
    creating: files/adequate_books/more_books/.secret/deeper_secrets/deepest_secrets/
- extracting: files/adequate_books/more_books/.secret/deeper_secrets/deepest_secrets/uber-secret.txt  
-  inflating: files/adequate_books/more_books/1023.txt.utf-8  
-  inflating: files/adequate_books/46804-0.txt  
-  inflating: files/adequate_books/44578.txt.utf-8  
+ extracting: files/adequate_books/more_books/.secret/deeper_secrets/deepest_secrets/uber-secret.txt
+  inflating: files/adequate_books/more_books/1023.txt.utf-8
+  inflating: files/adequate_books/46804-0.txt
+  inflating: files/adequate_books/44578.txt.utf-8
    creating: files/acceptable_books/
    creating: files/acceptable_books/more_books/
-  inflating: files/acceptable_books/more_books/40723.txt.utf-8  
-  inflating: files/acceptable_books/17880.txt.utf-8  
-  inflating: files/acceptable_books/17879.txt.utf-8  
+  inflating: files/acceptable_books/more_books/40723.txt.utf-8
+  inflating: files/acceptable_books/17880.txt.utf-8
+  inflating: files/acceptable_books/17879.txt.utf-8
   inflating: files/14789.txt.utf-8</pre>
             <p>And wait, that was unexpected, I guess we won't need to find recursively, because when unzipping, it shows all the files and folders being extracted from it, so it literally says where uber-secret is located, just need to copy the file name and cat to get the flag:</p>
             <pre>shukularuni-picoctf@webshell:~$ cat files/adequate_books/more_books/.secret/deeper_secrets/deepest_secrets/uber-secret.txt

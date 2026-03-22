@@ -39,13 +39,13 @@ HTTP request sent, awaiting response... 200 OK
 Length: 16000 (16K) [application/octet-stream]
 Saving to: 'chall'
 
-chall                                                               100%[=================================================================================================================================================================&gt;]  15.62K  --.-KB/s    in 0s      
+chall                                                               100%[=================================================================================================================================================================&gt;]  15.62K  --.-KB/s    in 0s
 
 2025-05-19 18:01:29 (263 MB/s) - 'chall' saved [16000/16000]
 
 shukularuni-picoctf@webshell:~$ chmod +x chall</pre>
             <p>Before doing anything else, let's see what happens if we execute it just usually:</p>
-            <pre>shukularuni-picoctf@webshell:~$ ./chall 
+            <pre>shukularuni-picoctf@webshell:~$ ./chall
 I will never reveal my secrets!</pre>
             <p>Okay, so if they don't want to cooperate, then we'll have to use the strings command to search for the flag then:</p>
             <pre>shukularuni-picoctf@webshell:~$ strings chall | grep "picoCTF{"

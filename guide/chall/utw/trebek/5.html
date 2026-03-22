@@ -56,14 +56,14 @@ TimeCreated                     Id LevelDisplayName Message
             <p>Okay, well that was too many entries, we'll now have to filter by time to have a chance at finding this one executable. So let's group the event codes together and make it search for the exact time too:</p>
             <pre>PS C:\users\trebek3\desktop&gt; Get-WinEvent -Path .\application.evtx -FilterXPath "*[System[(EventID=900 or EventID=16384 or EventID=16394) and TimeCreated[@SystemTime='2017-03-23T20:08:53.000Z']]]"
 
-   ProviderName: Microsoft-Windows-Security-SPP                                 
-                                                                                
-TimeCreated                     Id LevelDisplayName Message                     
------------                     -- ---------------- -------                     
+   ProviderName: Microsoft-Windows-Security-SPP
+
+TimeCreated                     Id LevelDisplayName Message
+-----------                     -- ---------------- -------
 3/23/2017 8:08:53 PM           900 Information      The Software Protection ...</pre>
             <p>Perfect, now we only have one entry, and now just add the Message preperty at the end to view the whole message:</p>
-            <pre>PS C:\users\trebek5\desktop&gt; (Get-WinEvent -Path .\application.evtx -FilterXPath "*[System[(EventID=900 or EventID=16384 or EventID=16394) and TimeCreated[@SystemTime='2017-03-23T20:08:53.000Z']]]").Message                                  
-The Software Protection service is starting.                                    
+            <pre>PS C:\users\trebek5\desktop&gt; (Get-WinEvent -Path .\application.evtx -FilterXPath "*[System[(EventID=900 or EventID=16384 or EventID=16394) and TimeCreated[@SystemTime='2017-03-23T20:08:53.000Z']]]").Message
+The Software Protection service is starting.
 Parameters:caller=wlms.exe</pre>
             <p>Finally! Now just get the name of the executable, remove the extension, and you've got the password:</p>
             <pre>wlms</pre>

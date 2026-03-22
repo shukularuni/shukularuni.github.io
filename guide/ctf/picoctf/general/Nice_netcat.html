@@ -30,15 +30,15 @@ Hints:
             <h2>Solution</h2>
             <p>Let's enter to the NetCat:</p>
             <pre>shukularuni-picoctf@webshell:~$ nc mercury.picoctf.net 43239
-112 
-105 
-99 
-111 
+112
+105
+99
+111
 ...</pre>
             <p>It seems to be decimal, because I see numbers 0-9 but no letters, so if we remove the new lines between them, we can convert them back to text:</p>
             <pre>DECIMAL to TEXT (ASCII)
 
-INPUT: 112 105 99 111 67 84 70 123 103 48 48 100 95 107 49 116 116 121 33 95 110 49 99 51 95 107 49 116 116 121 33 95 55 99 48 56 50 49 102 53 125 10 
+INPUT: 112 105 99 111 67 84 70 123 103 48 48 100 95 107 49 116 116 121 33 95 110 49 99 51 95 107 49 116 116 121 33 95 55 99 48 56 50 49 102 53 125 10
 
 OUTPUT: picoCTF{g00d_k1tty!_n1c3_k1tty!_7c0821f5}</pre>
             <p>There we go! That's the flag.</p>

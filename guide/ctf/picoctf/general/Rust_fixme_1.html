@@ -55,7 +55,7 @@ fn main() {
     // Decrypt flag and print it out
     let decrypted_buffer = xrc.decrypt_vec(encrypted_buffer);
     println!(
-        ":?", // How do we print out a variable in the println function? 
+        ":?", // How do we print out a variable in the println function?
         String::from_utf8_lossy(&amp;decrypted_buffer)
     );
 }</pre>
@@ -79,7 +79,7 @@ fn main() {
 
     let decrypted_buffer = xrc.decrypt_vec(encrypted_buffer);
     println!(
-        "{:?}", 
+        "{:?}",
         String::from_utf8_lossy(&amp;decrypted_buffer)
     );
 }</pre>

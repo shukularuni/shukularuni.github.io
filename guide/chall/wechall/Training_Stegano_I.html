@@ -35,11 +35,11 @@ HTTP request sent, awaiting response... 200 OK
 Length: 102 [image/x-ms-bmp]
 Saving to: 'stegano1.bmp'
 
-stegano1.bmp                                                        100%[=================================================================================================================================================================&gt;]     102  --.-KB/s    in 0s      
+stegano1.bmp                                                        100%[=================================================================================================================================================================&gt;]     102  --.-KB/s    in 0s
 
 2025-06-19 19:02:44 (8.09 MB/s) - 'stegano1.bmp' saved [102/102]</pre>
             <p>Now let's use exif with the image we just got and see if there's anything here of help:</p>
-            <pre>shukularuni-picoctf@webshell:~$ exiftool stegano1.bmp 
+            <pre>shukularuni-picoctf@webshell:~$ exiftool stegano1.bmp
 ExifTool Version Number         : 12.40
 File Name                       : stegano1.bmp
 Directory                       : .
@@ -65,7 +65,7 @@ Num Important Colors            : All
 Image Size                      : 4x4
 Megapixels                      : 0.000016</pre>
             <p>And there's nothing that could help us there, let's use zsteg instead, and see if there's anything else here:</p>
-            <pre>shukularuni-picoctf@webshell:~$ zsteg stegano1.bmp 
+            <pre>shukularuni-picoctf@webshell:~$ zsteg stegano1.bmp
 imagedata           .. text: "Look what the hex-edit revealed: passwd:steganoI"
 b3,r,lsb,xY         .. file: MySQL table definition file Version 74
 b3,b,lsb,xY         .. file: PGP symmetric key encrypted data -

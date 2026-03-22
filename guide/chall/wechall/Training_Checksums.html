@@ -35,7 +35,7 @@ function checkGAN($array) {
 	static $poly = [ 1, 5, 13, 31, 131, 131, 137, 7, 43, 1];
 	$sum = 1;
 	for ($i = 0; $i &lt; 8; ) {
-		$sum *= $poly[$i]; 
+		$sum *= $poly[$i];
 		$sum += $array[$i++];
 	}
 	return ($sum % 10) == $array[8];

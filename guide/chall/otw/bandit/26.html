@@ -83,12 +83,12 @@ Successfully processed 1 files; Failed processing 0 files</pre>
             <p>But now there is a problem, when we enter with our sshkey file, it closes almost inmediately. This is because that text.txt file is really short, so the more command just closes because it doesn't occupy the entire screen. So now just resize your window to like a couple of rows and columns and enter again.</p>
             <pre>C:\Users\shukularuni\Documents&gt;ssh -i bandit26.sshkey bandit26@bandit.labs.overthewire.org -p 2220
 ...
-  _                     _ _ _   ___   __  
- | |                   | (_) | |__ \ / /  
- | |__   __ _ _ __   __| |_| |_   ) / /_  
- | '_ \ / _` | '_ \ / _` | | __| / / '_ \ 
+  _                     _ _ _   ___   __
+ | |                   | (_) | |__ \ / /
+ | |__   __ _ _ __   __| |_| |_   ) / /_
+ | '_ \ / _` | '_ \ / _` | | __| / / '_ \
  | |_) | (_| | | | | (_| | | |_ / /| (_) |
- |_.__/ \__,_|_| |_|\__,_|_|\__|____\___/ 
+ |_.__/ \__,_|_| |_|\__,_|_|\__|____\___/
 Connection to bandit.labs.overthewire.org closed.</pre>
             <p>That's the example where the screen is too big, now let's make it small and put the v command to access vim, then the :e command to read the password. Also a backslash before the underscore so that it doesn't think it's another command:</p>
             <pre>:e /etc/bandit\_pass/bandit26

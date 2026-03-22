@@ -49,15 +49,15 @@ fn decrypt(encrypted_buffer: Vec&lt;u8&gt;, borrowed_string: &amp;mut String) {
     // https://doc.rust-lang.org/book/ch19-01-unsafe-rust.html
     // Even though we have these memory safe languages, sometimes we need to do things outside of the rules
     // This is where unsafe rust comes in, something that is important to know about in order to keep things in perspective
-    
+
     // unsafe {
-        // Decrypt the flag operations 
+        // Decrypt the flag operations
         let decrypted_buffer = xrc.decrypt_vec(encrypted_buffer);
 
-        // Creating a pointer 
+        // Creating a pointer
         let decrypted_ptr = decrypted_buffer.as_ptr();
         let decrypted_len = decrypted_buffer.len();
-        
+
         // Unsafe operation: calling an unsafe function that dereferences a raw pointer
         let decrypted_slice = std::slice::from_raw_parts(decrypted_ptr, decrypted_len);
 
