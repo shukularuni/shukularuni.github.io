@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTW Trebek 8 &#8594; 9 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>UnderTheWire Trebek Guide</h1>
+        <p>here's how to solve the Trebek level 8 &#8594; 9</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Trebek Guides</a>
+            <p>Previous Level Guide: <a href="7.html">Trebek Level 7 &#8594; 8</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh trebek8@trebek.underthewire.tech -p 22</code></p>
+            <p>Password: <code>han_solo99</code></p>
+            <h2>Info</h2>
+            <pre>The password for trebek9 the first 8 bytes of the file located on the desktop. Combine the answer together with NO spaces.
+
+&#9660; HINT:
+
+https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.management/get-content?view=powershell-7.1</pre>
+            <h2>Theory</h2>
+            <p>To get the password, as the description says, we have to get the first few bytes of a file in the desktop, so basically we have to take the header bytes of that file. Okay, so I don't know how view the bytes of a file in decimal (because that's what the description is implying), I only know how to get the bytes in hexadecimal form, so for this level we'll be using an online converter to pass these hex values over to decimal.</p>
+            <h2>Solution</h2>
+            <p>Now that we are inside of the shell, we can use dir to view the name of the file in the desktop:</p>
+            <pre>PS C:\users\trebek8\desktop&gt; dir
+
+    Directory: C:\users\trebek8\desktop
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----        8/30/2018   5:55 AM         221184 Clone_Trooper_data.pdf</pre>
+            <p>So now we'll use the Format-Hex command to dump the entire file as hexadecimal, and since the file is very long, we'll pipe it to the more command so that it doesn't print the entire 200kb file and basically makes the header bytes inaccessible:</p>
+            <pre>PS C:\users\trebek8\desktop&gt; Format-Hex Clone_Trooper_data.pdf | more
+
+           Path: C:\users\trebek8\desktop\Clone_Trooper_data.pdf
+
+           00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
+
+00000000   4D 5A 90 00 03 00 00 00 04 00 00 00 FF FF 00 00  MZ?.............
+...</pre>
+            <p>So let's just convert those first 8 characters (the 8 groups of 2 hex chars), and convert them to decimal (no direct hex-decimal, so it's hex-text then text-decimal) to get our password:</p>
+            <pre>HEXADECIMAL TO TEXT TO DECIMAL (online converter)
+
+INPUT: 4D 5A 90 00 03 00 00 00
+
+OUTPUT: 77 90 144 0 3 0 0 0</pre>
+            <p>Now just remove the spaces inbetween and add the name of the file in the desktop:</p>
+            <pre>779014403000</pre>
+            <a target="_blank" href="https://underthewire.tech/wargames/trebek/8">https://underthewire.tech/wargames/trebek/8</a>
+            <hr>
+            Next Level Guide: <a href="9.html">Trebek Level 9 &#8594; Level 10</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

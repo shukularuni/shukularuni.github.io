@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTW Trebek 6 &#8594; 7 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>UnderTheWire Trebek Guide</h1>
+        <p>here's how to solve the Trebek level 6 &#8594; 7</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Trebek Guides</a>
+            <p>Previous Level Guide: <a href="5.html">Trebek Level 5 &#8594; 6</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh trebek6@trebek.underthewire.tech -p 22</code></p>
+            <p>Password: <code>wlms</code></p>
+            <h2>Info</h2>
+            <pre>The password for trebek7 is the total number of DLLs within the “C:\program files\adobe\” folder and it’s subfolders PLUS the name of the file on the desktop.
+
+NOTE:
+– If the count is “9999” and the file on the desktop is named “_abc”, then the password would be “9999_abc”.
+– The password will be lowercase no matter how it appears on the screen.
+
+&#9660; HINT:
+
+When you find the cmdlet to use, you may want to use “Get-Member” to see the additional available properties.</pre>
+            <h2>Theory</h2>
+            <p>To get the password, as the description says, all we have to do is count all the DLL files inside the folder given in the description. Yup, that's it, pretty simple right? So for the counting we'll use the Get-ChildItem command to view all the DLLs, then we just count them. Yeah so nothing much to say here, we're just going to display all the files and count them. I don't know why I'm repeating myself so much, it's just that this level is too simple, it's suspiciously simple, whatever just go to the solution part already.</p>
+            <h2>Solution</h2>
+            <p>Now that we are inside of the shell, we can use dir to view the name of the file in the desktop:</p>
+            <pre>PS C:\users\trebek6\desktop&gt; dir
+
+    Directory: C:\users\trebek6\desktop
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----        8/30/2018  10:47 AM              0 _reader</pre>
+            <p>So now we're just going to search recursively through the directory we were given in the description, print any file that has the DLL extension, and count it:</p>
+            <pre>PS C:\users\trebek6\desktop&gt; (Get-ChildItem -Recurse -Filter '*.dll' 'C:\program files\adobe\').Count
+40</pre>
+            <p>See? I told you this was suspiciously easy! Now just enter the number and add the name of the file in the desktop:</p>
+            <pre>40_reader</pre>
+            <a target="_blank" href="https://underthewire.tech/wargames/trebek/6">https://underthewire.tech/wargames/trebek/6</a>
+            <hr>
+            Next Level Guide: <a href="7.html">Trebek Level 7 &#8594; Level 8</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

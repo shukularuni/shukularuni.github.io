@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTW Trebek 12 &#8594; 13 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>UnderTheWire Trebek Guide</h1>
+        <p>here's how to solve the Trebek level 12 &#8594; 13</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Trebek Guides</a>
+            <p>Previous Level Guide: <a href="11.html">Trebek Level 11 &#8594; 12</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh trebek12@trebek.underthewire.tech -p 22</code></p>
+            <p>Password: <code>general.hux100</code></p>
+            <h2>Info</h2>
+            <pre>The password for trebek13 is the username of the user who created the user Lor San Tekka as depicted in the event logs on the desktop PLUS the name of the file on the desktop.
+
+NOTE:
+– If the username is “john.doe” and the file on the desktop is named “1234”, the password would be “john.doe1234”
+– The password will be lowercase no matter how it appears on the screen.
+
+&#9660; HINT:
+
+Logs, Logs, Logs!</pre>
+            <h2>Theory</h2>
+            <p>To get the password, as the description says, we have to go through a Windows Event Log file to find who created Tekka's user account. We have basically already done this before but with an account enabling instead of an account creation, and we know the event code for account creation from previous level, being 4720. So this time I'm going to drop the two command thing, since we always have to be very specific for the Event Logs stuff. For this time, we'll be using the same starting as last time by locating all events with the 4720 code of account creation, but this time we'll search for Tekka's username:</p>
+            <pre>(Get-WinEvent -Path .\security.evtx -FilterXPath "*[System[EventID=4720]]").Where({$_.Message -like '*Tekka*'})</pre>
+            <h2>Solution</h2>
+            <p>Now that we are inside of the shell, we can use dir to view the name of the file in the desktop and the name of the Event Log file:</p>
+            <pre>PS C:\users\trebek12\desktop&gt; dir
+
+    Directory: C:\users\trebek12\desktop
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----        8/30/2018  10:49 AM              0 53
+-a----        8/30/2018   5:55 AM       99684352 security.evtx</pre>
+            <p>And if we put the name of the file into our command from theory to check if this is it or do we have to get more specific:</p>
+            <pre>PS C:\users\trebek12\desktop&gt; Get-WinEvent -Path .\security.evtx -FilterXPath "*[System[EventID=4720]]"
+
+   ProviderName: Microsoft-Windows-Security-Auditing
+
+TimeCreated                     Id LevelDisplayName Message
+-----------                     -- ---------------- -------
+5/11/2017 6:19:39 PM          4720 Information      A user account was creat...</pre>
+            <p>Perfect, only one event. Now we can just add the Message property at the end to view the full message:</p>
+            <pre>PS C:\users\trebek12\desktop&gt; (Get-WinEvent -Path .\security.evtx -FilterXPath "*[System[EventID=4720]]").Where({$_.TimeCreated.Minute -eq 26 -and $_.TimeCreated.Date -eq (Get-Date "5/11/2017").Date}).Message
+A user account was created.
+
+Subject:
+        Security ID:            S-1-5-21-3968311752-1263969649-2303472966-1150
+        Account Name:           poe.dameron
+        Account Domain:         UNDERTHEWIRE
+        Logon ID:               0x1235812
+
+New Account:
+        Security ID:            S-1-5-21-3968311752-1263969649-2303472966-1151
+        Account Name:           lor.tekka
+        Account Domain:         UNDERTHEWIRE
+
+...</pre>
+            <p>So now just take the name of the account that created Tekka's account and add the name of the file in the desktop to get the password:</p>
+            <pre>poe.dameron53</pre>
+            <a target="_blank" href="https://underthewire.tech/wargames/trebek/12">https://underthewire.tech/wargames/trebek/12</a>
+            <hr>
+            Next Level Guide: <a href="13.html">Trebek Level 13 &#8594; Level 14</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

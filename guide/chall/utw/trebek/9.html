@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTW Trebek 9 &#8594; 10 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>UnderTheWire Trebek Guide</h1>
+        <p>here's how to solve the Trebek level 9 &#8594; 10</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Trebek Guides</a>
+            <p>Previous Level Guide: <a href="8.html">Trebek Level 8 &#8594; 9</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh trebek9@trebek.underthewire.tech -p 22</code></p>
+            <p>Password: <code>779014403000</code></p>
+            <h2>Info</h2>
+            <pre>The password for trebek10 is the name of the potentially rogue share on the system PLUS the name of the file on the desktop.
+
+Note:
+– If the share name is “share$” and the file on the desktop is named “_today”, the password would be “share$_today”.
+– Exclude any default shares typically found on a Domain Controller.
+– The password will be lowercase no matter how it appears on the screen.
+
+&#9660; HINT:
+
+There is more than one way to do get the answer…</pre>
+            <h2>Theory</h2>
+            <p>To get the password, as the description says, we have to look for a suspicious share in the system, and the name of the file in the desktop, this seems pretty simple. And unless there's like a trillion shares in the system and we have to search for a specific one, then all we have to do is run the Get-SmbShares command to view all shares of the system and look for anything that doesn't have some system-looking name, and instead is named after a Star Wars reference, because that's what it seems all these UnderTheWire level passwords have, references to Star Wars. #dont-take-this-as-hate-just-joking-around</p>
+            <h2>Solution</h2>
+            <p>Now that we are inside of the shell, we can use dir to view the name of the file in the desktop:</p>
+            <pre>PS C:\users\trebek9\desktop&gt; dir
+
+    Directory: C:\users\trebek9\desktop
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----        8/30/2018  10:48 AM              0 _hiding</pre>
+            <p>And it's exactly what I described in theory, an odd one out, a name that stands out between the system-looking names. There is obviously something to see in "shoretroopers$" with that weird name:</p>
+            <pre>PS C:\users\trebek9\desktop&gt; Get-SmbShare
+
+Name           ScopeName Path Description
+----           --------- ---- -----------
+ADMIN$         *              Remote Admin
+C$             *              Default share
+IPC$           *              Remote IPC
+NETLOGON       *              Logon server share
+shoretroopers$ *              Nothing to see here
+SYSVOL         *              Logon server share
+Tasker         *              scheduled_things</pre>
+            <p>So now just take the suspicious share name and put the name of the file in the desktop to get the password:</p>
+            <pre>shoretroopers$_hiding</pre>
+            <a target="_blank" href="https://underthewire.tech/wargames/trebek/9">https://underthewire.tech/wargames/trebek/9</a>
+            <hr>
+            Next Level Guide: <a href="10.html">Trebek Level 10 &#8594; Level 11</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

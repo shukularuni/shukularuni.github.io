@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTW Trebek 13 &#8594; 14 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>UnderTheWire Trebek Guide</h1>
+        <p>here's how to solve the Trebek level 13 &#8594; 14</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Trebek Guides</a>
+            <p>Previous Level Guide: <a href="12.html">Trebek Level 12 &#8594; 13</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh trebek13@trebek.underthewire.tech -p 22</code></p>
+            <p>Password: <code>poe.dameron53</code></p>
+            <h2>Info</h2>
+            <pre>The password for trebek14 is the last name of the user who has an encoded PowerShell command in their City property PLUS the name of the file on the desktop.
+
+NOTE:
+– If the last name is “doe” and the file on the desktop is named “1234”, the password would be “doe1234”.
+– The password will be lowercase no matter how it appears on the screen.
+
+&#9660; HINT:
+
+Gotta love Active Directory properties!</pre>
+            <h2>Theory</h2>
+            <p>To get the password, as the description says, we have to use Active Directory again, although for this level we need it to find the user that has something in their City property on their Active Directory user. Seems simple enough, we can use Get-ADUser to search for any user with the City property, the problem is that will print out every single user because all users have a City property by default, which is blank. So first we'll see how many users there are with the Count property, and if it's too many we'll see later what to do to find users with something in the property instead of blank space.</p>
+            <h2>Solution</h2>
+            <p>Now that we are inside of the shell, we can use dir to view the name of the file in the desktop:</p>
+            <pre>PS C:\users\trebek13\desktop&gt; dir
+
+    Directory: C:\users\trebek13\desktop
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----        8/30/2018  10:49 AM              0 3003</pre>
+            <p>Now if we see how many users have a City property, regardless of whether it has something or it's blank:</p>
+            <pre>PS C:\users\trebek13\desktop&gt; (Get-ADUser -Filter * -Properties City).Count
+1080</pre>
+            <p>Yeah, so that's definitely too many users to be printing on the terminal, so we'll add Where with the City property, which just tells PowerShell to find users with something in their City property, not just blank space, so this should print less users:</p>
+            <pre>PS C:\users\trebek13\desktop&gt; (Get-ADUser -Filter * -Properties City).Where({$_.City})
+
+City              : agBvAGkAbgBfAHQAaABlAF8AcgBlAGIAZQBsAHMA
+DistinguishedName : CN=Prindel,OU=T-65,OU=X-Wing,DC=underthewire,DC=tech
+Enabled           : False
+GivenName         : Prindel
+Name              : Prindel
+ObjectClass       : user
+ObjectGUID        : 8edb88c2-c69b-4d78-957e-6c1d1b08f2a5
+SamAccountName    : Prindel
+SID               : S-1-5-21-758131494-606461608-3556270690-2178
+Surname           : Prindel
+UserPrincipalName : Prindel</pre>
+            <p>Perfect, only one user that has something on their City property! Now take the name of the user, in lowercase, and add the name of the file in the desktop to get the password:</p>
+            <pre>prindel3003</pre>
+            <a target="_blank" href="https://underthewire.tech/wargames/trebek/13">https://underthewire.tech/wargames/trebek/13</a>
+            <hr>
+            Next Level Guide: <a href="14.html">Trebek Level 14 &#8594; Level 15</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTW Trebek 4 &#8594; 5 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>UnderTheWire Trebek Guide</h1>
+        <p>here's how to solve the Trebek level 4 &#8594; 5</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Trebek Guides</a>
+            <p>Previous Level Guide: <a href="3.html">Trebek Level 3 &#8594; 4</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh trebek4@trebek.underthewire.tech -p 22</code></p>
+            <p>Password: <code>10.30.1.18address</code></p>
+            <h2>Info</h2>
+            <pre>The password for trebek5 is the last execution date of Microsoft Access PLUS the name of the text file on the user’s desktop.
+
+Note:
+– Format for the date is 2 digit month, 2 digit day, 4 digit year. Ex: 9 feb 2009 would be 02/09/2009.
+– If the date is “02/09/2009” and the file on the desktop is named “_bob”, the password would be “02/09/2009_bob”.
+
+&#9660; HINT:
+
+https://technet.microsoft.com/en-us/library/ee176852.aspx
+
+&#9660; HINT:
+
+https://www.fireeye.com/blog/threat-research/2013/08/execute.html</pre>
+            <h2>Theory</h2>
+            <p>To get the password, as the description says, we have to get the date of the last time Mircosoft Access was executed. The problem is that there's not really any command I know of that can look at registries of uninstalled applications, although there is a file in Windows that tracks this, and it's Prefetch (inside the Windows folder). And we can use the path of the file to look for anything that mentions the word "Access".</p>
+            <h2>Solution</h2>
+            <p>Now that we are inside of the shell, we can use dir to view the name of the file in the desktop:</p>
+            <pre>PS C:\users\trebek4\desktop&gt; dir
+
+    Directory: C:\users\trebek4\desktop
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----        8/30/2018  10:46 AM              0 _red</pre>
+            <p>So now we can use the Get-ChildItem command to search through the Prefetch file for any mention of the word "Access":</p>
+            <pre>PS C:\users\trebek3\desktop&gt; Get-ChildItem "C:\Windows\Prefetch" -Filter '*Access*"
+
+    Directory: C:\Windows\Prefetch
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----         1/5/2017   6:04 PM          65058 MSACCESS.EXE-EF45328A.pf</pre>
+            <p>Since there's only one execution of Microsoft Access, then that's the last time it was executed, now just get the date from there and add some zeroes in for the correct format of the date and add in the name of the file in the desktop to get the password:</p>
+            <pre>01/05/2017_red</pre>
+            <a target="_blank" href="https://underthewire.tech/wargames/trebek/4">https://underthewire.tech/wargames/trebek/4</a>
+            <hr>
+            Next Level Guide: <a href="5.html">Trebek Level 5 &#8594; Level 6</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

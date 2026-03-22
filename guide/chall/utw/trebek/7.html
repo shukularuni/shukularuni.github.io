@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTW Trebek 7 &#8594; 8 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>UnderTheWire Trebek Guide</h1>
+        <p>here's how to solve the Trebek level 7 &#8594; 8</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Trebek Guides</a>
+            <p>Previous Level Guide: <a href="6.html">Trebek Level 6 &#8594; 7</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh trebek7@trebek.underthewire.tech -p 22</code></p>
+            <p>Password: <code>40_reader</code></p>
+            <h2>Info</h2>
+            <pre>The password for trebek8 is the name of the program set to run prior to login if sticky keys are activated PLUS the name of the file on the desktop.
+
+NOTE:
+– Don’t include the file extension (i.e.- .vbs). If the name is “script.vbs” and the file on the desktop is named “1234”, then the password would be “script1234”.
+– The password will be lowercase no matter how it appears on the screen.
+
+&#9660; HINT:
+
+The registry sounds like a good place to look!
+
+&#9660; HINT:
+
+I heard something about “Image File Execution Options”…</pre>
+            <h2>Theory</h2>
+            <p>To get the password, as the description says, we have to look through the registry to find what program runs right before login if sticky keys is activated, so if that's the case, we can find the program in the debugger section of whatever it depends on. First we'll need to know if Sticky Keys is activated, if so then we'll look through the program that controls Sticky Keys to track the debugger, which is the program being run right before log in, the program that runs Sticky Keys is also known as sethc.exe, and this program can be found inside the "Image File Execution Options" folder of the local machine's registry keys, which aligns with the second hint of the description.</p>
+            <h2>Solution</h2>
+            <p>Now that we are inside of the shell, we can use dir to view the name of the file in the desktop:</p>
+            <pre>PS C:\users\trebek7\desktop&gt; dir
+
+    Directory: C:\users\trebek7\desktop
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----        8/30/2018  10:47 AM              0 99</pre>
+            <p>So now we'll check that Sticky Keys is up and running by checking through the registry on the Accessibility folder:</p>
+            <pre>PS C:\users\trebek7\desktop&gt; Get-Item 'HKCU:\Control Panel\Accessibility\StickyKeys'
+
+    Hive: HKEY_CURRENT_USER\Control Panel\Accessibility
+
+
+Name                           Property
+----                           --------
+StickyKeys                     Flags : 510</pre>
+            <p>That 510 number just means that the program is indeed running. Now we just have to check the sethc.exe program to know what's running right before the log in through the debugger property. So we'll look for the program in the folder from theory that we confirmed with the second hint of the description, and look at all its properties:</p>
+            <pre>PS C:\users\trebek7\desktop&gt; Get-Item 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\sethc.exe' | Get-ItemProperty
+
+Debugger     : han_solo.exe
+PSPath       : Microsoft.PowerShell.Core\Registry::HKEY_LOCAL_MACHINE\SOFTWA... 
+PSParentPath : Microsoft.PowerShell.Core\Registry::HKEY_LOCAL_MACHINE\SOFTWA... 
+PSChildName  : sethc.exe
+PSDrive      : HKLM
+PSProvider   : Microsoft.PowerShell.Core\Registry</pre>
+            <p>Now just grab the debugger filename, remove the .exe app extension, and add the name of the file in the desktop:</p>
+            <pre>han_solo99</pre>
+            <a target="_blank" href="https://underthewire.tech/wargames/trebek/7">https://underthewire.tech/wargames/trebek/7</a>
+            <hr>
+            Next Level Guide: <a href="8.html">Trebek Level 8 &#8594; Level 9</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

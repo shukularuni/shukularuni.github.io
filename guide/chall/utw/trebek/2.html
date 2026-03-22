@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTW Trebek 2 &#8594; 3 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>UnderTheWire Trebek Guide</h1>
+        <p>here's how to solve the Trebek level 2 &#8594; 3</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Trebek Guides</a>
+            <p>Previous Level Guide: <a href="1.html">Trebek Level 1 &#8594; 2</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh trebek2@trebek.underthewire.tech -p 22</code></p>
+            <p>Password: <code>mess_cleaner</code></p>
+            <h2>Info</h2>
+            <pre>The password for trebek3 is the name of the executable associated with the C-3PO service PLUS the name of the file on the user’s desktop.
+
+NOTE:
+– Don’t include the file extension (i.e.- .exe). If the executable name is “binary.exe” and the file on the desktop is named “1234”, the password would be “binary1234”.
+– The password will be lowercase no matter how it appears on the screen.
+
+&#9660; HINT:
+
+https://technet.microsoft.com/en-us/library/ee176852.aspx</pre>
+            <h2>Theory</h2>
+            <p>To get the password, as the description says, we have to get the name of the application (.exe) file that is associated to C-3PO. Normally, we'd use Get-Service for this exact problem, but the thing is, the cmdlet doesn't give us the file path, so for this level it's basically useless. Why then we'll use instead CimInstance, which does give the path associated. And don't forget using the dir command to view the name of the file in the desktop for the other part of the password.</p>
+            <h2>Solution</h2>
+            <p>Now that we are inside of the shell, we can use dir to view the name of the file in the desktop:</p>
+            <pre>PS C:\users\trebek2\desktop&gt; dir
+
+    Directory: C:\users\trebek2\desktop
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----        8/30/2018  10:45 AM              0 823</pre>
+            <p>We can now use the CimInstance command to find any service that mentions C-3PO in any way, and shows all the info for it with the Select-Object command piped:</p>
+            <pre>PS C:\users\trebek2\desktop&gt; Get-CimInstance Win32_Service -Filter 'Name like "C-3PO"' | Select-Object *
+
+Name                    : C-3PO
+Status                  : OK
+ExitCode                : 0
+DesktopInteract         : False
+ErrorControl            : Normal
+PathName                : g:\star_wars\droid.exe
+ServiceType             : Own Process
+StartMode               : Auto
+Caption                 : C-3PO</pre>
+            <p>Perfect, now just isolate the name of the file from the path that we got from the search and add in the name of the file in the desktop to get the password:</p>
+            <pre>droid823</pre>
+            <a target="_blank" href="https://underthewire.tech/wargames/trebek/2">https://underthewire.tech/wargames/trebek/2</a>
+            <hr>
+            Next Level Guide: <a href="3.html">Trebek Level 3 &#8594; Level 4</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

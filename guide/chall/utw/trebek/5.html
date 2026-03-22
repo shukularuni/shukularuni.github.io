@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTW Trebek 5 &#8594; 6 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>UnderTheWire Trebek Guide</h1>
+        <p>here's how to solve the Trebek level 5 &#8594; 6</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Trebek Guides</a>
+            <p>Previous Level Guide: <a href="4.html">Trebek Level 4 &#8594; 5</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh trebek5@trebek.underthewire.tech -p 22</code></p>
+            <p>Password: <code>01/05/2017_red</code></p>
+            <h2>Info</h2>
+            <pre>The password for trebek6 is the name of the executable that is starting at 3/23/2017 8:08:53 PM via the Software Protection service as depicted in the event log on the desktop.
+
+NOTE:
+– Don’t include the file extension (i.e.- .exe).
+– The password will be lowercase no matter how it appears on the screen.</pre>
+            <h2>Theory</h2>
+            <p>To get the password, as the description says, we have to again, as two of the previous levels, we have to find something in the event log. But now the problem is that it's a little too vague, because what the level is trying to ask us can refer to three different event codes, which are 900, 8200, and 8208. So we can make a command that finds all the events in the event log that have one of the three event codes:</p>
+            <pre>Get-WinEvent -Path .\WhatsTheFileName.evtx -FilterXPath "*[System[(EventID=900)]] or *[System[(EventID=8200)]] or *[System[(EventID=8208)]]"</pre>
+            <h2>Solution</h2>
+            <p>Now that we are inside of the shell, we can use dir to view the name of the Windows Event File:</p>
+            <pre>PS C:\users\trebek5\desktop&gt; dir
+
+    Directory: C:\users\trebek5\desktop
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----        8/30/2018   5:55 AM        5312512 application.evtx</pre>
+            <p>Now we can put the name of the event log file into the command from theory and see what we get:</p>
+            <pre>PS C:\users\trebek3\desktop&gt; Get-WinEvent -Path .\application.evtx -FilterXPath "*[System[(EventID=900)]] or *[System[(EventID=8200)]] or *[System[(EventID=8208)]]"
+
+   ProviderName: Microsoft-Windows-Security-SPP
+
+TimeCreated                     Id LevelDisplayName Message
+-----------                     -- ---------------- -------
+5/11/2017 8:40:06 PM           900 Information      The Software Protection ...
+5/11/2017 8:34:45 PM           900 Information      The Software Protection ...
+5/11/2017 8:12:11 PM           900 Information      The Software Protection ...
+5/17/2017 8:10:00 PM           900 Information      The Software Protection ...
+5/17/2017 7:46:03 PM           900 Information      The Software Protection ...
+5/17/2017 7:44:11 PM           900 Information      The Software Protection ...
+...</pre>
+            <p>Okay, well that was too many entries, we'll now have to filter by time to have a chance at finding this one executable. So let's group the event codes together and make it search for the exact time too:</p>
+            <pre>PS C:\users\trebek3\desktop&gt; Get-WinEvent -Path .\application.evtx -FilterXPath "*[System[(EventID=900 or EventID=16384 or EventID=16394) and TimeCreated[@SystemTime='2017-03-23T20:08:53.000Z']]]"
+
+   ProviderName: Microsoft-Windows-Security-SPP                                 
+                                                                                
+TimeCreated                     Id LevelDisplayName Message                     
+-----------                     -- ---------------- -------                     
+3/23/2017 8:08:53 PM           900 Information      The Software Protection ...</pre>
+            <p>Perfect, now we only have one entry, and now just add the Message preperty at the end to view the whole message:</p>
+            <pre>PS C:\users\trebek5\desktop&gt; (Get-WinEvent -Path .\application.evtx -FilterXPath "*[System[(EventID=900 or EventID=16384 or EventID=16394) and TimeCreated[@SystemTime='2017-03-23T20:08:53.000Z']]]").Message                                  
+The Software Protection service is starting.                                    
+Parameters:caller=wlms.exe</pre>
+            <p>Finally! Now just get the name of the executable, remove the extension, and you've got the password:</p>
+            <pre>wlms</pre>
+            <a target="_blank" href="https://underthewire.tech/wargames/trebek/5">https://underthewire.tech/wargames/trebek/5</a>
+            <hr>
+            Next Level Guide: <a href="6.html">Trebek Level 6 &#8594; Level 7</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

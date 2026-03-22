@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTW Trebek 11 &#8594; 12 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>UnderTheWire Trebek Guide</h1>
+        <p>here's how to solve the Trebek level 11 &#8594; 12</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Trebek Guides</a>
+            <p>Previous Level Guide: <a href="10.html">Trebek Level 10 &#8594; 11</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh trebek11@trebek.underthewire.tech -p 22</code></p>
+            <p>Password: <code>ackbar2121</code></p>
+            <h2>Info</h2>
+            <pre>The password for trebek12 is the username of the user who was created on 11 May 17 at 26 minutes after the hour, as depicted in the event logs on the desktop PLUS the name of the file on the desktop.
+
+NOTE:
+– If the username is “john.doe” and the file on the desktop is named “1234”, the password would be “john.doe1234”
+– The password will be lowercase no matter how it appears on the screen.
+
+&#9660; HINT:
+
+Good thing there is a module containing cmdlets that can help with this…</pre>
+            <h2>Theory</h2>
+            <p>To get the password, as the description says, we have to again go through the Event Log file, but this time we don't get the exact time of the event, rather the date and the minutes, but no hours or seconds, and the event code of a user account being created is 4720. It doesn't really matter because we can still search with the incomplete time, although I will again first search for all with just the event in the case of there not being that many events and manually finding the event is easier and wastes less time. But if this is not the special time and there's still many entries on the Event Logs, then we can use the second command; in this command we'll use the Where property to find specifically the event that happened on the 11th of May of 2017, and at the 26th minute of whatever hour or second:</p>
+            <pre>Get-WinEvent -Path .\IDKtheFileNameLoL.evtx -FilterXPath "*[System[EventID=4720]]"
+(Get-WinEvent -Path .\IDKtheFileNameLoL.evtx -FilterXPath "*[System[EventID=4720]]").Where({$_.TimeCreated.Minute -eq 26 -and $_.TimeCreated.Date -eq (Get-Date "5/11/2017").Date})</pre>
+            <h2>Solution</h2>
+            <p>Now that we are inside of the shell, we can use dir to view the name of the file in the desktop and the name of the Windows Event Log file:</p>
+            <pre>PS C:\users\trebek11\desktop&gt; dir
+
+    Directory: C:\users\trebek11\desktop
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----        8/30/2018  10:49 AM              0 100
+-a----        8/30/2018   5:55 AM       99684352 security.evtx</pre>
+            <p>And if we put the name of the file into our first command in theory to check if there's too many events:</p>
+            <pre>PS C:\users\trebek11\desktop&gt; Get-WinEvent -Path .\security.evtx -FilterXPath "*[System[EventID=4720]]"
+
+   ProviderName: Microsoft-Windows-Security-Auditing
+
+TimeCreated                     Id LevelDisplayName Message
+-----------                     -- ---------------- -------
+5/11/2017 8:36:51 PM          4720 Information      A user account was creat... 
+5/11/2017 6:56:12 PM          4720 Information      A user account was creat... 
+5/11/2017 6:46:25 PM          4720 Information      A user account was creat... 
+5/11/2017 6:26:08 PM          4720 Information      A user account was creat... 
+5/11/2017 6:19:39 PM          4720 Information      A user account was creat... 
+5/11/2017 6:15:55 PM          4720 Information      A user account was creat... 
+5/10/2017 11:29:12 AM         4720 Information      A user account was creat...</pre>
+            <p>Yup, those are too many events, so now let's go with the second command of theory to see if we can reduce a bit our options:</p>
+            <pre>PS C:\users\trebek11\desktop&gt; (Get-WinEvent -Path .\security.evtx -FilterXPath "*[System[EventID=4720]]").Where({$_.TimeCreated.Minute -eq 26 -and $_.TimeCreated.Date -eq (Get-Date "5/11/2017").Date})
+
+   ProviderName: Microsoft-Windows-Security-Auditing
+
+TimeCreated                     Id LevelDisplayName Message
+-----------                     -- ---------------- -------
+5/11/2017 6:26:08 PM          4720 Information      A user account was creat...</pre>
+            <p>There we go, just one log left! Now we can just add the Message property at the end to view the full message:</p>
+            <pre>PS C:\users\trebek11\desktop&gt; (Get-WinEvent -Path .\security.evtx -FilterXPath "*[System[EventID=4720]]").Where({$_.TimeCreated.Minute -eq 26 -and $_.TimeCreated.Date -eq (Get-Date "5/11/2017").Date}).Message
+A user account was created.
+
+Subject:
+        Security ID:            S-1-5-21-3968311752-1263969649-2303472966-1150
+        Account Name:           poe.dameron
+        Account Domain:         UNDERTHEWIRE
+        Logon ID:               0x1235812
+
+New Account:
+        Security ID:            S-1-5-21-3968311752-1263969649-2303472966-1152
+        Account Name:           general.hux
+        Account Domain:         UNDERTHEWIRE
+
+...</pre>
+            <p>So now just take the name of the account that was created and add the name of the file in the desktop to get the password:</p>
+            <pre>general.hux100</pre>
+            <a target="_blank" href="https://underthewire.tech/wargames/trebek/11">https://underthewire.tech/wargames/trebek/11</a>
+            <hr>
+            Next Level Guide: <a href="12.html">Trebek Level 12 &#8594; Level 13</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

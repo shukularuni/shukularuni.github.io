@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTW Trebek 10 &#8594; 11 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>UnderTheWire Trebek Guide</h1>
+        <p>here's how to solve the Trebek level 10 &#8594; 11</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Trebek Guides</a>
+            <p>Previous Level Guide: <a href="9.html">Trebek Level 9 &#8594; 10</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>SSH: <code>ssh trebek10@trebek.underthewire.tech -p 22</code></p>
+            <p>Password: <code>shoretroopers$_hiding</code></p>
+            <h2>Info</h2>
+            <pre>The password for trebek11 is the last name of the user who enabled Oni-Wan Kenobi’s account as depicted in the event logs on the desktop PLUS the name of the file on the desktop.
+
+NOTE:
+– If the last name of the user is “johnson” and the file on the desktop is named “1234”, the password would be “johnson1234”.
+– The password will be lowercase no matter how it appears on the screen.
+
+&#9660; HINT:
+
+https://msdn.microsoft.com/en-us/powershell/reference/5.1/microsoft.powershell.diagnostics/get-winevent</pre>
+            <h2>Theory</h2>
+            <p>To get the password, as the description says, we have to look through a Windows Event Log file again, but now search for whoever enabled Kenobi's Windows account. So, to search for that log we have to look for the event code of 4722, which is the code to an account being enabled. This command will look like all the others we have done with Event Logs in previous levels to this one, because we don't know how specific we have to get, we'll create two commands, the first one is the normal search for the event code, and if there's too many of those, then the second one will search for specifically logs that contain the word "kenobi" in them to search specifically for the enabling of Kenobi's account:</p>
+            <pre>Get-WinEvent -Path .\FileNameOfTheFile.evtx -FilterXPath "*[System[EventID=4722]]"
+(Get-WinEvent -Path .\FileNameOfTheFile.evtx -FilterXPath "*[System[EventID=4722]]").Where({$_.Message -like "*kenobi*"})</pre>
+            <h2>Solution</h2>
+            <p>Now that we are inside of the shell, we can use dir to view the name of the file in the desktop and the name of the Event Log file:</p>
+            <pre>PS C:\users\trebek10\desktop&gt; dir
+
+    Directory: C:\users\trebek10\desktop
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----        8/30/2018  10:48 AM              0 2121
+-a----        8/30/2018   5:54 AM       99684352 security.evtx</pre>
+            <p>And if we put the name of the file into our first command in theory; yup, we just get too many of these logs:</p>
+            <pre>PS C:\users\trebek10\desktop&gt; Get-WinEvent -Path .\security.evtx -FilterXPath "*[System[EventID=4722]]"
+
+   ProviderName: Microsoft-Windows-Security-Auditing
+
+TimeCreated                     Id LevelDisplayName Message
+-----------                     -- ---------------- -------
+5/11/2017 8:36:52 PM          4722 Information      A user account was enabl...
+5/11/2017 6:56:12 PM          4722 Information      A user account was enabl...
+5/11/2017 6:46:25 PM          4722 Information      A user account was enabl...
+5/11/2017 6:26:08 PM          4722 Information      A user account was enabl...</pre>
+            <p>So now let's go with the second command of theory to see if we can reduce a bit our options:</p>
+            <pre>PS C:\users\trebek10\desktop&gt; (Get-WinEvent -Path .\security.evtx -FilterXPath "*[System[EventID=4722]]").Where({$_.Message -like "*kenobi*"})
+
+   ProviderName: Microsoft-Windows-Security-Auditing
+
+TimeCreated                     Id LevelDisplayName Message
+-----------                     -- ---------------- -------
+5/11/2017 6:56:12 PM          4722 Information      A user account was enabl...</pre>
+            <p>Just one log left! Perfect, now we can just add the Message property at the end to view the full message:</p>
+            <pre>PS C:\users\trebek10\desktop&gt; (Get-WinEvent -Path .\security.evtx -FilterXPath "*[System[EventID=4722]]").Where({$_.Message -like "*kenobi*"}).Message
+A user account was enabled.
+
+Subject:
+        Security ID:            S-1-5-21-3968311752-1263969649-2303472966-1153
+        Account Name:           admiral.ackbar
+        Account Domain:         UNDERTHEWIRE
+        Logon ID:               0x12CEFCA
+
+Target Account:
+        Security ID:            S-1-5-21-3968311752-1263969649-2303472966-1154
+        Account Name:           obi-wan.kenobi
+        Account Domain:         UNDERTHEWIRE</pre>
+            <p>So now just take last name of the account name that enabled Kenobi's account and add the name of the file in the desktop to get the password:</p>
+            <pre>ackbar2121</pre>
+            <a target="_blank" href="https://underthewire.tech/wargames/trebek/10">https://underthewire.tech/wargames/trebek/10</a>
+            <hr>
+            Next Level Guide: <a href="11.html">Trebek Level 11 &#8594; Level 12</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
