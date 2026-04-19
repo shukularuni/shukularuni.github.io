@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF Failure Failure @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF General Skills Guide</h1>
+        <p>here's how to solve Failure Failure</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the General Skills Guides</a>
+            <hr>
+            <h2>Failure Failure</h2>
+            <pre>Name: Failure Failure
+Description: Welcome to Failure Failure — a high-available system. This challenge simulates a real-world failover scenario where one server is prioritized over the other. A load balancer stands between you and the truth — and it won't hand over the flag until you force its hand. You can begin your journey here to try and retrieve the flag. For reference: The HAProxy configuration used in this challenge is available here. The application code is available here
+Author: Darkraicg492
+Tags: Medium, General Skills, picoCTF 2026
+Challenge from: picoCTF 2026
+Files: haproxy.cfg, app.py
+Hints:
+1. How does a load balancer decide which server should get the traffic?</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to make the service fail, for that we'll need to know like what stuff is written on that HAProxy configuration file and see the app itself. So we'll skip over to the solution part to take a look at the super secure website and the files that we are given.</p>
+            <h2>Solution</h2>
+            <p>Okay I have looked at the files, and it seems that the server has a backup, which reveals the flag:</p>
+            <pre>IS_BACKUP = yes</pre>
+            <p>So all we need to do is send requests until the server returns a 503 error, looking at the files it seems that the error is gotten at around the 300 requests in a minute mark. So for this we can create a python code that gets the webpage as many times as possible until it gives the 503 error, where it stops sending requests, also I added a little counter that tells us how many requests have been done every 50 requests to know how it's going:</p>
+            <pre>import requests
+
+for i in range(1,600):
+  res = requests.get("http://mysterious-sea.picoctf.net:65169/")
+  if res.status_code == 503:
+    break
+  elif i%50 == 0:
+    print(i)</pre>
+            <p>So if we run this python code, it should send requests until the server gives up (if you run the code and takes too long, try running it on your webshell instead cause it goes faster there):</p>
+            <pre>shukularuni@SHUKULAP:~$ python3 failure.py
+50
+100
+150
+200
+250
+300</pre>
+            <p>Perfect! The program stopped at 300 requests, now quickly go to the webpage on your browser, or reload the page to see if we got the flag:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/Failure_Failure/done.jpg" alt="Webpage with flag">
+            <pre>picoCTF{f41l0v3r_f0r_7h3_w1n_a73e52a4}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/756">https://play.picoctf.org/practice/challenge/756</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

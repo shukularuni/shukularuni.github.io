@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF Undo @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF General Skills Guide</h1>
+        <p>here's how to solve Undo</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the General Skills Guides</a>
+            <hr>
+            <h2>Undo</h2>
+            <pre>Name: Undo
+Description: Can you reverse a series of Linux text transformations to recover the original flag? Start searching for the flag here nc foggy-cliff.picoctf.net 50016
+Author: syreal
+Tags: Easy, General Skills, picoCTF 2026
+Challenge from: picoCTF 2026
+Hints:
+1. For text translation and character replacement, see tr command documentation.</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have do a series of transformations to a message to get the original flag, so it seems this is just an easy decryption challenge. We'll open the NetCat on the solution part to get the encrypted flag, copy it, and decrypt it with any online converter like CyberChef.</p>
+            <h2>Solution</h2>
+            <p>We'll enter with the NetCat command we were given to see the encrypted flag:</p>
+            <pre>shukularuni@SHUKULAP:~$ nc foggy-cliff.picoctf.net 50016
+===Welcome to the Text Transformations Challenge!===
+
+Your goal: step by step, recover the original flag.
+At each step, you'll see the transformed flag and a hint.
+Enter the correct Linux command to reverse the last transformation.
+
+--- Step 1 ---
+Current flag: KTUzbjg4MDI3LWZhMDFnQHplMHNmYTRlRy1nazNnLXRhMWZlcmlyRShTR1BicHZj
+Hint: Base64 encoded the string.
+Enter the Linux command to reverse it:</pre>
+            <p>It seems we are supposed to enter Linux commands to slowly decode the flag, but I don't know any other encryption command apart from Base64, so we'll use CyberChef instead, like I already mentioned:</p>
+            <pre>recipe=From_Base64('A-Za-z0-9+/=',false,false)  # base64-to-text
+
+- INPUT: KTUzbjg4MDI3LWZhMDFnQHplMHNmYTRlRy1nazNnLXRhMWZlcmlyRShTR1BicHZj
+
+- OUTPUT:
+)53n88027-fa01g@ze0sfa4eG-gk3g-ta1ferirE(SGPbpvc</pre>
+            <p>That seems to be reversed, we can reverse the order of the string with CyberChef too, also the beginning (in this case the ending) seems to have the usual picoCTF (same case), so it might also have a ROT13:</p>
+            <pre>recipe=From_Base64('A-Za-z0-9+/=',false,false)Reverse('Character')ROT13(true,true,false,13)  # base64-to-text, reverse, and rot13
+
+- INPUT: KTUzbjg4MDI3LWZhMDFnQHplMHNmYTRlRy1nazNnLXRhMWZlcmlyRShTR1BicHZj
+
+- OUTPUT:
+picoCTF(Revers1ng-t3xt-Tr4nsf0rm@t10ns-72088a35)</pre>
+            <p>Now we'll change the dashes to underscores to make it look like a normal picoCTF flag, and change the parentheses for curly brackets, and we should now have the correct flag. And yes, this can also be done with CyberChef:</p>
+            <pre>recipe=From_Base64('A-Za-z0-9+/=',false,false)Reverse('Character')ROT13(true,true,false,13)Find_/_Replace({'option':'Simple string','string':'-'},'_',true,true,true,false)Find_/_Replace({'option':'Simple string','string':'('},'{',true,true,true,false)Find_/_Replace({'option':'Simple string','string':')'},'}',true,true,true,false)  # base64-to-text, reverse, rot13, and replace - ( ) for _ { }
+
+- INPUT: KTUzbjg4MDI3LWZhMDFnQHplMHNmYTRlRy1nazNnLXRhMWZlcmlyRShTR1BicHZj
+
+- OUTPUT:
+picoCTF{Revers1ng_t3xt_Tr4nsf0rm@t10ns_72088a35}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/766">https://play.picoctf.org/practice/challenge/766</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

@@ -25,7 +25,7 @@ Message: Q29uZ3JhdHVsYXRpb25zLCB5b3UgaGF2ZSBjb21wbGV0ZWQgQ3liZXJDaGVmIGNoYWxsZW5
             <p>Just looking at the string and seeing the character set it uses and the double equal sign at the end gives away that this is obviously Base64. So let's decode it.</p>
             <h2>Solution</h2>
             <p>Let's put it into CyberChef to decode from Base64:</p>
-            <pre>recipe=From_Base64('A-Za-z0-9%2B/%3D',false,false)  # base64-to-text
+            <pre>recipe=From_Base64('A-Za-z0-9+/=',false,false)  # base64-to-text
 
 - INPUT: Q29uZ3JhdHVsYXRpb25zLCB5b3UgaGF2ZSBjb21wbGV0ZWQgQ3liZXJDaGVmIGNoYWxsZW5nZSAjMiEKClRoaXMgY2hh...
 

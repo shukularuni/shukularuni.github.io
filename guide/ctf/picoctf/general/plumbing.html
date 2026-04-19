@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF plumbing @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF General Skills Guide</h1>
+        <p>here's how to solve plumbing</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the General Skills Guides</a>
+            <hr>
+            <h2>plumbing</h2>
+            <pre>Name: plumbing
+Description: Sometimes you need to handle process data outside of a file. Can you find a way to keep the output from this program and search for the flag? Connect to fickle-tempest.picoctf.net 51863.
+Author: Geoffrey Njogu
+Tags: Medium, General Skills, picoCTF 2019
+Challenge from: picoCTF 2019
+Hints:
+1. Remember the flag format is picoCTF{XXXX}
+2. What's a pipe? No not that kind of pipe... This kind</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to search it through the output of a program inside a NetCat. We don't know much else about this program so all we can do now is check the connection, because remember this is a NetCat connection, so we'll need to add nc at the start of the server/port combination, like this:</p>
+            <pre>nc fickle-tempest.picoctf.net 51863</pre>
+            <h2>Solution</h2>
+            <p>First we'll enter into the NetCat from our command from theory:</p>
+            <pre>shukularuni@SHUKULAP:~$ nc fickle-tempest.picoctf.net 51863
+Again, I really don't think this is a flag
+Again, I really don't think this is a flag
+Again, I really don't think this is a flag
+Not a flag either
+Not a flag either
+...
+Again, I really don't think this is a flag
+I don't think this is a flag either
+Again, I really don't think this is a flag
+I don't think this is a flag either
+This is defintely not a flag</pre>
+            <p>Well, that's a lot of text. But worry not! Because we can search specifically for the flag by piping this output from the NetCat over to grep, which is a command used to search for specific text, we can use this one to our advantage because we know the flag format is picoCTF{X}, so we can search that to find the flag:</p>
+            <pre>shukularuni@SHUKULAP:~$ nc fickle-tempest.picoctf.net 51863 | grep picoCTF
+picoCTF{digital_plumb3r_00da27CC}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/48">https://play.picoctf.org/practice/challenge/48</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

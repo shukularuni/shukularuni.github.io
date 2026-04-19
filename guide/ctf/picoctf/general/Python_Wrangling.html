@@ -18,13 +18,13 @@
             <hr>
             <h2>Python Wrangling</h2>
             <pre>Name: Python Wrangling
-Description: Python scripts are invoked kind of like programs in the Terminal... Can you run this Python script using this password to get the flag?
+Description: Python scripts are invoked kind of like programs in the Terminal... Can you run ende.py using password.txt to get flag.txt.en?
 Author: syreal
 Tags: Easy, General Skills, picoCTF 2021
 Challenge from: picoCTF 2021
-Files: ende.py, pw.txt, flag.txt.en
+Files: ende.py, password.txt, flag.txt.en
 Hints:
-1. Get the Python script accessible in your shell by entering the following command in the Terminal prompt: $ wget https://mercury.picoctf.net/static/0bf545252b5120845e3b568b9ad0277e/ende.py
+1. Get the Python script accessible in your shell by entering the following command in the Terminal prompt: $ wget followed by a link to the script. The link can be copied from the details section.
 2. $ man python</pre>
             <h2>Theory</h2>
             <p>According to the description, to get the flag we have to run a code that encodes and decodes Fernet, I don't know what that is, but it's like another one of those where you need a key to encrypt and decrypt it and all that stuff.</p>
@@ -32,13 +32,21 @@ Hints:
             <p>Let's run it, see how it works:</p>
             <pre>shukularuni-picoctf@webshell:~$ python ende.py
 Usage: ende.py (-e/-d) [file]</pre>
+            <p>If we check the code for a bit we can see that it requires a password and a TXT file:</p>
+            <pre>usage_msg = "Usage: "+ sys.argv[0] +" (-e/-d) [file]"
+help_msg = usage_msg + "\n" +\
+        "Examples:\n" +\
+        "  To decrypt a file named 'pole.txt', do: " +\
+        "'$ python "+ sys.argv[0] +" -d pole.txt'\n"</pre>
             <p>I think how this will work is that we put the file we want to input with the -d option to decode the file, and then we'll use the password to decode it or something:</p>
-            <pre>shukularuni-picoctf@webshell:~$ cat pw.txt
-6008014f6008014f6008014f6008014f
+            <pre>shukularuni-picoctf@webshell:~$ mv flag.txt.en flag.txt
 
-shukularuni-picoctf@webshell:~$ python ende.py -d flag.txt.en
-Please enter the password:6008014f6008014f6008014f6008014f
-picoCTF{4p0110_1n_7h3_h0us3_6008014f}</pre>
+shukularuni-picoctf@webshell:~$ cat password.txt
+720b6ad346f84cd483c60c7464dd95d4
+
+shukularuni-picoctf@webshell:~$ python ende.py -d flag.txt
+Please enter the password:720b6ad346f84cd483c60c7464dd95d4
+picoCTF{4p0110_1n_7h3_h0us3_9c5f9bcf}</pre>
             <p>There we go! That's the flag.</p>
             <p>I rated this level as "good"! :3</p>
             <hr>

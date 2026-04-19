@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF Printer Shares @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF General Skills Guide</h1>
+        <p>here's how to solve Printer Shares</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the General Skills Guides</a>
+            <hr>
+            <h2>Printer Shares</h2>
+            <pre>Name: Printer Shares
+Description: Oops! Someone accidentally sent an important file to a network printer—can you retrieve it from the print server? The printer is on 52848. you can try $ nc -vz mysterious-sea.picoctf.net 52848
+Author: Janice He
+Tags: Easy, General Skills, picoCTF 2026
+Challenge from: picoCTF 2026
+Hints:
+1. knowing how SMB protocol works would be helpful!
+2. smbclient and smbutil are good tools</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we need to connect to a printer and get a file that the printer holds. We are given a NetCat command that will check if the printer on the port is up and running, but it'll actually not give us any extra info, instead to view files from the printer we'll have to look at the users the printer has, it should be named something like disk or share since shares is the codename for users on this environment, so we can get access to the files of the printer. So to search the actual users we need a command like this, using smbclient with the option -L to list the shares on the port the printer is in, and use the -N option so that it doesn't ask for our password each time we do this command:</p>
+            <pre>smbclient -L mysterious-sea.picoctf.net -p 52848 -N</pre>
+            <h2>Solution</h2>
+            <p>We can verify that the printer on the port is alive with the command from the description:</p>
+            <pre>shukularuni@SHUKULAP:~$ nc -vz mysterious-sea.picoctf.net 52848
+Connection to mysterious-sea.picoctf.net (3.130.79.223) 52848 port [tcp/*] succeeded!</pre>
+            <p>Now let's run the command from theory to look for the shares of the printer:</p>
+            <pre>shukularuni@SHUKULAP:~$ smbclient -L mysterious-sea.picoctf.net -p 52848 -N
+
+        Sharename       Type      Comment
+        ---------       ----      -------
+        shares          Disk      Public Share With Guests
+        IPC$            IPC       IPC Service (Samba 4.19.5-Ubuntu)
+SMB1 disabled -- no workgroup available</pre>
+            <p>As you can see there is a "shares" share with the type disk, which aligns with everything we thought of in theory. We can use that same smbclient command to enter into the printer share "shares" by making it a URL and removing the listing option:</p>
+            <pre>shukularuni@SHUKULAP:~$ smbclient //mysterious-sea.picoctf.net/shares -p 52848 -N
+Try "help" to get a list of possible commands.
+smb: \&gt;</pre>
+            <p>Perfect, we're in! Now we can view the files stuck inside the printer with ls:</p>
+            <pre>smb: \&gt; ls
+  .                                   D        0  Fri Mar  6 20:25:41 2026
+  ..                                  D        0  Fri Mar  6 20:25:41 2026
+  dummy.txt                           N     1142  Wed Feb  4 21:22:17 2026
+  flag.txt                            N       37  Fri Mar  6 20:25:41 2026
+
+        65536 blocks of size 1024. 58232 blocks available</pre>
+            <p>There's the flag, we can take the file with us with the get command, I don't remember if there's a command to view files from here so the get command will have to do for now. We get the flag file, and it transfers to our home disk, we can view it from there:</p>
+            <pre>smb: \&gt; get flag.txt
+getting file \flag.txt of size 37 as flag.txt (0.0 KiloBytes/sec) (average 0.0 KiloBytes/sec)
+
+smb: \&gt; exit
+
+shukularuni@SHUKULAP:~$ cat flag.txt
+picoCTF{5mb_pr1nter_5h4re5_8eb6dd5d}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/759">https://play.picoctf.org/practice/challenge/759</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

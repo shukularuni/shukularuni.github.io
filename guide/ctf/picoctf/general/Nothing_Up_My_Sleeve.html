@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF Nothing Up My Sleeve @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF General Skills Guide</h1>
+        <p>here's how to solve Nothing Up My Sleeve</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the General Skills Guides</a>
+            <hr>
+            <h2>Nothing Up My Sleeve</h2>
+            <pre>Name: Nothing Up My Sleeve
+Description: Let's check that your internet connection is working. This flag is 'in-the-clear', I promise! Download flag.txt
+Author: Q0h313th
+Tags: Medium, General Skills, picoCTF 2020 Mini-Competition
+Challenge from: picoCTF 2020 Mini-Competition
+Files: flag.txt
+Hints:
+1. If all you had access to was a shell, you could use wget to download the file at the URL above!</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to download the file. So I have a question... is that it? It's weird that this challenge is rated as Medium if it's literally just checking that you're not blind and have an internet connection, which you should have if you're able to see the freaking challenge. What an odd one huh, we'll at least download the file with wget to give the challenge some credit, by the way I'm not against the challenge, if it was rated as Easy I'd let it pass, I'm just kinda confused.</p>
+            <h2>Solution</h2>
+            <p>We'll first download the file linked on the description of the challenge:</p>
+            <pre>shukularuni@SHUKULAP:~$ wget https://challenge-files.picoctf.net/c_shape_facility/61ef8109b8d233268e2793055ea615e4a67aa74717bbb1f8af17e7760f934b4e/flag.txt
+--2026-04-11 06:40:13--  https://challenge-files.picoctf.net/c_shape_facility/61ef8109b8d233268e2793055ea615e4a67aa74717bbb1f8af17e7760f934b4e/flag.txt
+Resolving challenge-files.picoctf.net (challenge-files.picoctf.net)... 2600:9000:249b:ca00:e:c945:f180:93a1, 2600:9000:249b:1000:e:c945:f180:93a1, 2600:9000:249b:a600:e:c945:f180:93a1, ...
+Connecting to challenge-files.picoctf.net (challenge-files.picoctf.net)|2600:9000:249b:ca00:e:c945:f180:93a1|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 32 [application/octet-stream]
+Saving to: 'flag.txt'
+
+flag.txt            100%[===================>]      32  --.-KB/s    in 0s
+
+2026-04-11 06:40:13 (13.0 MB/s) - 'flag.txt' saved [32/32]</pre>
+            <p>Perfect! Now that we have the flag downloaded we'll use cat to view it's contents:</p>
+            <pre>shukularuni@SHUKULAP:~$ cat flag.txt
+picoCTF{c0ngr4ts_0n_y0ur_s4n1ty}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "bad"! :(</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/91">https://play.picoctf.org/practice/challenge/91</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

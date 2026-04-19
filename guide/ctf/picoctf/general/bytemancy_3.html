@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF bytemancy 3 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF General Skills Guide</h1>
+        <p>here's how to solve bytemancy 3</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the General Skills Guides</a>
+            <hr>
+            <h2>bytemancy 3</h2>
+            <pre>Name: bytemancy 3
+Description: Can you conjure the right bytes? The program's source code can be downloaded here and the compiled spellbook binary can be downloaded here. Connect to the program with netcat: $ nc green-hill.picoctf.net 56095
+Author: LT 'syreal' Jones
+Tags: Medium, General Skills, picoCTF 2026
+Challenge from: picoCTF 2026
+Files: app.py
+Hints:
+1. There's no way to print these bytes
+2. Use pwntools to send raw bytes over the network</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to do some byte games inside a NetCat, so nothing else it seems that the description tells us, so let's continue into the solution and see inside the NetCat connection.</p>
+            <h2>Solution</h2>
+            <p>We'll enter with the NetCat command we were given on the description:</p>
+            <pre>shukularuni@SHUKULAP:~$ nc green-hill.picoctf.net 56095
+&------[ BYTEMANCY-3 ]------&
+8&0|)BVA*8&0|)BAA*8&0|)BAA*8&
+
+I will name four procedures hidden inside spellbook.
+Each round, send me their *raw* 4-byte addresses in little-endian form. 3 correct answers unlock the flag.
+
+8&0|)BVA*8&0|)BAA*8&0|)BAA*8&
+&-------------*-------------&
+[1/3] Send the 4-byte little-endian address for procedure 'binding_word'.
+==&gt;</pre>
+            <p>Okay it seems for this one we actually need to take a look at the code, this is because it seems we need to get the raw bytes addresses of these four functions that we find in the code. So far it's very simple, now all we need to do is extract the addresses of these functions from the spellbook, using objdump to view the address of functions on this binary:</p>
+            <pre>shukularuni@SHUKULAP:~$ objdump -d spellbook | grep ember_sigil
+08049176 &lt;ember_sigil&gt;:
+ 8049233:	e8 3e ff ff ff       	call   8049176 &lt;ember_sigil&gt;
+shukularuni@SHUKULAP:~$ objdump -d spellbook | grep glyph_conflux
+0804919a &lt;glyph_conflux&gt;:
+ 8049247:	e8 4e ff ff ff       	call   804919a &lt;glyph_conflux&gt;
+shukularuni@SHUKULAP:~$ objdump -d spellbook | grep astral_spark
+080491c1 &lt;astral_spark&gt;:
+ 804925b:	e8 61 ff ff ff       	call   80491c1 &lt;astral_spark&gt;
+shukularuni@SHUKULAP:~$ objdump -d spellbook | grep binding_word
+080491e3 &lt;binding_word&gt;:
+ 804926f:	e8 6f ff ff ff       	call   80491e3 &lt;binding_word&gt;</pre>
+            <p>Now we can create a very short python code to enter each of these when asked by the NetCat:</p>
+            <pre>from pwn import p32,remote
+import re
+
+addr = {'ember_sigil':0x08049176,'glyph_conflux':0x0804919a,'astral_spark':0x080491c1,'binding_word':0x080491e3}
+r = remote('green-hill.picoctf.net',56095)
+while True:
+  line = r.recvline(timeout=5).decode(errors='replace')
+  print(line, end='')
+  m = re.search(r"procedure '(\w+)'", line)
+  if m:
+    r.recvuntil(b'==&gt; ')
+    r.send(p32(addr[m.group(1)]))
+  if 'picoCTF' in line:
+    break
+r.close()</pre>
+            <p>So if we run this code we should get the flag when it passes the three functions it asks for:</p>
+            <pre>shukularuni@SHUKULAP:~$ python3 byte5.py
+[+] Opening connection to green-hill.picoctf.net on port 56095: Done
+&------[ BYTEMANCY-3 ]------&
+8&0|)BVA*8&0|)BAA*8&0|)BAA*8&
+
+I will name four procedures hidden inside spellbook.
+Each round, send me their *raw* 4-byte addresses in little-endian form. 3 correct answers unlock the flag.
+
+8&0|)BVA*8&0|)BAA*8&0|)BAA*8&
+&-------------*-------------&
+[1/3] Send the 4-byte little-endian address for procedure 'astral_spark'.
+[2/3] Send the 4-byte little-endian address for procedure 'binding_word'.
+[3/3] Send the 4-byte little-endian address for procedure 'glyph_conflux'.
+picoCTF{0bjdump_m4g1c_78e9ea65}
+[*] Closed connection to green-hill.picoctf.net port 56095</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/730">https://play.picoctf.org/practice/challenge/730</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

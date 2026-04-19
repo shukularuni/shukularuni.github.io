@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF Piece by Piece @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF General Skills Guide</h1>
+        <p>here's how to solve Piece by Piece</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the General Skills Guides</a>
+            <hr>
+            <h2>Piece by Piece</h2>
+            <pre>Name: Piece by Piece
+Description: After logging in, you will find multiple file parts in your home directory. These parts need to be combined and extracted to reveal the flag. SSH to dolphin-cove.picoctf.net:65017 and login as ctf-player with password 1db87a14.
+Author: Yahaya Meddy
+Tags: Easy, General Skills, picoCTF 2026
+Challenge from: picoCTF 2026</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to combine files and then "extract" the flag, not sure what that actually means, but alright. So we'll enter the SSH login we are given on the description, we can create the SSH command by entering to the user at the domain given, then attach the port with the p option, and use the password later when asked:</p>
+            <pre>ssh ctf-player@dolphin-cove.picoctf.net -p 65017</pre>
+            <h2>Solution</h2>
+            <p>If we enter into the SSH with the given information and check out the home folder:</p>
+            <pre>shukularuni@SHUKULAP:~$ ssh ctf-player@dolphin-cove.picoctf.net -p 65017
+ctf-player@dolphin-cove.picoctf.net's password: 1db87a14
+
+ctf-player@pico-chall$ ls
+instructions.txt  part_aa  part_ab  part_ac  part_ad  part_ae
+
+ctf-player@pico-chall$ cat instructions.txt
+Hint:
+
+- The flag is split into multiple parts as a zipped file.
+- Use Linux commands to combine the parts into one file.
+- The zip file is password protected. Use this "supersecret" password to extract the zip file.
+- After unzipping, check the extracted text file for the flag.</pre>
+            <p>So the instructions tell us basically how to complete the challenge step by step, this is simple because first we have to combine all the parts into one zip file, which we can do by printing all the parts and passing them into a single zip file, and then we can unzip that file and we'll see what we get from that:</p>
+            <pre>ctf-player@pico-chall$ cat part_* &gt; parts.zip
+
+ctf-player@pico-chall$ unzip parts.zip
+Archive:  parts.zip
+[parts.zip] flag.txt password:</pre>
+            <p>Oh, almost forgot the password! See that password part on the instructions? It's very funny because it highlights the word supersecret, as in a really secret password, but the password itself is the word supersecret:</p>
+            <pre>ctf-player@pico-chall$ unzip parts.zip
+Archive:  parts.zip
+[parts.zip] flag.txt password: supersecret
+ extracting: flag.txt</pre>
+            <p>Now that the zip is unzipped, we can see we got a flag.txt file from it, let's check the file to get the flag:</p>
+            <pre>ctf-player@pico-chall$ cat flag.txt
+picoCTF{z1p_and_spl1t_f1l3s_4r3_fun_574adc66}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/740">https://play.picoctf.org/practice/challenge/740</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

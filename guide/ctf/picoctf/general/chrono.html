@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF chrono @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF General Skills Guide</h1>
+        <p>here's how to solve chrono</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the General Skills Guides</a>
+            <hr>
+            <h2>chrono</h2>
+            <pre>Name: chrono
+Description: How to automate tasks to run at intervals on linux servers? Use ssh to connect to this server: Server: saturn.picoctf.net, Port: 49982, Username: picoplayer, Password: 5wf1w1hVxt.
+Author: Mubarak Mikail
+Tags: Medium, General Skills, picoCTF 2023, linux
+Challenge from: picoCTF 2023</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we need to look at automatic tasks of Linux. Which is usually known as cron or cronjob, which is a way to automatically run tasks at intervals, so for example, if for some reason you want to say Hello each minute, you can create a task that repeats every minute, and that task refers to a program that prints Hello. Also, we'll enter into that SSH with the ssh command of course, with the user [at](@) the host, then add the port through the p option, and enter the password when you're asked later:</p>
+            <pre>ssh picoplayer@saturn.picoctf.net -p 49982</pre>
+            <h2>Solution</h2>
+            <p>First we'll enter into the SSH with the command from theory:</p>
+            <pre>shukularuni@SHUKULAP:~$ ssh picoplayer@saturn.picoctf.net -p 49982
+picoplayer@saturn.picoctf.net's password: 5wf1w1hVxt
+
+picoplayer@challenge:~$ ls</pre>
+            <p>There doesn't seem to be anything here, well this is a challenge about task automation, or cron, so let's check the daily tasks if there's anything there, daily tasks are usually the main starting point for these:</p>
+            <pre>picoplayer@challenge:~$ ls /etc/cron.d/
+e2scrub_all
+
+picoplayer@challenge:~$ cat /etc/cron.d/e2scrub_all
+30 3 * * 0 root test -e /run/systemd/system || SERVICE_MODE=1 /usr/lib/x86_64-linux-gnu/e2fsprogs/e2scrub_all_cron
+10 3 * * * root test -e /run/systemd/system || SERVICE_MODE=1 /sbin/e2scrub_all -A -r</pre>
+            <p>Okay, I don't think this might be the right direction, instead let's look at crontab, which usually has more info about every single task, because crontab is the main system cron file:</p>
+            <pre>picoplayer@challenge:~$ cat /etc/crontab
+# picoCTF{Sch3DUL7NG_T45K3_L1NUX_9d5cb744}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/347">https://play.picoctf.org/practice/challenge/347</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

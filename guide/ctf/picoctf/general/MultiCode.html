@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF MultiCode @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF General Skills Guide</h1>
+        <p>here's how to solve MultiCode</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the General Skills Guides</a>
+            <hr>
+            <h2>MultiCode</h2>
+            <pre>Name: MultiCode
+Description: We intercepted a suspiciously encoded message, but it's clearly hiding a flag. No encryption, just multiple layers of obfuscation. Can you peel back the layers and reveal the truth? Download the message.
+Author: Yahaya Meddy
+Tags: Easy, General Skills, picoCTF 2026
+Challenge from: picoCTF 2026
+Files: message.txt
+Hints:
+1. The flag has been wrapped in several layers of common encodings such as ROT13, URL encoding, Hex, and Base64. Can you figure out the order to peel them back?
+2. A tool like CyberChef can be interesting.</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to decode a flag in multiple layers of encryption. So we'll have to download the file to know what to decode it with, so we'll skip over to the solution part.</p>
+            <h2>Solution</h2>
+            <p>If we look at the file it seems like a very obvious Base64, because of the letter structure and the equal sign at the end:</p>
+            <pre>NjM3NjcwNjI1MDQ3NTMyNTM3NDI2MTcyNjY2NzcyNzE1ZjcyNjE3MDMwNzE3NjYxNzQ1ZjczMzM2ZTMyMzQ3MzM3MzMyNTM3NDQ=</pre>
+            <p>We'll use an online decoding tool like CyberChef to decode this Base64:</p>
+            <pre>recipe=From_Base64('A-Za-z0-9+/=',false,false)  # base64-to-text
+
+- INPUT: NjM3NjcwNjI1MDQ3NTMyNTM3NDI2MTcyNjY2NzcyNzE1ZjcyNjE3MDMwNzE3NjYxNzQ1ZjczMzM2ZTMyMzQ3MzM3MzMyNTM3NDQ=
+
+- OUTPUT: 637670625047532537426172666772715f72617030717661745f73336e3234733733253744</pre>
+            <p>That seems to be hexadecimal because of the numbers mixed with letters F and E, so we'll add that on top of the Base64 decode:</p>
+            <pre>recipe=From_Base64('A-Za-z0-9+/=',false,false)From_Hex('None')  # base64-to-text and hex-to-text
+
+- INPUT: NjM3NjcwNjI1MDQ3NTMyNTM3NDI2MTcyNjY2NzcyNzE1ZjcyNjE3MDMwNzE3NjYxNzQ1ZjczMzM2ZTMyMzQ3MzM3MzMyNTM3NDQ=
+
+- OUTPUT: cvpbPGS%7Barfgrq_rap0qvat_s3n24s73%7D</pre>
+            <p>And that is URL encoding, from the characters that seem like hexadecimal but using a percentage sign on each of those, so we'll add that in too:</p>
+            <pre>recipe=From_Base64('A-Za-z0-9+/=',false,false)From_Hex('None')URL_Decode(true)  # base64-to-text, hex-to-text, and url-decode
+
+- INPUT: NjM3NjcwNjI1MDQ3NTMyNTM3NDI2MTcyNjY2NzcyNzE1ZjcyNjE3MDMwNzE3NjYxNzQ1ZjczMzM2ZTMyMzQ3MzM3MzMyNTM3NDQ=
+
+- OUTPUT: cvpbPGS{arfgrq_rap0qvat_s3n24s73}</pre>
+            <p>Finally, that looks like the normal picoCTF flag, but it seems like the letters have been all flipped around, although the picoCTF part does keep its correct uppercase and lowercase letters, so it seems like a caesar cipher, in this case specifically ROT13, short for rotation 13, so we'll add it in with everything else:</p>
+            <pre>recipe=From_Base64('A-Za-z0-9+/=',false,false)From_Hex('None')URL_Decode(true)ROT13(true,true,false,13)  # base64-to-text, hex-to-text, url-decode, and rot-13
+
+- INPUT: NjM3NjcwNjI1MDQ3NTMyNTM3NDI2MTcyNjY2NzcyNzE1ZjcyNjE3MDMwNzE3NjYxNzQ1ZjczMzM2ZTMyMzQ3MzM3MzMyNTM3NDQ=
+
+- OUTPUT: picoCTF{nested_enc0ding_f3a24f73}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/710">https://play.picoctf.org/practice/challenge/710</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

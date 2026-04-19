@@ -41,8 +41,8 @@ drwxr-xr-x 121 root root 12288 Sep 20 18:37 ..
 -rw-r--r--   1 root root   396 Jan  9  2024 sysstat
 
 ~$ cat /etc/cron.d/cronjob_bandit23
-@reboot bandit23 /usr/bin/cronjob_bandit23.sh  &> /dev/null
-* * * * * bandit23 /usr/bin/cronjob_bandit23.sh  &> /dev/null
+@reboot bandit23 /usr/bin/cronjob_bandit23.sh  &amp;&gt; /dev/null
+* * * * * bandit23 /usr/bin/cronjob_bandit23.sh  &amp;&gt; /dev/null
 
 ~$ cat /usr/bin/cronjob_bandit23.sh
 #!/bin/bash
@@ -52,7 +52,7 @@ mytarget=$(echo I am user $myname | md5sum | cut -d ' ' -f 1)
 
 echo "Copying passwordfile /etc/bandit_pass/$myname to /tmp/$mytarget"
 
-cat /etc/bandit_pass/$myname > /tmp/$mytarget</pre>
+cat /etc/bandit_pass/$myname &gt; /tmp/$mytarget</pre>
             <p>So we can see that this code runs every minute, and what it does is actually not that important, because it is telling us what to do to get the password. So basically, the code copies the password to a file in the temporary folder, where the file has a name that is "I am user" followed by bandit23&mdash;which is the owner of the script&mdash;and encodes it all to an md5 hash, before cutting some unimportant string stuff with the cut command. All we have to do is enter this exact command, but change the myname variable with bandit23, and therefore get the name of the file in the temporary folder where the password is copied at every minute. Here:</p>
             <pre>~$ echo I am user bandit23 | md5sum | cut -d ' ' -f 1
 8ca319486bfbbc3663ea0fbe81326349

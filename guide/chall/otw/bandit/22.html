@@ -41,13 +41,13 @@ drwxr-xr-x 121 root root 12288 Sep 20 18:37 ..
 -rw-r--r--   1 root root   396 Jan  9  2024 sysstat</pre>
             <p>If we read the bandit22 cron job, we can see where the bash file is located and how often it gets executed:</p>
             <pre>~$ cat /etc/cron.d/cronjob_bandit22
-@reboot bandit22 /usr/bin/cronjob_bandit22.sh &> /dev/null
-* * * * * bandit22 /usr/bin/cronjob_bandit22.sh &> /dev/null</pre>
+@reboot bandit22 /usr/bin/cronjob_bandit22.sh &amp;&gt; /dev/null
+* * * * * bandit22 /usr/bin/cronjob_bandit22.sh &amp;&gt; /dev/null</pre>
             <p>The five stars indicate that it is being executed every minute, so this means we have to go fast before it changes, so we follow the bash file link:</p>
             <pre>~$ cat /usr/bin/cronjob_bandit22.sh
 #!/bin/bash
 chmod 644 /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv
-cat /etc/bandit_pass/bandit22 > /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv</pre>
+cat /etc/bandit_pass/bandit22 &gt; /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv</pre>
             <p>Looking at this file, we can conclude that it first gives reading permissions to everyone in a temporary folder, and it copies the password there. So we just need to go to this temporary file and read it, with cat for example:</p>
             <pre>~$ cat /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv
 OUfP00mkVlHLfrTOC1Jq3yhSLCePOyIo</pre>

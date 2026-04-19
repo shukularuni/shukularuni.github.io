@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF money-ware @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF General Skills Guide</h1>
+        <p>here's how to solve money-ware</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the General Skills Guides</a>
+            <hr>
+            <h2>money-ware</h2>
+            <pre>Name: money-ware
+Description: Flag format: picoCTF{Malwarename} The first letter of the malware name should be capitalized and the rest lowercase. Your friend just got hacked and has been asked to pay some bitcoins to 1Mz7153HMuxXTuR2R1t78mGSdzaAtNbBWX. He doesn't seem to understand what is going on and asks you for advice. Can you identify what malware he's being a victim of?
+Author: Juni19
+Tags: Easy, General Skills, picoCTF 2023, osint, Retired
+Challenge from: picoCTF 2023
+Hints:
+1. Some crypto-currencies abuse databases exist; check them out!
+2. Maybe Google might help.</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to search for the malware name with that bitcoin address. This is a very simple challenge, we can use Google to search for specifically that bitcoin address, and maybe we can find some databases or journals that document the malware, from there grab the name of this mysterious malware.</p>
+            <h2>Solution</h2>
+            <p>So we'll just Google the address followed by malware, which directs us to this search webpage:</p>
+            <pre>https://google.com/search?q=1Mz7153HMuxXTuR2R1t78mGSdzaAtNbBWX+malware</pre>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/money-ware/goo.jpg" alt="Google results">
+            <p>That must be the malware name, although there are two names NotPetya and Petya, we'll try to submit both names and see which one is the correct answer:</p>
+            <pre>Submit Flag: picoCTF{NotPetya}
+
+Check: Sorry, that flag is incorrect!</pre>
+            <pre>Submit Flag: picoCTF{Petya}
+
+Check: Hurray! You solved this challenge.</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/357">https://play.picoctf.org/practice/challenge/357</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

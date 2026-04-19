@@ -29,10 +29,10 @@ Commands: cron, crontab, crontab(5) (use “man 5 crontab” to access this)</pr
 
 for a in {0000..9999}
 do
-echo YRSVLTtfZnD0aBUxDkgJ1G2JgF9SgRyL $a >> all_nums.txt
+echo YRSVLTtfZnD0aBUxDkgJ1G2JgF9SgRyL $a &gt;&gt; all_nums.txt
 done
 
-cat all_nums.txt | nc localhost 30002 > results.txt</pre>
+cat all_nums.txt | nc localhost 30002 &gt;  results.txt</pre>
             <h2>Solution</h2>
             <p>First of all be careful, because when you enter the localhost without the combination files or anything, there is no way to get out of it, because the localhost gives you infinite tries (UPDATE: you can actually get out, I just Google'd it and turns out just press a special key like in nano):</p>
             <pre>~$ nc localhost 30002

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF Based @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF General Skills Guide</h1>
+        <p>here's how to solve Based</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the General Skills Guides</a>
+            <hr>
+            <h2>Based</h2>
+            <pre>Name: Based
+Description: To get truly 1337, you must understand different data encodings, such as hexadecimal or binary. Can you get the flag from this program to prove you are on the way to becoming 1337? Connect with nc fickle-tempest.picoctf.net 59923.
+Author: Alex Fulton / Daniel Tunitis
+Tags: Medium, General Skills, picoCTF 2019
+Challenge from: picoCTF 2019
+Hints:
+1. I hear python can convert things.
+2. It might help to have multiple windows open.</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we will be looking at different encodings like hexadecimal and binary, which are really easy to distinguish from other encodings, hexadecimal uses all the numbers plus the first 6 letters of the alphabet (ABCDEF), and binary only uses 0 and 1. And we can decode them pretty easily with CyberChef, an online converter, and it's also very fast. So let's go to the solution part to enter into this NetCat and see what the challenge is about.</p>
+            <h2>Solution</h2>
+            <p>First we'll enter into the NetCat with the command we are given on the description of the challenge:</p>
+            <pre>shukularuni@SHUKULAP:~$ nc fickle-tempest.picoctf.net 56301
+Let us see how data is stored
+socket
+Please give the 01110011 01101111 01100011 01101011 01100101 01110100 as a word.
+...
+you have 45 seconds.....
+
+Input:</pre>
+            <p>Oh it seems we need to be quick for this challenge, so I hope you already had CyberChef open behind your terminal because we can't lose a second here. So in CyberChef we'll grab the From Binary block and paste the binary that the NetCat just gave us and that will give us the input:</p>
+            <pre>recipe=From_Binary('Space',8)  # binary-to-text
+
+- INPUT: 01110011 01101111 01100011 01101011 01100101 01110100
+
+- OUTPUT:
+socket</pre>
+            <pre>Input:
+socket
+Please give me the o146 o141 o154 o143 o157 o156 as a word.
+Input:</pre>
+            <p>This seems to be Octal encoding, from the really high three-digit numbers and the O before each number, that we have to remove quickly because octal doesn't usually have any letters next to them:</p>
+            <pre>recipe=From_Octal('Space')  # octal-to-text
+
+- INPUT: 146 141 154 143 157 156
+
+- OUTPUT:
+falcon</pre>
+            <pre>Input:
+falcon
+Please give me the 6c696d65 as a word.
+Input:</pre>
+            <p>That's hexadecimal, because of the alphanumeric string. So quickly go back to CyberChef, paste that string, and put the From Hex block:</p>
+            <pre>recipe=From_Hex('Auto')  # hex-to-text
+
+- INPUT: 6c696d65
+
+- OUTPUT:
+lime</pre>
+            <pre>Input:
+lime
+You've beaten the challenge
+Flag: picoCTF{learning_about_converting_values_aeBEA593}
+^C</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/35">https://play.picoctf.org/practice/challenge/35</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

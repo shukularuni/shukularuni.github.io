@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF SansAlpha @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF General Skills Guide</h1>
+        <p>here's how to solve SansAlpha</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the General Skills Guides</a>
+            <hr>
+            <h2>SansAlpha</h2>
+            <pre>Name: SansAlpha
+Description: The Multiverse is within your grasp! Unfortunately, the server that contains the secrets of the multiverse is in a universe where keyboards only have numbers and (most) symbols. ssh -p 54600 ctf-player@mimas.picoctf.net Use password: 1db87a14
+Author: syreal
+Tags: Medium, General Skills, picoCTF 2024, bash, ssh, browser_webshell_solvable, shell_escape
+Challenge from: picoCTF 2024
+Hints:
+1. Where can you get some letters?</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to enter into a special shell that doesn't allow letters, only numbers and some symbols. So maybe what we can do is some wildcarding, where we use symbols to predict commands without using the actual letters to write these. So instead of writing the command we could use symbols like the question mark and the asterisk to fill in the gaps, one command that comes to mind is base64, since it includes the number 64 at the end we can represent it as ????64, and it could probably work for printing a file, such as the flag. So we'll enter into this SSH and check what we can do.</p>
+            <h2>Solution</h2>
+            <p>We'll connect to the SSH with the command we are given in the challenge description:</p>
+            <pre>shukularuni@SHUKULAP:~$ ssh -p 54600 ctf-player@mimas.picoctf.net
+ctf-player@mimas.picoctf.net's password: 1db87a14
+
+SansAlpha$ $0
+
+SansAlpha$ ls
+SansAlpha: Unknown character detected</pre>
+            <p>Interesting, maybe we can use just a single asterisk to view what files we have over here:</p>
+            <pre>SansAlpha$ *
+bash: blargh: command not found</pre>
+            <p>There's a directory with the name "blargh", let's see if there's anything inside:</p>
+            <pre>SansAlpha$ */*
+bash: blargh/flag.txt: Permission denied</pre>
+            <p>Perfect! Now that we have our flag located we can use a command like base64 to print it, first I need to locate it, if we can even get access to it. We should be able to get it since, it's located on the bin directory, so it should be the first one to be looked up:</p>
+            <pre>SansAlpha$ /*
+bash: /bin: Is a directory</pre>
+            <p>Okay, we'll check if we can get access to Base64:</p>
+            <pre>SansAlpha$ /*/????64
+f0VMRgIBAQAAAAAAAAAAAAMAPgABAAAAIC4AAAAAAABAAAAAAAAAAIBiAAAAAAAAAAAAAEAAOAAN...</pre>
+            <p>That's weird, it outputted a bunch of unreadable garbage. Let's try attaching a file to it, for example the flag that is in "blargh/flag.txt", and also let's use question marks for the bin directory too:</p>
+            <pre>SansAlpha$ /???/????64 ~/??????/????.???
+UdTAAADx9EAADzDx768v8lFUwAAA8fRAAA8w8e+vL/JQ1MAAAPH0QAAPMPHvry/yUFTAAADx9EAA...</pre>
+            <p>Alright that didn't work either, let's try instead entering the full path as "/home/ctf-player/blargh/flag.txt" with question marks, and attach that to the Base64 command, let's see what happens:</p>
+            <pre>SansAlpha$ /???/????64 /????/???-??????/??????/????.???
+/bin/base64: extra operand '/bin/x86_64'
+Try '/bin/base64 --help' for more information.</pre>
+            <pre>We finally got a real output, the problem now is that it's getting confused between using either Base64 or x86_64. So what we can do now is attach a little configuration that tells shell that there shouldn't be an underscore (_) in that specific place, so that it eliminates the possibility of x86_64, and uses Base64 instead:</pre>
+            <pre>SansAlpha$ /???/???[!_]64 /????/???-??????/??????/????.???
+cmV0dXJuIDAgcGljb0NURns3aDE1X211MTcxdjNyNTNfMTVfbTRkbjM1NV80OTQ1NjMwYX0=</pre>
+            <p>We're so close, we finally got the flag, now just decrypt it with any Base64 tool that you want, I'll use CyberChef, an online converter:</p>
+            <pre>recipe=From_Base64('A-Za-z0-9+/=',false,false)  # base64-to-text
+
+- INPUT: cmV0dXJuIDAgcGljb0NURns3aDE1X211MTcxdjNyNTNfMTVfbTRkbjM1NV80OTQ1NjMwYX0=
+
+- OUTPUT:
+return 0 picoCTF{7h15_mu171v3r53_15_m4dn355_4945630a}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "bad"! :(</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/436">https://play.picoctf.org/practice/challenge/436</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

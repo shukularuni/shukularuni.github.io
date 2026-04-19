@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF ASCII Numbers @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF General Skills Guide</h1>
+        <p>here's how to solve ASCII Numbers</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the General Skills Guides</a>
+            <hr>
+            <h2>ASCII Numbers</h2>
+            <pre>Name: ASCII Numbers
+Description: Convert the following string of ASCII numbers into a readable string: 0x70 0x69 0x63 0x6f 0x43 0x54 0x46 0x7b 0x34 0x35 0x63 0x31 0x31 0x5f 0x6e 0x30 0x5f 0x71 0x75 0x33 0x35 0x37 0x31 0x30 0x6e 0x35 0x5f 0x31 0x6c 0x6c 0x5f 0x74 0x33 0x31 0x31 0x5f 0x79 0x33 0x5f 0x6e 0x30 0x5f 0x6c 0x31 0x33 0x35 0x5f 0x34 0x34 0x35 0x64 0x34 0x31 0x38 0x30 0x7d
+Author: LT 'syreal' Jones
+Tags: Medium, General Skills, picoGym Exclusive
+Challenge from: picoGym Exclusive
+Hints:
+1. CyberChef is a great tool for any encoding but especially ASCII.
+2. Try CyberChef's 'From Hex' function</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to decode that string of alphanumeric ASCII into normal readable text. That will be easy, first we need to know what type of encoding that is, and we can see various clues like blocks of two letters or numbers and each has 0x at the beginning, indicating this is a Hexadecimal encoding is that it uses all numbers and the letters from A to F, this is another dead giveaway of Hexadecimal, because in this context Hex means 16, and 10 numbers plus 6 letters equals 16, so we can now safely say that this is Hexadecimal encoding. Now, to decode this weird stuff we'll need some sort of decoding device, the simplest one is a browser, online decoder, since you don't need to install anything or use any commands, it just works as long as you can view this webpage (basically have access to the internet), one of the best decoders out there is one known as CyberChef, which lets you encode and decode your inputs with almost anything via "Recipes", so that's what we'll be using for the solution. Just remember to use this CyberChef URL and not the others, this one is the official CyberChef and the other ones you'll find on Google might have unnecessary adverts or are just kinda worse, or you can do like me and download it to run it locally from my computer, but that's up to you, anyways the official URL is this one:</p>
+            <pre>https://gchq.github.io/CyberChef/</pre>
+            <h2>Solution</h2>
+            <p>So we'll open CyberChef and enter the long string of Hexadecimal encoding, and grab the block labeled as "From Hex", and that should give us the flag:</p>
+            <pre>recipe=From_Hex('Auto')  # hex-to-text
+
+- INPUT: 0x70 0x69 0x63 0x6f 0x43 0x54 0x46 0x7b 0x34 0x35 0x63 0x31 0x31 0x5f 0x6e 0x30 0x5f 0x71 0x75 0x33 0x35 0x37 0x31 0x30 0x6e 0x35 0x5f 0x31 0x6c 0x6c 0x5f 0x74 0x33 0x31 0x31 0x5f 0x79 0x33 0x5f 0x6e 0x30 0x5f 0x6c 0x31 0x33 0x35 0x5f 0x34 0x34 0x35 0x64 0x34 0x31 0x38 0x30 0x7d
+
+- OUTPUT:
+picoCTF{45c11_n0_qu35710n5_1ll_t311_y3_n0_l135_445d4180}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/390">https://play.picoctf.org/practice/challenge/390</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

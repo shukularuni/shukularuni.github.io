@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF 1_wanna_b3_a_r0ck5tar @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF General Skills Guide</h1>
+        <p>here's how to solve 1_wanna_b3_a_r0ck5tar</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the General Skills Guides</a>
+            <hr>
+            <h2>1_wanna_b3_a_r0ck5tar</h2>
+            <pre>Name: 1_wanna_b3_a_r0ck5tar
+Description: I wrote you another song. Put it in the picoCTF{} flag format.
+Author: Alex Bushkin
+Tags: Medium, General Skills, picoCTF 2019
+Challenge from: picoCTF 2019
+Files: lyrics.txt</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to take a look at a song? This is an odd request, but alright. So we'll check out this file on the solution part to see if there might be any hidden code or code word that might be the flag.</p>
+            <h2>Solution</h2>
+            <p>Okay, so looking at this lyrics file I have this thought of having seen something like this before, because if I remember correctly there's an esoteric programming language called Rockstar that literally relies on the length of words to write code or hide messages, and the title of this challenge actually mentions Rockstar, so this might be it. We'll open this website I found that compiles Rockstar online:</p>
+            <pre>https://codewithrockstar.com/online.html</pre>
+            <pre>-=- INPUT -=-
+Rocknroll is right
+Silence is wrong
+A guitar is a six-string
+...
+Shout "Bring on the rock!"
+Else Whisper "That ain't it, Chief"
+Break it down</pre>
+            <p>And if we hit the run button, in this case it's called the Rock button, we get this output:</p>
+            <pre>-=- OUTPUT -=-
+Unexpected 'is' at line 21 col 6: expected expression
+
+19: They are dazzled audiences
+20: Shout it!
+21: Rock is electric heaven
+         ^
+22: Scream it!</pre>
+            <p>Well that's weird. It doesn't matter though, because we can decrypt this a bit more manually, so because Rockstar is a programming language we can actually see what the code is doing:</p>
+            <p><code>Listen to the music</code> - It's an input field.</p>
+            <p><code>If the music is a guitar</code> - Checking that you know the value guitar.</p>
+            <p><code>A guitar is a six-string</code> - a(1) six(3) string(6), guitar's value is 136.</p>
+            <p><code>Listen to the rhythm</code> - Another input.</p>
+            <p><code>If the rhythm without Music is nothing</code> - Music(136) minus Rhythm = 0, 136-x=0 so Rhythm is 136 too.</p>
+            <p>So that's the basic logic of this lyrics program in Rockstar, and we can do the same to get the flag, which is represented by the variables of Tommy and Music (note that They just refers to the previous variable, so that's Tommy, also Rock and Jamming count as other Music variables):</p>
+            <p><code>Tommy is rockin guitar</code> - rockin(6) guitar(6) is 66.</p>
+            <p><code>Music is amazing sensation</code> - amazing(7) sensation(9) is 79.</p>
+            <p><code>Jamming is awesome presence</code> - awesome(7) presence(8) is 78.</p>
+            <p><code>Tommy is playing rock</code> - playing(7) rock(4) is 74.</p>
+            <p><code>They are dazzled audiences</code> - dazzled(7) audiences(9) is 79.</p>
+            <p><code>Rock is electric heaven</code> - electric(8) heaven(6) is 86.</p>
+            <p><code>Tommy is jukebox god</code> - jukebox(7) god(3) is 73.</p>
+            <pre>66 79 78 74 79 86 73</pre>
+            <p>As you can see it's a bunch of numbers, but this is decimal encoding. We know this because letters in decimal are in the range between 90 and 120, and we know this isn't hexadecimal cause every character has a fixed length of two numbers or letters, on this one we can see three-digit numbers like 107. So to decode this decimal we'll use an online decoding tool such as CyberChef:</p>
+            <pre>recipe=From_Decimal('Space',true)  # decimal-to-text
+
+- INPUT: 66 79 78 74 79 86 73
+
+- OUTPUT:
+BONJOVI</pre>
+            <p>Perfect, that must be the code! Now we'll insert that into the picoCTF flag format to get this flag as a result:</p>
+            <pre>picoCTF{BONJOVI}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "bad"! :(</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/82">https://play.picoctf.org/practice/challenge/82</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

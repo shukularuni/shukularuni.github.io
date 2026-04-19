@@ -41,8 +41,8 @@ drwxr-xr-x 121 root root 12288 Sep 20 18:37 ..
 -rw-r--r--   1 root root   396 Jan  9  2024 sysstat
 
 ~$ cat /etc/cron.d/cronjob_bandit24
-@reboot bandit24 /usr/bin/cronjob_bandit24.sh &> /dev/null
-* * * * * bandit24 /usr/bin/cronjob_bandit24.sh &> /dev/null
+@reboot bandit24 /usr/bin/cronjob_bandit24.sh &amp;&gt; /dev/null
+* * * * * bandit24 /usr/bin/cronjob_bandit24.sh &amp;&gt; /dev/null
 
 ~$ cat /usr/bin/cronjob_bandit24.sh
 #!/bin/bash
@@ -66,7 +66,7 @@ done
 </pre>
             <p>And seems like the code executes all shell scripts on bandit24/foo and deletes them after executing, but if the owner is bandit23, which we are, it will wait to execute the script a minute. So because it is owned by the next level, we can tell it to copy the password to somewhere that we control, like a temporary directory, also we could use it to create the shell script there. First of all let's write the code, so if you remember previous levels, when the level copies the password to somewhere else, and we'd have to follow those same instructions to get the password, well that code shows us exactly how to do the code to copy the password, we just change it to be from bandit24 and move it to our temporary folder:</p>
             <pre>#!/bin/bash
-cat /etc/bandit_pass/bandit24 > /tmp/tmp.38nfe9Efrp/pass</pre>
+cat /etc/bandit_pass/bandit24 &gt; /tmp/tmp.38nfe9Efrp/pass</pre>
             <p>Now let's create the file on the temporary folder:</p>
             <pre>~$ mktemp -d
 /tmp/tmp.38nfe9Efrp

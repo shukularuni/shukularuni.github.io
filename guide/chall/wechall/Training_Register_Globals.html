@@ -32,7 +32,7 @@ Enjoy!</pre>
             <h2>Solution</h2>
             <p>So looking at the code, we see this important part on line 57:</p>
             <pre>~ # EMULATE REGISTER GLOBALS = OFF
-foreach ($_GET as $k => $v) { unset($$k); }</pre>
+foreach ($_GET as $k =&gt; $v) { unset($$k); }</pre>
             <p>This piece of code loops through all GET parameters, so that means it lets us create arbitrary PHP variables. Now focus on line 29, this is the real stuff:</p>
             <pre>if (isset($login))
 {

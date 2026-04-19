@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF YaraRules0x100 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF General Skills Guide</h1>
+        <p>here's how to solve YaraRules0x100</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the General Skills Guides</a>
+            <hr>
+            <h2>YaraRules0x100</h2>
+            <pre>Name: YaraRules0x100
+Description: Dear Threat Intelligence Analyst, Quick heads up - we stumbled upon a shady executable file on one of our employee's Windows PCs. Good news: the employee didn't take the bait and flagged it to our InfoSec crew. Seems like this file sneaked past our Intrusion Detection Systems, indicating a fresh threat with no matching signatures in our database. Can you dive into this file and whip up some YARA rules? We need to make sure we catch this thing if it pops up again. Thanks a bunch! The suspicious file can be downloaded here. Unzip the archive with the password picoctf Once you have created the YARA rule/signature, submit your rule file as follows: socat -t60 - TCP:standard-pizzas.picoctf.net:51954 &lt; sample.txt (In the above command, modify "sample.txt" to whatever filename you use). When you submit your rule, it will undergo testing with various test cases. If it successfully passes all the test cases, you'll receive your flag.
+Author: Nandan Desai / syreal
+Tags: Medium, General Skills, picoCTF 2025, browser_webshell_solvable
+Challenge from: picoCTF 2025
+Files: suspicious.zip
+Hints:
+1. The test cases will attempt to match your rule with various variations of this suspicious file, including a packed version, an unpacked version, slight modifications to the file while retaining functionality, etc.
+2. Since this is a Windows executable file, some strings within this binary can be "wide" strings. Try declaring your string variables something like `$str = "Some Text" wide ascii` wherever necessary.
+3. Your rule should also not generate any false positives (or false negatives). Refine your rule to perfection! One YARA rule file can have multiple rules! Maybe define one rule for Packed binary and another rule for Unpacked binary in the same rule file?</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to look through weird Windows executable that was found on an employee's PC and evaded existing IDS signatures. The binary is inside a zip file, so we'll have to skip theory to get the file, but the goal here is to write some YARA Rules robust enough so that we can match exactly the executable inside the zip, and then submit them over socat to a remote server that will check the file against a bunch of test cases regarding the executable.</p>
+            <h2>Solution</h2>
+            <p>So we'll open the zip and check what it is:</p>
+            <pre>shukularuni@SHUKULAP:~$ unzip suspicious.zip
+Archive:  suspicious.zip
+[suspicious.zip] suspicious.exe password: picoctf
+  inflating: suspicious.exe
+
+shukularuni@SHUKULAP:~$ file suspicious.exe
+suspicious.exe: PE32 executable (GUI) Intel 80386, for MS Windows, UPX compressed, 3 sections</pre>
+            <p>Look at that, a UPX compressed binary with three sections. To do the YARA Rules, we'll do two of them, one with the packed executable and the other as the unpacked executable. We'll start with the packed one, so first we'll use the strings command to see what these three sections of UPX are:</p>
+            <pre>shukularuni@SHUKULAP:~$ strings suspicious.exe | less
+!This program cannot be run in DOS mode.
+xRich
+UPX0
+UPX1
+.rsrc
+4.21
+UPX!</pre>
+            <p>Perfect, we have the three sections: UPX!, UPX0, and UPX1. And if we scroll a bit further we can see some complete strings that we'll be attaching to our packed rule:</p>
+            <pre>...
+:+.__/|_|\
+elcome to the YaraRules0x100 cha
+llenge!^S.,,
+...
+...
+TextOutW
+ExitProcess
+GetProcAddress
+LoadLibraryA
+VirtualProtect
+CommandLineToArgvW
+FillRect
+memset
+...</pre>
+            <p>So we'll grab some of these (specifically the ones that are complete and not cut off), and put them for our first YARA Rule:</p>
+            <pre>rule packed_YaraRules0x100 {
+  strings:
+    $upx1 = "UPX!" ascii
+    $upx2 = "UPX0" ascii
+    $upx3 = "UPX1" ascii
+    $str1 = "YaraRules0x100" ascii
+    $str2 = "LoadLibrary" ascii
+    $str3 = "VirtualProtect" ascii
+
+  condition:
+    uint16(0) == 0x5A4D and
+    any of ($upx*) and
+    all of ($str*)
+}</pre>
+            <p>This rule detects the UPX-packed form of the executable given, it requires the MZ/PE magic bytes, at least one UPX section name, and three strings still readable in the compressed stub; AKA the sample complete functions and the name of the program basically, the functions are just two API names that survive packing inside the loader stub. <code>uint16(0) == 0x5A4D</code> places the rule to PE files only (the "MZ" magic byte stuff), which prevents false positives even if our file contains the weird string "UPX!".</p>
+            <p>Now for the unpacked one, first to get the unpacked version of the executable we'll need to use upx, the command:</p>
+            <pre>shukularuni-picoctf@webshell:~$ upx -d -o suspicious_unpacked.exe suspicious.exe
+                       Ultimate Packer for eXecutables
+                          Copyright (C) 1996 - 2020
+UPX 3.96        Markus Oberhumer, Laszlo Molnar & John Reiser   Jan 23rd 2020
+
+        File size         Ratio      Format      Name
+   --------------------   ------   -----------   -----------
+     40960 &lt;-     26624   65.00%    win32/pe     suspicious_unpacked.exe
+
+Unpacked 1 file.</pre>
+            <p>Now let's see the strings of this one, and wow this one has a lot of functions that we can use for our unpack rule:</p>
+            <pre>shukularuni-picoctf@webshell:~$ strings suspicious_unpacked.exe | less
+!This program cannot be run in DOS mode.
+xRich
+...
+  Welcome to the YaraRules0x100 challenge!
+...
+...
+GetCommandLineW
+OutputDebugStringW
+DebugActiveProcess
+DebugActiveProcessStop
+CloseHandle
+GetLastError
+WaitForSingleObject
+CreateMutexW
+Sleep
+GetCurrentProcess
+GetCurrentProcessId
+TerminateProcess
+GetExitCodeProcess
+CreateThread
+CreateProcessA
+OpenProcess
+GetModuleFileNameW
+GetModuleHandleW
+GetProcAddress
+MultiByteToWideChar
+WideCharToMultiByte
+CreateToolhelp32Snapshot
+Process32FirstW
+Process32NextW
+KERNEL32.DLL
+LoadStringW
+GetMessageW
+TranslateMessage
+DispatchMessageW
+DefWindowProcW
+PostQuitMessage
+RegisterClassExW
+CreateWindowExW
+DestroyWindow
+ShowWindow
+DialogBoxParamW
+EndDialog
+LoadAcceleratorsW
+TranslateAcceleratorW
+DrawIcon
+UpdateWindow
+BeginPaint
+EndPaint
+GetClientRect
+MessageBoxW
+FillRect
+GetDesktopWindow
+LoadCursorW
+LoadIconW
+USER32.dll
+CreateSolidBrush
+DeleteObject
+SetBkColor
+SetTextColor
+TextOutW
+GDI32.dll
+OpenProcessToken
+AdjustTokenPrivileges
+LookupPrivilegeValueW
+ADVAPI32.dll
+CommandLineToArgvW
+SHELL32.dll
+memset
+...
+...
+&lt;?xml version='1.0' encoding='UTF-8' standalone='yes'?&gt;
+&lt;assembly xmlns='urn:schemas-microsoft-com:asm.v1' manifestVersion='1.0'&gt;
+  &lt;trustInfo xmlns="urn:schemas-microsoft-com:asm.v3"&gt;
+    &lt;security&gt;
+      &lt;requestedPrivileges&gt;
+        &lt;requestedExecutionLevel level='asInvoker' uiAccess='false' /&gt;
+      &lt;/requestedPrivileges&gt;
+    &lt;/security&gt;
+  &lt;/trustInfo&gt;
+&lt;/assembly&gt;
+...</pre>
+            <p>And again we'll only grab some of these (mainly the ones that are complete), and our second and final rule should look like this:</p>
+            <pre>rule unpacked_YaraRules0x100 {
+  strings:
+    $str1 = "Welcome to the YaraRules0x100 challenge!" ascii
+    $str2 = "Suspicious" wide ascii
+    $str3 = "picoCTF" wide ascii
+    $str4 = "This is a fake malware. It means no harm" wide ascii
+    $in1 = "SHELL32.dll" ascii
+    $in2 = "KERNEL32.dll" ascii
+    $api1 = "OpenProcess" ascii
+    $api2 = "CreateToolhelp32Snapshot" ascii
+    $api3 = "GetProcAddress" ascii
+    $api4 = "GetCurrentProcess" ascii
+    $api5 = "GetCurrentProcessId" ascii
+    $api6 = "CreateThread" ascii
+    $api7 = "IsDebuggerPresent" ascii
+    $api8 = "QueryPerformanceCounter" ascii
+    $api9 = "LookupPrivilegeValue" ascii
+    $api10 = "AdjustTokenPrivileges" ascii
+    $api11 = "DebugActiveProcess" ascii
+    $api12 = "Sleep" ascii
+    $sec1 = "&lt;requestedExecutionLevel level='asInvoker' uiAccess='false' /&gt;" ascii
+
+  condition:
+    any of ($str*) and
+    any of ($in*) and
+    all of ($api*) and
+    all of ($sec*)
+}</pre>
+            <p>This rule instead is for the decompressed binary/executable. It depends on unique program strings (some put up as wide ascii to catch UTF-16LE Windows strings), imported DLL names, and also the entire set of Win32 API calls that are found on the binary, the manifest part anchors it even more now. Using any of <code>($str*)</code> instead, adds the stuff needed against minor string edits, and the API list and manifest string give the super specific need of avoiding false positives.</p>
+            <p>Now we can FINALLY create the file with both of our YARA Rules in it (I named it ruleys.yara because why not), and we can now send it to the server via the command we were given on the description and hope that these rules pass all the test cases and there are no false positives:</p>
+            <a href="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/YaraRules0x100/ruleys.yara" target="_blank">ruleys.yara</a>
+            <pre>shukularuni@SHUKULAP:~$ nano ruleys.yara
+
+shukularuni@SHUKULAP:~$ socat -t60 - TCP:standard-pizzas.picoctf.net:62746 &lt; ruleys.yara
+:::::
+
+Status: Passed
+Congrats! Here is your flag: picoCTF{yara_rul35_r0ckzzz_deb7eedc}
+
+:::::</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "bad"! :(</p>
+            <p>I didn't really enjoy this challenge cause there was some stuff to get for the solution that was pretty damn random, and I think I spent a couple hours trying random functions on top of the ones I already knew, and sending these to socat like 50 times in a row to check if that was it or just another false positive, but yeah this challenge was really confusing.</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/483">https://play.picoctf.org/practice/challenge/483</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

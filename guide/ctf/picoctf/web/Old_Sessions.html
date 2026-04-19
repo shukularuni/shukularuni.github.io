@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF Old Sessions @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF Web Exploitation Guide</h1>
+        <p>here's how to solve Old Sessions</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Web Exploitation Guides</a>
+            <hr>
+            <h2>Old Sessions</h2>
+            <pre>Name: Old Sessions
+Description: Proper session timeout controls are critical for securing user accounts. If a user logs in on a public or shared computer but doesn't explicitly log out (instead simply closing the browser tab), and session expiration dates are misconfigured, the session may remain active indefinitely. This then allows an attacker using the same browser later to access the user's account without needing credentials, exploiting the fact that sessions never expire and remain authenticated. Your friend tells you to check out a new social media platform he built a few years ago. Although its still under development, he said the site is almost complete. He also mentioned that he hates constantly logging into sites, and so has made his page that 'once you login, you never have to log-out again'! Browse here, and find the flag!
+Author: Yahaya Meddy
+Tags: Easy, Web Exploitation, picoCTF 2026
+Challenge from: picoCTF 2026
+Hints:
+1. Do you know how to use the web inspector?
+2. Where are cookies stored?</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to enter into a different account than ours using cookie sessions. Well, the description basically says it all, we will enter into the website, find a "misconfiguration" which I don't know what it actually means, and that would expose a cookie session which we can change from our cookies, and then somewhere inside that other account there should be our flag. So we'll go to the solution to see what the webpage actually has</p>
+            <h2>Solution</h2>
+            <p>So we'll open the website and register our account with some random values:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/Old_Sessions/1.jpg" alt="Register page with all 1s">
+            <p>Now if you log in with those same credentials you should enter this webpage:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/Old_Sessions/2.jpg" alt="Homepage for 'The New Twitter'">
+            <p>Yeah so, if you look carefully at the posts you can see somebody mentioning that a webpage called sessions is interesting, this might be the misconfiguration that the challenge description told us about, let's go to that page and see if it's got anything interesting about any sessions:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/Old_Sessions/3.jpg" alt="Sessions page">
+            <p>So it seems these long strings are session cookies like we said in the theory, so we just need to go back to the page and change our session cookie to the one that says it's the admin's and should be good:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/Old_Sessions/4.jpg" alt="Change the cookie">
+            <p>Finally, just reload the page to load in the account of the admin and now somehow getting the flag on here:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/Old_Sessions/5.jpg" alt="Got the password">
+            <pre>picoCTF{s3t_s3ss10n_3xp1rat10n5_53a328ed}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/739">https://play.picoctf.org/practice/challenge/739</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

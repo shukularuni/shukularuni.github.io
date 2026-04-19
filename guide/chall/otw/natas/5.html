@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTW Natas 4 &#8594; 5 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>OverTheWire Natas Guide</h1>
+        <p>here's how to solve the natas level 4 &#8594; 5</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Natas Guides</a>
+            <p>Previous Level Guide: <a href="4.html">Natas Level 3 &#8594; 4</a></p>
+            <hr>
+            <h2>Access</h2>
+            <p>Username: <code>natas4</code></p>
+            <p>Password: <code>LuOIFyQ3DXMhY92i7FKL9JC5o1NLo8Y8</code></p>
+            <p>URL: <code>http://natas4.natas.labs.overthewire.org</code></p>
+            <h2>Info</h2>
+            <pre>Description: No description, get inside the level to know.</pre>
+            <h2>Theory</h2>
+            <p>Not much to do with the details from the task, so just skipping to doing it.</p>
+            <h2>Solution</h2>
+            <p>We enter to the url with the password from last level:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/natas/5/1.jpg" alt="Titlecard">
+            <p>So it says we're not logged in yet, this is funny because I've seen these types of challenges before, and from experience I can safely say that this is about Cookies. These are variables that are stored in your browser for later use, for example saving your logged in session, so yeah. We'll look inside DevTools, then go to Application or Storage, and click on the cookies of the site, and we see these Cookies:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/natas/5/2.jpg" alt="Cookies tab">
+            <p>Perfect, a `logged in` Cookie! We can double click the value to change it to 1 and reload the page for the website to know the value we can see that we do get the password:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/natas/5/3.jpg" alt="Response password">
+            <pre>Access granted. The password for natas6 is 6mSMdq523g1VDlwMXHUa12CGgIzPh0hu</pre>
+            <p>And that's our password! Now you can exit and go to the next level.</p>
+            <a target="_blank" href="https://overthewire.org/wargames/natas/natas4.html">https://overthewire.org/wargames/natas/natas4.html</a>
+            <hr>
+            Next Level Guide: <a href="5.html">Natas Level 4 &#8594; Level 5</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

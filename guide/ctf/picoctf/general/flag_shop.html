@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF flag_shop @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF General Skills Guide</h1>
+        <p>here's how to solve flag_shop</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the General Skills Guides</a>
+            <hr>
+            <h2>flag_shop</h2>
+            <pre>Name: flag_shop
+Description: There's a flag shop selling stuff, can you buy a flag? Source. Connect with nc fickle-tempest.picoctf.net 61854.
+Author: Geoffrey Njogu
+Tags: Medium, General Skills, picoCTF 2019
+Challenge from: picoCTF 2019
+Files: store.c
+Hints:
+1. Two's compliment can do some weird things when numbers get really big!</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to go through a flag shop inside a NetCat. Not much more information for now, so we'll skip to the solution.</p>
+            <h2>Solution</h2>
+            <p>First we'll enter into the NetCat from the description of the challenge:</p>
+            <pre>shukularuni@SHUKULAP:~$ nc fickle-tempest.picoctf.net 61854
+Welcome to the flag exchange
+We sell flags
+
+1. Check Account Balance
+
+2. Buy Flags
+
+3. Exit
+
+ Enter a menu selection</pre>
+            <p>Well let's check out how much money we have and what flags we can buy from the shop:</p>
+            <pre> Enter a menu selection
+1
+
+ Balance: 1100
+
+ Enter a menu selection
+2
+Currently for sale
+1. Defintely not the flag Flag
+2. 1337 Flag
+2
+1337 flags cost 100000 dollars, and we only have 1 in stock
+Enter 1 to buy one1
+
+Not enough funds for transaction
+
+Currently for sale
+1. Defintely not the flag Flag
+2. 1337 Flag
+1
+These knockoff Flags cost 900 each, enter desired quantity
+2
+
+The final cost is: 1800
+Not enough funds to complete purchase</pre>
+            <p>There are two flags here, knockoff flags that only cost 900, and the real flag that costs 100k, so let's check the code and see if we can find anything interesting:</p>
+            <pre>int number_flags = 0;
+scanf("%d", &number_flags);
+if(number_flags&gt;  0){
+    int total_cost = 0;
+    total_cost = 900*number_flags;
+    printf("\nThe final cost is: %d\n", total_cost);
+    if(total_cost &lt;= account_balance){
+        account_balance = account_balance - total_cost;</pre>
+            <p>So if you look closely at this part of the code, we can see an integer overflow on the calculation of the cost of all knockoff flags. What we can do here is make the program calculate the cost over the 32-bit limit (2147483647), so that it flips around and instead gives us an inmense amount of money. To get the program to go over the limit we'd have to buy at least 2.4 million knockoff flags, since 2400000*900 is already well over the 32-bit integer limit, so we can enter that as our number:</p>
+            <pre>Currently for sale
+1. Defintely not the flag Flag
+2. 1337 Flag
+1
+These knockoff Flags cost 900 each, enter desired quantity
+2400000
+
+The final cost is: -2134967296
+
+Your current balance after transaction: 2134968396</pre>
+            <p>Perfect! Now that we purchased so many flags the number flips around and instead gives us money, we can finally buy the real flag (the 1337 flag):</p>
+            <pre> Enter a menu selection
+2
+Currently for sale
+1. Defintely not the flag Flag
+2. 1337 Flag
+2
+1337 flags cost 100000 dollars, and we only have 1 in stock
+Enter 1 to buy one1
+YOUR FLAG IS: picoCTF{m0n3y_bag5_984Fce5a}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/49">https://play.picoctf.org/practice/challenge/49</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF Quizploit @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF Binary Exploitation Guide</h1>
+        <p>here's how to solve Quizploit</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Binary Exploitation Guides</a>
+            <hr>
+            <h2>Quizploit</h2>
+            <pre>Name: Quizploit
+Description: Solve the quiz. Download the source code to answer questions here. Download the binary to answer questions here. Connect with the challenge instance here: nc lonely-island.picoctf.net 54145
+Author: Aditya Sudhansu
+Tags: Easy, Binary Exploitation, picoCTF 2026
+Challenge from: picoCTF 2026
+Files: vuln.c, vuln
+Hints:
+1. Analyze the source code and binary to answer the questions.
+2. Answering all 13 questions correctly gives you the flag.</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to enter into a NetCat and from there respond and pass a quiz with like a bunch of questions. Nothing much else seems to be said here on the description so we might aswell just move to the solving part, it seems a little confusing that the challenge gives us the code and elf binary for the NetCat connection, but we'll have to check them after downloading them on the solution part.</p>
+            <h2>Solution</h2>
+            <p>So if we check the files given to us from the description, it seems the code doesn't have the quiz itself but rather a small comment giving a little more info on the challenge:</p>
+            <pre>shukularuni@SHUKULAP:~$ ls
+vuln  vuln.c
+
+shukularuni@SHUKULAP:~$ cat vuln.c
+...
+/*
+This is not the challenge, just a template to answer the questions.
+To get the flag, answer all the questions.
+There are no bugs in the quiz.
+There are 0xD questions in total.
+*/
+...</pre>
+            <p>Cool, now let's enter into the NetCat to respond the questions:</p>
+            <pre>shukularuni@SHUKULAP:~$ nc lonely-island.picoctf.net 54145
+-=-=-=-
+ELF BINARY ANALYSIS QUIZ
+-=-=-=-
+
+[*] Question number 0x1:
+Is this a '32-bit' or '64-bit' ELF? (e.g. 100-bit)
+
++ Hint: Check if the system is x86_64 or x86. No compilation flag specified means default.</pre>
+            <p>We can check with another terminal what architechture it's designed for with the file command:</p>
+            <pre>shukularuni@SHUKULAP:~$ file vuln
+vuln: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=19251d430d5dd4b44a3e8489a8c76f1894676f7d, for GNU/Linux 3.2.0, not stripped</pre>
+            <p>We can verify from the beginning it says 64-bit ELF. Let's enter that into the NetCat:</p>
+            <pre>&gt;&gt; 64-bit
+-=-=-=- Correct! -=-=-=-
+
+[*] Question number 0x2:
+What's the linking of the binary? (e.g. static, dynamic)
+
++ Hint: The program uses standard library functions like fprintf, fgets, and system.</pre>
+            <p>We can see from the file command from before somewhere in the middle of the first line that it's dynamically linked. So we'll enter that:</p>
+            <pre>&gt;&gt; dynamic
+-=-=-=- Correct! -=-=-=-
+
+[*] Question number 0x3:
+Is the binary 'stripped' or 'not stripped'?
+
++ Hint: By default, binaries compiled without the -s flag contain debugging symbols.</pre>
+            <p>Once again we can see from the file command, this time at the end, that it's not stripped:</p>
+            <pre>&gt;&gt; not stripped
+-=-=-=- Correct! -=-=-=-
+
+[*] Question number 0x4:
+Looking at the vuln() function, what is the size of the buffer in bytes? (e.g. 0x10)
+
++ Hint: Check the declaration in the function and answer in either hex or decimal</pre>
+            <p>If we look at the vuln() function we can see the created buffer has a size of hexadecimal 15:</p>
+            <pre>void vuln(){
+  char buffer[0x15]={0};
+  fprintf(stdout,"\nEnter payload: ");
+  fgets(buffer,0x90,stdin);
+}</pre>
+            <pre>&gt;&gt; 0x15
+-=-=-=- Correct! -=-=-=-
+
+[*] Question number 0x5:
+How many bytes are read into the buffer? (e.g. 0x10)
+
++ Hint: Check the fgets</pre>
+            <p>If you look at the function that gets the bytes of the buffer, it says 90 in hex:</p>
+            <pre>&gt;&gt; 0x90
+-=-=-=- Correct! -=-=-=-
+
+[*] Question number 0x6:
+Is there a buffer overflow vulnerability? (yes/no)
+
++ Hint: Compare buffer size and input size</pre>
+            <p>Well, yes. This is because of the fact that it's literally reading more bytes than what it can store:</p>
+            <pre>&gt;&gt; yes
+-=-=-=- Correct! -=-=-=-
+
+[*] Question number 0x7:
+Name a standard C function that could cause a buffer overflow in the provided C code.
+
++ Hint: (e.g. fprintf)</pre>
+            <p>fgets() is the function that could potentially read more bytes than what it stores:</p>
+            <pre>&gt;&gt; fgets
+-=-=-=- Correct! -=-=-=-
+
+[*] Question number 0x8:
+What is the name of the function that isn't called anywhere in the program?
+
++ Hint: Analyze the source</pre>
+            <p>If you look carefully at the code it's both main() and win(), but main() is the main function so it always gets executed anyway:</p>
+            <pre>&gt;&gt; win()
+-=-=-=- Correct! -=-=-=-
+
+[*] Question number 0x9:
+What type of attack could exploit this vulnerability? (e.g. format string, buffer overflow, etc.)
+
++ Hint: Try interpreting the information gathered so far</pre>
+            <p>As I've already said; this is a buffer overflow exploit, since we are able to enter more characters into an input than what the variable can store, causing an overflow of data that can expose something else inside the memory of the program, perhaps a flag:</p>
+            <pre>&gt;&gt; buffer overflow
+-=-=-=- Correct! -=-=-=-
+
+[*] Question number 0xa:
+How many bytes of overflow are possible? (e.g. 0x10)
+
++ Hint: Subtract values</pre>
+            <p>We can enter any amount of bytes between (hexadecimal) 0x15 and 0x90, the question asks us to enter in hexadecimal form, so this is just a simple subtraction we can do inside the python terminal:</p>
+            <pre>shukularuni@SHUKULAP:~$ python3
+&gt;&gt;&gt; print( hex( 0x90 - 0x15 ) )
+0x7b</pre>
+            <pre>&gt;&gt; 0x7b
+-=-=-=- Correct! -=-=-=-
+
+[*] Question number 0xb:
+What protection is enabled in this binary?
+
++ Hint: Learn to use checksec</pre>
+            <p>We can use the checksec command on the elf binary from another terminal to check which security it has enabled, so just enter the checksec command with the binary file:</p>
+            <pre>shukularuni@SHUKULAP:~$ checksec --file=vuln
+RELRO           STACK CANARY      NX            PIE             RPATH      RUNPATH	Symbols		FORTIFY	Fortified	Fortifiable	FILE
+Partial RELRO   No canary found   NX enabled    No PIE          No RPATH   No RUNPATH   40 Symbols	  No	0		1		vuln</pre>
+            <p>The only thing here that we see enabled is NX so that's the answer, cool:</p>
+            <pre>&gt;&gt; NX
+-=-=-=- Correct! -=-=-=-
+
+[*] Question number 0xc:
+What exploitation technique could bypass NX? (e.g. shellcode, ROP, format string)
+
++ Hint: Choose from the options</pre>
+            <p>Well, NX by itself protects against executing code through text inputs, so that eliminates stuff like shellcode and format strings, but it's not equipped to deal with ROP (return-oriented programming) and other ret exploits, in a very basic and fast description is just that it uses small instruction sequences all one after the other that exist in libraries, and they do very specific actions like printing a flag on a rop challenge. So yeah, ROP, that's the answer:</p>
+            <pre>&gt;&gt; ROP
+-=-=-=- Correct! -=-=-=-
+
+[*] Question number 0xd:
+What is the address of 'win()' in hex? (e.g. 0x4011eb)
+
++ Hint: Use gdb/objdump to find the address</pre>
+            <p>We can use objdump from another terminal to see where all the functions are located, then grep to find specifically the win function:</p>
+            <pre>shukularuni@SHUKULAP:~$ objdump -d vuln | grep win
+0000000000401176 &lt;win&gt;:</pre>
+            <pre>&gt;&gt; 0x401176
+-=-=-=- Correct! -=-=-=-
+
+-=-=-=-
+QUIZ COMPLETE!
+-=-=-=-
+
++ PERFECT SCORE! +
+You got 13/13 questions correct!
+Flag: picoCTF{my_bIn@4y_3xpl0it_fL@g_0235704f}
+
+-=-=-=-
+^C</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/727">https://play.picoctf.org/practice/challenge/727</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

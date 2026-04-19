@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF bytemancy 1 @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF General Skills Guide</h1>
+        <p>here's how to solve bytemancy 1</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the General Skills Guides</a>
+            <hr>
+            <h2>bytemancy 1</h2>
+            <pre>Name: bytemancy 1
+Description: Can you conjure the right bytes? The program's source code can be downloaded here. Connect to the program with netcat: $ nc foggy-cliff.picoctf.net 49440
+Author: LT 'syreal' Jones
+Tags: Easy, General Skills, picoCTF 2026
+Challenge from: picoCTF 2026
+Files: app.py
+Hints:
+1. No copy-pasta, please - use Python!</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to do some byte games inside a NetCat, so nothing else it seems that the description tells us, so let's continue into the solution and see inside the NetCat connection.</p>
+            <h2>Solution</h2>
+            <p>We'll enter with the NetCat command we were given on the description:</p>
+            <pre>shukularuni@SHUKULAP:~$ nc foggy-cliff.picoctf.net 49440
+&------[ BYTEMANCY-1 ]------&
+8&0|)BVA*8&0|)BAA*8&0|)BAA*8&
+
+Send me ASCII DECIMAL 101 1751 times, side-by-side, no space.
+
+8&0|)BVA*8&0|)BAA*8&0|)BAA*8&
+&-------------*-------------&
+==&gt;</pre>
+            <p>So it seems that this is the same as the previous level, bytemancy 0, although this time instead of entering 3 e's, now it's over 1700, we know 101 is the decimal for the letter e from converting it the previous level. Although we can pipe through to the NetCat that many e's with python, by printing 1751 e's from right there on the terminal:</p>
+            <pre>print('e'*1751)
+
+python3 -c "print('e'*1751)"</pre>
+            <p>So now we just need to attach the python code on the terminal to the NetCat so that it pipes all the e's and we get the flag:</p>
+            <pre>shukularuni@SHUKULAP:~$ nc foggy-cliff.picoctf.net 49440
+&------[ BYTEMANCY-1 ]------&
+8&0|)BVA*8&0|)BAA*8&0|)BAA*8&
+
+Send me ASCII DECIMAL 101 1751 times, side-by-side, no space.
+
+8&0|)BVA*8&0|)BAA*8&0|)BAA*8&
+&-------------*-------------&
+==&gt; picoCTF{h0w_m4ny_e's???_b6277f00}
+
+^C</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "good"! :3</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/762">https://play.picoctf.org/practice/challenge/762</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picoCTF Specialer @ Shukularuni</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+</head>
+<body>
+    <header>
+        <h1>picoCTF General Skills Guide</h1>
+        <p>here's how to solve Specialer</p>
+    </header>
+    <main>
+        <section>
+            <a href="./">Back to the General Skills Guides</a>
+            <hr>
+            <h2>Specialer</h2>
+            <pre>Name: Specialer
+Description: Reception of Special has been cool to say the least. That's why we made an exclusive version of Special, called Secure Comprehensive Interface for Affecting Linux Empirically Rad, or just 'Specialer'. With Specialer, we really tried to remove the distractions from using a shell. Yes, we took out spell checker because of everybody's complaining. But we think you will be excited about our new, reduced feature set for keeping you focused on what needs it the most. Please start an instance to test your very own copy of Specialer. ssh -p 61315 ctf-player@saturn.picoctf.net. The password is d8819d45
+Author: LT 'syreal' Jones
+Tags: Medium, General Skills, picoCTF 2023, bash, ssh
+Challenge from: picoCTF 2023
+Hints:
+1. What programs do you have access to?</pre>
+            <h2>Theory</h2>
+            <p>According to the description, to get the flag we have to enter into a specialer shell, which now doesn't make commands be properly spelled and capitalized, which was an odd feature, but this new one just doesn't have as many commands?? Alright, we'll see what we can do in there. We'll enter into the SSH on the solution part.</p>
+            <h2>Solution</h2>
+            <p>We'll connect to the SSH with the command we are given in the challenge description:</p>
+            <pre>shukularuni@SHUKULAP:~$ ssh -p 61315 ctf-player@saturn.picoctf.net
+ctf-player@saturn.picoctf.net's password: d8819d45
+
+Specialer$ ls
+-bash: ls: command not found
+
+Specialer$ cat flag.txt
+-bash: cat: command not found</pre>
+            <p>Yup, we basically don't have most of the useful commands, although I think there was another way to both list files and print them, with echo:</p>
+            <pre>Specialer$ echo *
+abra ala sim</pre>
+            <p>I don't know if those are files or folders, so we'll use the echo replacement to cat:</p>
+            <pre>Specialer$ echo "$(&lt;abra)"
+Specialer$ echo "$(&lt;ala)"
+Specialer$ echo "$(&lt;sim)"</pre>
+            <p>Yeah, they don't have anything because they're folders. So we'll use these two echo commands to look through the three directories and print any files that they might have:</p>
+            <pre>Specialer$ cd sim
+
+Specialer$ echo *
+city.txt salabim.txt
+
+Specialer$ echo "$(&lt;city.txt)"
+05ed181c-4aa0-4d4a-8505-2fe6ca9097d3
+
+Specialer$ echo "$(&lt;salabim.txt)"
+#He was so kind, such a gentleman tied to the oceanside#
+
+Specialer$ cd ~/abra
+
+Specialer$ echo *
+cadabra.txt cadaniel.txt
+
+Specialer$ echo "$(&lt;cadabra.txt)"
+Nothing up my sleeve!
+
+Specialer$ echo "$(&lt;cadaniel.txt)"
+Yes, I did it! I really did it! I'm a true wizard!
+
+Specialer$ cd ~/ala
+
+Specialer$ echo *
+kazam.txt mode.txt
+
+Specialer$ echo "$(&lt;kazam.txt)"
+return 0 picoCTF{y0u_d0n7_4ppr3c1473_wh47_w3r3_d01ng_h3r3_c42168d9}
+
+Specialer$ echo "$(&lt;mode.txt)"
+Yummy! Ice cream!</pre>
+            <p>There we go! That's the flag.</p>
+            <p>I rated this level as "bad"! :(</p>
+            <hr>
+            <a target="_blank" href="https://play.picoctf.org/practice/challenge/378">https://play.picoctf.org/practice/challenge/378</a>
+        </section>
+        <section class="link-list">
+            <h2>Explore My Website</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search.html">Search</a></li>
+                <li><a href="/articles.html">Articles</a></li>
+                <li><a href="/guides.html">Guides</a></li>
+            </ul>
+            <br><br><br>
+        </section>
+    </main>
+    <footer>
+        <p class="cute">Made with ❤️ by Shukularuni</p>
+    </footer>
+</body>
+</html>
